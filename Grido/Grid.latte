@@ -1,0 +1,170 @@
+{**
+ * This file is part of the Grido (http://grido.bugyik.cz)
+ *
+ * Copyright (c) 2011 Petr Bugyík (http://petr.bugyik.cz)
+ *
+ * For the full copyright and license information, please view
+ * the file license.md that was distributed with this source code.
+ *}
+
+{snippet grid}
+{form form}
+
+{* TWITTER BOOTSTRAP *}
+{?$form['buttons']['search']->controlPrototype->class[] = 'btn search'}
+{?$form['buttons']['reset']->controlPrototype->class[] = 'btn reset'}
+
+<ul n:foreach="$form->errors as $error">
+    <li>{$error}</li>
+</ul>
+
+{var $columnCount = count($control[Grido\Columns\Column::ID]->getComponents())}
+{var $columnCount = $control->hasOperations() ? $columnCount + 1 : $columnCount}
+
+{if $control->filterRenderType == Grido\Filters\Filter::RENDER_OUTER && $control->hasFilters()}
+    <div n:block="outerFilter" class="grido filter outer">
+        <div class="items">
+            <span n:foreach="$form[Grido\Filters\Filter::ID]->getComponents() as $filter" class="grid-filter-{$filter->name}">
+                {$filter->label}
+                {$filter->control}
+            </span>
+        </div>
+        <div class="buttons">
+            {formContainer buttons}
+                <div n:if="$control->hasExporting()" class="btn-group">
+                    <a class="btn dropdown-toggle no-ajax" data-toggle="dropdown"><span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li n:foreach="$control[Grido\Export::ID]->types as $type => $label">
+                            <a class="no-ajax" n:href="export! $type">{_$label}</a>
+                        </li>
+                    </ul>
+                </div>
+                {input search}
+                {input reset}
+            {/formContainer}
+        </div>
+    </div>
+{/if}
+
+<table n:block="table" id="{$control->name}" class="grido">
+    <thead>
+        <tr class="head">
+            <th n:if="$control->hasOperations()" class="checker"{if $control->hasFilters()} rowspan="{if $control->filterRenderType == Grido\Filters\Filter::RENDER_OUTER}1{else}2{/if}"{/if}>
+                <input type="checkbox" title="{_'Invert'}">
+            </th>
+            <th n:foreach="$control[Grido\Columns\Column::ID]->getComponents() as $column" class="column {=$column->getSort() ? ($column->getSort() == Grido\Columns\Column::DESC ? 'desc' : 'asc') : ''}">
+                {if $column->isSortable()}
+                    <div>
+                        <a n:if="!$column->getSort()" n:href="sort! [$column->getName() => Grido\Columns\Column::ASC]">{_$column->label}</a>
+                        <a n:if="$column->getSort() == Grido\Columns\Column::ASC" n:href="sort! [$column->getName() => Grido\Columns\Column::DESC]" class="sort">{_$column->label}</a>
+                        <a n:if="$column->getSort() == Grido\Columns\Column::DESC" n:href="sort! []" class="sort">{_$column->label}</a>
+                        <span></span>
+                    </div>
+                {else}
+                    {_$column->label}
+                {/if}
+            </th>
+            <th class="actions center" n:if="$control->hasActions()">
+                {_'Actions'}
+            </th>
+        </tr>
+        <tr n:if="$control->filterRenderType == Grido\Filters\Filter::RENDER_INNER && $control->hasFilters()" class="filter inner">
+            {foreach $control[Grido\Columns\Column::ID]->getComponents() as $column}
+                {if $column->hasFilter()}
+                    {!$control->getFilter($column->getName())->getWrapperPrototype()->startTag()}
+                    {formContainer filters}
+                        {input $column->getName()}
+                    {/formContainer}
+                    {!$control->getFilter($column->getName())->getWrapperPrototype()->endTag()}
+                {else}
+                    <th>&nbsp;</th>
+                {/if}
+            {/foreach}
+
+            <th class="buttons">
+                {formContainer buttons}
+                    <div n:if="$control->hasExporting()" class="btn-group">
+                        <a class="btn dropdown-toggle no-ajax" data-toggle="dropdown"><span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li n:foreach="$control[Grido\Export::ID]->types as $type => $label">
+                                <a class="no-ajax" n:href="export! type => $type">{_$label}</a>
+                            </li>
+                        </ul>
+                    </div>
+                    {input search}
+                    {input reset}
+                {/formContainer}
+            </th>
+        </tr>
+    </thead>
+    <tfoot>
+        <tr>
+            <td colspan="{$columnCount + 1}">
+                <span n:if="$control->hasOperations()" n:block="operations" class="operations"  title="{_'Select some row'}">
+                    {$form[Grido\Operation::ID][Grido\Operation::ID]->control}
+                    {?$form[Grido\Grid::BUTTONS][Grido\Operation::ID]->controlPrototype->class[] = 'hide'}
+                    {$form[Grido\Grid::BUTTONS][Grido\Operation::ID]->control}
+                </span>
+
+                <span n:if="$paginator->steps && $paginator->pageCount > 1" n:block="paginator" class="paginator">
+                    {if $control->page == 1}
+                        <span class="btn btn-mini disabled" n:href="page! page => $paginator->page - 1"><i class="icon-arrow-left"></i> {_'Previous'}</span>
+                    {else}
+                        <a class="btn btn-mini" n:href="page! page => $paginator->page - 1"><i class="icon-arrow-left"></i> {_'Previous'}</a>
+                    {/if}
+                    {var $steps = $paginator->getSteps()}
+                    {foreach $steps as $step}
+                        {if $step == $control->page}
+                            <span class="btn btn-mini disabled">{$step}</span>
+                        {else}
+                            <a class="btn btn-mini" n:href="page! page => $step">{$step}</a>
+                        {/if}
+                        <a n:if="$iterator->nextValue > $step + 1" class="promt no-ajax" data-grido-promt="{_'Enter page:'}" data-grido-link="{link page! page => 0}">...</a>
+                        {var $prevStep = $step}
+                    {/foreach}
+                    {if $control->page == $paginator->getPageCount()}
+                        <span class="btn btn-mini disabled" n:href="page! page => $paginator->page + 1">{_'Next'} <i class="icon-arrow-right"></i></span>
+                    {else}
+                        <a class="btn btn-mini" n:href="page! page => $paginator->page + 1">{_'Next'} <i class="icon-arrow-right"></i></a>
+                    {/if}
+                </span>
+
+                <span n:block="count" class="count">
+                    {_'Items %d - %d of %d', $paginator->getCountBegin(), $paginator->getCountEnd(), $control->count}
+                    {input count}
+                    {formContainer buttons}
+                        {input perPage, class => 'hide'}
+                    {/formContainer}
+                </span>
+            </td>
+        </tr>
+    </tfoot>
+    <tbody>
+        {foreach $data as $row}
+            {var $checkbox = $control->hasOperations()
+                ? $form[Grido\Operation::ID][$row[$control[Grido\Operation::ID]->getPrimaryKey()]]
+                : NULL}
+            {?$tr = $control->getRowPrototype($row)}
+            {?$tr->class[] = $iterator->even ? 'even' : NULL}
+            {?$tr->class[] = $checkbox && $checkbox->getValue() ? 'selected' : NULL}
+            {!$tr->startTag()}
+                <td n:if="$checkbox" class="checker">
+                    {$checkbox->getControl()}
+                </td>
+                {foreach $control[Grido\Columns\Column::ID]->getComponents() as $column}
+                    {!$column->getCellPrototype()->startTag()}
+                        {!$column->render($row)}
+                    {!$column->getCellPrototype()->endTag()}
+                {/foreach}
+                <td class="actions center" n:if="$control->hasActions()">
+                {foreach $control[\Grido\Actions\Action::ID]->getComponents() as $action}
+                    {control $action $row}
+                {/foreach}
+                </td>
+            {!$tr->endTag()}
+        {/foreach}
+        <tr n:if="!$data"><td colspan="{$columnCount + 1}" class="no-results">{_'No results.'}</td></tr>
+    </tbody>
+</table>
+{/form}
+{/snippet}

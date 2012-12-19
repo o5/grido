@@ -1,0 +1,21 @@
+{
+	"name": "o5/grido",
+	"type": "nette-addon",
+	"description": "Grido - DataGrid for Nette Framework.",
+	"keywords": ["datagrid", "datalist", "tablegrid", "grid", "list", "table"],
+	"homepage": "http://grido.bugyik.cz/example/",
+	"license": ["BSD-3", "GPL-2.0", "GPL-3.0"],
+	"authors": [
+		{
+			"name": "Petr Bugyík",
+			"homepage": "http://petr.bugyik.cz"
+		}
+	],
+	"autoload": {
+		"psr-0": { "Grido": "libs/" }
+	},
+	"require": {
+		"php": ">=5.3.1",
+		"nette/nette" : "2.0.*"
+	}
+}
