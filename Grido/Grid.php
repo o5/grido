@@ -54,10 +54,10 @@ class Grid extends \Nette\Application\UI\Control
     /** @var array @persistent */
     public $filter = array();
 
-    /** @var array - event */
+    /** @var array event on render */
     public $onRender;
 
-    /** @var array - event for modifying data */
+    /** @var array event for modifying data */
     public $onAfterFetchData;
 
     /** @var callback $rowCallback - callback returns tr html element; function($row, Html $tr) */
