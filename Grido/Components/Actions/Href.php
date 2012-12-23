@@ -59,7 +59,7 @@ class Href extends Action
      */
     public function setConfirm($msg)
     {
-        $this->getElementPrototype()->attrs['data-grid-confirm'] = $this->translate($msg);
+        $this->getElementPrototype()->attrs['data-grido-confirm'] = $this->translate($msg);
         return $this;
     }
 

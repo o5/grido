@@ -60,7 +60,7 @@ class Operation extends Base
     public function setConfirm($operation, $message)
     {
         $form = $this->getForm();
-        $form[self::ID][self::ID]->controlPrototype->attrs["data-grid-$operation"] = $message;
+        $form[self::ID][self::ID]->controlPrototype->attrs["data-grido-$operation"] = $message;
         return $this;
     }
 
