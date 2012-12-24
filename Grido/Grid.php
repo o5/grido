@@ -11,8 +11,8 @@
 
 namespace Grido;
 
-use Grido\Filters\Filter,
-    Grido\Columns\Column,
+use Grido\Columns\Column,
+    Grido\Filters\Filter,
     Grido\Actions\Action;
 
 /**
@@ -201,7 +201,7 @@ class Grid extends \Nette\Application\UI\Control
     public function setFilterRenderType($type)
     {
         if (!in_array($type, array(Filter::RENDER_INNER, Filter::RENDER_OUTER))) {
-            throw new \Exception('Type must be Filter::RENDER_INNER or Filter::RENDER_OUTER.');
+            throw new \InvalidArgumentException('Type must be Filter::RENDER_INNER or Filter::RENDER_OUTER.');
         }
 
         $this->filterRenderType = $type;
@@ -209,7 +209,7 @@ class Grid extends \Nette\Application\UI\Control
     }
 
     /**
-     * Sets paginator.
+     * Sets custom paginator.
      * @param Paginator $paginator
      * @return Grid
      */
@@ -231,7 +231,7 @@ class Grid extends \Nette\Application\UI\Control
     }
 
     /**
-     * Sets name of template file.
+     * Sets file name of custom template.
      * @param string $file
      * @return Grid
      */
@@ -609,7 +609,7 @@ class Grid extends \Nette\Application\UI\Control
      * @internal
      * @param string $name - filter name
      * @param string $query - value from input
-     * @throws \Nette\InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function handleSuggest($name, $query)
     {
@@ -632,7 +632,7 @@ class Grid extends \Nette\Application\UI\Control
             $items = $this->model->suggest(key($filter->getColumns()), $conditions);
 
         } else {
-            throw new \Nette\InvalidArgumentException('Set suggest callback or implement method in model.');
+            throw new \InvalidArgumentException('Set suggest callback or implement method in model.');
         }
 
         print \Nette\Utils\Json::encode($items);
@@ -822,14 +822,12 @@ class Grid extends \Nette\Application\UI\Control
 
     protected function applyPaging()
     {
-        if (!$this->paginator) {
-            $paginator = $this->getPaginator()
-                ->setItemCount($this->getCount())
-                ->setPage($this->page);
+        $paginator = $this->getPaginator()
+            ->setItemCount($this->getCount())
+            ->setPage($this->page);
 
-            $this['form']['count']->setValue($this->getPerPage());
-            $this->model->limit($paginator->getOffset(), $paginator->getLength());
-        }
+        $this['form']['count']->setValue($this->getPerPage());
+        $this->model->limit($paginator->getOffset(), $paginator->getLength());
     }
 
     /**
@@ -858,7 +856,11 @@ class Grid extends \Nette\Application\UI\Control
      */
     public function addColumn($name, $label, $type = Column::TYPE_TEXT)
     {
-        return new $type($this, $name, $label);
+        $column = new $type($this, $name, $label);
+        if (!$column instanceof Column) {
+            throw new \InvalidArgumentException('Column must be inherited from Grido\Columns\Column.');
+        }
+        return $column;
     }
 
     /**
@@ -870,7 +872,11 @@ class Grid extends \Nette\Application\UI\Control
      */
     public function addFilter($name, $label, $type = Filter::TYPE_TEXT, $optional = array())
     {
-        return new $type($this, $name, $label, $optional);
+        $filter = new $type($this, $name, $label, $optional);
+        if (!$filter instanceof Filter) {
+            throw new \InvalidArgumentException('Filter must be inherited from Grido\Filters\Filter.');
+        }
+        return $filter;
     }
 
     /**
@@ -883,7 +889,11 @@ class Grid extends \Nette\Application\UI\Control
      */
     public function addAction($name, $label, $type = Action::TYPE_HREF, $destination = NULL, $args = array())
     {
-        return new $type($this, $name, $label, $destination, $args);
+        $action = new $type($this, $name, $label, $destination, $args);
+        if (!$action instanceof Action) {
+            throw new \InvalidArgumentException('Action must be inherited from Grido\Actions\Action.');
+        }
+        return $action;
     }
 
     /**
@@ -894,7 +904,11 @@ class Grid extends \Nette\Application\UI\Control
      */
     public function setOperations($operations, $onSubmit, $type = 'Grido\Operation')
     {
-        return new $type($this, $operations, $onSubmit);
+        $operation = new $type($this, $operations, $onSubmit);
+        if (!$operation instanceof Operation) {
+            throw new \InvalidArgumentException('Operation must be inherited from Grido\Operation.');
+        }
+        return $operation;
     }
 
     /**
@@ -907,7 +921,7 @@ class Grid extends \Nette\Application\UI\Control
     {
         $export = new $type($this, $name ? $name : $this->name);
         if (!$export instanceof IExport) {
-            throw new \Exception('Export must be implemented Grido\IExport.');
+            throw new \InvalidArgumentException('Export must be implemented Grido\IExport.');
         }
 
         return $export;
