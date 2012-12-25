@@ -58,7 +58,7 @@ class Grid extends \Nette\Application\UI\Control
     public $onRender;
 
     /** @var array event for modifying data */
-    public $onAfterFetchData;
+    public $onFetchData;
 
     /** @var callback $rowCallback - callback returns tr html element; function($row, Html $tr) */
     protected $rowCallback;
@@ -398,8 +398,8 @@ class Grid extends \Nette\Application\UI\Control
 
             $this->data = $this->model->data;
 
-            if ($this->onAfterFetchData) {
-                $this->onAfterFetchData($this);
+            if ($this->onFetchData) {
+                $this->onFetchData($this);
             }
         }
 
