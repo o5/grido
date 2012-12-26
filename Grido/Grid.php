@@ -870,7 +870,7 @@ class Grid extends \Nette\Application\UI\Control
      * @param mixed $optional if type is select, then this it items for select
      * @return Filter
      */
-    public function addFilter($name, $label, $type = Filter::TYPE_TEXT, $optional = array())
+    public function addFilter($name, $label, $type = Filter::TYPE_TEXT, $optional = NULL)
     {
         $filter = new $type($this, $name, $label, $optional);
         if (!$filter instanceof Filter) {

@@ -27,12 +27,35 @@ class Select extends Filter
      * @param \Grido\Grid $grid
      * @param string $name
      * @param string $label
-     * @param mixed $optional - items for select
+     * @param array $items for select
      */
-    public function __construct($grid, $name, $label, $optional = NULL)
+    public function __construct($grid, $name, $label, $items = array())
     {
         parent::__construct($grid, $name, $label);
-        $this->getControl()->setItems($optional);
+        $this->getControl()->setItems((array) $items);
+    }
+
+    /**
+     * Removes items for empty results.
+     * @experimental
+     * @param array $items
+     */
+    public function removeEmptyItems(array $items = array('' => ''))
+    {
+        $filter = $this;
+        $this->grid->onFetchData[] = function(\Grido\Grid $grid) use ($items, $filter)
+        {
+            if (!empty($grid->filter[$filter->name])) {
+                return;
+            }
+
+            $column = key($filter->getColumns());
+            foreach ($grid->data as $item) {
+                $items[$item->$column] = $item->$column;
+            }
+
+            $filter->getControl()->setItems($items);
+        };
     }
 
     /**
