@@ -96,8 +96,7 @@ class NetteDatabase extends \Nette\Object implements IDataSource
 
     private function removePlaceholders(array $condition)
     {
-        return array(
-            trim(str_replace(array('%s', '%i', '%f'), '?', $condition[0])) => $condition[1]
-        );
+        $condition[0] = trim(str_replace(array('%s', '%i', '%f'), '?', $condition[0]));
+        return array(str_replace(array('[', ']'), array('`', '`'), $condition[0]) => $condition[1]);
     }
 }
