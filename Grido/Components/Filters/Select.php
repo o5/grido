@@ -36,29 +36,6 @@ class Select extends Filter
     }
 
     /**
-     * Removes items for empty results.
-     * @experimental
-     * @param array $items
-     */
-    public function removeEmptyItems(array $items = array('' => ''))
-    {
-        $filter = $this;
-        $this->grid->onFetchData[] = function(\Grido\Grid $grid) use ($items, $filter)
-        {
-            if (!empty($grid->filter[$filter->name])) {
-                return;
-            }
-
-            $column = key($filter->getColumns());
-            foreach ($grid->data as $item) {
-                $items[$item->$column] = $item->$column;
-            }
-
-            $filter->getControl()->setItems($items);
-        };
-    }
-
-    /**
      * @return \Nette\Forms\Controls\SelectBox
      */
     protected function getFormControl()
