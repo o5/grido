@@ -578,7 +578,7 @@ class Grid extends \Nette\Application\UI\Control
             $form->setValues(array(Filter::ID => $this->defaultFilter), TRUE);
 
         //operations handling
-        } elseif ($form[self::BUTTONS][Operation::ID]->isSubmittedBy()) {
+        } elseif ($this->hasOperations() && $form[self::BUTTONS][Operation::ID]->isSubmittedBy()) {
             $this->addCheckers($this->getData());
 
             $values = $form[Operation::ID]->values;
