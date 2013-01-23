@@ -433,7 +433,7 @@ class Grid extends \Nette\Application\UI\Control
      */
     public function getFilterRenderType()
     {
-        if ($this->filterRenderType === NULL) {
+        if ($this->hasFilters() && $this->filterRenderType === NULL) {
             $this->filterRenderType = Filter::RENDER_INNER; //default
 
             $filters = $this[Filter::ID]->getComponents();
