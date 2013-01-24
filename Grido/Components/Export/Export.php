@@ -91,8 +91,7 @@ class Export extends Base implements IExport
         $response->setHeader('Content-Encoding', $charset);
         $response->setHeader('Content-Length', strlen($source));
         $response->setHeader('Content-Type', "$contentType;  charset=$charset;");
-        $response->setHeader('Content-Disposition', "attachment; filename='{$this->name}.{$this->type}';");
-
+        $response->setHeader('Content-Disposition', "attachment; filename={$this->name}.{$this->type};");
         return $source;
     }
 
