@@ -83,14 +83,12 @@ class Export extends Base implements IExport
         $method = "getSource{$this->type}";
         list ($source, $contentType) = $this->$method($data, $columns);
 
-        $charset = 'UTF-16LE';
-        $source = mb_convert_encoding($source, $charset, 'UTF-8');
-        $source = "\xFF\xFE" . $source; //add BOM
+		$source="\xEF\xBB\xBF".$source; // add BOM for UTF-8
 
         $response = $this->grid->presenter->context->getByType('Nette\Http\IResponse', 'UTF-8');
-        $response->setHeader('Content-Encoding', $charset);
+        $response->setHeader('Content-Encoding', 'UTF-8');
         $response->setHeader('Content-Length', strlen($source));
-        $response->setHeader('Content-Type', "$contentType;  charset=$charset;");
+        $response->setHeader('Content-Type', "$contentType;  charset=UTF-8;");
         $response->setHeader('Content-Disposition', "attachment; filename={$this->name}.{$this->type};");
         return $source;
     }
