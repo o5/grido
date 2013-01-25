@@ -44,16 +44,16 @@ class Check extends Filter
      */
     public function makeFilter($value)
     {
-        return parent::makeFilter($value == self::TRUE ? TRUE : $value);
+        return parent::makeFilter($value == self::TRUE ? TRUE : FALSE);
     }
 
     /**
      * @internal
-     * @param string $value
-     * @return string
+     * @param bool $value
+     * @return bool
      */
     public function changeValue($value)
     {
-        return $value === TRUE ? self::TRUE : $value;
+        return $value === TRUE ? self::TRUE : FALSE;
     }
 }
