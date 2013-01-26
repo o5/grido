@@ -22,6 +22,7 @@ use Grido\Filters\Filter;
  *
  * @property-read string $sort
  * @property-read \Nette\Utils\Html $cellPrototype
+ * @property-read \Nette\Utils\Html $headerPrototype
  * @property-write string $defaultSorting
  * @property-write callback $customRender
  * @property-write array $replacements
@@ -48,6 +49,9 @@ abstract class Column extends \Grido\Base
 
     /** @var \Nette\Utils\Html <td> html tag */
     protected $cellPrototype;
+
+    /** @var \Nette\Utils\Html <th> html tag */
+    protected $headerPrototype;
 
     /** @var callback for custom rendering */
     protected $customRender;
@@ -162,6 +166,26 @@ abstract class Column extends \Grido\Base
         }
 
         return $this->cellPrototype;
+    }
+
+    /**
+     * Returns header cell prototype (<th> html tag).
+     * @return \Nette\Utils\Html
+     */
+    public function getHeaderPrototype()
+    {
+        if (!$this->headerPrototype) {
+            $this->headerPrototype = \Nette\Utils\Html::el('th')
+                ->setClass(array('column', 'grid-header-' . $this->getName()));
+        }
+
+        if ($this->isSortable() && $this->getSort()) {
+            $this->headerPrototype->class[] = $this->getSort() == self::DESC
+                ? 'desc'
+                : 'asc';
+        }
+
+        return $this->headerPrototype;
     }
 
     /**

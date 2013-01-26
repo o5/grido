@@ -52,18 +52,18 @@
             <th n:if="$control->hasOperations()" class="checker"{if $control->hasFilters()} rowspan="{if $control->filterRenderType == Grido\Filters\Filter::RENDER_OUTER}1{else}2{/if}"{/if}>
                 <input type="checkbox" title="{_'Invert'}">
             </th>
-            <th n:foreach="$control[Grido\Columns\Column::ID]->getComponents() as $column" class="column {=$column->getSort() ? ($column->getSort() == Grido\Columns\Column::DESC ? 'desc' : 'asc') : ''}">
-                {if $column->isSortable()}
-                    <div>
+            {foreach $control[Grido\Columns\Column::ID]->getComponents() as $column}
+                {!$column->getHeaderPrototype()->startTag()}
+                    {if $column->isSortable()}
                         <a n:if="!$column->getSort()" n:href="sort! [$column->getName() => Grido\Columns\Column::ASC]">{_$column->label}</a>
                         <a n:if="$column->getSort() == Grido\Columns\Column::ASC" n:href="sort! [$column->getName() => Grido\Columns\Column::DESC]" class="sort">{_$column->label}</a>
                         <a n:if="$column->getSort() == Grido\Columns\Column::DESC" n:href="sort! []" class="sort">{_$column->label}</a>
                         <span></span>
-                    </div>
-                {else}
-                    {_$column->label}
-                {/if}
-            </th>
+                    {else}
+                        {_$column->label}
+                    {/if}
+                {!$column->getHeaderPrototype()->endTag()}
+            {/foreach}
             <th class="actions center" n:if="$control->hasActions()">
                 {_'Actions'}
             </th>
