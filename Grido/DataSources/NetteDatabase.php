@@ -39,7 +39,7 @@ class NetteDatabase extends \Nette\Object implements IDataSource
      */
     public function getCount()
     {
-        return $this->selection->count();
+        return $this->selection->count('*');
     }
 
     /**
