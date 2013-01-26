@@ -50,10 +50,10 @@ class Check extends Filter
     /**
      * @internal
      * @param bool $value
-     * @return bool
+     * @return string
      */
     public function changeValue($value)
     {
-        return $value === TRUE ? self::TRUE : FALSE;
+        return $value === TRUE ? self::TRUE : $value;
     }
 }
