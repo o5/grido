@@ -33,6 +33,8 @@ abstract class Column extends \Grido\Base
 {
     const ID = 'columns';
 
+    const VALUE_IDENTIFIER = '%value';
+
     const TYPE_TEXT = 'Grido\Columns\Text';
     const TYPE_MAIL = 'Grido\Columns\Mail';
     const TYPE_HREF = 'Grido\Columns\Href';
@@ -249,17 +251,34 @@ abstract class Column extends \Grido\Base
             return callback($this->customRender)->invokeArgs(array($row));
         }
 
-        $value = NULL;
-        $column = $this->getColumn();
-        $value = $row->$column;
-
-        $value = \Nette\Templating\Helpers::escapeHtml($value);
-
-        if (isset($this->replacements[$value])) {
-            $value = str_replace('%value', $value, $this->replacements[$value]);
-        }
+        $value = \Nette\Templating\Helpers::escapeHtml($this->getValue($row));
+        $value = $this->applyReplacement($value);
 
         return $this->formatValue($value);
+    }
+
+    /**
+     * @internal
+     * @param mixed $row
+     * @return string
+     */
+    public function renderExport($row)
+    {
+        $value = $this->getValue($row);
+        return strip_tags($this->applyReplacement($value));
+    }
+
+    protected function getValue($row)
+    {
+        $column = $this->getColumn();
+        return $row->$column;
+    }
+
+    protected function applyReplacement($value)
+    {
+        return isset($this->replacements[$value])
+            ? str_replace(self::VALUE_IDENTIFIER, $value, $this->replacements[$value])
+            : $value;
     }
 
     protected function formatValue($value)

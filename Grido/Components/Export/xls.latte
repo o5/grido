@@ -15,7 +15,7 @@
     </tr>
     <tr n:foreach="$data as $item">
         <td n:foreach="$columns as $column">
-            {$item[$column->column]}
+            {$column->renderExport($item)}
         </td>
     </tr>
 </table>

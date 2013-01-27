@@ -108,7 +108,6 @@ class Export extends Base implements IExport
 
     protected function getSourceCsv($data, $columns)
     {
-        $source = '';
         $head = array();
         foreach ($columns as $column) {
             $head[] = $column->label;
@@ -124,7 +123,7 @@ class Export extends Base implements IExport
                 if ($b) {
                     $source .= self::CSV_DELIMITER;
                 }
-                $source .= $item[$column->column];
+                $source .= $column->renderExport($item);
                 $b = TRUE;
             }
             $a = TRUE;
