@@ -90,8 +90,8 @@ class Export extends Base implements IExport
         $response = $this->grid->presenter->context->getByType('Nette\Http\IResponse', 'UTF-8');
         $response->setHeader('Content-Encoding', $charset);
         $response->setHeader('Content-Length', strlen($source));
-        $response->setHeader('Content-Type', "$contentType;  charset=$charset;");
-        $response->setHeader('Content-Disposition', "attachment; filename='{$this->name}.{$this->type}';");
+        $response->setHeader('Content-Type', "$contentType;  charset=$charset");
+        $response->setHeader('Content-Disposition', "attachment; filename=\"{$this->name}.{$this->type}\"");
 
         return $source;
     }
