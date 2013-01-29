@@ -108,7 +108,7 @@ class Paginator extends \Nette\Utils\Paginator
     {
         if ($this->countEnd === NULL) {
             $this->countEnd = $this->grid->getCount() > 0
-                ? $this->getPage() * $this->grid->getPerPage()
+                ? min($this->grid->getCount(), $this->getPage() * $this->grid->getPerPage())
                 : 0;
         }
 
