@@ -21,13 +21,15 @@
 {var $columnCount = count($control[Grido\Columns\Column::ID]->getComponents())}
 {var $columnCount = $control->hasOperations() ? $columnCount + 1 : $columnCount}
 
-{if $control->filterRenderType == Grido\Filters\Filter::RENDER_OUTER && $control->hasFilters()}
+{if $control->filterRenderType == Grido\Filters\Filter::RENDER_OUTER}
     <div n:block="outerFilter" class="grido filter outer">
         <div class="items">
-            <span n:foreach="$form[Grido\Filters\Filter::ID]->getComponents() as $filter" class="grid-filter-{$filter->name}">
-                {$filter->label}
-                {$filter->control}
-            </span>
+            {if $control->hasFilters()}
+                <span n:foreach="$form[Grido\Filters\Filter::ID]->getComponents() as $filter" class="grid-filter-{$filter->name}">
+                    {$filter->label}
+                    {$filter->control}
+                </span>
+            {/if}
         </div>
         <div class="buttons">
             {formContainer buttons}
@@ -39,7 +41,9 @@
                         </li>
                     </ul>
                 </div>
-                {input search}
+                {if $control->hasFilters()}
+                    {input search}
+                {/if}
                 {input reset}
             {/formContainer}
         </div>
@@ -64,7 +68,7 @@
                     {/if}
                 {!$column->getHeaderPrototype()->endTag()}
             {/foreach}
-            <th class="actions center" n:if="$control->hasActions()">
+            <th class="actions center">
                 {_'Actions'}
             </th>
         </tr>
@@ -156,10 +160,12 @@
                         {!$column->render($row)}
                     {!$column->getCellPrototype()->endTag()}
                 {/foreach}
-                <td class="actions center" n:if="$control->hasActions()">
-                {foreach $control[\Grido\Actions\Action::ID]->getComponents() as $action}
-                    {control $action $row}
-                {/foreach}
+                <td class="actions center">
+                    {if $control->hasActions()}
+                        {foreach $control[\Grido\Actions\Action::ID]->getComponents() as $action}
+                            {control $action $row}
+                        {/foreach}
+                    {/if}
                 </td>
             {!$tr->endTag()}
         {/foreach}

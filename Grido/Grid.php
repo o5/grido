@@ -433,7 +433,11 @@ class Grid extends \Nette\Application\UI\Control
      */
     public function getFilterRenderType()
     {
-        if ($this->hasFilters() && $this->filterRenderType === NULL) {
+        if ($this->filterRenderType !== NULL) {
+            return $this->filterRenderType;
+        }
+
+        if ($this->hasFilters() && $this->hasActions()) {
             $this->filterRenderType = Filter::RENDER_INNER; //default
 
             $filters = $this[Filter::ID]->getComponents();
@@ -443,6 +447,8 @@ class Grid extends \Nette\Application\UI\Control
                     break;
                 }
             }
+        } elseif ($this->hasExporting()) {
+            $this->filterRenderType = Filter::RENDER_OUTER;
         }
 
         return $this->filterRenderType;
