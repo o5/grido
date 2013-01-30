@@ -38,8 +38,8 @@ abstract class Base extends \Nette\Application\UI\PresenterComponent
     protected $form;
 
     /**
-    * @return Grid
-    */
+     * @return Grid
+     */
     public function getGrid()
     {
         return $this->grid;
@@ -57,6 +57,7 @@ abstract class Base extends \Nette\Application\UI\PresenterComponent
     }
 
     /**
+     * @internal
      * @return string
      */
     public function getLabel()
@@ -65,6 +66,7 @@ abstract class Base extends \Nette\Application\UI\PresenterComponent
     }
 
     /**
+     * @internal
      * @return string
      */
     public function getType()

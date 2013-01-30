@@ -182,7 +182,7 @@ class Grid extends \Nette\Application\UI\Control
 
     /**
      * Sets translator.
-     * @param  \Nette\Localization\ITranslator $translator
+     * @param \Nette\Localization\ITranslator $translator
      * @return Grid
      */
     public function setTranslator(\Nette\Localization\ITranslator $translator)
@@ -193,7 +193,7 @@ class Grid extends \Nette\Application\UI\Control
 
     /**
      * Sets type of filter rendering.
-     * Defaults inner (Filter::RENDER_INNER) if column doesn't exist then outer filter (Filter::RENDER_OUTER)
+     * Defaults inner (Filter::RENDER_INNER) if column doesn't exist then outer filter (Filter::RENDER_OUTER).
      * @param string $type
      * @return Grid
      * @throws \Exception
@@ -430,6 +430,7 @@ class Grid extends \Nette\Application\UI\Control
 
     /**
      * @internal
+     * @return string
      */
     public function getFilterRenderType()
     {
@@ -528,8 +529,8 @@ class Grid extends \Nette\Application\UI\Control
     }
 
     /**
+     * Ajax method.
      * @internal
-     * Ajax method
      */
     public function handleRefresh()
     {
@@ -547,7 +548,7 @@ class Grid extends \Nette\Application\UI\Control
 
     /**
      * @internal
-     * @param  array $sort
+     * @param array $sort
      */
     public function handleSort(array $sort)
     {
@@ -647,6 +648,7 @@ class Grid extends \Nette\Application\UI\Control
 
     /**
      * @internal
+     * @param string $type
      */
     public function handleExport($type)
     {
@@ -732,6 +734,8 @@ class Grid extends \Nette\Application\UI\Control
 
     /**
      * @internal
+     * @param string $class
+     * @return \Nette\Templating\FileTemplate
      */
     public function createTemplate($class = NULL)
     {
