@@ -568,9 +568,8 @@ class Grid extends \Nette\Application\UI\Control
             foreach ($values[Filter::ID] as $name => $value) {
                 $filter = $this->getFilter($name);
                 $clearDefault = isset($this->defaultFilter[$name]);
-                $isNumberType = $value == '0' && $filter->type == Filter::TYPE_NUMBER;
 
-                if ($value || $clearDefault || $isNumberType) {
+                if ($value != '' || $clearDefault) {
                     $this->filter[$name] = $filter->changeValue($value);
                 } elseif (isset($this->filter[$name])) {
                     unset($this->filter[$name]);
