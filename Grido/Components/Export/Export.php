@@ -12,35 +12,21 @@
 namespace Grido;
 
 /**
- * Data exporting.
+ * Exporting data to CSV.
  *
  * @package     Grido
  * @subpackage  Export
  * @author      Petr Bugyík
- *
- * @property-read $types
  */
-class Export extends Base implements IExport
+class Export extends Base implements \Nette\Application\IResponse
 {
     const ID = 'export';
-
-    const CSV_DELIMITER = "\t";
-    const CSV_NEW_LINE = "\n";
 
     /** @var Grid */
     protected $grid;
 
     /** @var string */
     protected $name;
-
-    /** @var string */
-    protected $type;
-
-    /** @var array */
-    protected $types = array(
-        'xls' => 'Export to XLS',
-        'csv' => 'Export to CSV'
-    );
 
     /**
      * @param Grid $grid
@@ -54,34 +40,13 @@ class Export extends Base implements IExport
         $grid->addComponent($this, self::ID);
     }
 
-    /**
-     * @return array
-     */
-    public function getTypes()
-    {
-        return $this->types;
-    }
-
     /**********************************************************************************************/
 
-    /**
-     * @internal
-     * @param string $type
-     * @return bool
-     */
-    public function hasType($type)
-    {
-        $this->type = $type;
-        return isset($this->types[$type]);
-    }
-
-    protected function getSource()
+    protected function getResponse()
     {
         $data = $this->grid->getData(FALSE);
         $columns = $this->grid[\Grido\Columns\Column::ID]->getComponents();
-
-        $method = "getSource{$this->type}";
-        list ($source, $contentType) = $this->$method($data, $columns);
+        $source = $this->generateCsv($data, $columns);
 
         $charset = 'UTF-16LE';
         $source = mb_convert_encoding($source, $charset, 'UTF-8');
@@ -90,38 +55,31 @@ class Export extends Base implements IExport
         $response = $this->grid->presenter->context->getByType('Nette\Http\IResponse', 'UTF-8');
         $response->setHeader('Content-Encoding', $charset);
         $response->setHeader('Content-Length', strlen($source));
-        $response->setHeader('Content-Type', "$contentType;  charset=$charset");
-        $response->setHeader('Content-Disposition', "attachment; filename=\"{$this->name}.{$this->type}\"");
+        $response->setHeader('Content-Type', "text/csv; charset=$charset");
+        $response->setHeader('Content-Disposition', "attachment; filename=\"{$this->name}.csv\"");
 
         return $source;
     }
 
-    protected function getSourceXls($data, $columns)
+    protected function generateCsv($data, $columns)
     {
-        $template = new \Nette\Templating\FileTemplate(__DIR__ . '/xls.latte');
-        $template->registerFilter(new \Nette\Latte\Engine);
-        $template->columns = $columns;
-        $template->data = $data;
+        $newLine = "\n";
+        $delimiter = "\t";
 
-        return array((string) $template, 'application/vnd.ms-excel');
-    }
-
-    protected function getSourceCsv($data, $columns)
-    {
         $head = array();
         foreach ($columns as $column) {
             $head[] = $column->label;
         }
         $a = FALSE;
-        $source = implode(self::CSV_DELIMITER, $head) . self::CSV_NEW_LINE;
+        $source = implode($delimiter, $head) . $newLine;
         foreach ($data as $item) {
             if ($a) {
-                $source .= self::CSV_NEW_LINE;
+                $source .= $newLine;
             }
             $b = FALSE;
             foreach ($columns as $column) {
                 if ($b) {
-                    $source .= self::CSV_DELIMITER;
+                    $source .= $delimiter;
                 }
                 $source .= $column->renderExport($item);
                 $b = TRUE;
@@ -129,7 +87,7 @@ class Export extends Base implements IExport
             $a = TRUE;
         }
 
-        return array($source, 'text/csv');
+        return $source;
     }
 
     /**
@@ -138,11 +96,7 @@ class Export extends Base implements IExport
      */
     public function send(\Nette\Http\IRequest $httpRequest, \Nette\Http\IResponse $httpResponse)
     {
-        $source = $this->getSource();
-        if ($source instanceof Nette\Templating\ITemplate) {
-            $source->render();
-        } else {
-            print $source;
-        }
+        print $this->getResponse();
+        $this->grid->presenter->terminate();
     }
 }

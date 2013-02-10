@@ -448,8 +448,6 @@ class Grid extends \Nette\Application\UI\Control
                     break;
                 }
             }
-        } elseif ($this->hasExporting()) {
-            $this->filterRenderType = Filter::RENDER_OUTER;
         }
 
         return $this->filterRenderType;
@@ -652,11 +650,9 @@ class Grid extends \Nette\Application\UI\Control
     public function handleExport($type)
     {
         if ($export = $this->getComponent(Export::ID, FALSE)) {
-            if ($export->hasType($type)) {
-                $this->presenter->sendResponse($export);
-            } else {
-                trigger_error("Export type '$type' is not supported.", E_USER_NOTICE);
-            }
+            $this->presenter->sendResponse($export);
+        } else {
+            trigger_error("Exporting is not allowed.", E_USER_NOTICE);
         }
     }
 
@@ -929,8 +925,8 @@ class Grid extends \Nette\Application\UI\Control
     public function setExporting($name = NULL, $type = 'Grido\Export')
     {
         $export = new $type($this, $name ? $name : $this->name);
-        if (!$export instanceof IExport) {
-            throw new \InvalidArgumentException('Export must be implemented Grido\IExport.');
+        if (!$export instanceof Export) {
+            throw new \InvalidArgumentException('Export must be inherited from Grido\Export.');
         }
 
         return $export;

@@ -33,14 +33,6 @@
         </div>
         <div class="buttons">
             {formContainer buttons}
-                <div n:if="$control->hasExporting()" class="btn-group">
-                    <a class="btn dropdown-toggle no-ajax" data-toggle="dropdown"><span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li n:foreach="$control[Grido\Export::ID]->types as $type => $label">
-                            <a class="no-ajax" n:href="export! $type">{_$label}</a>
-                        </li>
-                    </ul>
-                </div>
                 {if $control->hasFilters()}
                     {input search}
                 {/if}
@@ -87,14 +79,6 @@
 
             <th class="buttons">
                 {formContainer buttons}
-                    <div n:if="$control->hasExporting()" class="btn-group">
-                        <a class="btn dropdown-toggle no-ajax" data-toggle="dropdown"><span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li n:foreach="$control[Grido\Export::ID]->types as $type => $label">
-                                <a class="no-ajax" n:href="export! type => $type">{_$label}</a>
-                            </li>
-                        </ul>
-                    </div>
                     {input search}
                     {input reset}
                 {/formContainer}
@@ -139,6 +123,7 @@
                     {formContainer buttons}
                         {input perPage, class => 'hide'}
                     {/formContainer}
+                    <a n:if="$control->hasExporting()" class="btn btn-mini no-ajax" n:href="export!" title="{_'Export'}"><i class="icon-download"></i></a>
                 </span>
             </td>
         </tr>
