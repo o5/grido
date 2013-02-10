@@ -24,7 +24,7 @@ class Export extends Base implements IExport
 {
     const ID = 'export';
 
-    const CSV_DELIMITER = ';';
+    const CSV_DELIMITER = "\t";
     const CSV_NEW_LINE = "\n";
 
     /** @var Grid */
