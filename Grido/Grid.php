@@ -924,7 +924,7 @@ class Grid extends \Nette\Application\UI\Control
      */
     public function setExporting($name = NULL, $type = 'Grido\Export')
     {
-        $export = new $type($this, $name ? $name : $this->name);
+        $export = new $type($this, $name ? $name : ucfirst($this->name));
         if (!$export instanceof Export) {
             throw new \InvalidArgumentException('Export must be inherited from Grido\Export.');
         }
