@@ -55,7 +55,7 @@ class Operation extends Base
      * Sets client side confirm for operation.
      * @param string $operation
      * @param string $message
-     * @return Select
+     * @return Operation
      */
     public function setConfirm($operation, $message)
     {
