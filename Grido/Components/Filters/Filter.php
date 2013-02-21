@@ -179,7 +179,8 @@ abstract class Filter extends \Grido\Base
     public function getWrapperPrototype()
     {
         if (!$this->wrapperPrototype) {
-            $this->wrapperPrototype = \Nette\Utils\Html::el('th');
+            $this->wrapperPrototype = \Nette\Utils\Html::el('th')
+                ->setClass([ 'grid-filter-' . $this->getName() ]);
         }
 
         return $this->wrapperPrototype;
