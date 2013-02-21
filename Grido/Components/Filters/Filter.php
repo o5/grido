@@ -180,7 +180,7 @@ abstract class Filter extends \Grido\Base
     {
         if (!$this->wrapperPrototype) {
             $this->wrapperPrototype = \Nette\Utils\Html::el('th')
-                ->setClass([ 'grid-filter-' . $this->getName() ]);
+                ->setClass(array('grid-filter-' . $this->getName()));
         }
 
         return $this->wrapperPrototype;
