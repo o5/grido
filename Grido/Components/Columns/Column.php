@@ -265,7 +265,7 @@ abstract class Column extends \Grido\Base
     public function renderExport($row)
     {
         $value = $this->getValue($row);
-        return strip_tags($this->applyReplacement($value));
+        return strip_tags($this->applyReplacement($this->formatValue($value)));
     }
 
     protected function getValue($row)

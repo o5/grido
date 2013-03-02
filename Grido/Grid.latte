@@ -93,7 +93,7 @@
                     {?$form[Grido\Grid::BUTTONS][Grido\Operation::ID]->controlPrototype->class[] = 'hide'}
                     {$form[Grido\Grid::BUTTONS][Grido\Operation::ID]->control}
                 </span>
-
+{ifset $paginator}
                 <span n:if="$paginator->steps && $paginator->pageCount > 1" n:block="paginator" class="paginator">
                     {if $control->page == 1}
                         <span class="btn btn-mini disabled" n:href="page! page => $paginator->page - 1"><i class="icon-arrow-left"></i> {_'Previous'}</span>
@@ -116,15 +116,18 @@
                         <a class="btn btn-mini" n:href="page! page => $paginator->page + 1">{_'Next'} <i class="icon-arrow-right"></i></a>
                     {/if}
                 </span>
-
+{/ifset}
                 <span n:block="count" class="count">
+{ifset $paginator}
                     {_'Items %d - %d of %d', $paginator->getCountBegin(), $paginator->getCountEnd(), $control->count}
                     {input count}
                     {formContainer buttons}
                         {input perPage, class => 'hide'}
                     {/formContainer}
+{/ifset}
                     <a n:if="$control->hasExporting()" class="btn btn-mini no-ajax" n:href="export!" title="{_'Export'}"><i class="icon-download"></i></a>
                 </span>
+                
             </td>
         </tr>
     </tfoot>
