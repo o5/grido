@@ -96,6 +96,9 @@ class Grid extends \Nette\Application\UI\Control
     /** @var Paginator */
     protected $paginator;
 
+    /** @var bool */
+    protected $paginatorHasBeenSet = false;
+    
     /** @var ITranslator */
     protected $translator;
 
@@ -216,8 +219,20 @@ class Grid extends \Nette\Application\UI\Control
     public function setPaginator(Paginator $paginator)
     {
         $this->paginator = $paginator;
+        $this->paginatorHasBeenSet = true;
         return $this;
     }
+    
+ /**
+     * Disable paginator
+     * @return Grid
+     */
+    public function disablePaginator()
+    {
+        $this->paginator = NULL;
+        $this->paginatorHasBeenSet = true;
+        return $this;
+    }    
 
     /**
      * Sets grid primary key.
@@ -468,10 +483,11 @@ class Grid extends \Nette\Application\UI\Control
      */
     public function getPaginator()
     {
-        if ($this->paginator === NULL) {
+        if (!$this->paginatorHasBeenSet && $this->paginator === NULL) {
             $this->paginator = new Paginator;
             $this->paginator->setItemsPerPage($this->getPerPage())
                             ->setGrid($this);
+            $this->paginatorHasBeenSet = true;
         }
 
         return $this->paginator;
@@ -825,14 +841,15 @@ class Grid extends \Nette\Application\UI\Control
         }
     }
 
-    protected function applyPaging()
-    {
-        $paginator = $this->getPaginator()
-            ->setItemCount($this->getCount())
-            ->setPage($this->page);
+    protected function applyPaging() {
+        $paginator = $this->getPaginator();
+        if ($paginator != NULL) {
+            $paginator->setItemCount($this->getCount())
+                    ->setPage($this->page);
 
-        $this['form']['count']->setValue($this->getPerPage());
-        $this->model->limit($paginator->getOffset(), $paginator->getLength());
+            $this['form']['count']->setValue($this->getPerPage());
+            $this->model->limit($paginator->getOffset(), $paginator->getLength());
+        }
     }
 
     /**

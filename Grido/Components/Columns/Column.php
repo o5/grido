@@ -276,7 +276,7 @@ abstract class Column extends \Grido\Base
 
     protected function applyReplacement($value)
     {
-        return isset($this->replacements[$value])
+        return !is_object($value) && isset($this->replacements[$value])
             ? str_replace(self::VALUE_IDENTIFIER, $value, $this->replacements[$value])
             : $value;
     }
