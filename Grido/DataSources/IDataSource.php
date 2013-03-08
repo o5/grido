@@ -17,9 +17,6 @@ namespace Grido\DataSources;
  * @package     Grido
  * @subpackage  DataSources
  * @author      Petr Bugyík
- *
- * @property-read int $count
- * @property-read array $data
  */
 interface IDataSource
 {

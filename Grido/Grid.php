@@ -25,7 +25,6 @@ use Grido\Components\Columns\Column,
  * @author      Petr Bugyík
  *
  * @property-read int $count
- * @property-read callback $perPageList
  * @property-read mixed $data
  * @property-read callback $rowCallback
  * @property-write bool $rememberState
