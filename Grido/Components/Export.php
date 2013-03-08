@@ -9,30 +9,30 @@
  * the file license.md that was distributed with this source code.
  */
 
-namespace Grido;
+namespace Grido\Components;
 
 /**
  * Exporting data to CSV.
  *
  * @package     Grido
- * @subpackage  Export
+ * @subpackage  Components
  * @author      Petr Bugyík
  */
 class Export extends Base implements \Nette\Application\IResponse
 {
     const ID = 'export';
 
-    /** @var Grid */
+    /** @var Grido\Grid */
     protected $grid;
 
     /** @var string */
     protected $name;
 
     /**
-     * @param Grid $grid
+     * @param \Grido\Grid $grid
      * @param string $name
      */
-    public function __construct(Grid $grid, $name)
+    public function __construct(\Grido\Grid $grid, $name)
     {
         $this->grid = $grid;
         $this->name = $name;
@@ -45,7 +45,7 @@ class Export extends Base implements \Nette\Application\IResponse
     protected function getResponse()
     {
         $data = $this->grid->getData(FALSE);
-        $columns = $this->grid[\Grido\Columns\Column::ID]->getComponents();
+        $columns = $this->grid[\Grido\Components\Columns\Column::ID]->getComponents();
         $source = $this->generateCsv($data, $columns);
 
         $charset = 'UTF-16LE';

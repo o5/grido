@@ -9,7 +9,7 @@
  * the file license.md that was distributed with this source code.
  */
 
-namespace Grido;
+namespace Grido\DataSources;
 
 /**
  * Dibi Fluent data source.
@@ -23,7 +23,7 @@ namespace Grido;
  */
 class DibiFluent extends \Nette\Object implements IDataSource
 {
-    /** @var DibiFluent */
+    /** @var \DibiFluent */
     protected $fluent;
 
     /** @var int */

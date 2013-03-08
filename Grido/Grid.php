@@ -11,9 +11,12 @@
 
 namespace Grido;
 
-use Grido\Columns\Column,
-    Grido\Filters\Filter,
-    Grido\Actions\Action;
+use Grido\Components\Columns\Column,
+    Grido\Components\Filters\Filter,
+    Grido\Components\Actions\Action,
+    Grido\Components\Operation,
+    Grido\Components\Export,
+    Grido\Components\Paginator;
 
 /**
  * Grido - DataGrid for Nette Framework.
@@ -35,7 +38,7 @@ use Grido\Columns\Column,
  * @property Paginator $paginator
  * @property string $primaryKey
  * @property string $filterRenderType
- * @property IDataSource $model
+ * @property \Grido\DataSources\IDataSource $model
  */
 class Grid extends \Nette\Application\UI\Control
 {
@@ -84,7 +87,7 @@ class Grid extends \Nette\Application\UI\Control
     /** @var array */
     protected $defaultSort = array();
 
-    /** @var IDataSource */
+    /** @var DataSources\IDataSource */
     protected $model;
 
     /** @var int total count of items */
@@ -96,7 +99,7 @@ class Grid extends \Nette\Application\UI\Control
     /** @var Paginator */
     protected $paginator;
 
-    /** @var ITranslator */
+    /** @var \Nette\Localization\ITranslator */
     protected $translator;
 
     /** @var bool cache */
@@ -111,13 +114,13 @@ class Grid extends \Nette\Application\UI\Control
     public function setModel($model)
     {
         if ($model instanceof \DibiFluent) {
-            $model = new DibiFluent($model);
+            $model = new DataSources\DibiFluent($model);
         } elseif ($model instanceof \Nette\Database\Table\Selection) {
-            $model = new NetteDatabase($model);
+            $model = new DataSources\NetteDatabase($model);
         }
 
-        if (!$model instanceof IDataSource) {
-            throw new \InvalidArgumentException('Filter must be implemented Grido\IDataSource.');
+        if (!$model instanceof DataSources\IDataSource) {
+            throw new \InvalidArgumentException('Filter must be implemented DataSources\IDataSource.');
         }
 
         $this->model = $model;
@@ -408,12 +411,12 @@ class Grid extends \Nette\Application\UI\Control
 
     /**
      * Returns translator.
-     * @return FileTranslator
+     * @return Translations\FileTranslator
      */
     public function getTranslator()
     {
         if ($this->translator === NULL) {
-            $this->setTranslator(new FileTranslator);
+            $this->setTranslator(new Translations\FileTranslator);
         }
 
         return $this->translator;
@@ -863,7 +866,7 @@ class Grid extends \Nette\Application\UI\Control
     {
         $column = new $type($this, $name, $label);
         if (!$column instanceof Column) {
-            throw new \InvalidArgumentException('Column must be inherited from Grido\Columns\Column.');
+            throw new \InvalidArgumentException('Column must be inherited from Grido\Components\Columns\Column.');
         }
         return $column;
     }
@@ -879,7 +882,7 @@ class Grid extends \Nette\Application\UI\Control
     {
         $filter = new $type($this, $name, $label, $optional);
         if (!$filter instanceof Filter) {
-            throw new \InvalidArgumentException('Filter must be inherited from Grido\Filters\Filter.');
+            throw new \InvalidArgumentException('Filter must be inherited from Grido\Components\Filters\Filter.');
         }
         return $filter;
     }
@@ -896,7 +899,7 @@ class Grid extends \Nette\Application\UI\Control
     {
         $action = new $type($this, $name, $label, $destination, $args);
         if (!$action instanceof Action) {
-            throw new \InvalidArgumentException('Action must be inherited from Grido\Actions\Action.');
+            throw new \InvalidArgumentException('Action must be inherited from Grido\Components\Actions\Action.');
         }
         return $action;
     }
@@ -907,11 +910,11 @@ class Grid extends \Nette\Application\UI\Control
      * @param string $type operation class
      * @return Operation
      */
-    public function setOperations($operations, $onSubmit, $type = 'Grido\Operation')
+    public function setOperations($operations, $onSubmit, $type = '\Grido\Components\Operation')
     {
         $operation = new $type($this, $operations, $onSubmit);
-        if (!$operation instanceof Operation) {
-            throw new \InvalidArgumentException('Operation must be inherited from Grido\Operation.');
+        if (!$operation instanceof Components\Operation) {
+            throw new \InvalidArgumentException('Operation must be inherited from \Grido\Components\Operation.');
         }
         return $operation;
     }
@@ -922,11 +925,11 @@ class Grid extends \Nette\Application\UI\Control
      * @return Export
      * @throws \Exception
      */
-    public function setExporting($name = NULL, $type = 'Grido\Export')
+    public function setExporting($name = NULL, $type = '\Grido\Components\Export')
     {
         $export = new $type($this, $name ? $name : ucfirst($this->name));
-        if (!$export instanceof Export) {
-            throw new \InvalidArgumentException('Export must be inherited from Grido\Export.');
+        if (!$export instanceof Components\Export) {
+            throw new \InvalidArgumentException('Export must be inherited from \Grido\Components\Export.');
         }
 
         return $export;

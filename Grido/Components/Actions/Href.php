@@ -9,13 +9,13 @@
  * the file license.md that was distributed with this source code.
  */
 
-namespace Grido\Actions;
+namespace Grido\Components\Actions;
 
 /**
  * Href action.
  *
  * @package     Grido
- * @subpackage  Actions
+ * @subpackage  Components\Actions
  * @author      Petr Bugyík
  *
  * @property-read \Nette\Utils\Html $elementPrototype

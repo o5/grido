@@ -9,7 +9,7 @@
  * the file license.md that was distributed with this source code.
  */
 
-namespace Grido;
+namespace Grido\Translations;
 
 /**
  * Simple file translator.

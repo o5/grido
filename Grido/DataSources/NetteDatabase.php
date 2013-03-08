@@ -9,7 +9,7 @@
  * the file license.md that was distributed with this source code.
  */
 
-namespace Grido;
+namespace Grido\DataSources;
 
 /**
  * Nette Database data source.

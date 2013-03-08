@@ -9,13 +9,13 @@
  * the file license.md that was distributed with this source code.
  */
 
-namespace Grido\Columns;
+namespace Grido\Components\Columns;
 
 /**
  * Mail column.
  *
  * @package     Grido
- * @subpackage  Columns
+ * @subpackage  Components\Columns
  * @author      Petr Bugyík
  */
 class Mail extends Text

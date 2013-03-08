@@ -9,13 +9,13 @@
  * the file license.md that was distributed with this source code.
  */
 
-namespace Grido\Filters;
+namespace Grido\Components\Filters;
 
 /**
  * Data filtering.
  *
  * @package     Grido
- * @subpackage  Filters
+ * @subpackage  Components\Filters
  * @author      Petr Bugyík
  *
  * @property-read string $columns
@@ -25,15 +25,15 @@ namespace Grido\Filters;
  * @property-write string $formatValue
  * @property-write string $defaultValue
  */
-abstract class Filter extends \Grido\Base
+abstract class Filter extends \Grido\Components\Base
 {
     const ID = 'filters';
 
-    const TYPE_TEXT = 'Grido\Filters\Text';
-    const TYPE_DATE = 'Grido\Filters\Date';
-    const TYPE_CHECK = 'Grido\Filters\Check';
-    const TYPE_SELECT = 'Grido\Filters\Select';
-    const TYPE_NUMBER = 'Grido\Filters\Number';
+    const TYPE_TEXT = 'Grido\Components\Filters\Text';
+    const TYPE_DATE = 'Grido\Components\Filters\Date';
+    const TYPE_CHECK = 'Grido\Components\Filters\Check';
+    const TYPE_SELECT = 'Grido\Components\Filters\Select';
+    const TYPE_NUMBER = 'Grido\Components\Filters\Number';
 
     const OPERATOR_AND  = 'AND';
     const OPERATOR_OR   = 'OR';

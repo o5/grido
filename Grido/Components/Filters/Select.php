@@ -9,13 +9,13 @@
  * the file license.md that was distributed with this source code.
  */
 
-namespace Grido\Filters;
+namespace Grido\Components\Filters;
 
 /**
  * Select box filter.
  *
  * @package     Grido
- * @subpackage  Filters
+ * @subpackage  Components\Filters
  * @author      Petr Bugyík
  */
 class Select extends Filter

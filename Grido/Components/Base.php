@@ -9,7 +9,7 @@
  * the file license.md that was distributed with this source code.
  */
 
-namespace Grido;
+namespace Grido\Components;
 
 /**
  * Base of grid components.
@@ -20,7 +20,7 @@ namespace Grido;
  *
  * @property-read string $label
  * @property-read string $type
- * @property-read Grid $grid
+ * @property-read \Grido\Grid $grid
  * @property-read \Nette\Application\UI\Form $form
  */
 abstract class Base extends \Nette\Application\UI\PresenterComponent
@@ -31,14 +31,14 @@ abstract class Base extends \Nette\Application\UI\PresenterComponent
     /** @var string */
     protected $type;
 
-    /** @var Grid */
+    /** @var \Grido\Grid */
     protected $grid;
 
     /** @var \Nette\Application\UI\Form */
     protected $form;
 
     /**
-     * @return Grid
+     * @return \Grido\Grid
      */
     public function getGrid()
     {
@@ -75,7 +75,7 @@ abstract class Base extends \Nette\Application\UI\PresenterComponent
     }
 
     /**
-     * @param Grid $grid
+     * @param \Grido\Grid $grid
      * @param string $name
      * @return \Nette\ComponentModel\Container
      */

@@ -9,13 +9,13 @@
  * the file license.md that was distributed with this source code.
  */
 
-namespace Grido\Columns;
+namespace Grido\Components\Columns;
 
 /**
  * Href column.
  *
  * @package     Grido
- * @subpackage  Columns
+ * @subpackage  Components\Columns
  * @author      Petr Bugyík
  */
 class Href extends Text

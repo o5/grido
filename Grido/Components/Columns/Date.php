@@ -9,13 +9,13 @@
  * the file license.md that was distributed with this source code.
  */
 
-namespace Grido\Columns;
+namespace Grido\Components\Columns;
 
 /**
  * Text column.
  *
  * @package     Grido
- * @subpackage  Columns
+ * @subpackage  Components\Columns
  * @author      Petr Bugyík
  *
  * @property-write string $dateFormat
@@ -31,7 +31,7 @@ class Date extends Text
 
     /**
      * @param string $format
-     * @return \Grido\Columns\Date
+     * @return Date
      */
     public function setDateFormat($format)
     {

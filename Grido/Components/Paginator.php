@@ -9,19 +9,20 @@
  * the file license.md that was distributed with this source code.
  */
 
-namespace Grido;
+namespace Grido\Components;
 
 /**
  * Paginating grid.
  *
  * @package     Grido
+ * @subpackage  Components
  * @author      Petr Bugyík
  *
  * @property-read int $page
  * @property-read array $steps
  * @property-read int $countEnd
  * @property-read int $countBegin
- * @property-write Grid $grid
+ * @property-write \Grido\Grid $grid
  */
 class Paginator extends \Nette\Utils\Paginator
 {
@@ -37,14 +38,14 @@ class Paginator extends \Nette\Utils\Paginator
     /** @var int */
     protected $countEnd;
 
-    /** @var Grid */
+    /** @var \Grido\Grid */
     protected $grid;
 
     /**
-     * @param Grid $grid
+     * @param \Grido\Grid $grid
      * @return Paginator
      */
-    public function setGrid(Grid $grid)
+    public function setGrid(\Grido\Grid $grid)
     {
         $this->grid = $grid;
         return $this;

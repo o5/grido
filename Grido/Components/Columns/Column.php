@@ -9,15 +9,15 @@
  * the file license.md that was distributed with this source code.
  */
 
-namespace Grido\Columns;
+namespace Grido\Components\Columns;
 
-use Grido\Filters\Filter;
+use Grido\Components\Filters\Filter;
 
 /**
  * Column grid.
  *
  * @package     Grido
- * @subpackage  Columns
+ * @subpackage  Components\Columns
  * @author      Petr Bugyík
  *
  * @property-read string $sort
@@ -29,16 +29,16 @@ use Grido\Filters\Filter;
  * @property-write bool $sortable
  * @property string $column
  */
-abstract class Column extends \Grido\Base
+abstract class Column extends \Grido\Components\Base
 {
     const ID = 'columns';
 
     const VALUE_IDENTIFIER = '%value';
 
-    const TYPE_TEXT = 'Grido\Columns\Text';
-    const TYPE_MAIL = 'Grido\Columns\Mail';
-    const TYPE_HREF = 'Grido\Columns\Href';
-    const TYPE_DATE = 'Grido\Columns\Date';
+    const TYPE_TEXT = 'Grido\Components\Columns\Text';
+    const TYPE_MAIL = 'Grido\Components\Columns\Mail';
+    const TYPE_HREF = 'Grido\Components\Columns\Href';
+    const TYPE_DATE = 'Grido\Components\Columns\Date';
 
     const ASC  = '↑';
     const DESC = '↓';

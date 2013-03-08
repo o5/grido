@@ -1,24 +1,26 @@
 {
-	"name": "o5/grido",
-	"type": "library",
-	"description": "Grido - DataGrid for Nette Framework",
-	"keywords": ["datagrid", "datalist", "tablegrid", "grid", "list", "table", "nette"],
-	"homepage": "http://o5.github.com/grido-sandbox/",
-	"license": ["BSD-3", "GPL-2.0", "GPL-3.0"],
-	"authors": [{
-		"name": "Petr Bugyík",
-		"homepage": "http://petr.bugyik.cz/",
-		"role": "Developer"
-	}],
-	"support": {
+    "name": "o5/grido",
+    "type": "library",
+    "description": "Grido - DataGrid for Nette Framework",
+    "keywords": ["datagrid", "datalist", "tablegrid", "grid", "list", "table", "nette"],
+    "homepage": "http://o5.github.com/grido-sandbox/",
+    "license": ["BSD-3", "GPL-2.0", "GPL-3.0"],
+    "authors": [{
+        "name": "Petr Bugyík",
+        "homepage": "http://petr.bugyik.cz/",
+        "role": "Developer"
+    }],
+    "support": {
         "issues": "https://github.com/o5/grido/issues/",
         "forum": "http://forum.nette.org/cs/13109-grido-datagrid-pro-nette/"
     },
-	"autoload": {
-		"psr-0": { "Grido": "libs/" }
-	},
-	"require": {
-		"php": ">=5.3.1",
-		"nette/nette" : "2.0.*"
-	}
+    "autoload": {
+        "psr-0": {
+            "Grido": ""
+        }
+    },
+    "require": {
+        "php": ">=5.3.1",
+        "nette/nette" : "2.0.*"
+    }
 }

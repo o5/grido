@@ -18,14 +18,14 @@
     <li>{$error}</li>
 </ul>
 
-{var $columnCount = count($control[Grido\Columns\Column::ID]->getComponents())}
+{var $columnCount = count($control[Grido\Components\Columns\Column::ID]->getComponents())}
 {var $columnCount = $control->hasOperations() ? $columnCount + 1 : $columnCount}
 
-{if $control->filterRenderType == Grido\Filters\Filter::RENDER_OUTER}
+{if $control->filterRenderType == Grido\Components\Filters\Filter::RENDER_OUTER}
     <div n:block="outerFilter" class="grido filter outer">
         <div class="items">
             {if $control->hasFilters()}
-                <span n:foreach="$form[Grido\Filters\Filter::ID]->getComponents() as $filter" class="grid-filter-{$filter->name}">
+                <span n:foreach="$form[Grido\Components\Filters\Filter::ID]->getComponents() as $filter" class="grid-filter-{$filter->name}">
                     {$filter->label}
                     {$filter->control}
                 </span>
@@ -45,15 +45,15 @@
 <table n:block="table" id="{$control->name}" class="grido">
     <thead>
         <tr class="head">
-            <th n:if="$control->hasOperations()" class="checker"{if $control->hasFilters()} rowspan="{if $control->filterRenderType == Grido\Filters\Filter::RENDER_OUTER}1{else}2{/if}"{/if}>
+            <th n:if="$control->hasOperations()" class="checker"{if $control->hasFilters()} rowspan="{if $control->filterRenderType == Grido\Components\Filters\Filter::RENDER_OUTER}1{else}2{/if}"{/if}>
                 <input type="checkbox" title="{_'Invert'}">
             </th>
-            {foreach $control[Grido\Columns\Column::ID]->getComponents() as $column}
+            {foreach $control[Grido\Components\Columns\Column::ID]->getComponents() as $column}
                 {!$column->getHeaderPrototype()->startTag()}
                     {if $column->isSortable()}
-                        <a n:if="!$column->getSort()" n:href="sort! [$column->getName() => Grido\Columns\Column::ASC]">{_$column->label}</a>
-                        <a n:if="$column->getSort() == Grido\Columns\Column::ASC" n:href="sort! [$column->getName() => Grido\Columns\Column::DESC]" class="sort">{_$column->label}</a>
-                        <a n:if="$column->getSort() == Grido\Columns\Column::DESC" n:href="sort! []" class="sort">{_$column->label}</a>
+                        <a n:if="!$column->getSort()" n:href="sort! [$column->getName() => Grido\Components\Columns\Column::ASC]">{_$column->label}</a>
+                        <a n:if="$column->getSort() == Grido\Components\Columns\Column::ASC" n:href="sort! [$column->getName() => Grido\Components\Columns\Column::DESC]" class="sort">{_$column->label}</a>
+                        <a n:if="$column->getSort() == Grido\Components\Columns\Column::DESC" n:href="sort! []" class="sort">{_$column->label}</a>
                         <span></span>
                     {else}
                         {_$column->label}
@@ -64,8 +64,8 @@
                 {_'Actions'}
             </th>
         </tr>
-        <tr n:if="$control->filterRenderType == Grido\Filters\Filter::RENDER_INNER && $control->hasFilters()" class="filter inner">
-            {foreach $control[Grido\Columns\Column::ID]->getComponents() as $column}
+        <tr n:if="$control->filterRenderType == Grido\Components\Filters\Filter::RENDER_INNER && $control->hasFilters()" class="filter inner">
+            {foreach $control[Grido\Components\Columns\Column::ID]->getComponents() as $column}
                 {if $column->hasFilter()}
                     {!$control->getFilter($column->getName())->getWrapperPrototype()->startTag()}
                     {formContainer filters}
@@ -89,9 +89,9 @@
         <tr>
             <td colspan="{$columnCount + 1}">
                 <span n:if="$control->hasOperations()" n:block="operations" class="operations"  title="{_'Select some row'}">
-                    {$form[Grido\Operation::ID][Grido\Operation::ID]->control}
-                    {?$form[Grido\Grid::BUTTONS][Grido\Operation::ID]->controlPrototype->class[] = 'hide'}
-                    {$form[Grido\Grid::BUTTONS][Grido\Operation::ID]->control}
+                    {$form[Grido\Components\Operation::ID][Grido\Components\Operation::ID]->control}
+                    {?$form[Grido\Grid::BUTTONS][Grido\Components\Operation::ID]->controlPrototype->class[] = 'hide'}
+                    {$form[Grido\Grid::BUTTONS][Grido\Components\Operation::ID]->control}
                 </span>
 
                 <span n:if="$paginator->steps && $paginator->pageCount > 1" n:block="paginator" class="paginator">
@@ -131,7 +131,7 @@
     <tbody>
         {foreach $data as $row}
             {var $checkbox = $control->hasOperations()
-                ? $form[Grido\Operation::ID][$row[$control[Grido\Operation::ID]->getPrimaryKey()]]
+                ? $form[Grido\Components\Operation::ID][$row[$control[Grido\Components\Operation::ID]->getPrimaryKey()]]
                 : NULL}
             {?$tr = $control->getRowPrototype($row)}
             {?$tr->class[] = $iterator->even ? 'even' : NULL}
@@ -140,14 +140,14 @@
                 <td n:if="$checkbox" class="checker">
                     {$checkbox->getControl()}
                 </td>
-                {foreach $control[Grido\Columns\Column::ID]->getComponents() as $column}
+                {foreach $control[Grido\Components\Columns\Column::ID]->getComponents() as $column}
                     {!$column->getCellPrototype()->startTag()}
                         {!$column->render($row)}
                     {!$column->getCellPrototype()->endTag()}
                 {/foreach}
                 <td class="actions center">
                     {if $control->hasActions()}
-                        {foreach $control[\Grido\Actions\Action::ID]->getComponents() as $action}
+                        {foreach $control[\Grido\Components\Actions\Action::ID]->getComponents() as $action}
                             {control $action $row}
                         {/foreach}
                     {/if}
