@@ -47,4 +47,12 @@ class Date extends Text
     {
         return $value ? date($this->dateFormat, strtotime($value)) : NULL;
     }
+
+    public function renderExport($row)
+    {
+        $value = $this->getValue($row);
+        return $value instanceof \DateTime
+            ? $value->format($this->dateFormat)
+            : $this->formatValue($value);
+    }
 }
