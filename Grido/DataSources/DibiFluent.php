@@ -46,7 +46,7 @@ class DibiFluent extends \Nette\Object implements IDataSource
     public function getCount()
     {
         $fluent = clone $this->fluent;
-        return $fluent->removeClause('SELECT')->select('COUNT(*)')->fetchSingle();
+        return $fluent->removeClause('ORDER BY')->removeClause('SELECT')->select('COUNT(*)')->fetchSingle();
     }
 
     /**
