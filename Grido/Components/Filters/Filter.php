@@ -140,7 +140,7 @@ abstract class Filter extends \Grido\Components\Base
      */
     public function setDefaultValue($value)
     {
-        $this->grid->setDefaultFiltering(array($this->name => $value));
+        $this->grid->setDefaultFilter(array($this->name => $value));
         return $this;
     }
 
