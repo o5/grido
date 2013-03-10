@@ -20,6 +20,7 @@ namespace Grido\Components\Actions;
  *
  * @property-write \Nette\Utils\Html $elementPrototype
  * @property-write array $customRender
+ * @property-write array $disable
  * @property string $primaryKey
  */
 abstract class Action extends \Grido\Components\Base
@@ -30,6 +31,9 @@ abstract class Action extends \Grido\Components\Base
 
     /** @var callback for custom rendering */
     protected $customRender;
+
+    /** @var callback for disabling */
+    protected $disable;
 
     /** @var \Nette\Utils\Html <a> html tag */
     protected $elementPrototype;
@@ -90,6 +94,18 @@ abstract class Action extends \Grido\Components\Base
     public function setElementPrototype(\Nette\Utils\Html $elementPrototype)
     {
         $this->elementPrototype = $elementPrototype;
+        return $this;
+    }
+
+    /**
+     * Sets callback for disable.
+     * Callback should return TRUE if the action is not allowed for current item.
+     * @param callback
+     * @return Action
+     */
+    public function setDisable($callback)
+    {
+        $this->disable = $callback;
         return $this;
     }
 

@@ -92,7 +92,7 @@ class Href extends Action
 
         $pk = $this->getPrimaryKey();
 
-        if (!$item) {
+        if (!$item || ($this->disable && callback($this->disable)->invokeArgs(array($item)))) {
             return;
         } elseif (empty($item->$pk)) {
             throw new \InvalidArgumentException("Primary key '$pk' not found.");
