@@ -23,8 +23,11 @@ use Nette\Utils\Strings,
  *
  * @property-read int $count
  * @property-read array $data
+ * @property-read Doctrine\ORM\QueryBuilder $qb
+ * @property-read array $filterMapping
+ * @property-read array $sortMapping
  */
-class Doctrine extends \Nette\Object implements IDataSource
+class Doctrine extends Base implements IDataSource
 {
     /** @var Doctrine\ORM\QueryBuilder */
     protected $qb;
@@ -105,6 +108,30 @@ class Doctrine extends \Nette\Object implements IDataSource
         }
 
         return $data;
+    }
+
+    /**
+     * @return \Doctrine\ORM\QueryBuilder
+     */
+    public function getQb()
+    {
+        return $this->qb;
+    }
+
+    /**
+     * @return array|NULL
+     */
+    public function getFilterMapping()
+    {
+        return $this->filterMapping;
+    }
+
+    /**
+     * @return array|NULL
+     */
+    public function getSortMapping()
+    {
+        return $this->sortMapping;
     }
 
     /**********************************************************************************************/

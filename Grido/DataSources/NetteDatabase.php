@@ -20,8 +20,9 @@ namespace Grido\DataSources;
  *
  * @property-read int $count
  * @property-read array $data
+ * @property-read \Nette\Database\Table\Selection $selection
  */
-class NetteDatabase extends \Nette\Object implements IDataSource
+class NetteDatabase extends Base implements IDataSource
 {
     /** @var \Nette\Database\Table\Selection */
     protected $selection;
@@ -46,6 +47,14 @@ class NetteDatabase extends \Nette\Object implements IDataSource
      * @return array
      */
     public function getData()
+    {
+        return $this->selection;
+    }
+
+    /**
+     * @return \Nette\Database\Table\Selection
+     */
+    public function getSelection()
     {
         return $this->selection;
     }

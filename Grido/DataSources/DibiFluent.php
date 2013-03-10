@@ -20,8 +20,11 @@ namespace Grido\DataSources;
  *
  * @property-read int $count
  * @property-read array $data
+ * @property-read \DibiFluent $fluent
+ * @property-read int $limit
+ * @property-read int $offset
  */
-class DibiFluent extends \Nette\Object implements IDataSource
+class DibiFluent extends Base implements IDataSource
 {
     /** @var \DibiFluent */
     protected $fluent;
@@ -55,6 +58,30 @@ class DibiFluent extends \Nette\Object implements IDataSource
     public function getData()
     {
         return $this->fluent->fetchAll($this->offset, $this->limit);
+    }
+
+    /**
+     * @return \DibiFluent
+     */
+    public function getFluent()
+    {
+        return $this->fluent;
+    }
+
+    /**
+     * @return int
+     */
+    public function getLimit()
+    {
+        return $this->limit;
+    }
+
+    /**
+     * @return int
+     */
+    public function getOffset()
+    {
+        return $this->offset;
     }
 
     /**********************************************************************************************/

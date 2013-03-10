@@ -275,7 +275,7 @@ class Grid extends \Nette\Application\UI\Control
     public function getCount()
     {
         if ($this->count === NULL) {
-            $this->count = $this->model->count;
+            $this->count = $this->model->call('getCount');
         }
 
         return $this->count;
@@ -398,7 +398,7 @@ class Grid extends \Nette\Application\UI\Control
                 $this->applyPaging();
             }
 
-            $this->data = $this->model->data;
+            $this->data = $this->model->call('getData');
 
             if ($this->onFetchData) {
                 $this->onFetchData($this);
@@ -635,7 +635,7 @@ class Grid extends \Nette\Application\UI\Control
 
         } elseif (method_exists($this->model, 'suggest')) {
             $conditions[] = $filter->makeFilter($query);
-            $items = $this->model->suggest(key($filter->getColumns()), $conditions);
+            $items = $this->model->call('suggest', key($filter->getColumns()), $conditions);
 
         } else {
             throw new \InvalidArgumentException('Set suggest callback or implement method in model.');
@@ -770,7 +770,7 @@ class Grid extends \Nette\Application\UI\Control
     {
         $conditions = $this->_applyFiltering($this->getActualFilter());
         foreach ($conditions as $condition) {
-            $this->model->filter($condition);
+            $this->model->call('filter', $condition);
         }
     }
 
@@ -823,7 +823,7 @@ class Grid extends \Nette\Application\UI\Control
         }
 
         if ($sort) {
-            $this->model->sort($sort);
+            $this->model->call('sort', $sort);
         }
     }
 
@@ -834,7 +834,7 @@ class Grid extends \Nette\Application\UI\Control
             ->setPage($this->page);
 
         $this['form']['count']->setValue($this->getPerPage());
-        $this->model->limit($paginator->getOffset(), $paginator->getLength());
+        $this->model->call('limit', $paginator->getOffset(), $paginator->getLength());
     }
 
     /**
