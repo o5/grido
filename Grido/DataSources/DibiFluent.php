@@ -44,23 +44,6 @@ class DibiFluent extends Base implements IDataSource
     }
 
     /**
-     * @return int
-     */
-    public function getCount()
-    {
-        $fluent = clone $this->fluent;
-        return $fluent->removeClause('ORDER BY')->removeClause('SELECT')->select('COUNT(*)')->fetchSingle();
-    }
-
-    /**
-     * @return array
-     */
-    public function getData()
-    {
-        return $this->fluent->fetchAll($this->offset, $this->limit);
-    }
-
-    /**
      * @return \DibiFluent
      */
     public function getFluent()
@@ -84,36 +67,6 @@ class DibiFluent extends Base implements IDataSource
         return $this->offset;
     }
 
-    /**********************************************************************************************/
-
-    /**
-     * @param array $condition
-     */
-    public function filter(array $condition)
-    {
-        call_user_func_array(array($this->fluent, 'where'), $condition);
-    }
-
-    /**
-     * @param array $sorting
-     */
-    public function sort(array $sorting)
-    {
-        foreach ($sorting as $column => $sort) {
-            $this->fluent->orderBy($column, $sort);
-        }
-    }
-
-    /**
-     * @param int $offset
-     * @param int $limit
-     */
-    public function limit($offset, $limit)
-    {
-        $this->offset = $offset;
-        $this->limit = $limit;
-    }
-
     /**
      * @param string $column
      * @param array $conditions
@@ -128,5 +81,52 @@ class DibiFluent extends Base implements IDataSource
 
         $items = array_keys($fluent->fetchPairs($column, $column));
         return $items;
+    }
+
+    /*********************************** interface IDataSource ************************************/
+
+    /**
+     * @return array
+     */
+    public function getData()
+    {
+        return $this->fluent->fetchAll($this->offset, $this->limit);
+    }
+
+    /**
+     * @return int
+     */
+    public function getCount()
+    {
+        $fluent = clone $this->fluent;
+        return $fluent->removeClause('ORDER BY')->removeClause('SELECT')->select('COUNT(*)')->fetchSingle();
+    }
+
+    /**
+     * @param array $condition
+     */
+    public function filter(array $condition)
+    {
+        call_user_func_array(array($this->fluent, 'where'), $condition);
+    }
+
+    /**
+     * @param int $offset
+     * @param int $limit
+     */
+    public function limit($offset, $limit)
+    {
+        $this->offset = $offset;
+        $this->limit = $limit;
+    }
+
+    /**
+     * @param array $sorting
+     */
+    public function sort(array $sorting)
+    {
+        foreach ($sorting as $column => $sort) {
+            $this->fluent->orderBy($column, $sort);
+        }
     }
 }

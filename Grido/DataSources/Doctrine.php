@@ -41,7 +41,6 @@ class Doctrine extends Base implements IDataSource
     /**
      * If $sortMapping is not set and $filterMapping is set,
      * $filterMapping will be used also as $sortMapping.
-     *
      * @param Doctrine\ORM\QueryBuilder $qb
      * @param array $filterMapping Maps columns to the DQL columns
      * @param array $sortMapping Maps columns to the DQL columns
@@ -66,19 +65,91 @@ class Doctrine extends Base implements IDataSource
     }
 
     /**
-     * @return int
+     * @return \Doctrine\ORM\QueryBuilder
      */
-    public function getCount()
+    public function getQb()
     {
-        $paginator = new Paginator($this->getQuery());
-        return $paginator->count();
+        return $this->qb;
     }
+
+    /**
+     * @return array|NULL
+     */
+    public function getFilterMapping()
+    {
+        return $this->filterMapping;
+    }
+
+    /**
+     * @return array|NULL
+     */
+    public function getSortMapping()
+    {
+        return $this->sortMapping;
+    }
+
+    protected function formatFilterCondition(array $condition)
+    {
+        $matches = Strings::matchAll($condition[0], '/\[([\w_-]+)\]*/');
+        $column = NULL;
+
+        if ($matches) {
+            foreach ($matches as $match) {
+                $column = $match[1];
+                $mapping = isset($this->filterMapping[$column])
+                    ? $this->filterMapping[$column]
+                    : $this->qb->getRootAlias() . '.' . $column;
+
+                $condition[0] = Strings::replace($condition[0], '/' . preg_quote($match[0], '/') . '/', $mapping);
+                $condition[0] = trim(str_replace(array('%s', '%i', '%f'), ':' . $column, $condition[0]));
+            }
+        }
+
+        if (!$column) {
+            $column = count($this->qb->getParameters()) + 1;
+            $condition[0] = trim(str_replace(array('%s', '%i', '%f'), '?' . $column, $condition[0]));
+        }
+
+        return array(
+            $condition[0],
+            isset($condition[1])
+                ? $condition[1]
+                : NULL, $column
+        );
+    }
+
+    /**
+     * @param string $column
+     * @param array $conditions
+     * @return array
+     */
+    public function suggest($column, array $conditions)
+    {
+        $qb = clone $this->qb;
+
+        foreach ($conditions as $condition) {
+            $condition = $this->formatFilterCondition($condition);
+            $qb->andWhere($condition[0]);
+
+            if ($condition[1]) {
+                $qb->setParameter($condition[2], $condition[1]);
+            }
+        }
+
+        $suggestions = array();
+        foreach ($qb->getQuery()->getResult() as $row) {
+            $suggestions[] = $row->$column;
+        }
+
+        return $suggestions;
+    }
+
+    /*********************************** interface IDataSource ************************************/
 
     /**
      * It is possible to use query builder with additional columns.
      * In this case, only item at index [0] is returned, because
      * it should be an entity object.
-     *
      * @return array
      */
     public function getData()
@@ -111,34 +182,16 @@ class Doctrine extends Base implements IDataSource
     }
 
     /**
-     * @return \Doctrine\ORM\QueryBuilder
+     * @return int
      */
-    public function getQb()
+    public function getCount()
     {
-        return $this->qb;
+        $paginator = new Paginator($this->getQuery());
+        return $paginator->count();
     }
-
-    /**
-     * @return array|NULL
-     */
-    public function getFilterMapping()
-    {
-        return $this->filterMapping;
-    }
-
-    /**
-     * @return array|NULL
-     */
-    public function getSortMapping()
-    {
-        return $this->sortMapping;
-    }
-
-    /**********************************************************************************************/
 
     /**
      * Set filter.
-     *
      * @param array $condition
      */
     public function filter(array $condition)
@@ -152,8 +205,18 @@ class Doctrine extends Base implements IDataSource
     }
 
     /**
+     * Set offset and limit.
+     * @param int $offset
+     * @param int $limit
+     */
+    public function limit($offset, $limit)
+    {
+        $this->qb->setFirstResult($offset)
+            ->setMaxResults($limit);
+    }
+
+    /**
      * Set sorting.
-     *
      * @param array $sorting
      */
     public function sort(array $sorting)
@@ -165,73 +228,5 @@ class Doctrine extends Base implements IDataSource
 
             $this->qb->addOrderBy($column, $value);
         }
-    }
-
-    /**
-     * Set offset and limit.
-     *
-     * @param int $offset
-     * @param int $limit
-     */
-    public function limit($offset, $limit)
-    {
-        $this->qb->setFirstResult($offset)
-            ->setMaxResults($limit);
-    }
-
-    /**
-     * @param string $column
-     * @param array $conditions
-     * @return array
-     */
-    public function suggest($column, array $conditions)
-    {
-        $qb = clone $this->qb;
-
-        foreach ($conditions as $condition) {
-            $condition = $this->formatFilterCondition($condition);
-            $qb->andWhere($condition[0]);
-
-            if ($condition[1]) {
-                $qb->setParameter($condition[2], $condition[1]);
-            }
-        }
-
-        $suggestions = array();
-        foreach ($qb->getQuery()->getResult() as $row) {
-            $suggestions[] = $row->$column;
-        }
-
-        return $suggestions;
-    }
-
-    private function formatFilterCondition(array $condition)
-    {
-        $matches = Strings::matchAll($condition[0], '/\[([\w_-]+)\]*/');
-        $column = NULL;
-
-        if ($matches) {
-            foreach ($matches as $match) {
-                $column = $match[1];
-                $mapping = isset($this->filterMapping[$column])
-                    ? $this->filterMapping[$column]
-                    : $this->qb->getRootAlias() . '.' . $column;
-
-                $condition[0] = Strings::replace($condition[0], '/' . preg_quote($match[0], '/') . '/', $mapping);
-                $condition[0] = trim(str_replace(array('%s', '%i', '%f'), ':' . $column, $condition[0]));
-            }
-        }
-
-        if (!$column) {
-            $column = count($this->qb->getParameters()) + 1;
-            $condition[0] = trim(str_replace(array('%s', '%i', '%f'), '?' . $column, $condition[0]));
-        }
-
-        return array(
-            $condition[0],
-            isset($condition[1])
-                ? $condition[1]
-                : NULL, $column
-        );
     }
 }

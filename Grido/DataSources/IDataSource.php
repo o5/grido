@@ -21,6 +21,16 @@ namespace Grido\DataSources;
 interface IDataSource
 {
     /**
+     * @return array
+     */
+    function getData();
+
+    /**
+     * @return int
+     */
+    function getCount();
+
+    /**
      * @param array $condition
      * @return void
      */
@@ -38,14 +48,4 @@ interface IDataSource
      * @return void
      */
     function sort(array $sorting);
-
-    /**
-     * @return array
-     */
-    function getData();
-
-    /**
-     * @return int
-     */
-    function getCount();
 }
