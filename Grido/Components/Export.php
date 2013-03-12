@@ -40,13 +40,12 @@ class Export extends Base implements \Nette\Application\IResponse
         $grid->addComponent($this, self::ID);
     }
 
-    /**********************************************************************************************/
-
     protected function getResponse()
     {
-        $data = $this->grid->getData(FALSE);
-        $columns = $this->grid[\Grido\Components\Columns\Column::ID]->getComponents();
-        $source = $this->generateCsv($data, $columns);
+        $source = $this->generateCsv(
+            $this->grid->getData(FALSE),
+            $this->grid[\Grido\Components\Columns\Column::ID]->getComponents()
+        );
 
         $charset = 'UTF-16LE';
         $source = mb_convert_encoding($source, $charset, 'UTF-8');
@@ -90,6 +89,8 @@ class Export extends Base implements \Nette\Application\IResponse
         return $source;
     }
 
+    /*************************** interface \Nette\Application\IResponse ***************************/
+
     /**
      * Sends response to output.
      * @return void
@@ -97,6 +98,5 @@ class Export extends Base implements \Nette\Application\IResponse
     public function send(\Nette\Http\IRequest $httpRequest, \Nette\Http\IResponse $httpResponse)
     {
         print $this->getResponse();
-        $this->grid->presenter->terminate();
     }
 }

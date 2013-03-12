@@ -46,6 +46,8 @@ class FileTranslator extends \Nette\Object implements \Nette\Localization\ITrans
         $this->dictionary = $dict;
     }
 
+    /************************* interface \Nette\Localization\ITranslator **************************/
+
     /**
      * @param string $message
      * @param int $count plural

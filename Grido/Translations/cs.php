@@ -23,7 +23,7 @@ $dict = array(
     'Selected...' => 'Vybrané...',
     'Enter page:' => 'Vložte stranu:',
     'No results.' => 'Žádné výsledky.',
-    'Export' => 'Export',
+    'Export all items' => 'Exportovat všechny položky',
 );
 
 function pluralIndex($number)

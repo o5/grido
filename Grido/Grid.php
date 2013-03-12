@@ -119,7 +119,7 @@ class Grid extends \Nette\Application\UI\Control
         }
 
         if (!$model instanceof DataSources\IDataSource) {
-            throw new \InvalidArgumentException('Filter must be implemented DataSources\IDataSource.');
+            throw new \InvalidArgumentException('Filter must be implemented \Grido\DataSources\IDataSource.');
         }
 
         $this->model = $model;
@@ -653,6 +653,7 @@ class Grid extends \Nette\Application\UI\Control
     {
         if ($export = $this->getComponent(Export::ID, FALSE)) {
             $this->presenter->sendResponse($export);
+            $this->presenter->terminate();
         } else {
             trigger_error("Exporting is not allowed.", E_USER_NOTICE);
         }
@@ -865,7 +866,7 @@ class Grid extends \Nette\Application\UI\Control
     {
         $column = new $type($this, $name, $label);
         if (!$column instanceof Column) {
-            throw new \InvalidArgumentException('Column must be inherited from Grido\Components\Columns\Column.');
+            throw new \InvalidArgumentException('Column must be inherited from \Grido\Components\Columns\Column.');
         }
         return $column;
     }
@@ -881,7 +882,7 @@ class Grid extends \Nette\Application\UI\Control
     {
         $filter = new $type($this, $name, $label, $optional);
         if (!$filter instanceof Filter) {
-            throw new \InvalidArgumentException('Filter must be inherited from Grido\Components\Filters\Filter.');
+            throw new \InvalidArgumentException('Filter must be inherited from \Grido\Components\Filters\Filter.');
         }
         return $filter;
     }
@@ -898,7 +899,7 @@ class Grid extends \Nette\Application\UI\Control
     {
         $action = new $type($this, $name, $label, $destination, $args);
         if (!$action instanceof Action) {
-            throw new \InvalidArgumentException('Action must be inherited from Grido\Components\Actions\Action.');
+            throw new \InvalidArgumentException('Action must be inherited from \Grido\Components\Actions\Action.');
         }
         return $action;
     }
