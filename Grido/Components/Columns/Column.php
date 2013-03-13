@@ -111,7 +111,7 @@ abstract class Column extends \Grido\Components\Base
     }
 
     /**
-     * @param string $column
+     * @param mixed $column
      * @return Column
      */
     public function setColumn($column)
@@ -192,7 +192,7 @@ abstract class Column extends \Grido\Components\Base
 
     /**
      * @internal
-     * @return string
+     * @return mixed
      */
     public function getColumn()
     {
@@ -271,7 +271,13 @@ abstract class Column extends \Grido\Components\Base
     protected function getValue($row)
     {
         $column = $this->getColumn();
-        return $row->$column;
+        if (is_string($column)) {
+            return $row->$column;
+        } elseif (is_callable($column)) {
+            return callback($column)->invokeArgs(array($row));
+        } else {
+            throw new \Nette\InvalidArgumentException('Column must be string or callback.');
+        }
     }
 
     protected function applyReplacement($value)
