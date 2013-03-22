@@ -124,9 +124,9 @@ abstract class Column extends \Grido\Components\Base
      * @param string $sorting
      * @return Column
      */
-    public function setDefaultSorting($sorting)
+    public function setDefaultSort($sorting)
     {
-        $this->grid->setDefaultSorting(array($this->getName() => strtolower($sorting)));
+        $this->grid->setDefaultSort(array($this->getName() => $sorting));
         return $this;
     }
 
