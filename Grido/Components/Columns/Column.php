@@ -121,15 +121,14 @@ abstract class Column extends \Grido\Components\Base
     }
 
     /**
-     * @param string $sorting
+     * @param string $dir
      * @return Column
      */
-    public function setDefaultSorting($sorting)
+    public function setDefaultSort($dir)
     {
-        $this->grid->setDefaultSorting(array($this->getName() => strtolower($sorting)));
+        $this->grid->setDefaultSort(array($this->name => $dir));
         return $this;
     }
-
 
     /**
      * @param callback $callback array|closure

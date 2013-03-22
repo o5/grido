@@ -164,8 +164,10 @@ class Grid extends \Nette\Application\UI\Control
      */
     public function setDefaultSort(array $sort)
     {
+        static $replace = array('asc' => Column::ASC, 'desc' => Column::DESC);
+
         foreach ($sort as $column => $dir) {
-            $this->defaultSort[$column] = $dir;
+            $this->defaultSort[$column] = strtr(strtolower($dir), $replace);
         }
 
         return $this;
