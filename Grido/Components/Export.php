@@ -40,26 +40,6 @@ class Export extends Base implements \Nette\Application\IResponse
         $grid->addComponent($this, self::ID);
     }
 
-    protected function getResponse()
-    {
-        $source = $this->generateCsv(
-            $this->grid->getData(FALSE),
-            $this->grid[\Grido\Components\Columns\Column::ID]->getComponents()
-        );
-
-        $charset = 'UTF-16LE';
-        $source = mb_convert_encoding($source, $charset, 'UTF-8');
-        $source = "\xFF\xFE" . $source; //add BOM
-
-        $response = $this->grid->presenter->context->getByType('Nette\Http\IResponse', 'UTF-8');
-        $response->setHeader('Content-Encoding', $charset);
-        $response->setHeader('Content-Length', strlen($source));
-        $response->setHeader('Content-Type', "text/csv; charset=$charset");
-        $response->setHeader('Content-Disposition', "attachment; filename=\"{$this->name}.csv\"");
-
-        return $source;
-    }
-
     protected function generateCsv($data, $columns)
     {
         $newLine = "\n";
@@ -97,6 +77,20 @@ class Export extends Base implements \Nette\Application\IResponse
      */
     public function send(\Nette\Http\IRequest $httpRequest, \Nette\Http\IResponse $httpResponse)
     {
-        print $this->getResponse();
+        $data = $this->grid->getData(FALSE);
+        $columns = $this->grid[\Grido\Components\Columns\Column::ID]->getComponents();
+        $source = $this->generateCsv($data, $columns);
+
+        $charset = 'UTF-16LE';
+        $source = mb_convert_encoding($source, $charset, 'UTF-8');
+        $source = "\xFF\xFE" . $source; //add BOM
+
+        $response = $this->grid->presenter->context->getByType('Nette\Http\IResponse', 'UTF-8');
+        $response->setHeader('Content-Encoding', $charset);
+        $response->setHeader('Content-Length', strlen($source));
+        $response->setHeader('Content-Type', "text/csv; charset=$charset");
+        $response->setHeader('Content-Disposition', "attachment; filename=\"{$this->name}.csv\"");
+
+        print $source;
     }
 }
