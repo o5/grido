@@ -85,11 +85,10 @@ class Export extends Base implements \Nette\Application\IResponse
         $source = mb_convert_encoding($source, $charset, 'UTF-8');
         $source = "\xFF\xFE" . $source; //add BOM
 
-        $response = $this->grid->presenter->context->getByType('Nette\Http\IResponse', 'UTF-8');
-        $response->setHeader('Content-Encoding', $charset);
-        $response->setHeader('Content-Length', strlen($source));
-        $response->setHeader('Content-Type', "text/csv; charset=$charset");
-        $response->setHeader('Content-Disposition', "attachment; filename=\"{$this->name}.csv\"");
+        $httpResponse->setHeader('Content-Encoding', $charset);
+        $httpResponse->setHeader('Content-Length', strlen($source));
+        $httpResponse->setHeader('Content-Type', "text/csv; charset=$charset");
+        $httpResponse->setHeader('Content-Disposition', "attachment; filename=\"{$this->name}.csv\"");
 
         print $source;
     }
