@@ -105,7 +105,7 @@ class Grid extends \Nette\Application\UI\Control
     protected $hasFilters, $hasActions, $hasOperations, $hasExporting;
 
     /**
-     * Sets a model that implements the interface Grido\IDataSource
+     * Sets a model that implements the interface Grido\DataSources\IDataSource
      * or data-source object DibiFluent, Nette\Database\Table\Selection.
      * @param mixed $model
      * @return Grid
