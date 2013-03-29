@@ -234,7 +234,7 @@ abstract class Column extends \Grido\Components\Base
      */
     public function hasFilter()
     {
-        return $this->getForm()->getComponent(Filter::ID)->getComponent($this->name, FALSE);
+        return $this->grid->hasFilters() && $this->grid[Filter::ID]->getComponent($this->name, FALSE);
     }
 
     /**********************************************************************************************/

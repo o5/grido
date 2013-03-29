@@ -20,6 +20,7 @@
 
 {var $columnCount = count($control[Grido\Components\Columns\Column::ID]->getComponents())}
 {var $columnCount = $control->hasOperations() ? $columnCount + 1 : $columnCount}
+{var $showActionsColumn = $control->filterRenderType == Grido\Components\Filters\Filter::RENDER_INNER || $control->hasActions()}
 
 {if $control->filterRenderType == Grido\Components\Filters\Filter::RENDER_OUTER}
     <div n:block="outerFilter" class="grido filter outer">
@@ -60,11 +61,11 @@
                     {/if}
                 {!$column->getHeaderPrototype()->endTag()}
             {/foreach}
-            <th class="actions center">
+            <th n:if="$showActionsColumn" class="actions center">
                 {_'Actions'}
             </th>
         </tr>
-        <tr n:if="$control->filterRenderType == Grido\Components\Filters\Filter::RENDER_INNER && $control->hasFilters()" class="filter inner">
+        <tr n:if="$control->filterRenderType == Grido\Components\Filters\Filter::RENDER_INNER" class="filter inner">
             {foreach $control[Grido\Components\Columns\Column::ID]->getComponents() as $column}
                 {if $column->hasFilter()}
                     {!$control->getFilter($column->getName())->getWrapperPrototype()->startTag()}
@@ -77,7 +78,7 @@
                 {/if}
             {/foreach}
 
-            <th class="buttons">
+            <th n:if="$control->hasFilters()" class="buttons">
                 {formContainer buttons}
                     {input search}
                     {input reset}
@@ -87,7 +88,7 @@
     </thead>
     <tfoot>
         <tr>
-            <td colspan="{$columnCount + 1}">
+            <td colspan="{=$showActionsColumn ? $columnCount + 1 : $columnCount}">
                 <span n:if="$control->hasOperations()" n:block="operations" class="operations"  title="{_'Select some row'}">
                     {$form[Grido\Components\Operation::ID][Grido\Components\Operation::ID]->control}
                     {?$form[Grido\Grid::BUTTONS][Grido\Components\Operation::ID]->controlPrototype->class[] = 'hide'}
@@ -145,16 +146,14 @@
                         {!$column->render($row)}
                     {!$column->getCellPrototype()->endTag()}
                 {/foreach}
-                <td class="actions center">
-                    {if $control->hasActions()}
-                        {foreach $control[\Grido\Components\Actions\Action::ID]->getComponents() as $action}
-                            {control $action $row}
-                        {/foreach}
-                    {/if}
+                <td n:if="$control->hasActions()" class="actions center">
+                    {foreach $control[\Grido\Components\Actions\Action::ID]->getComponents() as $action}
+                        {control $action $row}
+                    {/foreach}
                 </td>
             {!$tr->endTag()}
         {/foreach}
-        <tr n:if="!$data"><td colspan="{$columnCount + 1}" class="no-results">{_'No results.'}</td></tr>
+        <tr n:if="!$data"><td colspan="{=$showActionsColumn ? $columnCount + 1 : $columnCount}" class="no-results">{_'No results.'}</td></tr>
     </tbody>
 </table>
 {/form}
