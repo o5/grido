@@ -37,7 +37,7 @@ use Grido\Components\Columns\Column,
  * @property Paginator $paginator
  * @property string $primaryKey
  * @property string $filterRenderType
- * @property \Grido\DataSources\IDataSource $model
+ * @property DataSources\IDataSource $model
  */
 class Grid extends \Nette\Application\UI\Control
 {
@@ -106,7 +106,7 @@ class Grid extends \Nette\Application\UI\Control
 
     /**
      * Sets a model that implements the interface Grido\IDataSource
-     * or data-source object DibiFluent, Nette\Database\Table\Selection
+     * or data-source object DibiFluent, Nette\Database\Table\Selection.
      * @param mixed $model
      * @return Grid
      */
@@ -116,9 +116,7 @@ class Grid extends \Nette\Application\UI\Control
             $model = new DataSources\DibiFluent($model);
         } elseif ($model instanceof \Nette\Database\Table\Selection) {
             $model = new DataSources\NetteDatabase($model);
-        }
-
-        if (!$model instanceof DataSources\IDataSource) {
+        } elseif (!$model instanceof DataSources\IDataSource) {
             throw new \InvalidArgumentException('Filter must be implemented \Grido\DataSources\IDataSource.');
         }
 
@@ -951,6 +949,7 @@ class Grid extends \Nette\Application\UI\Control
         $form->addSelect('count', 'Count', array_combine($this->perPageList, $this->perPageList))
             ->controlPrototype->attrs['title'] = $this->getTranslator()->translate('Items per page');
         $form->onSuccess[] = callback($this, 'handleForm');
+
         return $form;
     }
 }
