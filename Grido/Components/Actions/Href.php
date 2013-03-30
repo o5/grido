@@ -20,6 +20,7 @@ namespace Grido\Components\Actions;
  *
  * @property-read \Nette\Utils\Html $elementPrototype
  * @property-write array $customHref
+ * @property-write string|callback $confirm
  * @property string $icon
  */
 class Href extends Action
@@ -29,6 +30,9 @@ class Href extends Action
 
     /** @var string */
     protected $icon;
+
+    /** @var string|callback */
+    protected $confirm;
 
     /**
      * Sets callback for custom link creating.
@@ -54,12 +58,12 @@ class Href extends Action
 
     /**
      * Sets client side confirm.
-     * @param string $msg
+     * @param string|callback $confirm
      * @return Href
      */
-    public function setConfirm($msg)
+    public function setConfirm($confirm)
     {
-        $this->getElementPrototype()->attrs['data-grido-confirm'] = $this->translate($msg);
+        $this->confirm = $confirm;
         return $this;
     }
 
@@ -111,6 +115,14 @@ class Href extends Action
         $el = $this->getElementPrototype()
             ->href($href)
             ->setText($text);
+
+        if ($this->confirm) {
+            $el->attrs['data-grido-confirm'] = $this->translate(
+                is_callable($this->confirm)
+                    ? callback($this->confirm)->invokeArgs(array($item))
+                    : $this->confirm
+            );
+        }
 
         if ($this->icon) {
             $el->insert(0,\Nette\Utils\Html::el('i')->setClass(array("icon-$this->icon")));
