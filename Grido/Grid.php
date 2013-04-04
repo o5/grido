@@ -117,7 +117,7 @@ class Grid extends \Nette\Application\UI\Control
         } elseif ($model instanceof \Nette\Database\Table\Selection) {
             $model = new DataSources\NetteDatabase($model);
         } elseif (!$model instanceof DataSources\IDataSource) {
-            throw new \InvalidArgumentException('Filter must be implemented \Grido\DataSources\IDataSource.');
+            throw new \InvalidArgumentException('Model must be implemented \Grido\DataSources\IDataSource.');
         }
 
         $this->model = $model;
