@@ -16,7 +16,8 @@ use Grido\Components\Columns\Column,
     Grido\Components\Actions\Action,
     Grido\Components\Operation,
     Grido\Components\Export,
-    Grido\Components\Paginator;
+    Grido\Components\Paginator,
+    Grido\Rendering\DefaultRenderer;
 
 /**
  * Grido - DataGrid for Nette Framework.
@@ -29,7 +30,6 @@ use Grido\Components\Columns\Column,
  * @property-read callback $rowCallback
  * @property-write bool $rememberState
  * @property-write array $defaultPerPage
- * @property-write string $templateFile
  * @property array $defaultFilter
  * @property array $defaultSort
  * @property array $perPageList
@@ -104,6 +104,9 @@ class Grid extends \Nette\Application\UI\Control
 
     /** @var PropertyAccessors\IPropertyAccessor */
     protected $propertyAccessor;
+
+    /** @var IGridoRenderer */
+    protected $renderer;
 
     /** @var bool cache */
     protected $hasFilters, $hasActions, $hasOperations, $hasExporting;
@@ -248,13 +251,13 @@ class Grid extends \Nette\Application\UI\Control
     }
 
     /**
-     * Sets file name of custom template.
+     * Sets grid renderer.
      * @param string $file
      * @return Grid
      */
-    public function setTemplateFile($file)
+    public function setRenderer(IGridRenderer $renderer)
     {
-        $this->getTemplate()->setFile($file);
+        $this->renderer = $renderer;
         return $this;
     }
 
@@ -491,6 +494,18 @@ class Grid extends \Nette\Application\UI\Control
             $this->propertyAccessor = new PropertyAccessors\ArrayObjectAccessor;
         }
         return $this->propertyAccessor;
+    }
+
+    /**
+     * @internal
+     * @return IGridoRenderer
+     */
+    public function getRenderer()
+    {
+        if ($this->renderer === NULL) {
+            $this->renderer = new DefaultRenderer;
+        }
+        return $this->renderer;
     }
 
     /**
@@ -761,31 +776,15 @@ class Grid extends \Nette\Application\UI\Control
 
     /**
      * @internal
-     * @param string $class
-     * @return \Nette\Templating\FileTemplate
-     */
-    public function createTemplate($class = NULL)
-    {
-        $template = parent::createTemplate($class);
-        $template->setFile(__DIR__ . '/Grid.latte');
-        $template->registerHelper('translate', callback($this->getTranslator(), 'translate'));
-        return $template;
-    }
-
-    /**
-     * @internal
      */
     public function render()
     {
         $data = $this->getData();
         $this->addCheckers($data);
 
-        $this->template->paginator = $this->paginator;
-        $this->template->data = $data;
-
         $this->onRender($this);
         $this->saveRememberState();
-        $this->template->render();
+        $this->getRenderer()->render($this);
     }
 
     protected function saveRememberState()
