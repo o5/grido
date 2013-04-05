@@ -98,14 +98,14 @@ class Href extends Action
 
         if (!$item || ($this->disable && callback($this->disable)->invokeArgs(array($item)))) {
             return;
-        } elseif (empty($item->$pk)) {
+        } elseif (!$this->getGrid()->getPropertyAccessor()->hasProperty($item, $pk)) {
             throw new \InvalidArgumentException("Primary key '$pk' not found.");
         }
 
         if ($this->customHref) {
             $href = callback($this->customHref)->invokeArgs(array($item));
         } else {
-            $this->arguments[$pk] = $item->$pk;
+            $this->arguments[$pk] = $this->getGrid()->getPropertyAccessor()->getProperty($item, $pk);
             $href = $this->presenter->link($this->getDestination(), $this->arguments);
         }
 
