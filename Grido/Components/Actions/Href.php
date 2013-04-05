@@ -84,37 +84,26 @@ class Href extends Action
     }
 
     /**
-     * @param mixed $item
-     * @return void
+     * Return element.
+     * @param $item
+     * @return \Nette\Utils\Html
      */
-    public function render($item)
+    public function getElement($item)
     {
-        if ($this->customRender) {
-            echo callback($this->customRender)->invokeArgs(array($item));
-            return;
-        }
-
         $pk = $this->getPrimaryKey();
 
-        if (!$item || ($this->disable && callback($this->disable)->invokeArgs(array($item)))) {
-            return;
-        } elseif (empty($item->$pk)) {
-            throw new \InvalidArgumentException("Primary key '$pk' not found.");
-        }
+        $text = $this->translate($this->label);
+        $this->icon ? $text = ' ' . $text : $text;
+
+        $el = clone $this->getElementPrototype();
+        $el->setText($text);
 
         if ($this->customHref) {
-            $href = callback($this->customHref)->invokeArgs(array($item));
-        } else {
-            $this->arguments[$pk] = $item->$pk;
-            $href = $this->presenter->link($this->getDestination(), $this->arguments);
+            $el->href(callback($this->customHref)->invokeArgs(array($item)));
+        } else if ($this->getGrid()->getPropertyAccessor()->hasProperty($item, $pk)) {
+            $this->arguments[$pk] = $this->getGrid()->getPropertyAccessor()->getProperty($item, $pk);
+            $el->href($this->presenter->link($this->getDestination(), $this->arguments));
         }
-
-        $text = $this->translate($this->label);
-        $this->icon ? $text = ' '.$text : $text;
-
-        $el = $this->getElementPrototype()
-            ->href($href)
-            ->setText($text);
 
         if ($this->confirm) {
             $el->attrs['data-grido-confirm'] = $this->translate(
@@ -125,7 +114,27 @@ class Href extends Action
         }
 
         if ($this->icon) {
-            $el->insert(0,\Nette\Utils\Html::el('i')->setClass(array("icon-$this->icon")));
+            $el->insert(0, \Nette\Utils\Html::el('i')->setClass(array("icon-$this->icon")));
+        }
+
+        return $el;
+    }
+
+    /**
+     * @param mixed $item
+     * @return void
+     */
+    public function render($item)
+    {
+        if ($this->disable && callback($this->disable)->invokeArgs(array($item))) {
+            return;
+        }
+
+        $el = $this->getElement($item);
+
+        if ($this->customRender) {
+            echo callback($this->customRender)->invokeArgs(array($item, $el));
+            return;
         }
 
         echo $el->render();

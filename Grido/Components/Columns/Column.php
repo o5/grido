@@ -271,7 +271,7 @@ abstract class Column extends \Grido\Components\Base
     {
         $column = $this->getColumn();
         if (is_string($column)) {
-            return $row->$column;
+            return $this->getGrid()->getPropertyAccessor()->getProperty($row, $column);
         } elseif (is_callable($column)) {
             return callback($column)->invokeArgs(array($row));
         } else {
