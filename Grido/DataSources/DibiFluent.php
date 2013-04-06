@@ -99,7 +99,7 @@ class DibiFluent extends Base implements IDataSource
     public function getCount()
     {
         $fluent = clone $this->fluent;
-        return $fluent->removeClause('ORDER BY')->removeClause('SELECT')->select('COUNT(*)')->fetchSingle();
+        return $fluent->count();
     }
 
     /**
