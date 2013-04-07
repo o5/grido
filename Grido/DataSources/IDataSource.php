@@ -48,4 +48,10 @@ interface IDataSource
      * @return void
      */
     function sort(array $sorting);
+
+    /**
+     * @see \Grido\DataSources\Base::call()
+     * @param string $method
+     */
+    function call($method);
 }
