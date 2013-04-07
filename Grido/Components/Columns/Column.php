@@ -267,6 +267,11 @@ abstract class Column extends \Grido\Components\Base
         return strip_tags($this->applyReplacement($value));
     }
 
+    /**
+     * @param mixed $row
+     * @throws \InvalidArgumentException
+     * @return mixed
+     */
     protected function getValue($row)
     {
         $column = $this->getColumn();
@@ -275,7 +280,7 @@ abstract class Column extends \Grido\Components\Base
         } elseif (is_callable($column)) {
             return callback($column)->invokeArgs(array($row));
         } else {
-            throw new \Nette\InvalidArgumentException('Column must be string or callback.');
+            throw new \InvalidArgumentException('Column must be string or callback.');
         }
     }
 

@@ -108,6 +108,7 @@ class Grid extends \Nette\Application\UI\Control
      * Sets a model that implements the interface Grido\DataSources\IDataSource
      * or data-source object DibiFluent, Nette\Database\Table\Selection.
      * @param mixed $model
+     * @throws \InvalidArgumentException
      * @return Grid
      */
     public function setModel($model)
@@ -195,10 +196,10 @@ class Grid extends \Nette\Application\UI\Control
 
     /**
      * Sets type of filter rendering.
-     * Defaults inner (Filter::RENDER_INNER) if column doesn't exist then outer filter (Filter::RENDER_OUTER).
+     * Defaults inner (Filter::RENDER_INNER) if column does not exist then outer filter (Filter::RENDER_OUTER).
      * @param string $type
+     * @throws \InvalidArgumentException
      * @return Grid
-     * @throws \Exception
      */
     public function setFilterRenderType($type)
     {
@@ -382,6 +383,7 @@ class Grid extends \Nette\Application\UI\Control
 
     /**
      * Returns fetched data.
+     * @throws \Exception
      * @return array
      */
     public function getData($applyPaging = TRUE)
@@ -862,6 +864,7 @@ class Grid extends \Nette\Application\UI\Control
      * @param string $name
      * @param string $label
      * @param string $type starting constants with Column::TYPE_
+     * @throws \InvalidArgumentException
      * @return Column
      */
     public function addColumn($name, $label, $type = Column::TYPE_TEXT)
@@ -878,6 +881,7 @@ class Grid extends \Nette\Application\UI\Control
      * @param string $label
      * @param string $type starting constants with Filter::TYPE_
      * @param mixed $optional if type is select, then this it items for select
+     * @throws \InvalidArgumentException
      * @return Filter
      */
     public function addFilter($name, $label, $type = Filter::TYPE_TEXT, $optional = NULL)
@@ -895,6 +899,7 @@ class Grid extends \Nette\Application\UI\Control
      * @param string $type starting constants with Action::TYPE_
      * @param string $destination - first param for method $presenter->link()
      * @param array $args - second param for method $presenter->link()
+     * @throws \InvalidArgumentException
      * @return Action
      */
     public function addAction($name, $label, $type = Action::TYPE_HREF, $destination = NULL, $args = array())
@@ -910,6 +915,7 @@ class Grid extends \Nette\Application\UI\Control
      * @param array $operations
      * @param callback $onSubmit - callback after operation submit
      * @param string $type operation class
+     * @throws \InvalidArgumentException
      * @return Operation
      */
     public function setOperations($operations, $onSubmit, $type = '\Grido\Components\Operation')
@@ -924,8 +930,8 @@ class Grid extends \Nette\Application\UI\Control
     /**
      * @param string $name of exporting file
      * @param string $type export class
+     * @throws \InvalidArgumentException
      * @return Export
-     * @throws \Exception
      */
     public function setExporting($name = NULL, $type = '\Grido\Components\Export')
     {

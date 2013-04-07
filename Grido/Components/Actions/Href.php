@@ -85,6 +85,7 @@ class Href extends Action
 
     /**
      * @param mixed $item
+     * @throws \InvalidArgumentException
      * @return void
      */
     public function render($item)

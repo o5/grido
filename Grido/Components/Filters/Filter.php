@@ -105,8 +105,8 @@ abstract class Filter extends \Grido\Components\Base
      * Sets custom sql condition.
      * @param $condition
      * @param mixed $custom
-     * @return Filter
      * @throws \InvalidArgumentException
+     * @return Filter
      */
     public function setCondition($condition, $custom = NULL)
     {
