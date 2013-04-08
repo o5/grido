@@ -429,7 +429,7 @@ class Grid extends \Nette\Application\UI\Control
      */
     public function getRememberSession()
     {
-        return $this->presenter->getSession($this->name);
+        return $this->presenter->getSession($this->presenter->name . '\\' . ucfirst($this->name));
     }
 
     /**
