@@ -39,6 +39,7 @@ abstract class Column extends \Grido\Components\Base
     const TYPE_MAIL = 'Grido\Components\Columns\Mail';
     const TYPE_HREF = 'Grido\Components\Columns\Href';
     const TYPE_DATE = 'Grido\Components\Columns\Date';
+    const TYPE_BOOLEAN = 'Grido\Components\Columns\Boolean';
 
     const ASC  = '↑';
     const DESC = '↓';
