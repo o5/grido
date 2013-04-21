@@ -137,8 +137,8 @@ class Doctrine extends Base implements IDataSource
         }
 
         $suggestions = array();
-        foreach ($qb->getQuery()->getResult() as $row) {
-            $suggestions[] = $row->$column;
+        foreach ($qb->getQuery()->getScalarResult() as $row) {
+            $suggestions[] = $row[$qb->getRootAlias() . '_' . $column];
         }
 
         return $suggestions;
