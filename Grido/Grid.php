@@ -38,6 +38,7 @@ use Grido\Components\Columns\Column,
  * @property string $primaryKey
  * @property string $filterRenderType
  * @property DataSources\IDataSource $model
+ * @property PropertyAccessors\IPropertyAccessor $propertyAccessor
  */
 class Grid extends \Nette\Application\UI\Control
 {
@@ -101,6 +102,9 @@ class Grid extends \Nette\Application\UI\Control
     /** @var \Nette\Localization\ITranslator */
     protected $translator;
 
+    /** @var PropertyAccessors\IPropertyAccessor */
+    protected $propertyAccessor;
+
     /** @var bool cache */
     protected $hasFilters, $hasActions, $hasOperations, $hasExporting;
 
@@ -122,6 +126,17 @@ class Grid extends \Nette\Application\UI\Control
         }
 
         $this->model = $model;
+        return $this;
+    }
+
+    /**
+     * Sets a property accesor that implements the interface Grido\PropertyAccessors\IPropertyAccessor
+     * @param PropertyAccessors\IPropertyAccessor $propertyAccessor
+     * @return Grid
+     */
+    public function setPropertyAccessor(PropertyAccessors\IPropertyAccessor $propertyAccessor)
+    {
+        $this->propertyAccessor = $propertyAccessor;
         return $this;
     }
 
@@ -466,6 +481,19 @@ class Grid extends \Nette\Application\UI\Control
     public function getModel()
     {
         return $this->model;
+    }
+
+    /**
+     * @internal
+     * @return PropertyAccessors\IPropertyAccessor
+     */
+    public function getPropertyAccessor()
+    {
+        if ($this->propertyAccessor === NULL) {
+            $this->propertyAccessor = new PropertyAccessors\ArrayObjectAccessor;
+        }
+
+        return $this->propertyAccessor;
     }
 
     /**
@@ -852,7 +880,7 @@ class Grid extends \Nette\Application\UI\Control
             if (count($operation->getComponents()) == 1) {
                 $pk = $this[Operation::ID]->getPrimaryKey();
                 foreach ($data as $item) {
-                    $operation->addCheckbox($item[$pk]);
+                    $operation->addCheckbox($this->getPropertyAccessor()->getProperty($item, $pk));
                 }
             }
         }

@@ -132,7 +132,7 @@
     <tbody>
         {foreach $data as $row}
             {var $checkbox = $control->hasOperations()
-                ? $form[Grido\Components\Operation::ID][$row[$control[Grido\Components\Operation::ID]->getPrimaryKey()]]
+                ? $form[Grido\Components\Operation::ID][$control->getPropertyAccessor()->getProperty($row, $control[Grido\Components\Operation::ID]->getPrimaryKey())]
                 : NULL}
             {?$tr = $control->getRowPrototype($row)}
             {?$tr->class[] = $iterator->even ? 'even' : NULL}
