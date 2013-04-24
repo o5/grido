@@ -553,7 +553,7 @@ class Grid extends \Nette\Application\UI\Control
     protected function loadRememberState(array &$params)
     {
         $session = $this->getRememberSession();
-        if ($this->presenter->signal) {
+        if ($this->presenter->isSignalReceiver($this)) {
             $session->remove();
         } elseif (!$params && $session->params) {
             $params = (array) $session->params;
