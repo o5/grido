@@ -42,7 +42,11 @@ class ArrayObjectAccessor implements IPropertyAccessor
      */
     public static function getProperty($object, $name)
     {
-        return isset($object->$name) || property_exists($object, $name) ? $object->$name : $object[$name];
+        if (isset($object->$name) || (is_object($object) && property_exists($object, $name))) {
+            return $object->$name;
+        } else {
+            return $object[$name];
+        }
     }
 
 
@@ -54,7 +58,7 @@ class ArrayObjectAccessor implements IPropertyAccessor
      */
     public static function setProperty($object, $name, $value)
     {
-        if (isset($object->$name) || property_exists($object, $name)) {
+        if (isset($object->$name) || (is_object($object) && property_exists($object, $name))) {
             $object->$name = $value;
         } else {
             $object[$name] = $value;
