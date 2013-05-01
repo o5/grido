@@ -121,6 +121,8 @@ class Grid extends \Nette\Application\UI\Control
             $model = new DataSources\DibiFluent($model);
         } elseif ($model instanceof \Nette\Database\Table\Selection) {
             $model = new DataSources\NetteDatabase($model);
+        } elseif (is_array($model)) {
+            $model = new DataSources\ArraySource($model);
         } elseif (!$model instanceof DataSources\IDataSource) {
             throw new \InvalidArgumentException('Model must be implemented \Grido\DataSources\IDataSource.');
         }
