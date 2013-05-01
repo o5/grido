@@ -54,7 +54,7 @@ abstract class Action extends \Grido\Components\Base
      * @param string $destination - first param for method $presenter->link()
      * @param array $args - second param for method $presenter->link()
      */
-    public function __construct($grid, $name, $label, $destination = NULL, array $args = array())
+    public function __construct($grid, $name, $label, $destination = NULL, array $args = NULL)
     {
         $this->addComponentToGrid($grid, $name);
 

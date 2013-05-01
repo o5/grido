@@ -29,10 +29,13 @@ class Select extends Filter
      * @param string $label
      * @param array $items for select
      */
-    public function __construct($grid, $name, $label, $items = array())
+    public function __construct($grid, $name, $label, array $items = NULL)
     {
         parent::__construct($grid, $name, $label);
-        $this->getControl()->setItems((array) $items);
+
+        if ($items !== NULL) {
+            $this->getControl()->setItems($items);
+        }
     }
 
     /**
