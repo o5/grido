@@ -90,32 +90,34 @@ class Href extends Action
      */
     public function render($item)
     {
-        if ($this->customRender) {
-            echo callback($this->customRender)->invokeArgs(array($item));
+        if (!$item || ($this->disable && callback($this->disable)->invokeArgs(array($item)))) {
             return;
         }
 
         $pk = $this->getPrimaryKey();
+        $hasPk = $this->grid->propertyAccessor->hasProperty($item, $pk);
 
-        if (!$item || ($this->disable && callback($this->disable)->invokeArgs(array($item)))) {
-            return;
-        } elseif (!$this->getGrid()->getPropertyAccessor()->hasProperty($item, $pk)) {
+        if (!$this->customRender && !$hasPk) {
             throw new \InvalidArgumentException("Primary key '$pk' not found.");
         }
 
+        $href = NULL;
         if ($this->customHref) {
             $href = callback($this->customHref)->invokeArgs(array($item));
-        } else {
-            $this->arguments[$pk] = $this->getGrid()->getPropertyAccessor()->getProperty($item, $pk);
+        } elseif ($hasPk) {
+            $this->arguments[$pk] = $this->grid->propertyAccessor->getProperty($item, $pk);
             $href = $this->presenter->link($this->getDestination(), $this->arguments);
         }
 
         $text = $this->translate($this->label);
-        $this->icon ? $text = ' '.$text : $text;
+        $this->icon ? $text = ' ' . $text : $text;
 
         $el = $this->getElementPrototype()
-            ->href($href)
             ->setText($text);
+
+        if ($href) {
+            $el->href($href);
+        }
 
         if ($this->confirm) {
             $el->attrs['data-grido-confirm'] = $this->translate(
@@ -127,6 +129,11 @@ class Href extends Action
 
         if ($this->icon) {
             $el->insert(0,\Nette\Utils\Html::el('i')->setClass(array("icon-$this->icon")));
+        }
+
+        if ($this->customRender) {
+            echo callback($this->customRender)->invokeArgs(array($item, $el));
+            return;
         }
 
         echo $el->render();
