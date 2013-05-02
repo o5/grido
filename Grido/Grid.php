@@ -37,7 +37,7 @@ use Grido\Components\Columns\Column,
  * @property Paginator $paginator
  * @property string $primaryKey
  * @property string $filterRenderType
- * @property DataSources\IDataSource $model
+ * @property DataSources\Model $model
  * @property PropertyAccessors\IPropertyAccessor $propertyAccessor
  */
 class Grid extends \Nette\Application\UI\Control
@@ -467,7 +467,7 @@ class Grid extends \Nette\Application\UI\Control
 
     /**
      * @internal
-     * @return IModel
+     * @return DataSources\Model
      */
     public function getModel()
     {
