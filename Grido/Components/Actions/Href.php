@@ -112,7 +112,7 @@ class Href extends Action
         $text = $this->translate($this->label);
         $this->icon ? $text = ' ' . $text : $text;
 
-        $el = $this->getElementPrototype()
+        $el = clone $this->getElementPrototype()
             ->setText($text);
 
         if ($href) {
