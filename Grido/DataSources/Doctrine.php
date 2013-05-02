@@ -27,7 +27,7 @@ use Nette\Utils\Strings,
  * @property-read array $filterMapping
  * @property-read array $sortMapping
  */
-class Doctrine extends Base implements IDataSource
+class Doctrine extends \Nette\Object implements IDataSource
 {
     /** @var Doctrine\ORM\QueryBuilder */
     protected $qb;
@@ -118,32 +118,6 @@ class Doctrine extends Base implements IDataSource
         );
     }
 
-    /**
-     * @param string $column
-     * @param array $conditions
-     * @return array
-     */
-    public function suggest($column, array $conditions)
-    {
-        $qb = clone $this->qb;
-
-        foreach ($conditions as $condition) {
-            $condition = $this->formatFilterCondition($condition);
-            $qb->andWhere($condition[0]);
-
-            if ($condition[1]) {
-                $qb->setParameter($condition[2], $condition[1]);
-            }
-        }
-
-        $suggestions = array();
-        foreach ($qb->getQuery()->getScalarResult() as $row) {
-            $suggestions[] = $row[$qb->getRootAlias() . '_' . $column];
-        }
-
-        return $suggestions;
-    }
-
     /*********************************** interface IDataSource ************************************/
 
     /**
@@ -228,5 +202,31 @@ class Doctrine extends Base implements IDataSource
 
             $this->qb->addOrderBy($column, $value);
         }
+    }
+
+    /**
+     * @param string $column
+     * @param array $conditions
+     * @return array
+     */
+    public function suggest($column, array $conditions)
+    {
+        $qb = clone $this->qb;
+
+        foreach ($conditions as $condition) {
+            $condition = $this->formatFilterCondition($condition);
+            $qb->andWhere($condition[0]);
+
+            if ($condition[1]) {
+                $qb->setParameter($condition[2], $condition[1]);
+            }
+        }
+
+        $suggestions = array();
+        foreach ($qb->getQuery()->getScalarResult() as $row) {
+            $suggestions[] = $row[$qb->getRootAlias() . '_' . $column];
+        }
+
+        return $suggestions;
     }
 }

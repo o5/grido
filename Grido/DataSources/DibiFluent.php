@@ -24,7 +24,7 @@ namespace Grido\DataSources;
  * @property-read int $limit
  * @property-read int $offset
  */
-class DibiFluent extends Base implements IDataSource
+class DibiFluent extends \Nette\Object implements IDataSource
 {
     /** @var \DibiFluent */
     protected $fluent;
@@ -65,22 +65,6 @@ class DibiFluent extends Base implements IDataSource
     public function getOffset()
     {
         return $this->offset;
-    }
-
-    /**
-     * @param string $column
-     * @param array $conditions
-     * @return array
-     */
-    public function suggest($column, array $conditions)
-    {
-        $fluent = clone $this->fluent;
-        foreach ($conditions as $condition) {
-            call_user_func_array(array($fluent, 'where'), $condition);
-        }
-
-        $items = array_keys($fluent->fetchPairs($column, $column));
-        return $items;
     }
 
     /*********************************** interface IDataSource ************************************/
@@ -128,5 +112,21 @@ class DibiFluent extends Base implements IDataSource
         foreach ($sorting as $column => $sort) {
             $this->fluent->orderBy($column, $sort);
         }
+    }
+
+    /**
+     * @param string $column
+     * @param array $conditions
+     * @return array
+     */
+    public function suggest($column, array $conditions)
+    {
+        $fluent = clone $this->fluent;
+        foreach ($conditions as $condition) {
+            call_user_func_array(array($fluent, 'where'), $condition);
+        }
+
+        $items = array_keys($fluent->fetchPairs($column, $column));
+        return $items;
     }
 }

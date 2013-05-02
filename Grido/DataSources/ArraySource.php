@@ -18,7 +18,7 @@ namespace Grido\DataSources;
  * @subpackage  DataSources
  * @author      Josef Kříž <pepakriz@gmail.com>
  */
-class ArraySource extends Base implements IDataSource
+class ArraySource extends \Nette\Object implements IDataSource
 {
     /** @var array */
     private $data;
@@ -29,27 +29,6 @@ class ArraySource extends Base implements IDataSource
     public function __construct(array $data)
     {
         $this->data = $data;
-    }
-
-    /**
-     * @param string $column
-     * @param array $conditions
-     * @return array
-     */
-    public function suggest($column, array $conditions)
-    {
-        $selection = $this->data;
-
-        foreach ($conditions as $condition) {
-            $selection = $this->getFilter($selection, $condition);
-        }
-
-        $suggestions = array();
-        foreach ($selection as $row) {
-            $suggestions[] = (string)$row[$column];
-        }
-
-        return $suggestions;
     }
 
     protected function formatFilterCondition(array $condition)
@@ -160,5 +139,26 @@ class ArraySource extends Base implements IDataSource
                 }
             }
         }
+    }
+
+    /**
+     * @param string $column
+     * @param array $conditions
+     * @return array
+     */
+    public function suggest($column, array $conditions)
+    {
+        $selection = $this->data;
+
+        foreach ($conditions as $condition) {
+            $selection = $this->getFilter($selection, $condition);
+        }
+
+        $suggestions = array();
+        foreach ($selection as $row) {
+            $suggestions[] = (string)$row[$column];
+        }
+
+        return $suggestions;
     }
 }

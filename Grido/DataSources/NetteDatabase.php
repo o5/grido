@@ -22,7 +22,7 @@ namespace Grido\DataSources;
  * @property-read array $data
  * @property-read \Nette\Database\Table\Selection $selection
  */
-class NetteDatabase extends Base implements IDataSource
+class NetteDatabase extends \Nette\Object implements IDataSource
 {
     /** @var \Nette\Database\Table\Selection */
     protected $selection;
@@ -47,21 +47,6 @@ class NetteDatabase extends Base implements IDataSource
     {
         $condition[0] = trim(str_replace(array('%s', '%i', '%f'), '?', $condition[0]));
         return array(str_replace(array('[', ']'), array('', ''), $condition[0]) => $condition[1]);
-    }
-
-    /**
-     * @param string $column
-     * @param array $conditions
-     * @return array
-     */
-    public function suggest($column, array $conditions)
-    {
-        $selection = clone $this->selection;
-        foreach ($conditions as $condition) {
-            $selection->where($this->removePlaceholders($condition));
-        }
-
-        return array_keys($selection->fetchPairs($column, $column));
     }
 
     /*********************************** interface IDataSource ************************************/
@@ -107,5 +92,20 @@ class NetteDatabase extends Base implements IDataSource
         foreach ($sorting as $column => $sort) {
             $this->selection->order("$column $sort");
         }
+    }
+
+    /**
+     * @param string $column
+     * @param array $conditions
+     * @return array
+     */
+    public function suggest($column, array $conditions)
+    {
+        $selection = clone $this->selection;
+        foreach ($conditions as $condition) {
+            $selection->where($this->removePlaceholders($condition));
+        }
+
+        return array_keys($selection->fetchPairs($column, $column));
     }
 }

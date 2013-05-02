@@ -87,7 +87,7 @@ class Grid extends \Nette\Application\UI\Control
     /** @var array */
     protected $defaultSort = array();
 
-    /** @var DataSources\IDataSource */
+    /** @var DataSources\Model */
     protected $model;
 
     /** @var int total count of items */
@@ -109,30 +109,19 @@ class Grid extends \Nette\Application\UI\Control
     protected $hasFilters, $hasActions, $hasOperations, $hasExporting;
 
     /**
-     * Sets a model that implements the interface Grido\DataSources\IDataSource
-     * or data-source object DibiFluent, Nette\Database\Table\Selection.
+     * Sets a model that implements the interface Grido\DataSources\IDataSource or data-source object.
      * @param mixed $model
      * @throws \InvalidArgumentException
      * @return Grid
      */
     public function setModel($model)
     {
-        if ($model instanceof \DibiFluent) {
-            $model = new DataSources\DibiFluent($model);
-        } elseif ($model instanceof \Nette\Database\Table\Selection) {
-            $model = new DataSources\NetteDatabase($model);
-        } elseif (is_array($model)) {
-            $model = new DataSources\ArraySource($model);
-        } elseif (!$model instanceof DataSources\IDataSource) {
-            throw new \InvalidArgumentException('Model must be implemented \Grido\DataSources\IDataSource.');
-        }
-
-        $this->model = $model;
+        $this->model = new DataSources\Model($model);
         return $this;
     }
 
     /**
-     * Sets a property accesor that implements the interface Grido\PropertyAccessors\IPropertyAccessor
+     * Sets a property accesor that implements the interface Grido\PropertyAccessors\IPropertyAccessor.
      * @param PropertyAccessors\IPropertyAccessor $propertyAccessor
      * @return Grid
      */
@@ -293,7 +282,7 @@ class Grid extends \Nette\Application\UI\Control
     public function getCount()
     {
         if ($this->count === NULL) {
-            $this->count = $this->model->call('getCount');
+            $this->count = $this->model->getCount();
         }
 
         return $this->count;
@@ -417,7 +406,7 @@ class Grid extends \Nette\Application\UI\Control
                 $this->applyPaging();
             }
 
-            $this->data = $this->model->call('getData');
+            $this->data = $this->model->getData();
 
             if ($this->onFetchData) {
                 $this->onFetchData($this);
@@ -663,16 +652,12 @@ class Grid extends \Nette\Application\UI\Control
             unset($actualFilter[$name]);
         }
         $conditions = $this->_applyFiltering($actualFilter);
+        $conditions[] = $filter->makeFilter($query);
 
         if ($filter->suggestsCallback) {
-            $items = callback($this->suggestsCallback)->invokeArgs(array($query, $conditions));
-
-        } elseif (method_exists($this->model, 'suggest')) {
-            $conditions[] = $filter->makeFilter($query);
-            $items = $this->model->call('suggest', key($filter->getColumns()), $conditions);
-
+            $items = callback($filter->suggestsCallback)->invokeArgs(array($query, $conditions, $this));
         } else {
-            throw new \InvalidArgumentException('Set suggest callback or implement method in model.');
+            $items = $this->model->suggest(key($filter->getColumns()), $conditions);
         }
 
         print \Nette\Utils\Json::encode($items);
@@ -805,7 +790,7 @@ class Grid extends \Nette\Application\UI\Control
     {
         $conditions = $this->_applyFiltering($this->getActualFilter());
         foreach ($conditions as $condition) {
-            $this->model->call('filter', $condition);
+            $this->model->filter($condition);
         }
     }
 
@@ -858,7 +843,7 @@ class Grid extends \Nette\Application\UI\Control
         }
 
         if ($sort) {
-            $this->model->call('sort', $sort);
+            $this->model->sort($sort);
         }
     }
 
@@ -869,7 +854,7 @@ class Grid extends \Nette\Application\UI\Control
             ->setPage($this->page);
 
         $this['form']['count']->setValue($this->getPerPage());
-        $this->model->call('limit', $paginator->getOffset(), $paginator->getLength());
+        $this->model->limit($paginator->getOffset(), $paginator->getLength());
     }
 
     /**

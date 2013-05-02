@@ -50,8 +50,9 @@ interface IDataSource
     function sort(array $sorting);
 
     /**
-     * @see \Grido\DataSources\Base::call()
-     * @param string $method
+     * @param string $column
+     * @param array $conditions
+     * @return array
      */
-    function call($method);
+    function suggest($column, array $conditions);
 }
