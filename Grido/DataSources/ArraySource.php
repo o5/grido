@@ -53,12 +53,12 @@ class ArraySource extends \Nette\Object implements IDataSource
      * @param array $condition
      * @return void
      */
-    protected function getFilter($selection, array $condition)
+    protected function getFilter(array $condition)
     {
         $value = $condition[1];
         $condition = $this->formatFilterCondition($condition);
 
-        return array_filter($selection, function ($row) use ($value, $condition) {
+        return array_filter($this->data, function ($row) use ($value, $condition) {
             if ($condition[1] === 'LIKE') {
                 if (strlen($value) <= 2) {
                     return TRUE;
