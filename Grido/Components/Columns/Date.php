@@ -26,6 +26,9 @@ class Date extends Text
     const FORMAT_DATE = 'd.m.Y';
     const FORMAT_DATETIME = 'd.m.Y H:i:s';
 
+    /** @var string|NULL */
+    protected $nullValue;
+
     /** @var string */
     protected $dateFormat = self::FORMAT_DATE;
 
@@ -40,12 +43,48 @@ class Date extends Text
     }
 
     /**
+     * Set string which will be displayed if value is NULL
+     *
+     * @param string|NULL $value
+     * @return \Grido\Components\Columns\Date
+     */
+    public function setNullValue($value)
+    {
+        $this->nullValue = $value;
+        return $this;
+    }
+
+    /**
      * @param $value
      * @return string
      */
     protected function formatValue($value)
     {
-        return $value ? date($this->dateFormat, strtotime($value)) : NULL;
+        return $value instanceof \DateTime
+            ? $value->format($this->dateFormat)
+            : ($value ? date($this->dateFormat, strtotime($value)) : $this->nullValue);
+    }
+
+    /**
+     * Value can be also a DateTime object
+     *
+     * @internal
+     * @param mixed $row
+     * @return void
+     */
+    public function render($row)
+    {
+        if ($this->customRender) {
+            return callback($this->customRender)->invokeArgs(array($row));
+        }
+
+        $value = $this->getValue($row);
+        if (!($value instanceof \DateTime))
+            $value = \Nette\Templating\Helpers::escapeHtml($this->getValue($row));
+
+        $value = $this->formatValue($value);
+        $value = $this->applyReplacement($value);
+        return $value;
     }
 
     public function renderExport($row)
