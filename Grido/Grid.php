@@ -116,7 +116,11 @@ class Grid extends \Nette\Application\UI\Control
      */
     public function setModel($model)
     {
-        $this->model = new DataSources\Model($model);
+        if ($model instanceof DataSources\IDataSource) {
+            $this->model = $model;
+        } else {
+            $this->model = new DataSources\Model($model);
+        }
         return $this;
     }
 
