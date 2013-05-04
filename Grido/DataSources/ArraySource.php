@@ -50,15 +50,16 @@ class ArraySource extends \Nette\Object implements IDataSource
     }
 
     /**
+     * @param array $data
      * @param array $condition
      * @return void
      */
-    protected function getFilter(array $condition)
+    protected function getFilter(array $data, array $condition)
     {
         $value = $condition[1];
         $condition = $this->formatFilterCondition($condition);
 
-        return array_filter($this->data, function ($row) use ($value, $condition) {
+        return array_filter($data, function ($row) use ($value, $condition) {
             if ($condition[1] === 'LIKE') {
                 if (strlen($value) <= 2) {
                     return TRUE;
@@ -148,14 +149,14 @@ class ArraySource extends \Nette\Object implements IDataSource
      */
     public function suggest($column, array $conditions)
     {
-        $selection = $this->data;
+        $data = $this->data;
 
         foreach ($conditions as $condition) {
-            $selection = $this->getFilter($selection, $condition);
+            $data = $this->getFilter($data, $condition);
         }
 
         $suggestions = array();
-        foreach ($selection as $row) {
+        foreach ($data as $row) {
             $suggestions[] = (string)$row[$column];
         }
 
