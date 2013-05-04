@@ -245,9 +245,8 @@ abstract class Filter extends \Grido\Components\Base
             $condition[] = ' )';
         }
 
-        if (!$customCondition && $condition) {
+        if ($condition) {
             $condition = array(implode('', $condition));
-
             foreach ($values as $val) {
                 $condition[] = $val;
             }
