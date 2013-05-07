@@ -37,7 +37,7 @@ use Grido\Components\Columns\Column,
  * @property Paginator $paginator
  * @property string $primaryKey
  * @property string $filterRenderType
- * @property DataSources\Model $model
+ * @property DataSources\IDataSource $model
  * @property PropertyAccessors\IPropertyAccessor $propertyAccessor
  */
 class Grid extends \Nette\Application\UI\Control
@@ -87,7 +87,7 @@ class Grid extends \Nette\Application\UI\Control
     /** @var array */
     protected $defaultSort = array();
 
-    /** @var DataSources\Model */
+    /** @var DataSources\IDataSource */
     protected $model;
 
     /** @var int total count of items */
@@ -116,7 +116,12 @@ class Grid extends \Nette\Application\UI\Control
      */
     public function setModel($model)
     {
-        $this->model = new DataSources\Model($model);
+        if ($model instanceof DataSources\IDataSource) {
+            $this->model = $model;
+        } else {
+            $this->model = new DataSources\Model($model);
+        }
+
         return $this;
     }
 
@@ -467,7 +472,7 @@ class Grid extends \Nette\Application\UI\Control
 
     /**
      * @internal
-     * @return DataSources\Model
+     * @return DataSources\IDataSource
      */
     public function getModel()
     {

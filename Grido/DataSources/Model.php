@@ -38,10 +38,10 @@ class Model extends \Nette\Object
             $dataSource = new DibiFluent($model);
         } elseif ($model instanceof \Nette\Database\Table\Selection) {
             $dataSource = new NetteDatabase($model);
+        } elseif ($model instanceof \Doctrine\ORM\QueryBuilder) {
+            $dataSource = new Doctrine($model);
         } elseif (is_array($model)) {
             $dataSource = new ArraySource($model);
-        } elseif ($model instanceof IDataSource) {
-            $dataSource = $model;
         } else {
             throw new \InvalidArgumentException('Model must be implemented \Grido\DataSources\IDataSource.');
         }
