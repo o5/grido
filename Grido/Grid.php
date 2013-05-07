@@ -936,6 +936,16 @@ class Grid extends \Nette\Application\UI\Control
     /**
      * @param string $name
      * @param string $label
+     * @return \Grido\Components\Columns\DateTime
+     */
+    public function addColumnDateTime($name, $label)
+    {
+        return new Components\Columns\DateTime($this, $name, $label);
+    }
+
+    /**
+     * @param string $name
+     * @param string $label
      * @param string $type starting constants with Column::TYPE_
      * @throws \InvalidArgumentException
      * @return Column
