@@ -12,7 +12,7 @@
 namespace Grido\Components\Columns;
 
 /**
- * Text column.
+ * Date column.
  *
  * @package     Grido
  * @subpackage  Components\Columns
