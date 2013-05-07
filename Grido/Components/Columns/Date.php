@@ -45,6 +45,10 @@ class Date extends Text
      */
     protected function formatValue($value)
     {
+        if ($value === NULL) {
+            return $this->applyReplacement($value);
+        }
+
         return $value instanceof \DateTime
             ? $value->format($this->dateFormat)
             : date($this->dateFormat, strtotime($value));

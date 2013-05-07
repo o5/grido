@@ -332,7 +332,7 @@ abstract class Column extends \Grido\Components\Base
 
     protected function applyReplacement($value)
     {
-        return is_string($value) && isset($this->replacements[$value])
+        return (is_string($value) || $value == '' || $value === NULL) && isset($this->replacements[$value])
             ? str_replace(self::VALUE_IDENTIFIER, $value, $this->replacements[$value])
             : $value;
     }
