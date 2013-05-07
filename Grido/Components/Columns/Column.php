@@ -293,8 +293,11 @@ abstract class Column extends \Grido\Components\Base
             return callback($this->customRender)->invokeArgs(array($row));
         }
 
-        $value = \Nette\Templating\Helpers::escapeHtml($this->getValue($row));
-        $value = $this->applyReplacement($value);
+        $value = $this->getValue($row);
+        if (is_string($value) || (is_object($value) && method_exists($value, '__toString'))) {
+            $value = \Nette\Templating\Helpers::escapeHtml($value);
+            $value = $this->applyReplacement($value);
+        }
 
         return $this->formatValue($value);
     }
