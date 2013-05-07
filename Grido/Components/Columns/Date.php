@@ -40,19 +40,24 @@ class Date extends Text
     }
 
     /**
-     * @param $value
+     * @param mixed $value
      * @return string
      */
     protected function formatValue($value)
     {
-        return $value ? date($this->dateFormat, strtotime($value)) : NULL;
+        return $value instanceof \DateTime
+            ? $value->format($this->dateFormat)
+            : date($this->dateFormat, strtotime($value));
     }
 
+    /**
+     * @internal
+     * @param mixed $row
+     * @return string
+     */
     public function renderExport($row)
     {
         $value = $this->getValue($row);
-        return $value instanceof \DateTime
-            ? $value->format($this->dateFormat)
-            : $this->formatValue($value);
+        return $this->formatValue($value);
     }
 }
