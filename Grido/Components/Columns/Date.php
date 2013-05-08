@@ -30,6 +30,21 @@ class Date extends Text
     protected $dateFormat = self::FORMAT_DATE;
 
     /**
+     * @param \Grido\Grid $grid
+     * @param string $name
+     * @param string $label
+     * @param string $dateFormat
+     */
+    public function __construct($grid, $name, $label, $dateFormat = NULL)
+    {
+        parent::__construct($grid, $name, $label);
+
+        if ($dateFormat !== NULL) {
+            $this->dateFormat = $dateFormat;
+        }
+    }
+
+    /**
      * @param string $format
      * @return Date
      */

@@ -937,11 +937,12 @@ class Grid extends \Nette\Application\UI\Control
     /**
      * @param string $name
      * @param string $label
+     * @param string $dateFormat
      * @return \Grido\Components\Columns\Date
      */
-    public function addColumnDate($name, $label)
+    public function addColumnDate($name, $label, $dateFormat = NULL)
     {
-        return new Components\Columns\Date($this, $name, $label);
+        return new Components\Columns\Date($this, $name, $label, $dateFormat);
     }
 
     /**
