@@ -3,7 +3,7 @@
     "type": "library",
     "description": "Grido - DataGrid for Nette Framework",
     "keywords": ["datagrid", "datalist", "tablegrid", "grid", "list", "table", "nette"],
-    "homepage": "http://o5.github.com/grido-sandbox/",
+    "homepage": "http://o5.github.io/grido-sandbox/",
     "license": ["BSD-3", "GPL-2.0", "GPL-3.0"],
     "authors": [{
         "name": "Petr Bugyík",

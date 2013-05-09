@@ -1,10 +1,10 @@
-[Grido](http://o5.github.com/grido-sandbox/)
+[Grido](http://o5.github.io/grido-sandbox/)
 =============
 DataGrid for [Nette Framework](http://nette.org/) (PHP 5.3).
 
 ![Alt text](http://img.bugyik.cz/Grido.png "Sample")
 
-[API](http://o5.github.com/grido-sandbox/api/)
+[API](http://o5.github.io/grido-sandbox/api/)
 =============
 
 [Live demo](http://grido.bugyik.cz/example/)
