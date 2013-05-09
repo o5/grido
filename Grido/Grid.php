@@ -641,36 +641,6 @@ class Grid extends \Nette\Application\UI\Control
 
     /**
      * @internal
-     * @param string $name - filter name
-     * @param string $query - value from input
-     * @throws \InvalidArgumentException
-     */
-    public function handleSuggest($name, $query)
-    {
-        $filter = $this->getFilter($name, FALSE);
-        if (!$this->presenter->isAjax() || !$filter || $filter->type != Filter::TYPE_TEXT) {
-            $this->presenter->terminate();
-        }
-
-        $actualFilter = $this->getActualFilter();
-        if (isset($actualFilter[$name])) {
-            unset($actualFilter[$name]);
-        }
-        $conditions = $this->_applyFiltering($actualFilter);
-        $conditions[] = $filter->makeFilter($query);
-
-        if ($filter->suggestsCallback) {
-            $items = callback($filter->suggestsCallback)->invokeArgs(array($query, $conditions, $this));
-        } else {
-            $items = $this->model->suggest(key($filter->getColumns()), $conditions);
-        }
-
-        print \Nette\Utils\Json::encode($items);
-        $this->presenter->terminate();
-    }
-
-    /**
-     * @internal
      * @param string $type
      */
     public function handleExport($type)
@@ -800,10 +770,11 @@ class Grid extends \Nette\Application\UI\Control
     }
 
     /**
+     * @internal
      * @param array $filter
      * @return array
      */
-    protected function _applyFiltering(array $filter)
+    public function _applyFiltering(array $filter)
     {
         $conditions = array();
         if ($filter && $this->hasFilters()) {

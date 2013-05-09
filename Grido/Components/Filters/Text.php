@@ -39,18 +39,50 @@ class Text extends Filter
         $this->suggestsCallback = $callback;
 
         $prototype = $this->getControl()->controlPrototype;
-        $prototype->class[] = 'suggest';
         $prototype->attrs['autocomplete'] = 'off';
+        $prototype->class[] = 'suggest';
 
-        $name = $this->name;
-        $this->grid->onRender[] = function(\Grido\Grid $grid) use ($prototype, $name) {
-            $prototype->attrs['data-grido-source'] = $grid->link('suggest!', $name);
+        $filter = $this;
+        $this->grid->onRender[] = function(\Grido\Grid $grid) use ($prototype, $filter) {
+            $replacement = '-query-';
+            $prototype->attrs['data-grido-suggest-replacement'] = $replacement;
+            $prototype->attrs['data-grido-suggest-handler'] = $filter->link('suggest!', array(
+                'query' => $replacement)
+            );
         };
 
         return $this;
     }
 
     /**********************************************************************************************/
+
+    /**
+     * @internal
+     * @param string $query - value from input
+     * @throws \InvalidArgumentException
+     */
+    public function handleSuggest($query)
+    {
+        if (!$this->grid->presenter->isAjax()) {
+            $this->presenter->terminate();
+        }
+
+        $actualFilter = $this->grid->getActualFilter();
+        if (isset($actualFilter[$this->name])) {
+            unset($actualFilter[$this->name]);
+        }
+        $conditions = $this->grid->_applyFiltering($actualFilter);
+        $conditions[] = $this->makeFilter($query);
+
+        if ($this->suggestsCallback) {
+            $items = callback($this->suggestsCallback)->invokeArgs(array($query, $conditions, $this));
+        } else {
+            $items = $this->grid->model->suggest(key($this->getColumns()), $conditions);
+        }
+
+        print \Nette\Utils\Json::encode($items);
+        $this->grid->presenter->terminate();
+    }
 
     /**
      * @return \Nette\Forms\Controls\TextInput
