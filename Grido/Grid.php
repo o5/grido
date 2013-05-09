@@ -948,6 +948,19 @@ class Grid extends \Nette\Application\UI\Control
     /**
      * @param string $name
      * @param string $label
+     * @param int $decimals number of decimal points
+     * @param string $decPoint separator for the decimal point
+     * @param string $thousandsSep thousands separator
+     * @return \Grido\Components\Columns\Number
+     */
+    public function addColumnNumber($name, $label, $decimals = NULL, $decPoint = NULL, $thousandsSep = NULL)
+    {
+        return new Components\Columns\Number($this, $name, $label, $decimals, $decPoint, $thousandsSep);
+    }
+
+    /**
+     * @param string $name
+     * @param string $label
      * @param string $type starting constants with Column::TYPE_
      * @throws \InvalidArgumentException
      * @return Column
