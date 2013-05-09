@@ -640,20 +640,6 @@ class Grid extends \Nette\Application\UI\Control
     }
 
     /**
-     * @internal
-     * @param string $type
-     */
-    public function handleExport($type)
-    {
-        if ($export = $this->getComponent(Export::ID, FALSE)) {
-            $this->presenter->sendResponse($export);
-            $this->presenter->terminate();
-        } else {
-            trigger_error("Exporting is not allowed.", E_USER_NOTICE);
-        }
-    }
-
-    /**
      * Refresh wrapper.
      * @return void
      */

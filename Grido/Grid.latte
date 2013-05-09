@@ -124,7 +124,7 @@
                     {formContainer buttons}
                         {input perPage, class => 'hide'}
                     {/formContainer}
-                    <a n:if="$control->hasExporting()" class="btn btn-mini no-ajax" n:href="export!" title="{_'Export all items'}"><i class="icon-download"></i></a>
+                    <a n:if="$control->hasExporting()" class="btn btn-mini no-ajax" href="{=$control->getComponent(Grido\Components\Export::ID)->link('export!')}" title="{_'Export all items'}"><i class="icon-download"></i></a>
                 </span>
             </td>
         </tr>
