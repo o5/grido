@@ -21,7 +21,7 @@ namespace Grido\DataSources;
 class ArraySource extends \Nette\Object implements IDataSource
 {
     /** @var array */
-    private $data;
+    protected $data;
 
     /**
      * @param array $data
@@ -33,7 +33,7 @@ class ArraySource extends \Nette\Object implements IDataSource
 
     protected function formatFilterCondition(array $condition)
     {
-        $matches = \Nette\Utils\Strings::matchAll($condition[0], '/\[([\w_-]+)\]* ([\w=]+) ([%\w]+)/');
+        $matches = \Nette\Utils\Strings::matchAll($condition[0], '/\[([\w_-]+)\]* ([\w\!<>=]+) ([%\w]+)/');
         $column = NULL;
 
         if ($matches) {
@@ -65,15 +65,16 @@ class ArraySource extends \Nette\Object implements IDataSource
                     return TRUE;
                 }
                 return stripos($row[$condition[0]], substr($value, 1, -1)) !== FALSE;
-            }
-            if ($condition[1] === '=') {
+
+            } else if ($condition[1] === '=') {
                 return $row[$condition[0]] == $value;
-            }
-            if ($condition[1] === '!=') {
-                return $row[$condition[0]] != $value;
-            }
-            if ($condition[1] === 'IS' && $condition[2] == 'NULL') {
+
+            } elseif ($condition[1] === 'IS' && $condition[2] == 'NULL') {
                 return $row[$condition[0]] == NULL;
+
+            } elseif (in_array($condition[1], array('<', '<=', '>', '>='))) {
+                return eval("return {$row[$condition[0]]}{$condition[1]}{$value};");
+
             }
         });
     }
@@ -124,7 +125,7 @@ class ArraySource extends \Nette\Object implements IDataSource
         foreach ($sorting as $column => $sort) {
             $data = array();
             foreach ($this->data as $item) {
-                $data[$item[$column]][] = $item;
+                $data[(string) $item[$column]][] = $item; //HOTFIX: (string)
             }
 
             if ($sort === 'ASC') {
