@@ -15,8 +15,8 @@ use Grido\Components\Columns\Column,
     Grido\Components\Filters\Filter,
     Grido\Components\Actions\Action,
     Grido\Components\Operation,
-    Grido\Components\Export,
-    Grido\Components\Paginator;
+    Grido\Components\Paginator,
+    Grido\Components\Export;
 
 /**
  * Grido - DataGrid for Nette Framework.
