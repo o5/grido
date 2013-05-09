@@ -114,7 +114,8 @@ class Doctrine extends \Nette\Object implements IDataSource
             $condition[0],
             isset($condition[1])
                 ? $condition[1]
-                : NULL, $column
+                : NULL,
+            $column
         );
     }
 
