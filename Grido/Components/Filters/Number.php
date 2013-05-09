@@ -32,6 +32,7 @@ class Number extends Text
         $hint = 'You can use <, <=, >, >=, <>. e.g. ">= %d"';
         $control->controlPrototype->title = $this->translate($hint, rand(1, 9));
         $control->controlPrototype->class[] = 'number';
+
         return $control;
     }
 
@@ -47,9 +48,10 @@ class Number extends Text
             $operator = $matches[1] ? $matches[1] : '=';
             $condition = array(
                 "[$column] $operator %f",
-                $matches[2]
+                str_replace(',', '.', $matches[2])
             );
         }
+
         return $condition;
     }
 }
