@@ -73,7 +73,7 @@
                         {input $column->getName()}
                     {/formContainer}
                     {!$control->getFilter($column->getName())->getWrapperPrototype()->endTag()}
-                {else}
+                {elseif $column->headerPrototype->rowspan != 2}
                     <th>&nbsp;</th>
                 {/if}
             {/foreach}
