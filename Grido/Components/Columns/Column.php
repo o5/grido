@@ -323,6 +323,9 @@ abstract class Column extends \Grido\Components\Base
     {
         $column = $this->getColumn();
         if (is_string($column)) {
+            if (!$this->grid->propertyAccessor->hasProperty($row, $column)) {
+                throw new \InvalidArgumentException("Column '$column' does not exist in datasource.");
+            }
             return $this->grid->propertyAccessor->getProperty($row, $column);
         } elseif (is_callable($column)) {
             return callback($column)->invokeArgs(array($row));

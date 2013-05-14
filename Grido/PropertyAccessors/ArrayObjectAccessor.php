@@ -27,10 +27,15 @@ class ArrayObjectAccessor implements IPropertyAccessor
      */
     public static function hasProperty($object, $name)
     {
-        if (is_array($object) || $object instanceof \ArrayAccess) {
-            return isset($object[$name]) || array_key_exists($name, $object);
+        if (is_object($object) && $object instanceof \Nette\Database\Table\ActiveRow) {
+            //FUCKING \Nette\Database! https://github.com/nette/nette/pull/1100
+            return array_key_exists($name, $object->toArray());
+        } elseif (is_object($object) && $object instanceof \ArrayObject) {
+            return $object->offsetExists($name);
         } elseif (is_object($object)) {
-            return isset($object->$name) || property_exists($object, $name);
+            return property_exists($object, $name);
+        } elseif (is_array($object) || $object instanceof \ArrayAccess) {
+            return array_key_exists($name, $object);
         } else {
             throw new \InvalidArgumentException('Please implement your own property accessor.');
         }
