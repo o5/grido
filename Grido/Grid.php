@@ -610,6 +610,7 @@ class Grid extends \Nette\Application\UI\Control
             $this->filter = array();
             $this->perPage = NULL;
             $form->setValues(array(Filter::ID => $this->defaultFilter), TRUE);
+            $this->getRememberSession()->remove();
 
         //operations handling
         } elseif ($this->hasOperations() && $form[self::BUTTONS][Operation::ID]->isSubmittedBy()) {
