@@ -21,13 +21,6 @@ interface IPropertyAccessor
     /**
      * @param mixed $object
      * @param string $name
-     * @return bool
-     */
-    public static function hasProperty($object, $name);
-
-    /**
-     * @param mixed $object
-     * @param string $name
      * @return mixed
      */
     public static function getProperty($object, $name);

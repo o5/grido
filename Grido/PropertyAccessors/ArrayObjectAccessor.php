@@ -23,34 +23,17 @@ class ArrayObjectAccessor implements IPropertyAccessor
     /**
      * @param mixed $object
      * @param string $name
-     * @return bool
-     */
-    public static function hasProperty($object, $name)
-    {
-        if (is_object($object) && $object instanceof \Nette\Database\Table\ActiveRow) {
-            //FUCKING \Nette\Database! https://github.com/nette/nette/pull/1100
-            return array_key_exists($name, $object->toArray());
-        } elseif (is_object($object) && $object instanceof \ArrayObject) {
-            return $object->offsetExists($name);
-        } elseif (is_object($object)) {
-            return property_exists($object, $name);
-        } elseif (is_array($object) || $object instanceof \ArrayAccess) {
-            return array_key_exists($name, $object);
-        } else {
-            throw new \InvalidArgumentException('Please implement your own property accessor.');
-        }
-    }
-
-    /**
-     * @param mixed $object
-     * @param string $name
      * @return mixed
      */
     public static function getProperty($object, $name)
     {
-        return isset($object->$name) || (is_object($object) && property_exists($object, $name))
-            ? $object->$name
-            : $object[$name];
+        if (is_object($object)) {
+            return $object->$name;
+        } else if (is_array($object) || $object instanceof \ArrayAccess) {
+            return $object[$name];
+        }
+
+        throw new \InvalidArgumentException('Please implement your own property accessor.');
     }
 
     /**
@@ -60,10 +43,12 @@ class ArrayObjectAccessor implements IPropertyAccessor
      */
     public static function setProperty($object, $name, $value)
     {
-        if (isset($object->$name) || (is_object($object) && property_exists($object, $name))) {
+        if (is_object($object)) {
             $object->$name = $value;
-        } else {
+        } else if (is_array($object) || $object instanceof \ArrayAccess) {
             $object[$name] = $value;
+        } else {
+            throw new \InvalidArgumentException('Please implement your own property accessor.');
         }
     }
 }
