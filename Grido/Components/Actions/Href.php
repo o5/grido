@@ -94,29 +94,17 @@ class Href extends Action
             return;
         }
 
-        $pk = $this->getPrimaryKey();
-        $hasPk = $this->grid->propertyAccessor->hasProperty($item, $pk);
-
-        if (!$this->customRender && !$hasPk) {
-            throw new \InvalidArgumentException("Primary key '$pk' not found.");
-        }
-
-        $href = NULL;
-        if ($this->customHref) {
-            $href = callback($this->customHref)->invokeArgs(array($item));
-        } elseif ($hasPk) {
-            $this->arguments[$pk] = $this->grid->propertyAccessor->getProperty($item, $pk);
-            $href = $this->presenter->link($this->getDestination(), $this->arguments);
-        }
-
         $text = $this->translate($this->label);
         $this->icon ? $text = ' ' . $text : $text;
-
+        $pk = $this->getPrimaryKey();
         $el = clone $this->getElementPrototype()
             ->setText($text);
 
-        if ($href) {
-            $el->href($href);
+        if ($this->customHref) {
+            $el->href(callback($this->customHref)->invokeArgs(array($item)));
+        } else {
+            $this->arguments[$pk] = $this->grid->propertyAccessor->getProperty($item, $pk);
+            $el->href($this->presenter->link($this->getDestination(), $this->arguments));
         }
 
         if ($this->confirm) {
