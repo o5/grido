@@ -28,7 +28,7 @@ class ArrayObjectAccessor implements IPropertyAccessor
     public static function hasProperty($object, $name)
     {
         if (is_object($object) && $object instanceof \Nette\Database\Table\ActiveRow) {
-            //FUCKING \Nette\Database! https://github.com/nette/nette/pull/1100
+            //https://github.com/nette/nette/pull/1100
             return array_key_exists($name, $object->toArray());
         } elseif (is_object($object) && $object instanceof \ArrayObject) {
             return $object->offsetExists($name);
