@@ -50,7 +50,7 @@ interface IDataSource
     function sort(array $sorting);
 
     /**
-     * @param string $column
+     * @param mixed $column
      * @param array $conditions
      * @return array
      */

@@ -97,7 +97,7 @@ class NetteDatabase extends \Nette\Object implements IDataSource
     }
 
     /**
-     * @param string $column
+     * @param mixed $column
      * @param array $conditions
      * @return array
      */
@@ -108,6 +108,16 @@ class NetteDatabase extends \Nette\Object implements IDataSource
             $selection->where($this->removePlaceholders($condition));
         }
 
-        return array_keys($selection->fetchPairs($column, $column));
+        $items = array();
+        if (is_callable($column)) {
+            foreach ($selection as $item) {
+                $value = $column($item);
+                $items[$value] = $value;
+            }
+        } else {
+            $items = $selection->fetchPairs($column, $column);
+        }
+
+        return array_keys($items);
     }
 }

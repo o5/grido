@@ -20,8 +20,8 @@ namespace Grido\Components\Filters;
  */
 class Text extends Filter
 {
-    /** @var callback */
-    public $suggestsCallback;
+    /** @var mixed */
+    protected $suggestionColumn;
 
     /** @var string for ->where('<column> LIKE %s', <value>) */
     protected $condition = 'LIKE %s';
@@ -31,12 +31,12 @@ class Text extends Filter
 
     /**
      * Allows suggestion.
-     * @param callback $callback
+     * @param mixed $column
      * @return Text
      */
-    public function setSuggestion($callback = NULL)
+    public function setSuggestion($column = NULL)
     {
-        $this->suggestsCallback = $callback;
+        $this->suggestionColumn = $column;
 
         $prototype = $this->getControl()->controlPrototype;
         $prototype->attrs['autocomplete'] = 'off';
@@ -74,11 +74,8 @@ class Text extends Filter
         $conditions = $this->grid->_applyFiltering($actualFilter);
         $conditions[] = $this->makeFilter($query);
 
-        if ($this->suggestsCallback) {
-            $items = callback($this->suggestsCallback)->invokeArgs(array($query, $conditions, $this));
-        } else {
-            $items = $this->grid->model->suggest(key($this->getColumns()), $conditions);
-        }
+        $column = $this->suggestionColumn ? $this->suggestionColumn : key($this->getColumns());
+        $items = $this->grid->model->suggest($column, $conditions);
 
         print \Nette\Utils\Json::encode($items);
         $this->grid->presenter->terminate();

@@ -223,11 +223,12 @@ class Doctrine extends \Nette\Object implements IDataSource
             }
         }
 
-        $suggestions = array();
+        $items = array();
         foreach ($qb->getQuery()->getScalarResult() as $row) {
-            $suggestions[] = $row[$qb->getRootAlias() . '_' . $column];
+            $value = $row[$qb->getRootAlias() . '_' . $column];
+            $items[$value] = $value;
         }
 
-        return $suggestions;
+        return array_keys($items);
     }
 }
