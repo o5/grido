@@ -30,7 +30,7 @@ class Number extends Text
     {
         $control = parent::getFormControl();
         $hint = 'You can use <, <=, >, >=, <>. e.g. ">= %d"';
-        $control->controlPrototype->title = $this->translate($hint, rand(1, 9));
+        $control->controlPrototype->title = sprintf($this->translate($hint), rand(1, 9));
         $control->controlPrototype->class[] = 'number';
 
         return $control;

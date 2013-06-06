@@ -119,7 +119,7 @@
                 </span>
 
                 <span n:block="count" class="count">
-                    {_'Items %d - %d of %d', $paginator->getCountBegin(), $paginator->getCountEnd(), $control->count}
+                    {= sprintf($template->translate('Items %d - %d of %d'), $paginator->getCountBegin(), $paginator->getCountEnd(), $control->count)}
                     {input count}
                     {formContainer buttons}
                         {input perPage, class => 'hide'}

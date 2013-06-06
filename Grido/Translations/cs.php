@@ -9,7 +9,7 @@
  * the file license.md that was distributed with this source code.
  */
 
-$dict = array(
+return array(
     'You can use <, <=, >, >=, <>. e.g. ">= %d"' => 'Můžete použít <, <=, >, >=, <>. Např.: ">= %d"',
     'Select some row' => 'Vyberte řádek',
     'Invert' => 'Obrátit výběr',
@@ -25,15 +25,3 @@ $dict = array(
     'No results.' => 'Žádné výsledky.',
     'Export all items' => 'Exportovat všechny položky',
 );
-
-function pluralIndex($number)
-{
-    $number = (int) $number;
-    if ($number == 1) {
-        return 0;
-    } else if ($number >= 2 && $number <= 4) {
-        return 1;
-    } else {
-        return 2;
-    }
-}
