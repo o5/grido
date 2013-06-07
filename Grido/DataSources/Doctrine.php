@@ -225,7 +225,10 @@ class Doctrine extends \Nette\Object implements IDataSource
 
         $items = array();
         foreach ($qb->getQuery()->getScalarResult() as $row) {
-            $value = $row[$qb->getRootAlias() . '_' . $column];
+            $mapping = isset($this->filterMapping[$column])
+                ? str_replace('.', '_', $this->filterMapping[$column])
+                : $qb->getRootAlias() . '_' . $column;
+            $value = $row[$mapping];
             $items[$value] = $value;
         }
 
