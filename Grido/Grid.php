@@ -990,7 +990,7 @@ class Grid extends \Nette\Application\UI\Control
      * @param string $name
      * @param string $label
      * @param string $type starting constants with Filter::TYPE_
-     * @param mixed $optional if type is select, then this it items for select
+     * @param mixed $optional if type is select, then this is items for select
      * @throws \InvalidArgumentException
      * @return Filter
      */

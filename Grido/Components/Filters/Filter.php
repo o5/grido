@@ -69,9 +69,8 @@ abstract class Filter extends \Grido\Components\Base
      * @param \Grido\Grid $grid
      * @param string $name
      * @param string $label
-     * @param mixed $optional - if TYPE_SELECT then this it items for select
      */
-    public function __construct($grid, $name, $label, $optional = NULL)
+    public function __construct($grid, $name, $label)
     {
         $this->addComponentToGrid($grid, $name);
 
