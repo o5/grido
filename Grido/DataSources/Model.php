@@ -42,6 +42,8 @@ class Model extends \Nette\Object
             $dataSource = new Doctrine($model);
         } elseif (is_array($model)) {
             $dataSource = new ArraySource($model);
+        } elseif ($model instanceof IDataSource) {
+            $dataSource = $model;
         } else {
             throw new \InvalidArgumentException('Model must be implemented \Grido\DataSources\IDataSource.');
         }

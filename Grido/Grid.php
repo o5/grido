@@ -111,12 +111,13 @@ class Grid extends \Nette\Application\UI\Control
     /**
      * Sets a model that implements the interface Grido\DataSources\IDataSource or data-source object.
      * @param mixed $model
+     * @param bool $forceWrapper
      * @throws \InvalidArgumentException
      * @return Grid
      */
-    public function setModel($model)
+    public function setModel($model, $forceWrapper = FALSE)
     {
-        if ($model instanceof DataSources\IDataSource) {
+        if ($model instanceof DataSources\IDataSource && $forceWrapper === FALSE) {
             $this->model = $model;
         } else {
             $this->model = new DataSources\Model($model);
