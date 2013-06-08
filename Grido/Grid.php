@@ -988,13 +988,23 @@ class Grid extends \Nette\Application\UI\Control
 
     /**
      * @param string $name
+     * @param \Nette\Forms\IControl $formControl
+     * @return \Grido\Components\Filters\Custom
+     */
+    public function addFilterCustom($name, \Nette\Forms\IControl $formControl)
+    {
+        return new Components\Filters\Custom($this, $name, NULL, $formControl);
+    }
+
+    /**
+     * @param string $name
      * @param string $label
      * @param string $type starting constants with Filter::TYPE_
      * @param mixed $optional if type is select, then this is items for select
      * @throws \InvalidArgumentException
      * @return Filter
      */
-    public function addFilter($name, $label, $type = Filter::TYPE_TEXT, $optional = NULL)
+    public function addFilter($name, $label = NULL, $type = Filter::TYPE_TEXT, $optional = NULL)
     {
         $filter = new $type($this, $name, $label, $optional);
         if (!$filter instanceof Filter) {

@@ -34,6 +34,7 @@ abstract class Filter extends \Grido\Components\Base
     const TYPE_CHECK = 'Grido\Components\Filters\Check';
     const TYPE_SELECT = 'Grido\Components\Filters\Select';
     const TYPE_NUMBER = 'Grido\Components\Filters\Number';
+    const TYPE_CUSTOM = 'Grido\Components\Filters\Custom';
 
     const OPERATOR_AND  = 'AND';
     const OPERATOR_OR   = 'OR';
