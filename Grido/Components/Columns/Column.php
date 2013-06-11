@@ -24,7 +24,7 @@ use Grido\Components\Filters\Filter;
  * @property-read \Nette\Utils\Html $cellPrototype
  * @property-read \Nette\Utils\Html $headerPrototype
  * @property-write string $defaultSorting
- * @property-write callback $customRender
+ * @property-write mixed $customRender
  * @property-write array $replacements
  * @property-write bool $sortable
  * @property string $column
@@ -56,7 +56,7 @@ abstract class Column extends \Grido\Components\Base
     /** @var \Nette\Utils\Html <th> html tag */
     protected $headerPrototype;
 
-    /** @var callback for custom rendering */
+    /** @var mixed for custom rendering */
     protected $customRender;
 
     /** @var bool */
@@ -122,12 +122,12 @@ abstract class Column extends \Grido\Components\Base
     }
 
     /**
-     * @param callback $callback array|closure
+     * @param mixed $customRender callback | string for name of template filename
      * @return Column
      */
-    public function setCustomRender($callback)
+    public function setCustomRender($customRender)
     {
-        $this->customRender = $callback;
+        $this->customRender = $customRender;
         return $this;
     }
 
@@ -261,6 +261,15 @@ abstract class Column extends \Grido\Components\Base
         return $this->sort;
     }
 
+    /**
+     * @internal
+     * @return mixed
+     */
+    public function getCustomRender()
+    {
+        return $this->customRender;
+    }
+
     /**********************************************************************************************/
 
     /**
@@ -290,7 +299,7 @@ abstract class Column extends \Grido\Components\Base
      */
     public function render($row)
     {
-        if ($this->customRender) {
+        if (is_callable($this->customRender)) {
             return callback($this->customRender)->invokeArgs(array($row));
         }
 

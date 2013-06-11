@@ -143,7 +143,11 @@
                 </td>
                 {foreach $control[Grido\Components\Columns\Column::ID]->getComponents() as $column}
                     {!$column->getCellPrototype()->startTag()}
-                        {!$column->render($row)}
+                        {if is_string($column->customRender)}
+                            {include $column->customRender control => $control, presenter => $control->presenter, item => $row}
+                        {else}
+                            {!$column->render($row)}
+                        {/if}
                     {!$column->getCellPrototype()->endTag()}
                 {/foreach}
                 <td n:if="$control->hasActions()" class="actions center">
