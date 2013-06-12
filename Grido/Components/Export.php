@@ -40,6 +40,11 @@ class Export extends Base implements \Nette\Application\IResponse
         $grid->addComponent($this, self::ID);
     }
 
+    /**
+     * @param array $data
+     * @param \Nette\ComponentModel\RecursiveComponentIterator $columns
+     * @return string
+     */
     protected function generateCsv($data, $columns)
     {
         $newLine = "\n";
@@ -49,17 +54,20 @@ class Export extends Base implements \Nette\Application\IResponse
         foreach ($columns as $column) {
             $head[] = $column->label;
         }
+
         $a = FALSE;
         $source = implode($delimiter, $head) . $newLine;
         foreach ($data as $item) {
             if ($a) {
                 $source .= $newLine;
             }
+
             $b = FALSE;
             foreach ($columns as $column) {
                 if ($b) {
                     $source .= $delimiter;
                 }
+
                 $source .= $column->renderExport($item);
                 $b = TRUE;
             }

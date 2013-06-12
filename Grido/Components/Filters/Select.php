@@ -45,6 +45,7 @@ class Select extends Filter
     {
         $control = new \Nette\Forms\Controls\SelectBox($this->label);
         $control->controlPrototype->class[] = 'text';
+
         return $control;
     }
 }

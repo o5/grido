@@ -34,19 +34,16 @@ class ArraySource extends \Nette\Object implements IDataSource
     protected function formatFilterCondition(array $condition)
     {
         $matches = \Nette\Utils\Strings::matchAll($condition[0], '/\[([\w_-]+)\]* ([\w\!<>=]+) ([%\w]+)/');
-        $column = NULL;
 
-        if ($matches) {
-            foreach ($matches as $match) {
-                return array(
-                    $match[1],
-                    $match[2],
-                    trim(str_replace(array('%s', '%i', '%f'), '?', $match[3])),
-                );
-            }
-        } else {
+        if (!$matches) {
             return $condition;
         }
+
+        return array(
+            $matches[0][1],
+            $matches[0][2],
+            trim(str_replace(array('%s', '%i', '%f'), '?', $matches[0][3]))
+        );
     }
 
     /**
@@ -74,7 +71,6 @@ class ArraySource extends \Nette\Object implements IDataSource
 
             } elseif (in_array($condition[1], array('<', '<=', '>', '>='))) {
                 return eval("return {$row[$condition[0]]}{$condition[1]}{$value};");
-
             }
         });
     }

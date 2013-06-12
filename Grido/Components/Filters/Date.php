@@ -34,6 +34,7 @@ class Date extends Text
         $control = parent::getFormControl();
         $control->controlPrototype->class[] = 'date';
         $control->controlPrototype->attrs['autocomplete'] = 'off';
+
         return $control;
     }
 }

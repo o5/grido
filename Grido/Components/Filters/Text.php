@@ -88,6 +88,7 @@ class Text extends Filter
     {
         $control = new \Nette\Forms\Controls\TextInput($this->label);
         $control->controlPrototype->class[] = 'text';
+
         return $control;
     }
 }
