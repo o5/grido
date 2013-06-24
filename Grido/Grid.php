@@ -191,6 +191,10 @@ class Grid extends \Nette\Application\UI\Control
      */
     public function setPerPageList(array $perPageList)
     {
+        if ($this->hasFilters(FALSE) || $this->hasOperations(FALSE)) {
+            trigger_error("This call may not be relevant after setting some filters or operations.", E_USER_NOTICE);
+        }
+
         $this->perPageList = $perPageList;
         return $this;
     }
@@ -658,56 +662,72 @@ class Grid extends \Nette\Application\UI\Control
 
     /**
      * @internal
+     * @param bool $useCache
      * @return bool
      */
-    public function hasActions()
+    public function hasFilters($useCache = TRUE)
     {
-        if ($this->hasActions === NULL) {
-            $container = $this->getComponent(Action::ID, FALSE);
-            $this->hasActions = $container && count($container->getComponents()) > 0;
-        }
+        $hasFilters = $this->hasFilters;
 
-        return $this->hasActions;
-    }
-
-    /**
-     * @internal
-     * @return bool
-     */
-    public function hasFilters()
-    {
-        if ($this->hasFilters === NULL) {
+        if ($hasFilters === NULL || $useCache === FALSE) {
             $container = $this->getComponent(Filter::ID, FALSE);
-            $this->hasFilters = $container && count($container->getComponents()) > 0;
+             $hasFilters = $container && count($container->getComponents()) > 0;
+             $this->hasFilters = $useCache ? $hasFilters : NULL;
         }
 
-        return $this->hasFilters;
+        return $hasFilters;
     }
 
     /**
      * @internal
+     * @param bool $useCache
      * @return bool
      */
-    public function hasOperations()
+    public function hasActions($useCache = TRUE)
     {
-        if ($this->hasOperations === NULL) {
-            $this->hasOperations = $this->getComponent(Operation::ID, FALSE);
+        $hasActions = $this->hasActions;
+
+        if ($hasActions === NULL || $useCache === FALSE) {
+            $container = $this->getComponent(Action::ID, FALSE);
+             $hasActions= $container && count($container->getComponents()) > 0;
+             $this->hasActions = $useCache ? $hasActions : NULL;
         }
 
-        return $this->hasOperations;
+        return $hasActions;
     }
 
     /**
      * @internal
+     * @param bool $useCache
      * @return bool
      */
-    public function hasExporting()
+    public function hasOperations($useCache = TRUE)
     {
-        if ($this->hasExporting === NULL) {
-            $this->hasExporting = $this->getComponent(Export::ID, FALSE);
+        $hasOperations = $this->hasOperations;
+
+        if ($hasOperations === NULL || $useCache === FALSE) {
+            $hasOperations = $this->getComponent(Operation::ID, FALSE);
+            $this->hasOperations = $useCache ? $hasOperations : NULL;
         }
 
-        return $this->hasExporting;
+        return $hasOperations;
+    }
+
+    /**
+     * @internal
+     * @param bool $useCache
+     * @return bool
+     */
+    public function hasExporting($useCache = TRUE)
+    {
+        $hasExporting = $this->hasExporting;
+
+        if ($hasExporting === NULL || $useCache === FALSE) {
+            $hasExporting = $this->getComponent(Export::ID, FALSE);
+            $this->hasExporting = $useCache ? $hasExporting : NULL;
+        }
+
+        return $hasExporting;
     }
 
     /**********************************************************************************************/
