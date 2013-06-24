@@ -340,16 +340,16 @@ class Grid extends \Nette\Application\UI\Control
      */
     public function getPerPage()
     {
-        $this->perPage = $this->perPage === NULL
+        $perPage = $this->perPage === NULL
             ? $this->defaultPerPage
             : $this->perPage;
 
-        if ($this->perPage !== NULL && !in_array($this->perPage, $this->perPageList)) {
+        if ($perPage !== NULL && !in_array($perPage, $this->perPageList)) {
             trigger_error("Items per page is out of range.", E_USER_NOTICE);
-            $this->perPage = NULL;
+            $perPage = $this->defaultPerPage;
         }
 
-        return $this->perPage;
+        return $perPage;
     }
 
     /**
