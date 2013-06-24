@@ -427,6 +427,11 @@ class Grid extends \Nette\Application\UI\Control
 
             $this->data = $this->model->getData();
 
+            if ($this->data && !in_array($this->page, range(1, $this->getPaginator()->pageCount))) {
+                trigger_error("Page is out of range.", E_USER_NOTICE);
+                $this->page = 1;
+            }
+
             if ($this->onFetchData) {
                 $this->onFetchData($this);
             }
@@ -846,11 +851,6 @@ class Grid extends \Nette\Application\UI\Control
         $paginator = $this->getPaginator()
             ->setItemCount($this->getCount())
             ->setPage($this->page);
-
-        if ($this->page > $paginator->pageCount) {
-            trigger_error("Page is out of range.", E_USER_NOTICE);
-            $this->page = 1;
-        }
 
         $this['form']['count']->setValue($this->getPerPage());
         $this->model->limit($paginator->getOffset(), $paginator->getLength());
