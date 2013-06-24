@@ -680,8 +680,8 @@ class Grid extends \Nette\Application\UI\Control
 
         if ($hasFilters === NULL || $useCache === FALSE) {
             $container = $this->getComponent(Filter::ID, FALSE);
-             $hasFilters = $container && count($container->getComponents()) > 0;
-             $this->hasFilters = $useCache ? $hasFilters : NULL;
+            $hasFilters = $container && count($container->getComponents()) > 0;
+            $this->hasFilters = $useCache ? $hasFilters : NULL;
         }
 
         return $hasFilters;
@@ -698,8 +698,8 @@ class Grid extends \Nette\Application\UI\Control
 
         if ($hasActions === NULL || $useCache === FALSE) {
             $container = $this->getComponent(Action::ID, FALSE);
-             $hasActions= $container && count($container->getComponents()) > 0;
-             $this->hasActions = $useCache ? $hasActions : NULL;
+            $hasActions= $container && count($container->getComponents()) > 0;
+            $this->hasActions = $useCache ? $hasActions : NULL;
         }
 
         return $hasActions;
@@ -751,6 +751,7 @@ class Grid extends \Nette\Application\UI\Control
         $template = parent::createTemplate($class);
         $template->setFile(__DIR__ . '/Grid.latte');
         $template->registerHelper('translate', callback($this->getTranslator(), 'translate'));
+
         return $template;
     }
 
