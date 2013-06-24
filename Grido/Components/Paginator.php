@@ -80,7 +80,7 @@ class Paginator extends \Nette\Utils\Paginator
             $quotient = ($this->pageCount - 1) / $count;
 
             for ($i = 0; $i <= $count; $i++) {
-                $arr[] = round($quotient * $i) + $this->firstPage;
+                $arr[] = (int) (round($quotient * $i) + $this->firstPage);
             }
 
             sort($arr);
