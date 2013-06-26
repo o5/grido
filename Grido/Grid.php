@@ -472,10 +472,10 @@ class Grid extends \Nette\Application\UI\Control
             return $this->filterRenderType;
         }
 
-        if ($this->hasFilters()) {
-            $this->filterRenderType = $this->hasActions()
-                ? Filter::RENDER_INNER
-                : Filter::RENDER_OUTER;
+        $this->filterRenderType = Filter::RENDER_OUTER;
+
+        if ($this->hasFilters() && $this->hasActions()) {
+            $this->filterRenderType = Filter::RENDER_INNER;
 
             $filters = $this[Filter::ID]->getComponents();
             foreach ($filters as $filter) {
@@ -877,7 +877,7 @@ class Grid extends \Nette\Application\UI\Control
     {
         $form = new \Nette\Application\UI\Form;
         $form->setTranslator($this->getTranslator());
-        $form->setMethod(\Nette\Application\UI\Form::GET);
+        $form->setMethod($form::GET);
 
         $buttons = $form->addContainer(self::BUTTONS);
         $buttons->addSubmit('search', 'Search');
