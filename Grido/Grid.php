@@ -600,37 +600,49 @@ class Grid extends \Nette\Application\UI\Control
 
     /**
      * @internal
-     * @param \Nette\Application\UI\Form $form
+     * @param \Nette\Forms\Controls\SubmitButton $button
      */
-    public function handleForm(\Nette\Application\UI\Form $form)
+    public function handleFilter(\Nette\Forms\Controls\SubmitButton $button)
     {
-        //filter handling
-        if ($form[self::BUTTONS]['search']->isSubmittedBy()) {
-            $values = $form->values;
-            foreach ($values[Filter::ID] as $name => $value) {
-                $filter = $this->getFilter($name);
-                $clearDefault = isset($this->defaultFilter[$name]);
-
-                if ($value != '' || $clearDefault) {
-                    $this->filter[$name] = $filter->changeValue($value);
-                } elseif (isset($this->filter[$name])) {
-                    unset($this->filter[$name]);
-                }
+        $values = $button->form->values[Filter::ID];
+        foreach ($values as $name => $value) {
+            if ($value != '' || isset($this->defaultFilter[$name])) {
+                $this->filter[$name] = $this->getFilter($name)->changeValue($value);
+            } elseif (isset($this->filter[$name])) {
+                unset($this->filter[$name]);
             }
-
-        //reset button handling
-        } elseif ($form[self::BUTTONS]['reset']->isSubmittedBy()) {
-            $this->sort = array();
-            $this->filter = array();
-            $this->perPage = NULL;
-            $form->setValues(array(Filter::ID => $this->defaultFilter), TRUE);
-            $this->getRememberSession()->remove();
-
-        //change items per page handling
-        } elseif ($form[self::BUTTONS]['perPage']->isSubmittedBy()) {
-            $perPage = (int) $form['count']->value;
-            $this->perPage = $perPage == $this->defaultPerPage ? NULL : $perPage;
         }
+
+        $this->page = 1;
+        $this->reload();
+    }
+
+    /**
+     * @internal
+     * @param \Nette\Forms\Controls\SubmitButton $button
+     */
+    public function handleReset(\Nette\Forms\Controls\SubmitButton $button)
+    {
+        $this->sort = array();
+        $this->perPage = NULL;
+        $this->filter = array();
+        $this->getRememberSession()->remove();
+        $button->form->setValues(array(Filter::ID => $this->defaultFilter), TRUE);
+
+        $this->page = 1;
+        $this->reload();
+    }
+
+    /**
+     * @internal
+     * @param \Nette\Forms\Controls\SubmitButton $button
+     */
+    public function handlePerPage(\Nette\Forms\Controls\SubmitButton $button)
+    {
+        $perPage = (int) $button->form['count']->value;
+        $this->perPage = $perPage == $this->defaultPerPage
+            ? NULL
+            : $perPage;
 
         $this->page = 1;
         $this->reload();
@@ -839,22 +851,22 @@ class Grid extends \Nette\Application\UI\Control
         $this->model->limit($paginator->getOffset(), $paginator->getLength());
     }
 
-    protected function createComponentForm()
+    protected function createComponentForm($name)
     {
-        $form = new \Nette\Application\UI\Form;
+        $form = new \Nette\Application\UI\Form($this, $name);
         $form->setTranslator($this->getTranslator());
         $form->setMethod($form::GET);
 
         $buttons = $form->addContainer(self::BUTTONS);
-        $buttons->addSubmit('search', 'Search');
-        $buttons->addSubmit('reset', 'Reset');
-        $buttons->addSubmit('perPage', 'Items per page');
+        $buttons->addSubmit('search', 'Search')
+            ->onClick[] = $this->handleFilter;
+        $buttons->addSubmit('reset', 'Reset')
+            ->onClick[] = $this->handleReset;
+        $buttons->addSubmit('perPage', 'Items per page')
+            ->onClick[] = $this->handlePerPage;
 
         $form->addSelect('count', 'Count', array_combine($this->perPageList, $this->perPageList))
             ->controlPrototype->attrs['title'] = $this->getTranslator()->translate('Items per page');
-        $form->onSuccess[] = callback($this, 'handleForm');
-
-        return $form;
     }
 
     /********************************* Components *************************************************/
