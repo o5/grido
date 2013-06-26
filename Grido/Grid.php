@@ -546,28 +546,19 @@ class Grid extends \Nette\Application\UI\Control
      /**
       * Loads state informations.
       * @internal
-      * @param array
-      * @return void
+      * @param array $params
       */
     public function loadState(array $params)
     {
-        $this->loadRememberState($params);
-
-        parent::loadState($params);
-    }
-
-    /**
-     * Loads state informations from session.
-     * @param array $params
-     */
-    protected function loadRememberState(array &$params)
-    {
+        //loads state from session
         $session = $this->getRememberSession();
         if ($this->presenter->isSignalReceiver($this)) {
             $session->remove();
         } elseif (!$params && $session->params) {
             $params = (array) $session->params;
         }
+
+        parent::loadState($params);
     }
 
     /**
@@ -755,13 +746,13 @@ class Grid extends \Nette\Application\UI\Control
      */
     public function render()
     {
+        $this->saveRememberState();
         $data = $this->getData();
 
         $this->template->paginator = $this->paginator;
         $this->template->data = $data;
 
         $this->onRender($this);
-        $this->saveRememberState();
         $this->template->render();
     }
 
