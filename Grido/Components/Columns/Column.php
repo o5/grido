@@ -304,7 +304,7 @@ abstract class Column extends \Grido\Components\Base
         }
 
         $value = $this->getValue($row);
-        if (is_string($value) || (is_object($value) && method_exists($value, '__toString'))) {
+        if (is_string($value) || is_numeric($value) || (is_object($value) && method_exists($value, '__toString'))) {
             $value = \Nette\Templating\Helpers::escapeHtml($value);
             $value = $this->applyReplacement($value);
         }
