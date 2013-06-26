@@ -11,6 +11,8 @@
 
 namespace Grido\Components;
 
+use Grido\Grid;
+
 /**
  * Operation with one or more rows.
  *
@@ -34,21 +36,25 @@ class Operation extends Base
      * @param \Grido\Grid $grid
      * @param array $operations
      * @param callback $onSubmit - callback after operation submit
-     * @param string $primaryKey
      */
     public function __construct($grid, $operations, $onSubmit)
     {
         $this->grid = $grid;
         $grid->addComponent($this, self::ID);
 
-        $form = $this->getForm();
-        $form[\Grido\Grid::BUTTONS]->addSubmit(self::ID, 'OK');
-        $form->addContainer(self::ID)
+        $grid['form'][$grid::BUTTONS]->addSubmit(self::ID, 'OK')
+            ->onClick[] = $this->handleOperations;
+
+        $grid['form']->addContainer(self::ID)
             ->addSelect(self::ID, 'Selected', $operations)
             ->setPrompt('Selected...');
 
+        $that = $this;
+        $grid->onRender[] = function(Grid $grid) use ($that) {
+            $that->addCheckers($grid['form'][Operation::ID]);
+        };
+
         $this->onSubmit[] = $onSubmit;
-        $this->primaryKey = $this->primaryKey;
     }
 
     /**
@@ -59,8 +65,10 @@ class Operation extends Base
      */
     public function setConfirm($operation, $message)
     {
-        $form = $this->getForm();
-        $form[self::ID][self::ID]->controlPrototype->attrs["data-grido-$operation"] = $message;
+        $this->grid->onRender[] = function(Grid $grid) use ($operation, $message){
+            $grid['form'][Operation::ID][Operation::ID]->controlPrototype->attrs["data-grido-$operation"] = $message;
+        };
+
         return $this;
     }
 
@@ -87,5 +95,49 @@ class Operation extends Base
         }
 
         return $this->primaryKey;
+    }
+
+    /**********************************************************************************************/
+
+    /**
+     * @internal
+     * @param \Nette\Forms\Controls\SubmitButton $button
+     */
+    public function handleOperations(\Nette\Forms\Controls\SubmitButton $button)
+    {
+        $form = $button->getForm();
+        $this->addCheckers($form[self::ID]);
+
+        $values = $form[self::ID]->values;
+        if (empty($values[self::ID])) {
+            $this->grid->reload();
+        }
+
+        $ids = array();
+        $operation = $values[self::ID];
+        unset($values[self::ID]);
+
+        foreach ($values as $key => $val) {
+            if ($val) {
+                $ids[] = $key;
+            }
+        }
+
+        $this->onSubmit($operation, $ids);
+    }
+
+    /**
+     * @internal
+     * @param \Nette\Forms\Container $container
+     */
+    public function addCheckers(\Nette\Forms\Container $container)
+    {
+        $items = $this->grid->getData();
+        $primaryKey = $this->getPrimaryKey();
+        $propertAccessor = $this->grid->getPropertyAccessor();
+
+        foreach ($items as $item) {
+            $container->addCheckbox($propertAccessor->getProperty($item, $primaryKey));
+        }
     }
 }

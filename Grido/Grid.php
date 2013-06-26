@@ -626,24 +626,6 @@ class Grid extends \Nette\Application\UI\Control
             $form->setValues(array(Filter::ID => $this->defaultFilter), TRUE);
             $this->getRememberSession()->remove();
 
-        //operations handling
-        } elseif ($this->hasOperations() && $form[self::BUTTONS][Operation::ID]->isSubmittedBy()) {
-            $this->addCheckers($this->getData());
-
-            $values = $form[Operation::ID]->values;
-            if (empty($values[Operation::ID])) {
-                $this->reload();
-            }
-            $ids = array();
-            $operation = $values[Operation::ID];
-            unset($values[Operation::ID]);
-            foreach ($values as $key => $val) {
-                if ($val) {
-                    $ids[] = $key;
-                }
-            }
-            $this[Operation::ID]->onSubmit($operation, $ids);
-
         //change items per page handling
         } elseif ($form[self::BUTTONS]['perPage']->isSubmittedBy()) {
             $perPage = (int) $form['count']->value;
@@ -656,9 +638,10 @@ class Grid extends \Nette\Application\UI\Control
 
     /**
      * Refresh wrapper.
+     * @internal
      * @return void
      */
-    protected function reload()
+    public function reload()
     {
         if ($this->presenter->isAjax()) {
             $this->invalidateControl();
@@ -761,7 +744,6 @@ class Grid extends \Nette\Application\UI\Control
     public function render()
     {
         $data = $this->getData();
-        $this->addCheckers($data);
 
         $this->template->paginator = $this->paginator;
         $this->template->data = $data;
@@ -855,22 +837,6 @@ class Grid extends \Nette\Application\UI\Control
 
         $this['form']['count']->setValue($this->getPerPage());
         $this->model->limit($paginator->getOffset(), $paginator->getLength());
-    }
-
-    /**
-     * @param array $data
-     */
-    protected function addCheckers($data)
-    {
-        if ($this->hasOperations()) {
-            $operation = $this['form'][Operation::ID];
-            if (count($operation->getComponents()) == 1) {
-                $pk = $this[Operation::ID]->getPrimaryKey();
-                foreach ($data as $item) {
-                    $operation->addCheckbox($this->getPropertyAccessor()->getProperty($item, $pk));
-                }
-            }
-        }
     }
 
     protected function createComponentForm()
