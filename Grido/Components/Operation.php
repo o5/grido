@@ -134,10 +134,10 @@ class Operation extends Base
     {
         $items = $this->grid->getData();
         $primaryKey = $this->getPrimaryKey();
-        $propertAccessor = $this->grid->getPropertyAccessor();
+        $propertyAccessor = $this->grid->getPropertyAccessor();
 
         foreach ($items as $item) {
-            $container->addCheckbox($propertAccessor->getProperty($item, $primaryKey));
+            $container->addCheckbox($propertyAccessor->getProperty($item, $primaryKey));
         }
     }
 }
