@@ -1031,6 +1031,16 @@ class Grid extends \Nette\Application\UI\Control
     /**
      * @param string $name
      * @param string $label
+     * @return \Grido\Components\Actions\Event
+     */
+    public function addActionEvent($name, $label)
+    {
+        return new Components\Actions\Event($this, $name, $label);
+    }
+
+    /**
+     * @param string $name
+     * @param string $label
      * @param string $type starting constants with Action::TYPE_
      * @param string $destination - first param for method $presenter->link()
      * @param array $args - second param for method $presenter->link()
