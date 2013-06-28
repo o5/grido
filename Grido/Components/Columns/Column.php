@@ -295,7 +295,7 @@ abstract class Column extends \Grido\Components\Base
     /**
      * @internal
      * @param mixed $row
-     * @return void
+     * @return string
      */
     public function render($row)
     {
