@@ -24,6 +24,7 @@ class ArrayObjectAccessor implements IPropertyAccessor
      * @param mixed $object
      * @param string $name
      * @return bool
+     * @throws \InvalidArgumentException
      */
     public static function hasProperty($object, $name)
     {

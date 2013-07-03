@@ -21,14 +21,14 @@ namespace Grido\DataSources;
 interface IDataSource
 {
     /**
-     * @return array
-     */
-    function getData();
-
-    /**
      * @return int
      */
     function getCount();
+
+    /**
+     * @return array
+     */
+    function getData();
 
     /**
      * @param array $condition

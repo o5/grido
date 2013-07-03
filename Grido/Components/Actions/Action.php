@@ -20,12 +20,12 @@ use Nette\Utils\Html;
  * @subpackage  Components\Actions
  * @author      Petr Bugyík
  *
- * @property-write Html $elementPrototype
  * @property-read Html $element
+ * @property-write Html $elementPrototype
  * @property-write array $customRender
  * @property-write array $disable
- * @property string $primaryKey
  * @property-write string|callback $confirm
+ * @property string $primaryKey
  * @property string $icon
  */
 abstract class Action extends \Grido\Components\Base

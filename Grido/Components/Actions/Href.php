@@ -104,6 +104,7 @@ class Href extends Action
     /**********************************************************************************************/
 
     /**
+     * @internal
      * @param $id
      */
     public function handleClick($id)

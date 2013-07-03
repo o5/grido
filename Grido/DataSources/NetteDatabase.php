@@ -18,9 +18,9 @@ namespace Grido\DataSources;
  * @subpackage  DataSources
  * @author      Petr Bugyík
  *
+ * @property-read \Nette\Database\Table\Selection $selection
  * @property-read int $count
  * @property-read array $data
- * @property-read \Nette\Database\Table\Selection $selection
  */
 class NetteDatabase extends \Nette\Object implements IDataSource
 {
@@ -54,19 +54,19 @@ class NetteDatabase extends \Nette\Object implements IDataSource
     /*********************************** interface IDataSource ************************************/
 
     /**
-     * @return array
-     */
-    public function getData()
-    {
-        return $this->selection;
-    }
-
-    /**
      * @return int
      */
     public function getCount()
     {
         return $this->selection->count('*');
+    }
+
+    /**
+     * @return array
+     */
+    public function getData()
+    {
+        return $this->selection;
     }
 
     /**

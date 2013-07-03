@@ -17,6 +17,9 @@ namespace Grido\DataSources;
  * @package     Grido
  * @subpackage  DataSources
  * @author      Josef Kříž <pepakriz@gmail.com>
+ *
+ * @property-read array $data
+ * @property-read int $count
  */
 class ArraySource extends \Nette\Object implements IDataSource
 {
@@ -58,10 +61,9 @@ class ArraySource extends \Nette\Object implements IDataSource
 
         return array_filter($data, function ($row) use ($value, $condition) {
             if ($condition[1] === 'LIKE') {
-                if (strlen($value) <= 2) {
-                    return TRUE;
-                }
-                return stripos($row[$condition[0]], substr($value, 1, -1)) !== FALSE;
+                return strlen($value) <= 2
+                    ? TRUE
+                    : stripos($row[$condition[0]], substr($value, 1, -1)) !== FALSE;
 
             } else if ($condition[1] === '=') {
                 return $row[$condition[0]] == $value;
@@ -78,19 +80,19 @@ class ArraySource extends \Nette\Object implements IDataSource
     /*********************************** interface IDataSource ************************************/
 
     /**
-     * @return array
-     */
-    public function getData()
-    {
-        return $this->data;
-    }
-
-    /**
      * @return int
      */
     public function getCount()
     {
         return count($this->data);
+    }
+
+    /**
+     * @return array
+     */
+    public function getData()
+    {
+        return $this->data;
     }
 
     /**

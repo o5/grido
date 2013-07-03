@@ -21,11 +21,11 @@ use Nette\Utils\Strings,
  * @subpackage  DataSources
  * @author      Martin Jantosovic <martin.jantosovic@freya.sk>
  *
- * @property-read int $count
- * @property-read array $data
  * @property-read Doctrine\ORM\QueryBuilder $qb
  * @property-read array $filterMapping
  * @property-read array $sortMapping
+ * @property-read int $count
+ * @property-read array $data
  */
 class Doctrine extends \Nette\Object implements IDataSource
 {
@@ -122,6 +122,15 @@ class Doctrine extends \Nette\Object implements IDataSource
     /*********************************** interface IDataSource ************************************/
 
     /**
+     * @return int
+     */
+    public function getCount()
+    {
+        $paginator = new Paginator($this->getQuery());
+        return $paginator->count();
+    }
+
+    /**
      * It is possible to use query builder with additional columns.
      * In this case, only item at index [0] is returned, because
      * it should be an entity object.
@@ -154,15 +163,6 @@ class Doctrine extends \Nette\Object implements IDataSource
         }
 
         return $data;
-    }
-
-    /**
-     * @return int
-     */
-    public function getCount()
-    {
-        $paginator = new Paginator($this->getQuery());
-        return $paginator->count();
     }
 
     /**

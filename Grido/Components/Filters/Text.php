@@ -59,7 +59,6 @@ class Text extends Filter
     /**
      * @internal
      * @param string $query - value from input
-     * @throws \InvalidArgumentException
      */
     public function handleSuggest($query)
     {

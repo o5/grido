@@ -18,11 +18,11 @@ namespace Grido\DataSources;
  * @subpackage  DataSources
  * @author      Petr Bugyík
  *
- * @property-read int $count
- * @property-read array $data
  * @property-read \DibiFluent $fluent
  * @property-read int $limit
  * @property-read int $offset
+ * @property-read int $count
+ * @property-read array $data
  */
 class DibiFluent extends \Nette\Object implements IDataSource
 {
@@ -70,20 +70,20 @@ class DibiFluent extends \Nette\Object implements IDataSource
     /*********************************** interface IDataSource ************************************/
 
     /**
-     * @return array
-     */
-    public function getData()
-    {
-        return $this->fluent->fetchAll($this->offset, $this->limit);
-    }
-
-    /**
      * @return int
      */
     public function getCount()
     {
         $fluent = clone $this->fluent;
         return $fluent->count();
+    }
+
+    /**
+     * @return array
+     */
+    public function getData()
+    {
+        return $this->fluent->fetchAll($this->offset, $this->limit);
     }
 
     /**

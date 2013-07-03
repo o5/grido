@@ -53,6 +53,7 @@ abstract class Base extends \Nette\Application\UI\PresenterComponent
         if ($this->form === NULL) {
             $this->form = $this->grid['form'];
         }
+
         return $this->form;
     }
 
