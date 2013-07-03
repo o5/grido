@@ -18,21 +18,34 @@ namespace Grido\Components\Actions;
  * @subpackage  Components\Actions
  * @author      Petr Bugyík
  *
- * @property-read \Nette\Utils\Html $elementPrototype
  * @property-write array $customHref
- * @property-write string|callback $confirm
- * @property string $icon
  */
 class Href extends Action
 {
+
+    /** @var string first param for method $presenter->link() */
+    protected $destination;
+
+    /** @var array second param for method $presenter->link() */
+    protected $arguments = array();
+
     /** @var callback for custom href attribute creating */
     protected $customHref;
 
-    /** @var string */
-    protected $icon;
+    /**
+     * @param \Grido\Grid $grid
+     * @param string $name
+     * @param string $label
+     * @param string $destination - first param for method $presenter->link()
+     * @param array $args - second param for method $presenter->link()
+     */
+    public function __construct($grid, $name, $label, $destination = NULL, array $args = NULL)
+    {
+        parent::__construct($grid, $name, $label);
 
-    /** @var string|callback */
-    protected $confirm;
+        $this->destination = $destination;
+        $this->arguments = $args;
+    }
 
     /**
      * Sets callback for custom link creating.
@@ -45,61 +58,18 @@ class Href extends Action
         return $this;
     }
 
-    /**
-     * Sets twitter bootstrap icon class.
-     * @param string $iconName
-     * @return Href
-     */
-    public function setIcon($iconName)
-    {
-        $this->icon = $iconName;
-        return $this;
-    }
-
-    /**
-     * Sets client side confirm.
-     * @param string|callback $confirm
-     * @return Href
-     */
-    public function setConfirm($confirm)
-    {
-        $this->confirm = $confirm;
-        return $this;
-    }
-
     /**********************************************************************************************/
 
     /**
-     * Returns element prototype (<a> html tag).
+     * @param $item
      * @return \Nette\Utils\Html
      */
-    public function getElementPrototype()
+    public function getElement($item)
     {
-        if (!$this->elementPrototype) {
-            $this->elementPrototype = \Nette\Utils\Html::el('a')
-                ->setClass(array('no-ajax grid-action-' . $this->getName(), 'btn', 'btn-mini'));
-        }
-
-        return $this->elementPrototype;
-    }
-
-    /**
-     * @param mixed $item
-     * @throws \InvalidArgumentException
-     * @return void
-     */
-    public function render($item)
-    {
-        if (!$item || ($this->disable && callback($this->disable)->invokeArgs(array($item)))) {
-            return;
-        }
+        $el = parent::getElement($item);
 
         $pk = $this->getPrimaryKey();
         $hasPk = $this->grid->propertyAccessor->hasProperty($item, $pk);
-
-        if (!$this->customRender && !$hasPk) {
-            throw new \InvalidArgumentException("Primary key '$pk' not found.");
-        }
 
         $href = NULL;
         if ($this->customHref) {
@@ -109,33 +79,23 @@ class Href extends Action
             $href = $this->presenter->link($this->getDestination(), $this->arguments);
         }
 
-        $text = $this->translate($this->label);
-        $this->icon ? $text = ' ' . $text : $text;
-
-        $el = clone $this->getElementPrototype()
-            ->setText($text);
-
         if ($href) {
             $el->href($href);
         }
 
-        if ($this->confirm) {
-            $el->attrs['data-grido-confirm'] = $this->translate(
-                is_callable($this->confirm)
-                    ? callback($this->confirm)->invokeArgs(array($item))
-                    : $this->confirm
-            );
+        return $el;
+    }
+
+    /**
+     * @internal
+     * @return string
+     */
+    protected function getDestination()
+    {
+        if ($this->destination === NULL) {
+            $this->destination = $this->name;
         }
 
-        if ($this->icon) {
-            $el->insert(0,\Nette\Utils\Html::el('i')->setClass(array("icon-$this->icon")));
-        }
-
-        if ($this->customRender) {
-            echo callback($this->customRender)->invokeArgs(array($item, $el));
-            return;
-        }
-
-        echo $el->render();
+        return $this->destination;
     }
 }

@@ -19,14 +19,18 @@ namespace Grido\Components\Actions;
  * @author      Petr Bugyík
  *
  * @property-write \Nette\Utils\Html $elementPrototype
+ * @property-read \Nette\Utils\Html $element
  * @property-write array $customRender
  * @property-write array $disable
  * @property string $primaryKey
+ * @property-write string|callback $confirm
+ * @property string $icon
  */
 abstract class Action extends \Grido\Components\Base
 {
     const ID = 'actions';
 
+    /** @deprecated */
     const TYPE_HREF = 'Grido\Components\Actions\Href';
 
     /** @var callback for custom rendering */
@@ -38,30 +42,26 @@ abstract class Action extends \Grido\Components\Base
     /** @var \Nette\Utils\Html <a> html tag */
     protected $elementPrototype;
 
-    /** @var string first param for method $presenter->link() */
-    protected $destination;
-
-    /** @var array second param for method $presenter->link() */
-    protected $arguments = array();
-
     /** @var string - name of primary key f.e.: link->('Article:edit', array($primaryKey => 1)) */
     protected $primaryKey;
+
+    /** @var string|callback */
+    protected $confirm;
+
+    /** @var string */
+    protected $icon;
 
     /**
      * @param \Grido\Grid $grid
      * @param string $name
      * @param string $label
-     * @param string $destination - first param for method $presenter->link()
-     * @param array $args - second param for method $presenter->link()
      */
-    public function __construct($grid, $name, $label, $destination = NULL, array $args = NULL)
+    public function __construct($grid, $name, $label)
     {
         $this->addComponentToGrid($grid, $name);
 
         $this->type = get_class($this);
         $this->label = $label;
-        $this->destination = $destination;
-        $this->arguments = $args;
     }
 
     /**
@@ -109,7 +109,78 @@ abstract class Action extends \Grido\Components\Base
         return $this;
     }
 
+    /**
+     * Sets client side confirm.
+     * @param string|callback $confirm
+     * @return Href
+     */
+    public function setConfirm($confirm)
+    {
+        $this->confirm = $confirm;
+        return $this;
+    }
+
+    /**
+     * Sets twitter bootstrap icon class.
+     * @param string $iconName
+     * @return Href
+     */
+    public function setIcon($iconName)
+    {
+        $this->icon = $iconName;
+        return $this;
+    }
+
     /**********************************************************************************************/
+
+    /**
+     * Returns element prototype (<a> html tag).
+     * @return \Nette\Utils\Html
+     */
+    public function getElementPrototype()
+    {
+        if (!$this->elementPrototype) {
+            $this->elementPrototype = \Nette\Utils\Html::el('a')
+                ->setClass(array('no-ajax grid-action-' . $this->getName(), 'btn', 'btn-mini'));
+        }
+
+        return $this->elementPrototype;
+    }
+
+    /**
+     * @param $item
+     * @return \Nette\Utils\Html
+     * @throws \InvalidArgumentException
+     */
+    protected function getElement($item)
+    {
+        $pk = $this->getPrimaryKey();
+        $hasPk = $this->grid->propertyAccessor->hasProperty($item, $pk);
+
+        if (!$this->customRender && !$hasPk) {
+            throw new \InvalidArgumentException("Primary key '$pk' not found.");
+        }
+
+        $text = $this->translate($this->label);
+        $this->icon ? $text = ' ' . $text : $text;
+
+        $el = clone $this->getElementPrototype()
+            ->setText($text);
+
+        if ($this->confirm) {
+            $el->attrs['data-grido-confirm'] = $this->translate(
+                is_callable($this->confirm)
+                    ? callback($this->confirm)->invokeArgs(array($item))
+                    : $this->confirm
+            );
+        }
+
+        if ($this->icon) {
+            $el->insert(0, \Nette\Utils\Html::el('i')->setClass(array("icon-$this->icon")));
+        }
+
+        return $el;
+    }
 
     /**
      * @internal
@@ -125,15 +196,23 @@ abstract class Action extends \Grido\Components\Base
     }
 
     /**
-     * @internal
-     * @return string
+     * @param mixed $item
+     * @throws \InvalidArgumentException
+     * @return void
      */
-    protected function getDestination()
+    public function render($item)
     {
-        if ($this->destination === NULL) {
-            $this->destination = $this->name;
+        if (!$item || ($this->disable && callback($this->disable)->invokeArgs(array($item)))) {
+            return;
         }
 
-        return $this->destination;
+        $el = $this->getElement($item);
+
+        if ($this->customRender) {
+            echo callback($this->customRender)->invokeArgs(array($item, $el));
+            return;
+        }
+
+        echo $el->render();
     }
 }
