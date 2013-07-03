@@ -11,6 +11,8 @@
 
 namespace Grido\Components\Actions;
 
+use Nette\Utils\Html;
+
 /**
  * Action on one row.
  *
@@ -18,8 +20,8 @@ namespace Grido\Components\Actions;
  * @subpackage  Components\Actions
  * @author      Petr Bugyík
  *
- * @property-write \Nette\Utils\Html $elementPrototype
- * @property-read \Nette\Utils\Html $element
+ * @property-write Html $elementPrototype
+ * @property-read Html $element
  * @property-write array $customRender
  * @property-write array $disable
  * @property string $primaryKey
@@ -30,7 +32,6 @@ abstract class Action extends \Grido\Components\Base
 {
     const ID = 'actions';
 
-    /** @deprecated */
     const TYPE_HREF = 'Grido\Components\Actions\Href';
 
     /** @var callback for custom rendering */
@@ -39,7 +40,7 @@ abstract class Action extends \Grido\Components\Base
     /** @var callback for disabling */
     protected $disable;
 
-    /** @var \Nette\Utils\Html <a> html tag */
+    /** @var Html <a> html tag */
     protected $elementPrototype;
 
     /** @var string - name of primary key f.e.: link->('Article:edit', array($primaryKey => 1)) */
@@ -88,10 +89,10 @@ abstract class Action extends \Grido\Components\Base
 
     /**
      * Sets html element.
-     * @param \Nette\Utils\Html $elementPrototype
+     * @param Html $elementPrototype
      * @return Action
      */
-    public function setElementPrototype(\Nette\Utils\Html $elementPrototype)
+    public function setElementPrototype(Html $elementPrototype)
     {
         $this->elementPrototype = $elementPrototype;
         return $this;
@@ -135,12 +136,12 @@ abstract class Action extends \Grido\Components\Base
 
     /**
      * Returns element prototype (<a> html tag).
-     * @return \Nette\Utils\Html
+     * @return Html
      */
     public function getElementPrototype()
     {
         if (!$this->elementPrototype) {
-            $this->elementPrototype = \Nette\Utils\Html::el('a')
+            $this->elementPrototype = Html::el('a')
                 ->setClass(array('no-ajax grid-action-' . $this->getName(), 'btn', 'btn-mini'));
         }
 
@@ -149,26 +150,26 @@ abstract class Action extends \Grido\Components\Base
 
     /**
      * @param $item
-     * @return \Nette\Utils\Html
+     * @return Html
      * @throws \InvalidArgumentException
      */
     protected function getElement($item)
     {
-        $pk = $this->getPrimaryKey();
-        $hasPk = $this->grid->propertyAccessor->hasProperty($item, $pk);
+        $primaryKey = $this->getPrimaryKey();
+        $propertyAccessor = $this->grid->propertyAccessor;
 
-        if (!$this->customRender && !$hasPk) {
-            throw new \InvalidArgumentException("Primary key '$pk' not found.");
+        if (!$this->customRender && !$propertyAccessor->hasProperty($item, $primaryKey)) {
+            throw new \InvalidArgumentException("Primary key '$primaryKey' not found.");
         }
 
         $text = $this->translate($this->label);
         $this->icon ? $text = ' ' . $text : $text;
 
-        $el = clone $this->getElementPrototype()
+        $element = clone $this->getElementPrototype()
             ->setText($text);
 
         if ($this->confirm) {
-            $el->attrs['data-grido-confirm'] = $this->translate(
+            $element->attrs['data-grido-confirm'] = $this->translate(
                 is_callable($this->confirm)
                     ? callback($this->confirm)->invokeArgs(array($item))
                     : $this->confirm
@@ -176,10 +177,10 @@ abstract class Action extends \Grido\Components\Base
         }
 
         if ($this->icon) {
-            $el->insert(0, \Nette\Utils\Html::el('i')->setClass(array("icon-$this->icon")));
+            $element->insert(0, Html::el('i')->setClass(array("icon-$this->icon")));
         }
 
-        return $el;
+        return $element;
     }
 
     /**
@@ -206,13 +207,13 @@ abstract class Action extends \Grido\Components\Base
             return;
         }
 
-        $el = $this->getElement($item);
+        $element = $this->getElement($item);
 
         if ($this->customRender) {
-            echo callback($this->customRender)->invokeArgs(array($item, $el));
+            echo callback($this->customRender)->invokeArgs(array($item, $element));
             return;
         }
 
-        echo $el->render();
+        echo $element->render();
     }
 }

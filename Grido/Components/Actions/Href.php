@@ -22,6 +22,8 @@ namespace Grido\Components\Actions;
  */
 class Href extends Action
 {
+    /** @var array callback */
+    public $onClick;
 
     /** @var string first param for method $presenter->link() */
     protected $destination;
@@ -66,24 +68,24 @@ class Href extends Action
      */
     public function getElement($item)
     {
-        $el = parent::getElement($item);
+        $element = parent::getElement($item);
+        $primaryKey = $this->getPrimaryKey();
+        $propertyAccessor = $this->grid->propertyAccessor;
 
-        $pk = $this->getPrimaryKey();
-        $hasPk = $this->grid->propertyAccessor->hasProperty($item, $pk);
-
-        $href = NULL;
-        if ($this->customHref) {
+        if ($this->customRender) {
+            return $element;
+        } elseif ($this->customHref) {
             $href = callback($this->customHref)->invokeArgs(array($item));
-        } elseif ($hasPk) {
-            $this->arguments[$pk] = $this->grid->propertyAccessor->getProperty($item, $pk);
+        } elseif ($this->onClick) {
+            $href = $this->link('click!', $propertyAccessor->getProperty($item, $primaryKey));
+        } else {
+            $this->arguments[$primaryKey] = $propertyAccessor->getProperty($item, $primaryKey);
             $href = $this->presenter->link($this->getDestination(), $this->arguments);
         }
 
-        if ($href) {
-            $el->href($href);
-        }
+        $element->href($href);
 
-        return $el;
+        return $element;
     }
 
     /**
@@ -97,5 +99,15 @@ class Href extends Action
         }
 
         return $this->destination;
+    }
+
+    /**********************************************************************************************/
+
+    /**
+     * @param $id
+     */
+    public function handleClick($id)
+    {
+        $this->onClick($id, $this);
     }
 }
