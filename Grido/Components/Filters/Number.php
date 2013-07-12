@@ -21,7 +21,7 @@ namespace Grido\Components\Filters;
 class Number extends Text
 {
     /** @var string for ->where('<column> <> %f', <value>) */
-    protected $condition = '/(<>|[<|>]=?)?([0-9,|.]+)/';
+    protected $condition = '/(<>|[<|>]=?)?([-0-9,|.]+)/';
 
     /**
      * @return \Nette\Forms\Controls\TextInput
