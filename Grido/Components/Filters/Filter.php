@@ -153,7 +153,12 @@ abstract class Filter extends \Grido\Components\Base
     public function getColumns()
     {
         if (!$this->columns) {
-            $this->setColumn($this->name);
+            $column = $this->name;
+            if ($column = $this->grid->getColumn($this->name, FALSE)) {
+                $column = $column->column; //use db column from column compoment
+            }
+
+            $this->setColumn($column);
         }
 
         return $this->columns;
