@@ -142,7 +142,7 @@ abstract class Action extends \Grido\Components\Base
     {
         if (!$this->elementPrototype) {
             $this->elementPrototype = Html::el('a')
-                ->setClass(array('no-ajax grid-action-' . $this->getName(), 'btn', 'btn-mini'));
+                ->setClass(array('grid-action-' . $this->getName(), 'btn', 'btn-mini'));
         }
 
         return $this->elementPrototype;

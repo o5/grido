@@ -8,6 +8,7 @@
  *}
 
 {snippet grid}
+{?$control['form']->elementPrototype->class[] = 'ajax'}
 {form form}
 
 {* TWITTER BOOTSTRAP *}
@@ -43,7 +44,8 @@
     </div>
 {/if}
 
-<table n:block="table" id="{$control->name}" class="grido">
+{block table}
+{!$control->tablePrototype->startTag()}
     <thead>
         <tr class="head">
             <th n:if="$control->hasOperations()" class="checker"{if $control->hasFilters()} rowspan="{if $control->filterRenderType == Grido\Components\Filters\Filter::RENDER_OUTER}1{else}2{/if}"{/if}>
@@ -52,9 +54,9 @@
             {foreach $control[Grido\Components\Columns\Column::ID]->getComponents() as $column}
                 {!$column->getHeaderPrototype()->startTag()}
                     {if $column->isSortable()}
-                        <a n:if="!$column->getSort()" n:href="sort! [$column->getName() => Grido\Components\Columns\Column::ASC]">{_$column->label}</a>
-                        <a n:if="$column->getSort() == Grido\Components\Columns\Column::ASC" n:href="sort! [$column->getName() => Grido\Components\Columns\Column::DESC]" class="sort">{_$column->label}</a>
-                        <a n:if="$column->getSort() == Grido\Components\Columns\Column::DESC" n:href="sort! [$column->getName() => isset($control->defaultSort[$column->getName()]) ? '' : NULL]" class="sort">{_$column->label}</a>
+                        <a n:if="!$column->getSort()" n:href="sort! [$column->getName() => Grido\Components\Columns\Column::ASC]" class="ajax">{_$column->label}</a>
+                        <a n:if="$column->getSort() == Grido\Components\Columns\Column::ASC" n:href="sort! [$column->getName() => Grido\Components\Columns\Column::DESC]" class="sort ajax">{_$column->label}</a>
+                        <a n:if="$column->getSort() == Grido\Components\Columns\Column::DESC" n:href="sort! [$column->getName() => isset($control->defaultSort[$column->getName()]) ? '' : NULL]" class="sort ajax">{_$column->label}</a>
                         <span></span>
                     {else}
                         {_$column->label}
@@ -99,22 +101,22 @@
                     {if $control->page == 1}
                         <span class="btn btn-mini disabled" n:href="page! page => $paginator->page - 1"><i class="icon-arrow-left"></i> {_'Previous'}</span>
                     {else}
-                        <a class="btn btn-mini" n:href="page! page => $paginator->page - 1"><i class="icon-arrow-left"></i> {_'Previous'}</a>
+                        <a class="btn btn-mini ajax" n:href="page! page => $paginator->page - 1"><i class="icon-arrow-left"></i> {_'Previous'}</a>
                     {/if}
                     {var $steps = $paginator->getSteps()}
                     {foreach $steps as $step}
                         {if $step == $control->page}
                             <span class="btn btn-mini disabled">{$step}</span>
                         {else}
-                            <a class="btn btn-mini" n:href="page! page => $step">{$step}</a>
+                            <a class="btn btn-mini ajax" n:href="page! page => $step">{$step}</a>
                         {/if}
-                        <a n:if="$iterator->nextValue > $step + 1" class="promt no-ajax" data-grido-promt="{_'Enter page:'}" data-grido-link="{link page! page => 0}">...</a>
+                        <a n:if="$iterator->nextValue > $step + 1" class="prompt" data-grido-prompt="{_'Enter page:'}" data-grido-link="{link page! page => 0}">...</a>
                         {var $prevStep = $step}
                     {/foreach}
                     {if $control->page == $paginator->getPageCount()}
                         <span class="btn btn-mini disabled" n:href="page! page => $paginator->page + 1">{_'Next'} <i class="icon-arrow-right"></i></span>
                     {else}
-                        <a class="btn btn-mini" n:href="page! page => $paginator->page + 1">{_'Next'} <i class="icon-arrow-right"></i></a>
+                        <a class="btn btn-mini ajax" n:href="page! page => $paginator->page + 1">{_'Next'} <i class="icon-arrow-right"></i></a>
                     {/if}
                 </span>
 
@@ -124,7 +126,7 @@
                     {formContainer buttons}
                         {input perPage, class => 'hide'}
                     {/formContainer}
-                    <a n:if="$control->hasExporting()" class="btn btn-mini no-ajax" href="{=$control->getComponent(Grido\Components\Export::ID)->link('export!')}" title="{_'Export all items'}"><i class="icon-download"></i></a>
+                    <a n:if="$control->hasExporting()" class="btn btn-mini" href="{=$control->getComponent(Grido\Components\Export::ID)->link('export!')}" title="{_'Export all items'}"><i class="icon-download"></i></a>
                 </span>
             </td>
         </tr>
@@ -159,6 +161,7 @@
         {/foreach}
         <tr n:if="!$data"><td colspan="{=$showActionsColumn ? $columnCount + 1 : $columnCount}" class="no-results">{_'No results.'}</td></tr>
     </tbody>
-</table>
+{!$control->tablePrototype->endTag()}
+{/block}
 {/form}
 {/snippet}

@@ -27,6 +27,7 @@ use Grido\Components\Columns\Column,
  * @property-read int $count
  * @property-read mixed $data
  * @property-read callback $rowCallback
+ * @property-read \Nette\Utils\Html $tablePrototype
  * @property-write bool $rememberState
  * @property-write array $defaultPerPage
  * @property-write string $templateFile
@@ -65,6 +66,9 @@ class Grid extends \Nette\Application\UI\Control
 
     /** @var callback $rowCallback - callback returns tr html element; function($row, Html $tr) */
     protected $rowCallback;
+
+    /** @var \Nette\Utils\Html */
+    protected $tablePrototype;
 
     /** @var bool  */
     protected $rememberState = FALSE;
@@ -281,6 +285,17 @@ class Grid extends \Nette\Application\UI\Control
         return $this;
     }
 
+    /**
+     * Sets client-side options.
+     * @param array $options
+     * @return \Grido\Grid
+     */
+    public function setClientSideOptions(array $options)
+    {
+        $this->getTablePrototype()->data['grido-options'] = json_encode($options);
+        return $this;
+    }
+
     /**********************************************************************************************/
 
     /**
@@ -458,6 +473,21 @@ class Grid extends \Nette\Application\UI\Control
     public function getRememberSession()
     {
         return $this->presenter->getSession($this->presenter->name . '\\' . ucfirst($this->name));
+    }
+
+    /**
+     * Returns table html element of grid.
+     * @return \Nette\Utils\Html
+     */
+    public function getTablePrototype()
+    {
+        if ($this->tablePrototype === NULL) {
+            $this->tablePrototype = \Nette\Utils\Html::el('table')
+                ->id($this->name)
+                ->class('grido');
+        }
+
+        return $this->tablePrototype;
     }
 
     /**
