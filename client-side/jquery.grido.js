@@ -319,8 +319,8 @@
                 var selection = window.getSelection();
                 selection.removeAllRanges && selection.removeAllRanges();
 
-            } else if (window.document.selection) {
-                window.document.selection.empty();
+            } else if (document.selection) { //IE < 9
+                document.selection.empty();
             }
 
             this.grido.$element
