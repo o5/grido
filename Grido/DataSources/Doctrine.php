@@ -230,9 +230,9 @@ class Doctrine extends \Nette\Object implements IDataSource
                 : $qb->getRootAlias() . '_' . $column;
 
             $value = $row[$mapping];
-            $items[$value] = $value;
+            $items[] = (string) $value;
         }
 
-        return array_keys($items);
+        return $items;
     }
 }

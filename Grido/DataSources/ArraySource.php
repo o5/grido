@@ -149,16 +149,15 @@ class ArraySource extends \Nette\Object implements IDataSource
     public function suggest($column, array $conditions)
     {
         $data = $this->data;
-
         foreach ($conditions as $condition) {
             $data = $this->getFilter($data, $condition);
         }
 
-        $suggestions = array();
+        $items = array();
         foreach ($data as $row) {
-            $suggestions[] = (string)$row[$column];
+            $items[] = (string) $row[$column];
         }
 
-        return $suggestions;
+        return $items;
     }
 }

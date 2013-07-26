@@ -126,7 +126,12 @@ class DibiFluent extends \Nette\Object implements IDataSource
             call_user_func_array(array($fluent, 'where'), $condition);
         }
 
-        $items = array_keys($fluent->fetchPairs($column, $column));
+        $items = array();
+        $data = array_keys($fluent->fetchPairs($column, $column));
+        foreach ($data as $value) {
+            $items[] = (string) $value;
+        }
+
         return $items;
     }
 }
