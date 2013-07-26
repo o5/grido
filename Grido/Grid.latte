@@ -21,7 +21,7 @@
 
 {var $columnCount = count($control[Grido\Components\Columns\Column::ID]->getComponents())}
 {var $columnCount = $control->hasOperations() ? $columnCount + 1 : $columnCount}
-{var $showActionsColumn = $control->filterRenderType == Grido\Components\Filters\Filter::RENDER_INNER || $control->hasActions()}
+{var $showActionsColumn = $control->hasActions() || ($control->hasFilters() && $control->filterRenderType == Grido\Components\Filters\Filter::RENDER_INNER)}
 
 {if $control->filterRenderType == Grido\Components\Filters\Filter::RENDER_OUTER}
     <div n:block="outerFilter" class="grido filter outer">
@@ -67,7 +67,7 @@
                 {_'Actions'}
             </th>
         </tr>
-        <tr n:if="$control->filterRenderType == Grido\Components\Filters\Filter::RENDER_INNER" class="filter inner">
+        <tr n:if="$control->filterRenderType == Grido\Components\Filters\Filter::RENDER_INNER && $control->hasFilters()" class="filter inner">
             {foreach $control[Grido\Components\Columns\Column::ID]->getComponents() as $column}
                 {if $column->hasFilter()}
                     {!$control->getFilter($column->getName())->getWrapperPrototype()->startTag()}
@@ -152,10 +152,14 @@
                         {/if}
                     {!$column->getCellPrototype()->endTag()}
                 {/foreach}
-                <td n:if="$control->hasActions()" class="actions center">
-                    {foreach $control[\Grido\Components\Actions\Action::ID]->getComponents() as $action}
-                        {control $action $row}
-                    {/foreach}
+                <td n:if="$showActionsColumn" class="actions center">
+                    {if $control->hasActions()}
+                        {foreach $control[\Grido\Components\Actions\Action::ID]->getComponents() as $action}
+                            {control $action $row}
+                        {/foreach}
+                    {else}
+                        &nbsp;
+                    {/if}
                 </td>
             {!$tr->endTag()}
         {/foreach}
