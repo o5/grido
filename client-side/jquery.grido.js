@@ -466,7 +466,10 @@
 
     $.fn.grido = function(options) {
         return this.each(function() {
-            new Grido.Grid($(this), options).init();
+            var $this = $(this);
+            if (!$this.data('grido')) {
+                $this.data('grido', new Grido.Grid($this, options).init());
+            }
         });
     };
 
