@@ -262,12 +262,17 @@
         {
             var _this = this;
             this.grido.$element.on('click', 'tbody td:not(.checker,.actions)', function(event) {
-                $.proxy(_this.disableSelection, _this)();
+                if (event.shiftKey) {
+                    _this.disableSelection.call(_this)
+                }
 
                 //this trigger will not be work in jQuery > 1.8.3
                 //http://bugs.jquery.com/ticket/13428
                 $('[type=checkbox]', $(this).parent()).trigger('click', [{shiftKey: event.shiftKey}]);
-                $.proxy(_this.enableSelection, _this)();
+
+                if (event.shiftKey) {
+                    _this.enableSelection.call(_this);
+                }
             });
         },
 
