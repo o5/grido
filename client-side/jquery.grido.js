@@ -21,6 +21,8 @@
  */
 
 ;(function($, window, document, undefined) {
+    /*jshint laxbreak: true, expr: true */
+    "use strict";
 
     var Grido = Grido || {};
 
@@ -94,8 +96,8 @@
         {
             var _this = this;
             this.$element.on('click', '.paginator .prompt', function() {
-                var page = parseInt(prompt($(this).data('grido-prompt')));
-                if (page && page > 0 && page <= parseInt($('.paginator a.btn:last', _this.element).prev().text())) {
+                var page = parseInt(prompt($(this).data('grido-prompt')), 10);
+                if (page && page > 0 && page <= parseInt($('.paginator a.btn:last', _this.element).prev().text(), 10)) {
                     var location = $(this).data('grido-link').replace('page=0', 'page=' + page);
                     window.location = _this.options.ajax ? location.replace('?', '#') : location;
                 }
@@ -203,7 +205,6 @@
         }
     };
 
-
     /* OPERATION CLASS DEFINITION */
     /* ========================== */
 
@@ -263,7 +264,7 @@
             var _this = this;
             this.grido.$element.on('click', 'tbody td:not(.checker,.actions)', function(event) {
                 if (event.shiftKey) {
-                    _this.disableSelection.call(_this)
+                    _this.disableSelection.call(_this);
                 }
 
                 //this trigger will not be work in jQuery > 1.8.3
@@ -387,7 +388,6 @@
             }
         }
     };
-
 
     /*    AJAX CLASS DEFINITION   */
     /* ========================== */
