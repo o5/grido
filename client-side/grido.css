@@ -97,7 +97,7 @@
 }
 
 .grido.filter.outer .items {
-    width: 90%;
+    width: 85%;
     float: left;
     min-height: 60px;
 }
@@ -116,7 +116,7 @@
 
 .grido.filter.outer .buttons {
     float: right;
-    margin: .9% .5% 0 0;
+    margin: 15px 5px 0 0;
 }
 
 /*.grido .btn-group {vertical-align: baseline}*/
