@@ -119,8 +119,6 @@
     margin: .9% .5% 0 0;
 }
 
-.grido input.date {background: url('../img/cal.jpg') #fff no-repeat right center}
-
 /*.grido .btn-group {vertical-align: baseline}*/
 
 /******************** OTHERS ********************/
@@ -156,7 +154,6 @@
 .grido .grido .dropdown-menu {min-width: 50px}
 
 .grido .center {text-align: center}
-.grido .empty {background: #FBFBFB url(../img/bg.jpg) 0 0 repeat}
 
 /******************** TWITTER BOOTSTRAP RESET ********************/
 
