@@ -132,7 +132,7 @@
 .grido td.actions {text-align: center}
 
 .grido td.actions a {margin-right: 3px}
-.grido th.checker {width: 0.1%;text-align: center}
+.grido th.checker {width: 1%;text-align: center}
 .grido td.checker {text-align: center}
 
 .grido th:last-child,
