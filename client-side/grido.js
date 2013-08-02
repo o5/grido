@@ -10,17 +10,12 @@
 /**
  * Client-side script for Grido.
  *
- * @package     Grido
- * @author      Petr Bugyík
- * @depends
- *      jquery.js > 1.7
- *      bootstrap-typeahead.js - https://rawgithub.com/o5/bootstrap/master/js/bootstrap-typeahead.js
- *      jquery.hashchange.js - https://rawgithub.com/fujiy/jquery-hashchange/master/jquery.ba-hashchange.js
- *      jquery.maskedinput.js - https://rawgithub.com/digitalBush/jquery.maskedinput/master/dist/jquery.maskedinput.js
- *      bootstrap-datepicker.js - https://rawgithub.com/Aymkdn/Datepicker-for-Bootstrap/master/bootstrap-datepicker.js
+ * @author Petr Bugyík
+ * @param {jQuery} $ (version > 1.7)
+ * @param {Window} window
+ * @param {Document} document
  */
-
-;(function($, window, document, undefined) {
+;(function($, window, document) {
     /*jshint laxbreak: true, expr: true */
     "use strict";
 
@@ -50,10 +45,9 @@
             this.initActions();
             this.initPagePrompt();
             this.initOperation();
-            this.initSuggest();
-            this.initDatepicker();
             this.initCheckNumeric();
             this.initAjax();
+            this.onInit();
 
             return this;
         },
@@ -115,70 +109,6 @@
         },
 
         /**
-         * Init suggestion.
-         */
-        initSuggest: function()
-        {
-            if ($.fn.typeahead === undefined) {
-                console.error('Plugin "bootstrap-typeahead.js" is missing!');
-                return;
-            }
-
-            var _this = this;
-            this.$element
-                .on('keyup', 'input.suggest', function(event) {
-                    var key = event.keyCode || event.which;
-                    if (key === 13) { //enter
-                        event.stopPropagation();
-                        event.preventDefault();
-
-                        _this.sendFilterForm();
-                    }
-                })
-                .on('focus', 'input.suggest', function() {
-                    $(this).typeahead({
-                        source: function (query, process) {
-                            if (!/\S/.test(query)) {
-                                return false;
-                            }
-
-                            var link = this.$element.data('grido-suggest-handler'),
-                                replacement = this.$element.data('grido-suggest-replacement');
-
-                            return $.get(link.replace(replacement, query), function (items) {
-                                //TODO local cache??
-                                process(items);
-                            }, "json");
-                        },
-
-                        updater: function (item) {
-                            this.$element.val(item);
-                            _this.sendFilterForm();
-                        },
-
-                        autoSelect: false //improvement of original bootstrap-typeahead.js
-                    });
-            });
-        },
-
-        /**
-         * Init datepicker.
-         */
-        initDatepicker: function()
-        {
-            var _this = this;
-            this.$element.on('focus', 'input.date', function() {
-                $.fn.mask === undefined
-                    ? console.error('Plugin "jquery.maskedinput.js" is missing!')
-                    : $(this).mask(_this.options.datepicker.mask);
-
-                $.fn.datepicker === undefined
-                    ? console.error('Plugin "bootstrap-datepicker.js" is missing!')
-                    : $(this).datepicker({format: _this.options.datepicker.format});
-            });
-        },
-
-        /**
          * Checking numeric input.
          */
         initCheckNumeric: function()
@@ -195,6 +125,8 @@
         {
             this.options.ajax && new Grido.Ajax(this).init();
         },
+
+        onInit: function() {},
 
         /**
          * Sending filter form.
@@ -418,10 +350,6 @@
 
         registerHashChangeEvent: function()
         {
-            $.fn.hashchange === undefined
-                ? console.error('Plugin "jquery.hashchange.js" is missing!')
-                : $(window).hashchange($.proxy(this.handleHashChangeEvent, this));
-
             this.handleHashChangeEvent();
         },
 
@@ -455,12 +383,17 @@
             if (hash.indexOf(this.grido.name + '-') >= 0 && state !== hash) {
                 var url = window.location.toString();
                 url = url.indexOf('?') >= 0 ? url.replace('#', '&') : url.replace('#', '?');
-                url = url + '&do=' + this.grido.name + '-refresh';
-
-                $.fn.netteAjax === undefined
-                    ? $.get(url)
-                    : $.nette.ajax({url: url});
+                this.doRequest(url + '&do=' + this.grido.name + '-refresh');
             }
+        },
+
+        /**
+         * Load data from the server using a HTTP GET request.
+         * @param {string} url
+         */
+        doRequest: function(url)
+        {
+            $.get(url);
         }
     };
 
@@ -477,14 +410,6 @@
             }
         });
     };
-
-    /*      GRIDO SHORTCUTS       */
-    /* ========================== */
-
-    $.fn.grido.Grido = Grido;
-    $.fn.grido.Grid = Grido.Grid;
-    $.fn.grido.Ajax = Grido.Ajax;
-    $.fn.grido.Operation = Grido.Operation;
 
     /*      GRIDO NO CONFLICT     */
     /* ========================== */
@@ -504,5 +429,7 @@
             format: 'dd.mm.yyyy'
         }
     };
+
+    window.Grido = Grido;
 
 })(jQuery, window, document);
