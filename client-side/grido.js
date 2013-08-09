@@ -282,8 +282,8 @@
         changeRow: function($row, selected)
         {
             selected
-                ? $row.addClass('selected')
-                : $row.removeClass('selected');
+                ? $row.addClass('info')
+                : $row.removeClass('info');
 
             $(this.selector + ':checked', this.grido.$element).length === 0
                 ? this.controlState('disabled')

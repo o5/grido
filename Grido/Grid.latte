@@ -137,7 +137,6 @@
                 ? $form[Grido\Components\Operation::ID][$control->getPropertyAccessor()->getProperty($row, $control[Grido\Components\Operation::ID]->getPrimaryKey())]
                 : NULL}
             {?$tr = $control->getRowPrototype($row)}
-            {?$tr->class[] = $iterator->even ? 'even' : NULL}
             {?$tr->class[] = $checkbox && $checkbox->getValue() ? 'selected' : NULL}
             {!$tr->startTag()}
                 <td n:if="$checkbox" class="checker">

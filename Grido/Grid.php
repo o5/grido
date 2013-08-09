@@ -484,7 +484,7 @@ class Grid extends \Nette\Application\UI\Control
         if ($this->tablePrototype === NULL) {
             $this->tablePrototype = \Nette\Utils\Html::el('table')
                 ->id($this->name)
-                ->class('grido');
+                ->class('grido table table-striped table-hover');
         }
 
         return $this->tablePrototype;

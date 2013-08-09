@@ -138,11 +138,6 @@
 .grido th:last-child,
 .grido td:last-child { border-right: 0;}
 
-.grido tbody tr.even {background: #f9f9f9}
-
-.grido tbody tr:hover,
-.grido tbody tr.selected {background: #DEEEFA}
-
 .grido tfoot tr {height: 35px}
 .grido tfoot td {border-bottom:0}
 .grido tfoot td:first-child {border-radius: 0 0 0 4px}
@@ -156,6 +151,10 @@
 .grido .center {text-align: center}
 
 /******************** TWITTER BOOTSTRAP RESET ********************/
+
+.grido.table thead th {vertical-align: middle}
+.grido.table th, .table td {vertical-align: middle}
+.grido.table tfoot td {text-align: inherit}
 
 .grido input.text, .grido select {
     margin-bottom: 0;
