@@ -57,9 +57,9 @@
          */
         initFilters: function()
         {
-            this.$element.on('change', '.filter select, .filter [type=checkbox]',
-                $.proxy(this.sendFilterForm, this)
-            );
+            $('.filter select, .filter [type=checkbox]', this.$element)
+                .off('change.grido')
+                .on('change.grido', $.proxy(this.sendFilterForm, this));
         },
 
         /**
@@ -67,9 +67,11 @@
          */
         initItemsPerPage: function()
         {
-            this.$element.on('change', '[name=count]', function() {
-                $(this).next().trigger('click');
-            });
+            $('[name=count]', this.$element)
+                .off('change.grido')
+                .on('change.grido', function() {
+                    $(this).next().trigger('click');
+                });
         },
 
         /**
@@ -77,10 +79,16 @@
          */
         initActions: function()
         {
-            this.$element.on('click', '.actions a', function() {
-               var hasConfirm = $(this).data('grido-confirm');
-               return hasConfirm ? confirm(hasConfirm) : true;
-            });
+            $('.actions a', this.$element)
+                .off('click.grido')
+                .on('click.grido', function(event) {
+                    var hasConfirm = $(this).data('grido-confirm');
+                    if (hasConfirm && !confirm(hasConfirm)) {
+                        event.preventDefault();
+                        event.stopImmediatePropagation();
+                        return false;
+                    }
+                });
         },
 
         /**
@@ -89,13 +97,15 @@
         initPagePrompt: function()
         {
             var _this = this;
-            this.$element.on('click', '.paginator .prompt', function() {
-                var page = parseInt(prompt($(this).data('grido-prompt')), 10);
-                if (page && page > 0 && page <= parseInt($('.paginator a.btn:last', _this.element).prev().text(), 10)) {
-                    var location = $(this).data('grido-link').replace('page=0', 'page=' + page);
-                    window.location = _this.options.ajax ? location.replace('?', '#') : location;
-                }
-            });
+            $('.paginator .prompt', this.$element)
+                .off('click.grido')
+                .on('click.grido', function() {
+                    var page = parseInt(prompt($(this).data('grido-prompt')), 10);
+                    if (page && page > 0 && page <= parseInt($('.paginator a.btn:last', _this.element).prev().text(), 10)) {
+                        var location = $(this).data('grido-link').replace('page=0', 'page=' + page);
+                        window.location = _this.options.ajax ? location.replace('?', '#') : location;
+                    }
+                });
         },
 
         /**
@@ -113,12 +123,14 @@
          */
         initCheckNumeric: function()
         {
-            this.$element.on('keyup', 'input.number', function() {
-                var value = $(this).val(),
-                    pattern = new RegExp(/[^<>=\\.\\,\-0-9]+/g); //TODO: improve my regex knowledge :)
+            $('input.number', this.$element)
+                .off('keyup.grido')
+                .on('keyup.grido', function() {
+                    var value = $(this).val(),
+                        pattern = new RegExp(/[^<>=\\.\\,\-0-9]+/g); //TODO: improve my regex knowledge :)
 
-                pattern.test(value) && $(this).val(value.replace(pattern, ''));
-            });
+                    pattern.test(value) && $(this).val(value.replace(pattern, ''));
+                });
         },
 
         initAjax: function()
@@ -176,72 +188,84 @@
         bindClickOnCheckbox: function()
         {
             var _this = this;
-            this.grido.$element.on('click', this.selector, function(event, data) {
-                if(event.shiftKey || (data && data.shiftKey)) {
-                    var $boxes = $(_this.selector, _this.grido.$element),
-                        start = $boxes.index(this),
-                        end = $boxes.index(_this.$last);
+            $(this.selector, this.grido.$element)
+                .off('click.grido')
+                .on('click.grido', function(event, data) {
+                    if(event.shiftKey || (data && data.shiftKey)) {
+                        var $boxes = $(_this.selector, _this.grido.$element),
+                            start = $boxes.index(this),
+                            end = $boxes.index(_this.$last);
 
-                    $boxes.slice(Math.min(start, end), Math.max(start, end))
-                        .attr('checked', _this.$last.checked)
-                        .trigger('change');
-                }
+                        $boxes.slice(Math.min(start, end), Math.max(start, end))
+                            .attr('checked', _this.$last.checked)
+                            .trigger('change');
+                    }
 
-                _this.$last = this;
-            });
+                    _this.$last = this;
+                });
         },
 
         bindClickOnRow: function()
         {
             var _this = this;
-            this.grido.$element.on('click', 'tbody td:not(.checker,.actions)', function(event) {
-                if (event.shiftKey) {
-                    _this.disableSelection.call(_this);
-                }
+            $('tbody td:not(.checker,.actions a)', this.grido.$element)
+                .off('click.grido')
+                .on('click.grido', function(event) {
+                    if (event.shiftKey) {
+                        _this.disableSelection.call(_this);
+                    }
 
-                //this trigger will not be work in jQuery > 1.8.3
-                //http://bugs.jquery.com/ticket/13428
-                $('[type=checkbox]', $(this).parent()).trigger('click', [{shiftKey: event.shiftKey}]);
+                    //this trigger will not be work in jQuery > 1.8.3
+                    //http://bugs.jquery.com/ticket/13428
+                    $('[type=checkbox]', $(this).parent()).trigger('click', [{shiftKey: event.shiftKey}]);
 
-                if (event.shiftKey) {
-                    _this.enableSelection.call(_this);
-                }
-            });
+                    if (event.shiftKey) {
+                        _this.enableSelection.call(_this);
+                    }
+                });
         },
 
         bindClickOnInvertor: function()
         {
             var _this = this;
-            this.grido.$element.on('click', 'th.checker [type=checkbox]', function() {
-                $(_this.selector, _this.grido.$element).each(function() {
-                    var val = $(this).prop('checked');
-                    $(this).prop('checked', !val);
-                    _this.changeRow($(this).parent().parent(), !val);
-                });
+            $('th.checker [type=checkbox]', this.grido.$element)
+                .off('click.grido')
+                .on('click.grido', function() {
+                    $(_this.selector, _this.grido.$element).each(function() {
+                        var val = $(this).prop('checked');
+                        $(this).prop('checked', !val);
+                        _this.changeRow($(this).parent().parent(), !val);
+                    });
 
-                return false;
-            });
+                    return false;
+                });
         },
 
         bindChangeOnCheckbox: function()
         {
             var _this = this;
-            this.grido.$element.on('change', this.selector, function() {
-                $.proxy(_this.changeRow, _this)($(this).parent().parent(), $(this).prop('checked'));
-            });
+            $(this.selector, this.grido.$element)
+                .off('change.grido')
+                .on('change.grido', function() {
+                    $.proxy(_this.changeRow, _this)($(this).parent().parent(), $(this).prop('checked'));
+                });
         },
 
         bindChangeOnSelect: function()
         {
             var _this = this;
-            this.grido.$element.on('change', '.operations [name="operations[operations]"]', function() {
-                $(this).val() && $('.operations [type=submit]', _this.grido.$element).click();
-            });
+            $('.operations [name="operations[operations]"]', this.grido.$element)
+                .off('change.grido')
+                .on('change.grido', function() {
+                    $(this).val() && $('.operations [type=submit]', _this.grido.$element).click();
+                });
         },
 
         bindClickOnButton: function()
         {
-            this.grido.$element.on('click', '.operations [type=submit]', $.proxy(this.onSubmit, this));
+            $('.operations [type=submit]', this.grido.$element)
+                .off('click.grido')
+                .on('click.grido', $.proxy(this.onSubmit, this));
         },
 
         disableSelection: function()
@@ -342,7 +366,7 @@
         registerSuccessEvent: function()
         {
             var _this = this;
-            this.grido.$element.bind('gridoAjaxSuccess', function(event, payload) {
+            this.grido.$element.bind('success.ajax.grido', function(event, payload) {
                 $.proxy(_this.handleSuccessEvent, _this)(payload);
                 event.stopImmediatePropagation();
             });
