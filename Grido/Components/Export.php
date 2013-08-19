@@ -94,6 +94,7 @@ class Export extends Base implements \Nette\Application\IResponse
      */
     public function send(\Nette\Http\IRequest $httpRequest, \Nette\Http\IResponse $httpResponse)
     {
+        $file = $this->name . '.csv';
         $data = $this->grid->getData(FALSE);
         $columns = $this->grid[\Grido\Components\Columns\Column::ID]->getComponents();
         $source = $this->generateCsv($data, $columns);
@@ -105,7 +106,7 @@ class Export extends Base implements \Nette\Application\IResponse
         $httpResponse->setHeader('Content-Encoding', $charset);
         $httpResponse->setHeader('Content-Length', strlen($source));
         $httpResponse->setHeader('Content-Type', "text/csv; charset=$charset");
-        $httpResponse->setHeader('Content-Disposition', "attachment; filename=\"{$this->name}.csv\"");
+        $httpResponse->setHeader('Content-Disposition', "attachment; filename=\"$file\"; filename*=utf-8''$file");
 
         print $source;
     }
