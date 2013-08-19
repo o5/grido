@@ -155,9 +155,10 @@ class ArraySource extends \Nette\Object implements IDataSource
 
         $items = array();
         foreach ($data as $row) {
-            $items[] = (string) $row[$column];
+            $value = (string) $row[$column];
+            $items[$value] = $value;
         }
 
-        return $items;
+        return array_values($items);
     }
 }

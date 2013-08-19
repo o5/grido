@@ -111,15 +111,17 @@ class NetteDatabase extends \Nette\Object implements IDataSource
         $items = array();
         if (is_callable($column)) {
             foreach ($selection as $item) {
-                $items[] = (string) $column($item);
+                $value = (string) $column($item);
+                $items[$value] = $value;
             }
         } else {
             $data = $selection->fetchPairs($column, $column);
             foreach ($data as $value) {
-                $items[] = (string) $value;
+                $value = (string) $value;
+                $items[$value] = $value;
             }
         }
 
-        return $items;
+        return array_values($items);
     }
 }

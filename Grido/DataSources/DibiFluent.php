@@ -127,11 +127,12 @@ class DibiFluent extends \Nette\Object implements IDataSource
         }
 
         $items = array();
-        $data = array_keys($fluent->fetchPairs($column, $column));
-        foreach ($data as $value) {
-            $items[] = (string) $value;
+        $data = $fluent->fetchPairs($column, $column);
+        foreach ($data as $key => $value) {
+            $value = (string) $value;
+            $items[$value] = $value;
         }
 
-        return $items;
+        return array_values($items);
     }
 }

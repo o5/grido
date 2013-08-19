@@ -229,10 +229,10 @@ class Doctrine extends \Nette\Object implements IDataSource
                 ? str_replace('.', '_', $this->filterMapping[$column])
                 : $qb->getRootAlias() . '_' . $column;
 
-            $value = $row[$mapping];
-            $items[] = (string) $value;
+            $value = (string) $row[$mapping];
+            $items[$value] = $value;
         }
 
-        return $items;
+        return array_values($items);
     }
 }
