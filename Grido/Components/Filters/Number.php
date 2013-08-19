@@ -46,9 +46,10 @@ class Number extends Text
         $condition = NULL;
         if (preg_match($this->condition, $value, $matches)) {
             $operator = $matches[1] ? $matches[1] : '=';
+            $value = str_replace(',', '.', $matches[2]);
             $condition = array(
                 "[$column] $operator %f",
-                str_replace(',', '.', $matches[2])
+                $value === '.' ? 0 : $value //prevents error for input like ">."
             );
         }
 
