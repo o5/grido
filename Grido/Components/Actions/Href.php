@@ -69,17 +69,19 @@ class Href extends Action
     public function getElement($item)
     {
         $element = parent::getElement($item);
-        $primaryKey = $this->getPrimaryKey();
-        $propertyAccessor = $this->grid->propertyAccessor;
 
-        if ($this->customRender) {
-            return $element;
-        } elseif ($this->customHref) {
+        $href = '';
+        $primaryKey = $this->getPrimaryKey();
+        $primaryValue = $this->grid->propertyAccessor->hasProperty($item, $primaryKey)
+            ? $this->grid->propertyAccessor->getProperty($item, $primaryKey)
+            : NULL;
+
+        if ($this->customHref) {
             $href = callback($this->customHref)->invokeArgs(array($item));
         } elseif ($this->onClick) {
-            $href = $this->link('click!', $propertyAccessor->getProperty($item, $primaryKey));
-        } else {
-            $this->arguments[$primaryKey] = $propertyAccessor->getProperty($item, $primaryKey);
+            $href = $this->link('click!', $primaryValue);
+        } elseif ($primaryValue) {
+            $this->arguments[$primaryKey] = $primaryValue;
             $href = $this->presenter->link($this->getDestination(), $this->arguments);
         }
 
