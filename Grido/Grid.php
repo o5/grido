@@ -29,8 +29,8 @@ use Grido\Components\Columns\Column,
  * @property-read callback $rowCallback
  * @property-read \Nette\Utils\Html $tablePrototype
  * @property-write bool $rememberState
- * @property-write array $defaultPerPage
  * @property-write string $templateFile
+ * @property array $defaultPerPage
  * @property array $defaultFilter
  * @property array $defaultSort
  * @property array $perPageList
@@ -146,7 +146,8 @@ class Grid extends \Nette\Application\UI\Control
      */
     public function setDefaultPerPage($perPage)
     {
-        $this->defaultPerPage = (int) $perPage;
+        $perPage = (int) $perPage;
+        $this->defaultPerPage = $perPage;
 
         if (!in_array($perPage, $this->perPageList)) {
             $this->perPageList[] = $perPage;
@@ -163,10 +164,7 @@ class Grid extends \Nette\Application\UI\Control
      */
     public function setDefaultFilter(array $filter)
     {
-        $this->defaultFilter = $this->defaultFilter
-            ? array_merge($this->defaultFilter, $filter)
-            : $filter;
-
+        $this->defaultFilter = $filter;
         return $this;
     }
 
@@ -309,6 +307,15 @@ class Grid extends \Nette\Application\UI\Control
         }
 
         return $this->count;
+    }
+
+    /**
+     * Returns default per page.
+     * @return int
+     */
+    public function getDefaultPerPage()
+    {
+        return $this->defaultPerPage;
     }
 
     /**
