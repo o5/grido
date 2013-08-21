@@ -30,7 +30,7 @@ for i in `seq 1 $#`; do
     shift
 done
 
-# Run tests with script's arguments, doubled -c option intentionally
+# Run tests with script's arguments
 php "$runnerScript" -j "$jobsNum" -p "php" "$@"
 error=$?
 

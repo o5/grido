@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Test: Grido\Grid - "setters"
+ * Test: Grid "setters"
  *
  * @author     Petr Bugyík
  * @package    Grido
@@ -104,4 +104,22 @@ test(function() //Grid::setFilterRenderType()
     Assert::exception(function() use ($grid) {
         $grid->setFilterRenderType('INNERR');
     }, 'InvalidArgumentException');
+});
+
+test(function() //Grid::setTemplateFile()
+{
+    $grid = new Grid;
+
+    $template = __FILE__;
+    $grid->setTemplateFile($template);
+    Assert::same($template, $grid->template->getFile());
+});
+
+test(function() //Grid::setClientSideOptions()
+{
+    $grid = new Grid;
+
+    $options = array('key' => 'value');
+    $grid->setClientSideOptions($options);
+    Assert::same($grid->tablePrototype->data['grido-options'], json_encode($options));
 });
