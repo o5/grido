@@ -140,7 +140,7 @@ class Grid extends \Nette\Application\UI\Control
     }
 
     /**
-     * Sets default per page.
+     * Sets the default number of items per page.
      * @param int $perPage
      * @return Grid
      */
@@ -178,7 +178,12 @@ class Grid extends \Nette\Application\UI\Control
         static $replace = array('asc' => Column::ASC, 'desc' => Column::DESC);
 
         foreach ($sort as $column => $dir) {
-            $this->defaultSort[$column] = strtr(strtolower($dir), $replace);
+            $dir = strtr(strtolower($dir), $replace);
+            if (!in_array($dir, $replace)) {
+                throw new \InvalidArgumentException("Dir '$dir' for column '$column' is not allowed.");
+            }
+
+            $this->defaultSort[$column] = $dir;
         }
 
         return $this;
@@ -191,11 +196,12 @@ class Grid extends \Nette\Application\UI\Control
      */
     public function setPerPageList(array $perPageList)
     {
+        $this->perPageList = $perPageList;
+
         if ($this->hasFilters(FALSE) || $this->hasOperations(FALSE)) {
-            trigger_error("This call may not be relevant after setting some filters or operations.", E_USER_NOTICE);
+            $this['form']['count']->setItems($this->getItemsForCountSelect());
         }
 
-        $this->perPageList = $perPageList;
         return $this;
     }
 
@@ -219,6 +225,8 @@ class Grid extends \Nette\Application\UI\Control
      */
     public function setFilterRenderType($type)
     {
+        $type = strtolower($type);
+
         if (!in_array($type, array(Filter::RENDER_INNER, Filter::RENDER_OUTER))) {
             throw new \InvalidArgumentException('Type must be Filter::RENDER_INNER or Filter::RENDER_OUTER.');
         }
@@ -365,7 +373,7 @@ class Grid extends \Nette\Application\UI\Control
             : $this->perPage;
 
         if ($perPage !== NULL && !in_array($perPage, $this->perPageList)) {
-            trigger_error("Items per page is out of range.", E_USER_NOTICE);
+            trigger_error("The number '$perPage' of items per page is out of range.", E_USER_NOTICE);
             $perPage = $this->defaultPerPage;
         }
 
@@ -891,8 +899,16 @@ class Grid extends \Nette\Application\UI\Control
         $buttons->addSubmit('perPage', 'Items per page')
             ->onClick[] = $this->handlePerPage;
 
-        $form->addSelect('count', 'Count', array_combine($this->perPageList, $this->perPageList))
+        $form->addSelect('count', 'Count', $this->getItemsForCountSelect())
             ->controlPrototype->attrs['title'] = $this->getTranslator()->translate('Items per page');
+    }
+
+    /**
+     * @return array
+     */
+    protected function getItemsForCountSelect()
+    {
+        return array_combine($this->perPageList, $this->perPageList);
     }
 
     /********************************* Components *************************************************/
