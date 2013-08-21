@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Test: Grido\Grid
+ * Test: Grido\Grid - "setters"
  *
  * @author     Petr Bugyík
  * @package    Grido
@@ -14,7 +14,7 @@ use \Tester\Assert,
     \Grido\Components\Columns\Column,
     \Grido\Components\Filters\Filter;
 
-test(function() //setModel
+test(function() //Grid::setModel()
 {
     $grid = new Grid;
 
@@ -48,7 +48,7 @@ test(function() //setModel
     }, 'InvalidArgumentException');
 });
 
-test(function() //setDefaultPerPage
+test(function() //Grid::setDefaultPerPage()
 {
     $grid = new Grid;
 
@@ -62,7 +62,7 @@ test(function() //setDefaultPerPage
     Assert::same($perPageList, $grid->perPageList);
 });
 
-test(function() //setDefaultSort
+test(function() //Grid::setDefaultSort()
 {
     $grid = new Grid;
 
@@ -74,7 +74,7 @@ test(function() //setDefaultSort
     }, 'InvalidArgumentException');
 });
 
-test(function() //setPerPageList
+test(function() //Grid::setPerPageList()
 {
     $grid = new Grid;
 
@@ -86,7 +86,7 @@ test(function() //setPerPageList
     Assert::same(array_combine($a, $a), $grid['form']['count']->items);
 });
 
-test(function() //setFilterRenderType
+test(function() //Grid::setFilterRenderType()
 {
     $grid = new Grid;
 
