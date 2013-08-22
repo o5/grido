@@ -64,7 +64,7 @@ class Grid extends \Nette\Application\UI\Control
     /** @var array event for modifying data */
     public $onFetchData;
 
-    /** @var callback $rowCallback - callback returns tr html element; function($row, Html $tr) */
+    /** @var callback returns tr html element; function($row, Html $tr) */
     protected $rowCallback;
 
     /** @var \Nette\Utils\Html */
