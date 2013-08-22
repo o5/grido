@@ -440,7 +440,7 @@ class Grid extends \Nette\Application\UI\Control
 
             $this->data = $this->model->getData();
 
-            if ($this->data && !in_array($this->page, range(1, $this->getPaginator()->pageCount))) {
+            if ($applyPaging && $this->data && !in_array($this->page, range(1, $this->getPaginator()->pageCount))) {
                 trigger_error("Page is out of range.", E_USER_NOTICE);
                 $this->page = 1;
             }
