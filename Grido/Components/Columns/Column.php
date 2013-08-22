@@ -23,6 +23,7 @@ use Grido\Components\Filters\Filter;
  * @property-read string $sort
  * @property-read \Nette\Utils\Html $cellPrototype
  * @property-read \Nette\Utils\Html $headerPrototype
+ * @property-write callback $cellCallback
  * @property-write string $defaultSorting
  * @property-write mixed $customRender
  * @property-write array $replacements
@@ -52,6 +53,9 @@ abstract class Column extends \Grido\Components\Base
 
     /** @var \Nette\Utils\Html <td> html tag */
     protected $cellPrototype;
+
+    /** @var callback returns td html element; function($row, Html $td) */
+    protected $cellCallback;
 
     /** @var \Nette\Utils\Html <th> html tag */
     protected $headerPrototype;
@@ -144,6 +148,16 @@ abstract class Column extends \Grido\Components\Base
         return $this;
     }
 
+    /**
+     * @param callback $callback
+     * @return \Grido\Components\Columns\Column
+     */
+    public function setCellCallback($callback)
+    {
+        $this->cellCallback = $callback;
+        return $this;
+    }
+
     /******************************* Aliases for filters ******************************************/
 
     /**
@@ -203,14 +217,21 @@ abstract class Column extends \Grido\Components\Base
      * Returns cell prototype (<td> html tag).
      * @return \Nette\Utils\Html
      */
-    public function getCellPrototype()
+    public function getCellPrototype($row = NULL)
     {
-        if (!$this->cellPrototype) {
-            $this->cellPrototype = \Nette\Utils\Html::el('td')
+        $td = $this->cellPrototype;
+
+        if ($td === NULL) { //cache
+            $td = $this->cellPrototype = \Nette\Utils\Html::el('td')
                 ->setClass(array('grid-cell-' . $this->getName()));
         }
 
-        return $this->cellPrototype;
+        if ($this->cellCallback && $row !== NULL) {
+            $td = clone $td;
+            $td = callback($this->cellCallback)->invokeArgs(array($row, $td));
+        }
+
+        return $td;
     }
 
     /**
