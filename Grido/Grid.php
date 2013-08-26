@@ -839,10 +839,14 @@ class Grid extends \Nette\Application\UI\Control
                 trigger_error("Column with name '$column' does not exist.", E_USER_NOTICE);
                 break;
             } elseif (!$component->isSortable()) {
-                trigger_error("Column with name '$column' is not sortable.", E_USER_NOTICE);
-                break;
-            } elseif (!in_array($dir, array(Column::ASC, Column::DESC))) {
+                if (isset($this->defaultSort[$column])) {
+                    $component->setSortable();
+                } else {
+                    trigger_error("Column with name '$column' is not sortable.", E_USER_NOTICE);
+                    break;
+                }
 
+            } elseif (!in_array($dir, array(Column::ASC, Column::DESC))) {
                 if ($dir == '' && isset($this->defaultSort[$column])) {
                     unset($this->sort[$column]);
                     break;
