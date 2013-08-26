@@ -336,7 +336,7 @@ test(function() //addAction*()
 {
     $grid = new Grid;
 
-    $name = 'gref';
+    $name = 'href';
     $label = 'Action';
     $destination = 'edit';
     $args = array('args');
@@ -347,7 +347,14 @@ test(function() //addAction*()
     Assert::same($destination, $component->destination);
     Assert::same($args, $component->arguments);
 
-    //TODO: addActionEvent()
+    $name = 'event';
+    $label = 'Action';
+    $onClick = function() {};
+    $grid->addActionEvent($name, $label, $onClick);
+    $component = $grid->getAction($name);
+    Assert::type('\Grido\Components\Actions\Event', $component);
+    Assert::same($label, $component->label);
+    Assert::same(array($onClick), $component->onClick);
 
     $name = 'deprecated';
     $label = 'Action';

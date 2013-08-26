@@ -34,6 +34,7 @@ abstract class Action extends \Grido\Components\Base
 
     /** @deprecated */
     const TYPE_HREF = 'Grido\Components\Actions\Href';
+    const TYPE_EVENT = 'Grido\Components\Actions\Event';
 
     /** @var callback for custom rendering */
     protected $customRender;
@@ -150,7 +151,7 @@ abstract class Action extends \Grido\Components\Base
     }
 
     /**
-     * @param $item
+     * @param mixed $item
      * @return Html
      * @throws \InvalidArgumentException
      */

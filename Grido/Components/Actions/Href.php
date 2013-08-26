@@ -22,9 +22,6 @@ namespace Grido\Components\Actions;
  */
 class Href extends Action
 {
-    /** @var array callback */
-    public $onClick;
-
     /** @var string first param for method $presenter->link() */
     protected $destination;
 
@@ -33,6 +30,9 @@ class Href extends Action
 
     /** @var callback for custom href attribute creating */
     protected $customHref;
+
+    /** @var array callback @deprecated */
+    public $onClick = array();
 
     /**
      * @param \Grido\Grid $grid
@@ -63,7 +63,7 @@ class Href extends Action
     /**********************************************************************************************/
 
     /**
-     * @param $item
+     * @param mixed $item
      * @return \Nette\Utils\Html
      */
     public function getElement($item)
@@ -78,10 +78,10 @@ class Href extends Action
 
         if ($this->customHref) {
             $href = callback($this->customHref)->invokeArgs(array($item));
-        } elseif ($this->onClick) {
-            $href = $this->link('click!', $primaryValue);
         } elseif ($primaryValue) {
             $href = $this->presenter->link($this->getDestination(), $this->getArguments($item));
+        } elseif ($this->onClick) { //@deprecated
+            $href = $this->link('click!', $primaryValue);
         }
 
         $element->href($href);
@@ -109,6 +109,7 @@ class Href extends Action
     public function getArguments($item = NULL)
     {
         if ($this->arguments === NULL && $item !== NULL) {
+            //@TODO: remove code below
             $primaryKey = $this->getPrimaryKey();
             $primaryValue = $this->grid->propertyAccessor->hasProperty($item, $primaryKey)
                 ? $this->grid->propertyAccessor->getProperty($item, $primaryKey)
@@ -123,7 +124,7 @@ class Href extends Action
     /**********************************************************************************************/
 
     /**
-     * @internal
+     * @deprecated
      * @param $id
      */
     public function handleClick($id)

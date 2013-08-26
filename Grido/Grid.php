@@ -1115,11 +1115,12 @@ class Grid extends \Nette\Application\UI\Control
     /**
      * @param string $name
      * @param string $label
+     * @param callback $onClick
      * @return \Grido\Components\Actions\Event
      */
-    public function addActionEvent($name, $label)
+    public function addActionEvent($name, $label, $onClick = NULL)
     {
-        return new Components\Actions\Event($this, $name, $label);
+        return new Components\Actions\Event($this, $name, $label, $onClick);
     }
 
     /**
