@@ -77,7 +77,7 @@ test(function() //setPerPageList()
 {
     $grid = new Grid;
 
-    $grid->addFilter('test', 'Test');
+    $grid->addFilterText('test', 'Test');
 
     $a = array(10, 20);
     $grid->setPerPageList($a);
@@ -161,9 +161,9 @@ test(function() //setPrimaryKey()
 {
     $grid = new Grid;
 
-    $expected = 'id';
-    $grid->setPrimaryKey($expected);
-    Assert::same($expected, $grid->primaryKey);
+    $key = 'id';
+    $grid->setPrimaryKey($key);
+    Assert::same($key, $grid->primaryKey);
 });
 
 test(function() //setTemplateFile()
@@ -187,17 +187,17 @@ test(function() //setRowCallback()
 {
     $grid = new Grid;
 
-    $expected = array();
-    $grid->setRowCallback($expected);
-    Assert::same($expected, $grid->rowCallback);
+    $rowCallback = array();
+    $grid->setRowCallback($rowCallback);
+    Assert::same($rowCallback, $grid->rowCallback);
 
-    $expeted = function() {};
-    $grid->setRowCallback($expected);
-    Assert::same($expected, $grid->rowCallback);
+    $rowCallback = function() {};
+    $grid->setRowCallback($rowCallback);
+    Assert::same($rowCallback, $grid->rowCallback);
 
-    $expeted = mock('\Nette\Utils\Callback');
-    $grid->setRowCallback($expected);
-    Assert::same($expected, $grid->rowCallback);
+    $rowCallback = mock('\Nette\Utils\Callback');
+    $grid->setRowCallback($rowCallback);
+    Assert::same($rowCallback, $grid->rowCallback);
 });
 
 test(function() //setClientSideOptions()
@@ -212,9 +212,9 @@ test(function() //setClientSideOptions()
 test(function() //addColumn*()
 {
     $grid = new Grid;
+    $label = 'Column';
 
     $name = 'text';
-    $label = 'Column';
     $grid->addColumnText($name, $label);
     $component = $grid->getColumn($name);
     Assert::type('\Grido\Components\Columns\Text', $component);
@@ -255,11 +255,13 @@ test(function() //addColumn*()
     ), $component->numberFormat);
 
     //@deprecated
-    $name = 'deprecated';
-    $grid->addColumn($name, $label, \Grido\Components\Columns\Column::TYPE_DATE);
-    $component = $grid->getColumn($name);
-    Assert::type('\Grido\Components\Columns\Text', $component);
-    Assert::same($label, $component->label);
+    Assert::error(function() use ($grid, $label) {
+        $name = 'deprecated';
+        $grid->addColumn($name, $label, \Grido\Components\Columns\Column::TYPE_DATE);
+        $component = $grid->getColumn($name);
+        Assert::type('\Grido\Components\Columns\Text', $component);
+        Assert::same($label, $component->label);
+    }, E_USER_WARNING);
 
     // getter
     Assert::exception(function() use ($grid) {
@@ -271,30 +273,27 @@ test(function() //addColumn*()
 test(function() //addFilter*()
 {
     $grid = new Grid;
+    $label = 'Filter';
 
     $name = 'text';
-    $label = 'Filter';
     $grid->addFilterText($name, $label);
     $component = $grid->getFilter($name);
     Assert::type('\Grido\Components\Filters\Text', $component);
     Assert::same($label, $component->label);
 
     $name = 'date';
-    $label = 'Filter';
     $grid->addFilterDate($name, $label);
     $component = $grid->getFilter($name);
     Assert::type('\Grido\Components\Filters\Date', $component);
     Assert::same($label, $component->label);
 
     $name = 'check';
-    $label = 'Filter';
     $grid->addFilterCheck($name, $label);
     $component = $grid->getFilter($name);
     Assert::type('\Grido\Components\Filters\Check', $component);
     Assert::same($label, $component->label);
 
     $name = 'select';
-    $label = 'Filter';
     $items = array('one' => 'raz', 'two' => 'dva');
     $grid->addFilterSelect($name, $label, $items);
     $component = $grid->getFilter($name);
@@ -303,14 +302,12 @@ test(function() //addFilter*()
     Assert::same($items, $component->getControl()->items);
 
     $name = 'number';
-    $label = 'Filter';
     $grid->addFilterNumber($name, $label);
     $component = $grid->getFilter($name);
     Assert::type('\Grido\Components\Filters\Number', $component);
     Assert::same($label, $component->label);
 
     $name = 'custom';
-    $label = 'Filter';
     $control = new \Nette\Forms\Controls\TextArea($label);
     $grid->addFilterCustom($name, $control);
     $component = $grid->getFilter($name);
@@ -318,12 +315,13 @@ test(function() //addFilter*()
     Assert::type('\Nette\Forms\Controls\TextArea', $component->formControl);
 
     //@deprecated
-    $name = 'deprecated';
-    $label = 'Filter';
-    $grid->addFilter($name, $label, Grido\Components\Filters\Filter::TYPE_CHECK);
-    $component = $grid->getFilter($name);
-    Assert::type('\Grido\Components\Filters\Check', $component);
-    Assert::same($label, $component->label);
+    Assert::error(function() use ($grid, $label) {
+        $name = 'deprecated';
+        $grid->addFilter($name, $label, Grido\Components\Filters\Filter::TYPE_CHECK);
+        $component = $grid->getFilter($name);
+        Assert::type('\Grido\Components\Filters\Check', $component);
+        Assert::same($label, $component->label);
+    }, E_USER_WARNING);
 
     // getter
     Assert::exception(function() use ($grid) {
@@ -335,9 +333,9 @@ test(function() //addFilter*()
 test(function() //addAction*()
 {
     $grid = new Grid;
+    $label = 'Action';
 
     $name = 'href';
-    $label = 'Action';
     $destination = 'edit';
     $args = array('args');
     $grid->addActionHref($name, $label, $destination, $args);
@@ -348,7 +346,6 @@ test(function() //addAction*()
     Assert::same($args, $component->arguments);
 
     $name = 'event';
-    $label = 'Action';
     $onClick = function() {};
     $grid->addActionEvent($name, $label, $onClick);
     $component = $grid->getAction($name);
@@ -356,14 +353,16 @@ test(function() //addAction*()
     Assert::same($label, $component->label);
     Assert::same(array($onClick), $component->onClick);
 
-    $name = 'deprecated';
-    $label = 'Action';
-    $grid->addAction($name, $label, \Grido\Components\Actions\Action::TYPE_HREF, $destination, $args);
-    $component = $grid->getAction($name);
-    Assert::type('\Grido\Components\Actions\Href', $component);
-    Assert::same($label, $component->label);
-    Assert::same($destination, $component->destination);
-    Assert::same($args, $component->arguments);
+    //@deprecated
+    Assert::error(function() use ($grid, $label, $destination, $args) {
+        $name = 'deprecated';
+        $grid->addAction($name, $label, \Grido\Components\Actions\Action::TYPE_HREF, $destination, $args);
+        $component = $grid->getAction($name);
+        Assert::type('\Grido\Components\Actions\Href', $component);
+        Assert::same($label, $component->label);
+        Assert::same($destination, $component->destination);
+        Assert::same($args, $component->arguments);
+    }, E_USER_WARNING);
 
     // getter
     Assert::exception(function() use ($grid) {
@@ -398,8 +397,8 @@ test(function() //setOperations()
 test(function() //setExporting()
 {
     $grid = new Grid;
-
     $label = 'Grid';
+
     $grid->setExport($label);
     $component = $grid->getExport();
     Assert::type('\Grido\Components\Export', $component);
@@ -415,5 +414,7 @@ test(function() //setExporting()
     Assert::same(NULL, $grid->getExport(FALSE));
 
     //@deprecated
-    $grid->setExporting($label);
+    Assert::error(function() use ($grid, $label) {
+        $grid->setExporting($label);
+    }, E_USER_WARNING);
 });

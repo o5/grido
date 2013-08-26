@@ -998,16 +998,11 @@ class Grid extends \Nette\Application\UI\Control
         return new Components\Columns\Number($this, $name, $label, $decimals, $decPoint, $thousandsSep);
     }
 
-    /**
-     * @deprecated use for example addColumnText() instance of addColumn()
-     * @param string $name
-     * @param string $label
-     * @param string $type starting constants with Column::TYPE_
-     * @throws \InvalidArgumentException
-     * @return Column
-     */
+    /** @deprecated */
     public function addColumn($name, $label, $type = Column::TYPE_TEXT)
     {
+        trigger_error(__METHOD__ . '() is deprecated; just create instance of your own type instead.', E_USER_WARNING);
+
         $column = new $type($this, $name, $label);
         if (!$column instanceof Column) {
             throw new \InvalidArgumentException('Column must be inherited from \Grido\Components\Columns\Column.');
@@ -1079,17 +1074,11 @@ class Grid extends \Nette\Application\UI\Control
         return new Components\Filters\Custom($this, $name, NULL, $formControl);
     }
 
-    /**
-     * @deprecated use for example addFilterText() instance of addFilter()
-     * @param string $name
-     * @param string $label
-     * @param string $type starting constants with Filter::TYPE_
-     * @param mixed $optional if type is select, then this is items for select
-     * @throws \InvalidArgumentException
-     * @return Filter
-     */
+    /** @deprecated */
     public function addFilter($name, $label = NULL, $type = Filter::TYPE_TEXT, $optional = NULL)
     {
+        trigger_error(__METHOD__ . '() is deprecated; just create instance of your own type instead.', E_USER_WARNING);
+
         $filter = new $type($this, $name, $label, $optional);
         if (!$filter instanceof Filter) {
             throw new \InvalidArgumentException('Filter must be inherited from \Grido\Components\Filters\Filter.');
@@ -1123,18 +1112,11 @@ class Grid extends \Nette\Application\UI\Control
         return new Components\Actions\Event($this, $name, $label, $onClick);
     }
 
-    /**
-     * @deprecated use for example addActionHref() instance of addAction()
-     * @param string $name
-     * @param string $label
-     * @param string $type starting constants with Action::TYPE_
-     * @param string $destination - first param for method $presenter->link()
-     * @param array $args - second param for method $presenter->link()
-     * @throws \InvalidArgumentException
-     * @return Action
-     */
+    /** @deprecated */
     public function addAction($name, $label, $type = Action::TYPE_HREF, $destination = NULL, array $args = NULL)
     {
+        trigger_error(__METHOD__ . '() is deprecated; just create instance of your own type instead.', E_USER_WARNING);
+
         $action = new $type($this, $name, $label, $destination, $args);
         if (!$action instanceof Action) {
             throw new \InvalidArgumentException('Action must be inherited from \Grido\Components\Actions\Action.');
@@ -1154,6 +1136,10 @@ class Grid extends \Nette\Application\UI\Control
      */
     public function setOperations(array $operations, $onSubmit, $type = '\Grido\Components\Operation')
     {
+        if ($type !== '\Grido\Components\Operation') {
+            trigger_error('Parameter $type is deprecated; just create instance of your own type instead.', E_USER_WARNING);
+        }
+
         $operation = new $type($this, $operations, $onSubmit);
         if (!$operation instanceof Components\Operation) {
             throw new \InvalidArgumentException('Operation must be inherited from \Grido\Components\Operation.');
@@ -1170,6 +1156,10 @@ class Grid extends \Nette\Application\UI\Control
      */
     public function setExport($label = NULL, $type = '\Grido\Components\Export')
     {
+        if ($type !== '\Grido\Components\Export') {
+            trigger_error('Parameter $type is deprecated; just create instance of your own type.', E_USER_WARNING);
+        }
+
         $export = new $type($this, $label);
         if (!$export instanceof Components\Export) {
             throw new \InvalidArgumentException('Export must be inherited from \Grido\Components\Export.');
@@ -1178,15 +1168,11 @@ class Grid extends \Nette\Application\UI\Control
         return $export;
     }
 
-    /**
-     * @deprecated
-     * @param string $label of exporting file
-     * @param string $type export class - @deprecated
-     * @throws \InvalidArgumentException
-     * @return Export
-     */
+    /** @deprecated */
     public function setExporting($label = NULL, $type = '\Grido\Components\Export')
     {
+        trigger_error(__METHOD__ . '() is deprecated; use setExport() instead.', E_USER_WARNING);
+
         return $this->setExport($label, $type);
     }
 }

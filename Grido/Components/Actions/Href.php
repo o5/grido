@@ -78,10 +78,11 @@ class Href extends Action
 
         if ($this->customHref) {
             $href = callback($this->customHref)->invokeArgs(array($item));
+        } elseif ($this->onClick) { //@deprecated
+            trigger_error('Parameter $onClick is deprecated in "href" type; use type "event" instead.', E_USER_WARNING);
+            $href = $this->link('click!', $primaryValue);
         } elseif ($primaryValue) {
             $href = $this->presenter->link($this->getDestination(), $this->getArguments($item));
-        } elseif ($this->onClick) { //@deprecated
-            $href = $this->link('click!', $primaryValue);
         }
 
         $element->href($href);
