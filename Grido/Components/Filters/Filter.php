@@ -29,6 +29,7 @@ abstract class Filter extends \Grido\Components\Base
 {
     const ID = 'filters';
 
+    /** @deprecated */
     const TYPE_TEXT = 'Grido\Components\Filters\Text';
     const TYPE_DATE = 'Grido\Components\Filters\Date';
     const TYPE_CHECK = 'Grido\Components\Filters\Check';

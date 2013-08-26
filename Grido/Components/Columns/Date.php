@@ -18,7 +18,7 @@ namespace Grido\Components\Columns;
  * @subpackage  Components\Columns
  * @author      Petr Bugyík
  *
- * @property-write string $dateFormat
+ * @property string $dateFormat
  */
 class Date extends Text
 {
@@ -52,6 +52,14 @@ class Date extends Text
     {
         $this->dateFormat = $format;
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDateFormat()
+    {
+        return $this->dateFormat;
     }
 
     /**

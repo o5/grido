@@ -81,8 +81,7 @@ class Href extends Action
         } elseif ($this->onClick) {
             $href = $this->link('click!', $primaryValue);
         } elseif ($primaryValue) {
-            $this->arguments[$primaryKey] = $primaryValue;
-            $href = $this->presenter->link($this->getDestination(), $this->arguments);
+            $href = $this->presenter->link($this->getDestination(), $this->getArguments($item));
         }
 
         $element->href($href);
@@ -94,13 +93,31 @@ class Href extends Action
      * @internal
      * @return string
      */
-    protected function getDestination()
+    public function getDestination()
     {
         if ($this->destination === NULL) {
             $this->destination = $this->name;
         }
 
         return $this->destination;
+    }
+
+    /**
+     * @internal
+     * @return array
+     */
+    public function getArguments($item = NULL)
+    {
+        if ($this->arguments === NULL && $item !== NULL) {
+            $primaryKey = $this->getPrimaryKey();
+            $primaryValue = $this->grid->propertyAccessor->hasProperty($item, $primaryKey)
+                ? $this->grid->propertyAccessor->getProperty($item, $primaryKey)
+                : NULL;
+
+            $this->arguments[$primaryKey] = $primaryValue;
+        }
+
+        return $this->arguments;
     }
 
     /**********************************************************************************************/

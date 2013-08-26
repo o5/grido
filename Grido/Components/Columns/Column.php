@@ -35,6 +35,7 @@ abstract class Column extends \Grido\Components\Base
 
     const VALUE_IDENTIFIER = '%value';
 
+    /** @deprecated */
     const TYPE_TEXT = 'Grido\Components\Columns\Text';
     const TYPE_MAIL = 'Grido\Components\Columns\Mail';
     const TYPE_HREF = 'Grido\Components\Columns\Href';

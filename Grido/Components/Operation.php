@@ -37,7 +37,7 @@ class Operation extends Base
      * @param array $operations
      * @param callback $onSubmit - callback after operation submit
      */
-    public function __construct($grid, $operations, $onSubmit)
+    public function __construct($grid, array $operations, $onSubmit)
     {
         $this->grid = $grid;
         $grid->addComponent($this, self::ID);

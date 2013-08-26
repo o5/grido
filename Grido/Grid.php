@@ -26,10 +26,9 @@ use Grido\Components\Columns\Column,
  *
  * @property-read int $count
  * @property-read mixed $data
- * @property-read callback $rowCallback
  * @property-read \Nette\Utils\Html $tablePrototype
- * @property-write bool $rememberState
  * @property-write string $templateFile
+ * @property bool $rememberState
  * @property array $defaultPerPage
  * @property array $defaultFilter
  * @property array $defaultSort
@@ -40,6 +39,7 @@ use Grido\Components\Columns\Column,
  * @property string $filterRenderType
  * @property DataSources\IDataSource $model
  * @property PropertyAccessors\IPropertyAccessor $propertyAccessor
+ * @property callback $rowCallback
  */
 class Grid extends \Nette\Application\UI\Control
 {
@@ -363,6 +363,24 @@ class Grid extends \Nette\Application\UI\Control
     }
 
     /**
+     * Returns remember state.
+     * @return bool
+     */
+    public function getRememberState()
+    {
+        return $this->rememberState;
+    }
+
+    /**
+     * Returns row callback.
+     * @return callback
+     */
+    public function getRowCallback()
+    {
+        return $this->rowCallback;
+    }
+
+    /**
      * Returns items per page.
      * @return int
      */
@@ -421,6 +439,16 @@ class Grid extends \Nette\Application\UI\Control
     public function getOperations($need = TRUE)
     {
         return $this->getComponent(Operation::ID, $need);
+    }
+
+    /**
+     * Returns export component.
+     * @param bool $need
+     * @return Export
+     */
+    public function getExport($need = TRUE)
+    {
+        return $this->getComponent(Export::ID, $need);
     }
 
     /**
@@ -968,6 +996,7 @@ class Grid extends \Nette\Application\UI\Control
     }
 
     /**
+     * @deprecated use for example addColumnText() instance of addColumn()
      * @param string $name
      * @param string $label
      * @param string $type starting constants with Column::TYPE_
@@ -1048,6 +1077,7 @@ class Grid extends \Nette\Application\UI\Control
     }
 
     /**
+     * @deprecated use for example addFilterText() instance of addFilter()
      * @param string $name
      * @param string $label
      * @param string $type starting constants with Filter::TYPE_
@@ -1090,6 +1120,7 @@ class Grid extends \Nette\Application\UI\Control
     }
 
     /**
+     * @deprecated use for example addActionHref() instance of addAction()
      * @param string $name
      * @param string $label
      * @param string $type starting constants with Action::TYPE_
@@ -1113,11 +1144,11 @@ class Grid extends \Nette\Application\UI\Control
     /**
      * @param array $operations
      * @param callback $onSubmit - callback after operation submit
-     * @param string $type operation class
+     * @param string $type operation class - @deprecated
      * @throws \InvalidArgumentException
      * @return Operation
      */
-    public function setOperations($operations, $onSubmit, $type = '\Grido\Components\Operation')
+    public function setOperations(array $operations, $onSubmit, $type = '\Grido\Components\Operation')
     {
         $operation = new $type($this, $operations, $onSubmit);
         if (!$operation instanceof Components\Operation) {
@@ -1128,18 +1159,30 @@ class Grid extends \Nette\Application\UI\Control
     }
 
     /**
-     * @param string $name of exporting file
-     * @param string $type export class
+     * @param string $label of exporting file
+     * @param string $type export class - @deprecated
      * @throws \InvalidArgumentException
      * @return Export
      */
-    public function setExporting($name = NULL, $type = '\Grido\Components\Export')
+    public function setExport($label = NULL, $type = '\Grido\Components\Export')
     {
-        $export = new $type($this, $name ? $name : ucfirst($this->name));
+        $export = new $type($this, $label);
         if (!$export instanceof Components\Export) {
             throw new \InvalidArgumentException('Export must be inherited from \Grido\Components\Export.');
         }
 
         return $export;
+    }
+
+    /**
+     * @deprecated
+     * @param string $label of exporting file
+     * @param string $type export class - @deprecated
+     * @throws \InvalidArgumentException
+     * @return Export
+     */
+    public function setExporting($label = NULL, $type = '\Grido\Components\Export')
+    {
+        return $this->setExport($label, $type);
     }
 }
