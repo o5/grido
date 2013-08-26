@@ -5,7 +5,7 @@
  *
  * @author     David Grudl
  * @author     Petr Bugyík
- * @package    Nette\Test
+ * @package    Grido\Test
  */
 
 if (@!include __DIR__ . '/../vendor/autoload.php') {

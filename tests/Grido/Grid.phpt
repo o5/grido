@@ -1,10 +1,11 @@
 <?php
 
 /**
- * Test: Grid setters
+ * Test: Grid - tests for a class's basic behaviour.
  *
  * @author     Petr Bugyík
- * @package    Grido
+ * @package    Grido\Test
+ * @subpackage Grid
  */
 
 require_once __DIR__ . '/../bootstrap.php';
