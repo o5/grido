@@ -143,13 +143,14 @@
                     {$checkbox->getControl()}
                 </td>
                 {foreach $control[Grido\Components\Columns\Column::ID]->getComponents() as $column}
-                    {!$column->getCellPrototype()->startTag()}
+                    {?$td = $column->getCellPrototype($row)}
+                    {!$td->startTag()}
                         {if is_string($column->customRender)}
                             {include $column->customRender control => $control, presenter => $control->presenter, item => $row}
                         {else}
                             {!$column->render($row)}
                         {/if}
-                    {!$column->getCellPrototype()->endTag()}
+                    {!$td->endTag()}
                 {/foreach}
                 <td n:if="$showActionsColumn" class="actions center">
                     {if $control->hasActions()}
