@@ -19,10 +19,10 @@ test(function() //setModel()
     $grid->setModel(mock('Grido\DataSources\IDataSource'));
     Assert::type('Grido\DataSources\IDataSource', $grid->model);
 
-    $grid->setModel(mock('\DibiFluent'));
+    $grid->setModel(mock('Grido\DataSources\IDataSource'), TRUE);
     Assert::type('Grido\DataSources\Model', $grid->model);
 
-    $grid->setModel(mock('\DibiFluent'), TRUE);
+    $grid->setModel(mock('\DibiFluent'));
     Assert::type('Grido\DataSources\Model', $grid->model);
 
     $grid->setModel(mock('\Nette\Database\Table\Selection'));
@@ -34,7 +34,7 @@ test(function() //setModel()
     $grid->setModel(array('TEST' => 'TEST'));
     Assert::type('Grido\DataSources\Model', $grid->model);
 
-    $grid->setModel(mock('Grido\DataSources\IDataSource'), TRUE);
+    $grid->setModel(mock('\DibiFluent'), TRUE);
     Assert::type('Grido\DataSources\Model', $grid->model);
 
     Assert::exception(function() use ($grid) {
