@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Test: Grid "setters"
+ * Test: Grid setters
  *
  * @author     Petr Bugyík
  * @package    Grido
@@ -9,12 +9,10 @@
 
 require_once __DIR__ . '/../bootstrap.php';
 
-use \Tester\Assert,
-    \Grido\Grid,
-    \Grido\Components\Columns\Column,
+use \Grido\Components\Columns\Column,
     \Grido\Components\Filters\Filter;
 
-test(function() //Grid::setModel()
+test(function() //setModel()
 {
     $grid = new Grid;
 
@@ -48,7 +46,7 @@ test(function() //Grid::setModel()
     }, 'InvalidArgumentException');
 });
 
-test(function() //Grid::setDefaultPerPage()
+test(function() //setDefaultPerPage()
 {
     $grid = new Grid;
 
@@ -62,7 +60,7 @@ test(function() //Grid::setDefaultPerPage()
     Assert::same($perPageList, $grid->perPageList);
 });
 
-test(function() //Grid::setDefaultSort()
+test(function() //setDefaultSort()
 {
     $grid = new Grid;
 
@@ -74,7 +72,7 @@ test(function() //Grid::setDefaultSort()
     }, 'InvalidArgumentException');
 });
 
-test(function() //Grid::setPerPageList()
+test(function() //setPerPageList()
 {
     $grid = new Grid;
 
@@ -86,7 +84,7 @@ test(function() //Grid::setPerPageList()
     Assert::same(array_combine($a, $a), $grid['form']['count']->items);
 });
 
-test(function() //Grid::setFilterRenderType()
+test(function() //setFilterRenderType()
 {
     $grid = new Grid;
 
@@ -106,20 +104,3 @@ test(function() //Grid::setFilterRenderType()
     }, 'InvalidArgumentException');
 });
 
-test(function() //Grid::setTemplateFile()
-{
-    $grid = new Grid;
-
-    $template = __FILE__;
-    $grid->setTemplateFile($template);
-    Assert::same($template, $grid->template->getFile());
-});
-
-test(function() //Grid::setClientSideOptions()
-{
-    $grid = new Grid;
-
-    $options = array('key' => 'value');
-    $grid->setClientSideOptions($options);
-    Assert::same($grid->tablePrototype->data['grido-options'], json_encode($options));
-});
