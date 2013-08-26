@@ -64,7 +64,7 @@ class Grid extends \Nette\Application\UI\Control
     /** @var array event for modifying data */
     public $onFetchData;
 
-    /** @var callback $rowCallback - callback returns tr html element; function($row, Html $tr) */
+    /** @var callback returns tr html element; function($row, Html $tr) */
     protected $rowCallback;
 
     /** @var \Nette\Utils\Html */
@@ -483,7 +483,7 @@ class Grid extends \Nette\Application\UI\Control
 
             $this->data = $this->model->getData();
 
-            if ($this->data && !in_array($this->page, range(1, $this->getPaginator()->pageCount))) {
+            if ($applyPaging && $this->data && !in_array($this->page, range(1, $this->getPaginator()->pageCount))) {
                 trigger_error("Page is out of range.", E_USER_NOTICE);
                 $this->page = 1;
             }
@@ -882,10 +882,13 @@ class Grid extends \Nette\Application\UI\Control
                 trigger_error("Column with name '$column' does not exist.", E_USER_NOTICE);
                 break;
             } elseif (!$component->isSortable()) {
-                trigger_error("Column with name '$column' is not sortable.", E_USER_NOTICE);
-                break;
+                if (isset($this->defaultSort[$column])) {
+                    $component->setSortable();
+                } else {
+                    trigger_error("Column with name '$column' is not sortable.", E_USER_NOTICE);
+                    break;
+                }
             } elseif (!in_array($dir, array(Column::ASC, Column::DESC))) {
-
                 if ($dir == '' && isset($this->defaultSort[$column])) {
                     unset($this->sort[$column]);
                     break;
