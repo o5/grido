@@ -17,6 +17,8 @@ namespace Grido\Components;
  * @package     Grido
  * @subpackage  Components
  * @author      Petr Bugyík
+ *
+ * @property-read string $label
  */
 class Export extends Base implements \Nette\Application\IResponse
 {
@@ -26,16 +28,21 @@ class Export extends Base implements \Nette\Application\IResponse
     protected $grid;
 
     /** @var string */
-    protected $name;
+    protected $label;
 
     /**
      * @param \Grido\Grid $grid
-     * @param string $name
+     * @param string $label
      */
-    public function __construct(\Grido\Grid $grid, $name)
+    public function __construct(\Grido\Grid $grid, $label = NULL)
     {
         $this->grid = $grid;
-        $this->name = $name;
+
+        if ($label === NULL) {
+            $label = ucfirst($this->grid->name);
+        }
+
+        $this->label = $label;
 
         $grid->addComponent($this, self::ID);
     }
@@ -78,6 +85,13 @@ class Export extends Base implements \Nette\Application\IResponse
     }
 
     /**
+     * @return string
+     */
+    public function getLabel()
+    {
+        return $this->label;
+    }
+    /**
      * @internal
      */
     public function handleExport()
@@ -94,7 +108,7 @@ class Export extends Base implements \Nette\Application\IResponse
      */
     public function send(\Nette\Http\IRequest $httpRequest, \Nette\Http\IResponse $httpResponse)
     {
-        $file = $this->name . '.csv';
+        $file = $this->label . '.csv';
         $data = $this->grid->getData(FALSE);
         $columns = $this->grid[\Grido\Components\Columns\Column::ID]->getComponents();
         $source = $this->generateCsv($data, $columns);
