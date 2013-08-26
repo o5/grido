@@ -122,6 +122,7 @@ abstract class Column extends \Grido\Components\Base
     public function setDefaultSort($dir)
     {
         $this->grid->setDefaultSort(array($this->name => $dir));
+        $this->setSortable();
         return $this;
     }
 
