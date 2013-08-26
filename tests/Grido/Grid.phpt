@@ -394,7 +394,7 @@ test(function() //setOperations()
     Assert::same(NULL, $grid->getOperations(FALSE));
 });
 
-test(function() //setExporting()
+test(function() //setExport()
 {
     $grid = new Grid;
     $label = 'Grid';
