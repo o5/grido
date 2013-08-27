@@ -10,6 +10,9 @@
 
 require_once __DIR__ . '/../bootstrap.php';
 
+use Grido\Grid,
+    Tester\Assert;
+
 use \Grido\Components\Columns\Column,
     \Grido\Components\Filters\Filter;
 
@@ -417,4 +420,44 @@ test(function() //setExport()
     Assert::error(function() use ($grid, $label) {
         $grid->setExporting($label);
     }, E_USER_WARNING);
+});
+
+test(function() //hasFilters()
+{
+    $grid = new Grid;
+
+    Assert::same(FALSE, $grid->hasFilters());
+    $grid->addFilterText('filter', 'Filter');
+    Assert::same(FALSE, $grid->hasFilters());
+    Assert::same(TRUE, $grid->hasFilters(FALSE));
+});
+
+test(function() //hasActions()
+{
+    $grid = new Grid;
+
+    Assert::same(FALSE, $grid->hasActions());
+    $grid->addActionHref('action', 'Action');
+    Assert::same(FALSE, $grid->hasActions());
+    Assert::same(TRUE, $grid->hasActions(FALSE));
+});
+
+test(function() //hasOperations()
+{
+    $grid = new Grid;
+
+    Assert::same(FALSE, $grid->hasOperations());
+    $grid->setOperations(array(), array());
+    Assert::same(FALSE, $grid->hasOperations());
+    Assert::same(TRUE, $grid->hasOperations(FALSE));
+});
+
+test(function() //hasExport()
+{
+    $grid = new Grid;
+
+    Assert::same(FALSE, $grid->hasExport());
+    $grid->setExport();
+    Assert::same(FALSE, $grid->hasExport());
+    Assert::same(TRUE, $grid->hasExport(FALSE));
 });

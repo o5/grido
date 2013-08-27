@@ -110,7 +110,7 @@ class Grid extends \Nette\Application\UI\Control
     protected $propertyAccessor;
 
     /** @var bool cache */
-    protected $hasFilters, $hasActions, $hasOperations, $hasExporting;
+    protected $hasFilters, $hasActions, $hasOperations, $hasExport;
 
     /**
      * Sets a model that implements the interface Grido\DataSources\IDataSource or data-source object.
@@ -772,7 +772,7 @@ class Grid extends \Nette\Application\UI\Control
         $hasOperations = $this->hasOperations;
 
         if ($hasOperations === NULL || $useCache === FALSE) {
-            $hasOperations = $this->getComponent(Operation::ID, FALSE);
+            $hasOperations = (bool) $this->getComponent(Operation::ID, FALSE);
             $this->hasOperations = $useCache ? $hasOperations : NULL;
         }
 
@@ -784,16 +784,16 @@ class Grid extends \Nette\Application\UI\Control
      * @param bool $useCache
      * @return bool
      */
-    public function hasExporting($useCache = TRUE)
+    public function hasExport($useCache = TRUE)
     {
-        $hasExporting = $this->hasExporting;
+        $hasExport = $this->hasExport;
 
-        if ($hasExporting === NULL || $useCache === FALSE) {
-            $hasExporting = $this->getComponent(Export::ID, FALSE);
-            $this->hasExporting = $useCache ? $hasExporting : NULL;
+        if ($hasExport === NULL || $useCache === FALSE) {
+            $hasExport = (bool) $this->getComponent(Export::ID, FALSE);
+            $this->hasExport = $useCache ? $hasExport : NULL;
         }
 
-        return $hasExporting;
+        return $hasExport;
     }
 
     /**********************************************************************************************/
