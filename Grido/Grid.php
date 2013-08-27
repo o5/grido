@@ -1001,7 +1001,7 @@ class Grid extends \Nette\Application\UI\Control
     /** @deprecated */
     public function addColumn($name, $label, $type = Column::TYPE_TEXT)
     {
-        trigger_error(__METHOD__ . '() is deprecated; just create instance of your own type instead.', E_USER_WARNING);
+        trigger_error(__METHOD__ . '() is deprecated; just create instance of your own type instead.', E_USER_DEPRECATED);
 
         $column = new $type($this, $name, $label);
         if (!$column instanceof Column) {
@@ -1077,7 +1077,7 @@ class Grid extends \Nette\Application\UI\Control
     /** @deprecated */
     public function addFilter($name, $label = NULL, $type = Filter::TYPE_TEXT, $optional = NULL)
     {
-        trigger_error(__METHOD__ . '() is deprecated; just create instance of your own type instead.', E_USER_WARNING);
+        trigger_error(__METHOD__ . '() is deprecated; just create instance of your own type instead.', E_USER_DEPRECATED);
 
         $filter = new $type($this, $name, $label, $optional);
         if (!$filter instanceof Filter) {
@@ -1115,7 +1115,7 @@ class Grid extends \Nette\Application\UI\Control
     /** @deprecated */
     public function addAction($name, $label, $type = Action::TYPE_HREF, $destination = NULL, array $args = NULL)
     {
-        trigger_error(__METHOD__ . '() is deprecated; just create instance of your own type instead.', E_USER_WARNING);
+        trigger_error(__METHOD__ . '() is deprecated; just create instance of your own type instead.', E_USER_DEPRECATED);
 
         $action = new $type($this, $name, $label, $destination, $args);
         if (!$action instanceof Action) {
@@ -1137,7 +1137,7 @@ class Grid extends \Nette\Application\UI\Control
     public function setOperations(array $operations, $onSubmit, $type = '\Grido\Components\Operation')
     {
         if ($type !== '\Grido\Components\Operation') {
-            trigger_error('Parameter $type is deprecated; just create instance of your own type instead.', E_USER_WARNING);
+            trigger_error('Parameter $type is deprecated; just create instance of your own type instead.', E_USER_DEPRECATED);
         }
 
         $operation = new $type($this, $operations, $onSubmit);
@@ -1157,7 +1157,7 @@ class Grid extends \Nette\Application\UI\Control
     public function setExport($label = NULL, $type = '\Grido\Components\Export')
     {
         if ($type !== '\Grido\Components\Export') {
-            trigger_error('Parameter $type is deprecated; just create instance of your own type.', E_USER_WARNING);
+            trigger_error('Parameter $type is deprecated; just create instance of your own type.', E_USER_DEPRECATED);
         }
 
         $export = new $type($this, $label);
@@ -1171,8 +1171,7 @@ class Grid extends \Nette\Application\UI\Control
     /** @deprecated */
     public function setExporting($label = NULL, $type = '\Grido\Components\Export')
     {
-        trigger_error(__METHOD__ . '() is deprecated; use setExport() instead.', E_USER_WARNING);
-
+        trigger_error(__METHOD__ . '() is deprecated; use setExport() instead.', E_USER_DEPRECATED);
         return $this->setExport($label, $type);
     }
 }
