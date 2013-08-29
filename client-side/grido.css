@@ -114,6 +114,22 @@
     margin: 15px 5px 0 0;
 }
 
+/******************** SORTING ********************/
+
+.grido th.column span {
+    width: 0;
+    height: 0;
+    vertical-align: top;
+    content: "";
+    float: right;
+    margin-top: 8px;
+    border-right: 4px solid transparent;
+    border-left: 4px solid transparent;
+}
+
+.grido th.column.asc span {border-bottom: 4px solid #555}
+.grido th.column.desc span {border-top: 4px solid #555}
+
 /******************** OTHERS ********************/
 
 .grido th.actions {
@@ -144,9 +160,6 @@
 .grido .left {text-align: left}
 .grido .right {text-align: right}
 
-.grido th.column.asc span {border-bottom: 4px solid #555}
-.grido th.column.desc span {border-top: 4px solid #555}
-
 .grido.filter.outer label {font-size: 12px}
 
 /******************** TWITTER BOOTSTRAP RESET ********************/
@@ -170,17 +183,4 @@
     margin-right: 4px;
 }
 .grido label {display: inline}
-
-.grido th.column span {
-    display: inline-block;
-    width: 0;
-    height: 0;
-    vertical-align: top;
-    content: "";
-    float: right;
-    margin-top: 8px;
-    border-right: 4px solid transparent;
-    border-left: 4px solid transparent;
-}
-
 .grido input[type="checkbox"] {margin: 3px 0}
