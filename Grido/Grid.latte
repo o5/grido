@@ -56,7 +56,7 @@
                     {if $column->isSortable()}
                         <a n:if="!$column->getSort()" n:href="sort! [$column->getName() => Grido\Components\Columns\Column::ASC]" class="ajax">{_$column->label}</a>
                         <a n:if="$column->getSort() == Grido\Components\Columns\Column::ASC" n:href="sort! [$column->getName() => Grido\Components\Columns\Column::DESC]" class="sort ajax">{_$column->label}</a>
-                        <a n:if="$column->getSort() == Grido\Components\Columns\Column::DESC" n:href="sort! [$column->getName() => isset($control->defaultSort[$column->getName()]) ? '' : NULL]" class="sort ajax">{_$column->label}</a>
+                        <a n:if="$column->getSort() == Grido\Components\Columns\Column::DESC" n:href="sort! [$column->getName() => Grido\Components\Columns\Column::ASC]" class="sort ajax">{_$column->label}</a>
                         <span></span>
                     {else}
                         {_$column->label}
