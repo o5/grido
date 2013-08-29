@@ -22,8 +22,7 @@
 
 .grido thead th,
 .grido tfoot td,
-.grido.filter.outer,
-.navbar-inner {
+.grido.filter.outer {
     background: #E9E9E9;
     background:-moz-linear-gradient(top, #FAFAFA 0%, #E9E9E9 100%);
     background:-webkit-gradient(linear, left top, left bottom, color-stop(0%,#FAFAFA), color-stop(100%,#E9E9E9));
@@ -68,11 +67,7 @@
     border-width: 0 1px 1px 0;
     height: 30px;
 }
-/*
-.grido td,
-.grido th.checker{border-width: 0 0 1px 0;}
-.grido .head th {border-width: 0}
-*/
+
 .grido th.column {width: 8%}
 
 .grido thead {font-size: 1.15em}
@@ -119,8 +114,6 @@
     margin: 15px 5px 0 0;
 }
 
-/*.grido .btn-group {vertical-align: baseline}*/
-
 /******************** OTHERS ********************/
 
 .grido th.actions {
@@ -136,7 +129,7 @@
 .grido td.checker {text-align: center}
 
 .grido th:last-child,
-.grido td:last-child { border-right: 0;}
+.grido td:last-child { border-right: 0}
 
 .grido tfoot tr {height: 35px}
 .grido tfoot td {border-bottom:0}
@@ -146,11 +139,15 @@
 .grido tfoot {text-align: center; line-height: 23px}
 .grido tfoot .operations {float: left;text-align: left}
 .grido tfoot .count {float:right; text-align: left}
-.grido .grido .dropdown-menu {min-width: 50px}
 
 .grido .center {text-align: center}
 .grido .left {text-align: left}
 .grido .right {text-align: right}
+
+.grido th.column.asc span {border-bottom: 4px solid #555}
+.grido th.column.desc span {border-top: 4px solid #555}
+
+.grido.filter.outer label {font-size: 12px}
 
 /******************** TWITTER BOOTSTRAP RESET ********************/
 
@@ -186,14 +183,4 @@
     border-left: 4px solid transparent;
 }
 
-.grido th.column div {width: auto}
-
-.grido th.column.asc span {border-bottom: 4px solid #555}
-.grido th.column.desc span {border-top: 4px solid #555}
-
-.grido input[type="radio"],
 .grido input[type="checkbox"] {margin: 3px 0}
-
-.grido.filter.outer label {font-size: 12px}
-
-.grido .dropdown-menu {min-width: auto;}
