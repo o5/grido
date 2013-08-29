@@ -149,6 +149,8 @@
 .grido .grido .dropdown-menu {min-width: 50px}
 
 .grido .center {text-align: center}
+.grido .left {text-align: left}
+.grido .right {text-align: right}
 
 /******************** TWITTER BOOTSTRAP RESET ********************/
 
