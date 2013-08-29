@@ -33,8 +33,8 @@ abstract class Action extends \Grido\Components\Base
     const ID = 'actions';
 
     /** @deprecated */
-    const TYPE_HREF = 'Grido\Components\Actions\Href';
-    const TYPE_EVENT = 'Grido\Components\Actions\Event';
+    const TYPE_HREF = 'Grido\Components\Actions\Href',
+        TYPE_EVENT = 'Grido\Components\Actions\Event';
 
     /** @var callback for custom rendering */
     protected $customRender;

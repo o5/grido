@@ -37,11 +37,11 @@ abstract class Column extends \Grido\Components\Base
     const VALUE_IDENTIFIER = '%value';
 
     /** @deprecated */
-    const TYPE_TEXT = 'Grido\Components\Columns\Text';
-    const TYPE_MAIL = 'Grido\Components\Columns\Mail';
-    const TYPE_HREF = 'Grido\Components\Columns\Href';
-    const TYPE_DATE = 'Grido\Components\Columns\Date';
-    const TYPE_NUMBER = 'Grido\Components\Columns\Number';
+    const TYPE_TEXT = 'Grido\Components\Columns\Text',
+        TYPE_MAIL = 'Grido\Components\Columns\Mail',
+        TYPE_HREF = 'Grido\Components\Columns\Href',
+        TYPE_DATE = 'Grido\Components\Columns\Date',
+        TYPE_NUMBER = 'Grido\Components\Columns\Number';
 
     const ASC  = '↑';
     const DESC = '↓';
