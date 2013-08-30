@@ -20,7 +20,7 @@ namespace Grido\Components\Columns;
  *
  * @property string $dateFormat
  */
-class Date extends Text
+class Date extends Column
 {
     const FORMAT_TEXT = 'd M Y';
     const FORMAT_DATE = 'd.m.Y';

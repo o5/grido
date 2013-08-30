@@ -18,7 +18,7 @@ namespace Grido\Components\Columns;
  * @subpackage  Components\Columns
  * @author      Petr Bugyík
  */
-class Href extends Text
+class Href extends Column
 {
     /**
      * @param $value

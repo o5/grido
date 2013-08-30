@@ -18,7 +18,7 @@ namespace Grido\Components\Columns;
  * @subpackage  Components\Columns
  * @author      Petr Bugyík
  */
-class Mail extends Text
+class Mail extends Column
 {
     /**
      * @param $value
