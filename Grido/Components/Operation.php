@@ -22,7 +22,7 @@ use Grido\Grid;
  *
  * @property-read string $primaryKey
  */
-class Operation extends Base
+class Operation extends Component
 {
     const ID = 'operations';
 

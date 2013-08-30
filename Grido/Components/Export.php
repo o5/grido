@@ -20,7 +20,7 @@ namespace Grido\Components;
  *
  * @property-read string $label
  */
-class Export extends Base implements \Nette\Application\IResponse
+class Export extends Component implements \Nette\Application\IResponse
 {
     const ID = 'export';
 

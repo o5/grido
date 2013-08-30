@@ -25,7 +25,7 @@ namespace Grido\Components\Filters;
  * @property-write string $formatValue
  * @property-write string $defaultValue
  */
-abstract class Filter extends \Grido\Components\Base
+abstract class Filter extends \Grido\Components\Component
 {
     const ID = 'filters';
 

@@ -28,7 +28,7 @@ use Nette\Utils\Html;
  * @property string $primaryKey
  * @property string $icon
  */
-abstract class Action extends \Grido\Components\Base
+abstract class Action extends \Grido\Components\Component
 {
     const ID = 'actions';
 

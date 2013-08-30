@@ -23,7 +23,7 @@ namespace Grido\Components;
  * @property-read \Grido\Grid $grid
  * @property-read \Nette\Application\UI\Form $form
  */
-abstract class Base extends \Nette\Application\UI\PresenterComponent
+abstract class Component extends \Nette\Application\UI\PresenterComponent
 {
     /** @var string */
     protected $label;

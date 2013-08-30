@@ -30,7 +30,7 @@ use Grido\Components\Filters\Filter;
  * @property-write bool $sortable
  * @property string $column
  */
-abstract class Column extends \Grido\Components\Base
+abstract class Column extends \Grido\Components\Component
 {
     const ID = 'columns';
 
