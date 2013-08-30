@@ -31,9 +31,6 @@ class Href extends Action
     /** @var callback for custom href attribute creating */
     protected $customHref;
 
-    /** @var array callback @deprecated */
-    public $onClick = array();
-
     /**
      * @param \Grido\Grid $grid
      * @param string $name
@@ -78,9 +75,6 @@ class Href extends Action
 
         if ($this->customHref) {
             $href = callback($this->customHref)->invokeArgs(array($item));
-        } elseif ($this->onClick) { //@deprecated
-            trigger_error('Parameter $onClick is deprecated in "href" type; use type "event" instead.', E_USER_DEPRECATED);
-            $href = $this->link('click!', $primaryValue);
         } elseif ($primaryValue) {
             $href = $this->presenter->link($this->getDestination(), $this->getArguments($item));
         }
@@ -120,16 +114,5 @@ class Href extends Action
         }
 
         return $this->arguments;
-    }
-
-    /**********************************************************************************************/
-
-    /**
-     * @deprecated
-     * @param $id
-     */
-    public function handleClick($id)
-    {
-        $this->onClick($id, $this);
     }
 }
