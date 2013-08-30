@@ -183,7 +183,7 @@ test(function() //setRememberState
     $grid = new Grid;
 
     $grid->setRememberState(1);
-    Assert::same(TRUE, $grid->rememberState);
+    Assert::true($grid->rememberState);
 });
 
 test(function() //setRowCallback()
@@ -257,14 +257,13 @@ test(function() //addColumn*()
         \Grido\Components\Columns\Number::NUMBER_FORMAT_THOUSANDS_SEPARATOR => $thousandsSep
     ), $component->numberFormat);
 
-    //@deprecated
     Assert::error(function() use ($grid, $label) {
         $name = 'deprecated';
         $grid->addColumn($name, $label, \Grido\Components\Columns\Column::TYPE_DATE);
         $component = $grid->getColumn($name);
         Assert::type('\Grido\Components\Columns\Text', $component);
         Assert::same($label, $component->label);
-    }, E_USER_WARNING);
+    }, E_USER_DEPRECATED);
 
     // getter
     Assert::exception(function() use ($grid) {
@@ -317,20 +316,19 @@ test(function() //addFilter*()
     Assert::type('\Grido\Components\Filters\Custom', $component);
     Assert::type('\Nette\Forms\Controls\TextArea', $component->formControl);
 
-    //@deprecated
     Assert::error(function() use ($grid, $label) {
         $name = 'deprecated';
         $grid->addFilter($name, $label, Grido\Components\Filters\Filter::TYPE_CHECK);
         $component = $grid->getFilter($name);
         Assert::type('\Grido\Components\Filters\Check', $component);
         Assert::same($label, $component->label);
-    }, E_USER_WARNING);
+    }, E_USER_DEPRECATED);
 
     // getter
     Assert::exception(function() use ($grid) {
         $grid->getFilter('TEST');
     }, 'InvalidArgumentException');
-    Assert::same(NULL, $grid->getFilter('TEST', FALSE));
+    Assert::null($grid->getFilter('TEST', FALSE));
 });
 
 test(function() //addAction*()
@@ -356,7 +354,6 @@ test(function() //addAction*()
     Assert::same($label, $component->label);
     Assert::same(array($onClick), $component->onClick);
 
-    //@deprecated
     Assert::error(function() use ($grid, $label, $destination, $args) {
         $name = 'deprecated';
         $grid->addAction($name, $label, \Grido\Components\Actions\Action::TYPE_HREF, $destination, $args);
@@ -365,13 +362,13 @@ test(function() //addAction*()
         Assert::same($label, $component->label);
         Assert::same($destination, $component->destination);
         Assert::same($args, $component->arguments);
-    }, E_USER_WARNING);
+    }, E_USER_DEPRECATED);
 
     // getter
     Assert::exception(function() use ($grid) {
         $grid->getAction('TEST');
     }, 'InvalidArgumentException');
-    Assert::same(NULL, $grid->getAction('TEST', FALSE));
+    Assert::null($grid->getAction('TEST', FALSE));
 });
 
 test(function() //setOperations()
@@ -394,7 +391,7 @@ test(function() //setOperations()
         $grid->getOperations();
     }, 'InvalidArgumentException');
 
-    Assert::same(NULL, $grid->getOperations(FALSE));
+    Assert::null($grid->getOperations(FALSE));
 });
 
 test(function() //setExport()
@@ -414,50 +411,49 @@ test(function() //setExport()
         $grid->getExport();
     }, 'InvalidArgumentException');
 
-    Assert::same(NULL, $grid->getExport(FALSE));
+    Assert::null($grid->getExport(FALSE));
 
-    //@deprecated
     Assert::error(function() use ($grid, $label) {
         $grid->setExporting($label);
-    }, E_USER_WARNING);
+    }, E_USER_DEPRECATED);
 });
 
 test(function() //hasFilters()
 {
     $grid = new Grid;
 
-    Assert::same(FALSE, $grid->hasFilters());
+    Assert::false($grid->hasFilters());
     $grid->addFilterText('filter', 'Filter');
-    Assert::same(FALSE, $grid->hasFilters());
-    Assert::same(TRUE, $grid->hasFilters(FALSE));
+    Assert::false($grid->hasFilters());
+    Assert::true($grid->hasFilters(FALSE));
 });
 
 test(function() //hasActions()
 {
     $grid = new Grid;
 
-    Assert::same(FALSE, $grid->hasActions());
+    Assert::false($grid->hasActions());
     $grid->addActionHref('action', 'Action');
-    Assert::same(FALSE, $grid->hasActions());
-    Assert::same(TRUE, $grid->hasActions(FALSE));
+    Assert::false($grid->hasActions());
+    Assert::true($grid->hasActions(FALSE));
 });
 
 test(function() //hasOperations()
 {
     $grid = new Grid;
 
-    Assert::same(FALSE, $grid->hasOperations());
+    Assert::false($grid->hasOperations());
     $grid->setOperations(array(), array());
-    Assert::same(FALSE, $grid->hasOperations());
-    Assert::same(TRUE, $grid->hasOperations(FALSE));
+    Assert::false($grid->hasOperations());
+    Assert::true($grid->hasOperations(FALSE));
 });
 
 test(function() //hasExport()
 {
     $grid = new Grid;
 
-    Assert::same(FALSE, $grid->hasExport());
+    Assert::false($grid->hasExport());
     $grid->setExport();
-    Assert::same(FALSE, $grid->hasExport());
-    Assert::same(TRUE, $grid->hasExport(FALSE));
+    Assert::false($grid->hasExport());
+    Assert::true($grid->hasExport(FALSE));
 });
