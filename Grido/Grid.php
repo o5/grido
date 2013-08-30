@@ -13,10 +13,7 @@ namespace Grido;
 
 use Grido\Components\Columns\Column,
     Grido\Components\Filters\Filter,
-    Grido\Components\Actions\Action,
-    Grido\Components\Operation,
-    Grido\Components\Paginator,
-    Grido\Components\Export;
+    Grido\Components\Paginator;
 
 /**
  * Grido - DataGrid for Nette Framework.
@@ -41,7 +38,7 @@ use Grido\Components\Columns\Column,
  * @property PropertyAccessors\IPropertyAccessor $propertyAccessor
  * @property callback $rowCallback
  */
-class Grid extends \Nette\Application\UI\Control
+class Grid extends Components\Container
 {
     /***** DEFAULTS ****/
     const BUTTONS = 'buttons';
@@ -108,9 +105,6 @@ class Grid extends \Nette\Application\UI\Control
 
     /** @var PropertyAccessors\IPropertyAccessor */
     protected $propertyAccessor;
-
-    /** @var bool cache */
-    protected $hasFilters, $hasActions, $hasOperations, $hasExport;
 
     /**
      * Sets a model that implements the interface Grido\DataSources\IDataSource or data-source object.
@@ -399,59 +393,6 @@ class Grid extends \Nette\Application\UI\Control
     }
 
     /**
-     * Returns column component.
-     * @param string $name
-     * @param bool $need
-     * @return Column
-     */
-    public function getColumn($name, $need = TRUE)
-    {
-        return $this[Column::ID]->getComponent($name, $need);
-    }
-
-    /**
-     * Returns filter component.
-     * @param string $name
-     * @param bool $need
-     * @return Filter
-     */
-    public function getFilter($name, $need = TRUE)
-    {
-        return $this[Filter::ID]->getComponent($name, $need);
-    }
-
-    /**
-     * Returns action component.
-     * @param string $name
-     * @param bool $need
-     * @return Action
-     */
-    public function getAction($name, $need = TRUE)
-    {
-        return $this[Action::ID]->getComponent($name, $need);
-    }
-
-    /**
-     * Returns operations component.
-     * @param bool $need
-     * @return Operation
-     */
-    public function getOperations($need = TRUE)
-    {
-        return $this->getComponent(Operation::ID, $need);
-    }
-
-    /**
-     * Returns export component.
-     * @param bool $need
-     * @return Export
-     */
-    public function getExport($need = TRUE)
-    {
-        return $this->getComponent(Export::ID, $need);
-    }
-
-    /**
      * Returns actual filter values.
      * @param string $key
      * @return mixed
@@ -728,78 +669,6 @@ class Grid extends \Nette\Application\UI\Control
 
     /**
      * @internal
-     * @param bool $useCache
-     * @return bool
-     */
-    public function hasFilters($useCache = TRUE)
-    {
-        $hasFilters = $this->hasFilters;
-
-        if ($hasFilters === NULL || $useCache === FALSE) {
-            $container = $this->getComponent(Filter::ID, FALSE);
-            $hasFilters = $container && count($container->getComponents()) > 0;
-            $this->hasFilters = $useCache ? $hasFilters : NULL;
-        }
-
-        return $hasFilters;
-    }
-
-    /**
-     * @internal
-     * @param bool $useCache
-     * @return bool
-     */
-    public function hasActions($useCache = TRUE)
-    {
-        $hasActions = $this->hasActions;
-
-        if ($hasActions === NULL || $useCache === FALSE) {
-            $container = $this->getComponent(Action::ID, FALSE);
-            $hasActions= $container && count($container->getComponents()) > 0;
-            $this->hasActions = $useCache ? $hasActions : NULL;
-        }
-
-        return $hasActions;
-    }
-
-    /**
-     * @internal
-     * @param bool $useCache
-     * @return bool
-     */
-    public function hasOperations($useCache = TRUE)
-    {
-        $hasOperations = $this->hasOperations;
-
-        if ($hasOperations === NULL || $useCache === FALSE) {
-            $hasOperations = (bool) $this->getComponent(Operation::ID, FALSE);
-            $this->hasOperations = $useCache ? $hasOperations : NULL;
-        }
-
-        return $hasOperations;
-    }
-
-    /**
-     * @internal
-     * @param bool $useCache
-     * @return bool
-     */
-    public function hasExport($useCache = TRUE)
-    {
-        $hasExport = $this->hasExport;
-
-        if ($hasExport === NULL || $useCache === FALSE) {
-            $hasExport = (bool) $this->getComponent(Export::ID, FALSE);
-            $this->hasExport = $useCache ? $hasExport : NULL;
-        }
-
-        return $hasExport;
-    }
-
-    /**********************************************************************************************/
-
-    /**
-     * @internal
      * @param string $class
      * @return \Nette\Templating\FileTemplate
      */
@@ -940,170 +809,5 @@ class Grid extends \Nette\Application\UI\Control
     protected function getItemsForCountSelect()
     {
         return array_combine($this->perPageList, $this->perPageList);
-    }
-
-    /********************************* Components *************************************************/
-
-    /**
-     * @param string $name
-     * @param string $label
-     * @return \Grido\Components\Columns\Text
-     */
-    public function addColumnText($name, $label)
-    {
-        return new Components\Columns\Text($this, $name, $label);
-    }
-
-    /**
-     * @param string $name
-     * @param string $label
-     * @return \Grido\Components\Columns\Mail
-     */
-    public function addColumnMail($name, $label)
-    {
-        return new Components\Columns\Mail($this, $name, $label);
-    }
-
-    /**
-     * @param string $name
-     * @param string $label
-     * @return \Grido\Components\Columns\Href
-     */
-    public function addColumnHref($name, $label)
-    {
-        return new Components\Columns\Href($this, $name, $label);
-    }
-
-    /**
-     * @param string $name
-     * @param string $label
-     * @param string $dateFormat
-     * @return \Grido\Components\Columns\Date
-     */
-    public function addColumnDate($name, $label, $dateFormat = NULL)
-    {
-        return new Components\Columns\Date($this, $name, $label, $dateFormat);
-    }
-
-    /**
-     * @param string $name
-     * @param string $label
-     * @param int $decimals number of decimal points
-     * @param string $decPoint separator for the decimal point
-     * @param string $thousandsSep thousands separator
-     * @return \Grido\Components\Columns\Number
-     */
-    public function addColumnNumber($name, $label, $decimals = NULL, $decPoint = NULL, $thousandsSep = NULL)
-    {
-        return new Components\Columns\Number($this, $name, $label, $decimals, $decPoint, $thousandsSep);
-    }
-
-    /**********************************************************************************************/
-
-    /**
-     * @param string $name
-     * @param string $label
-     * @return \Grido\Components\Filters\Text
-     */
-    public function addFilterText($name, $label)
-    {
-        return new Components\Filters\Text($this, $name, $label);
-    }
-
-    /**
-     * @param string $name
-     * @param string $label
-     * @return \Grido\Components\Filters\Date
-     */
-    public function addFilterDate($name, $label)
-    {
-        return new Components\Filters\Date($this, $name, $label);
-    }
-
-    /**
-     * @param string $name
-     * @param string $label
-     * @return \Grido\Components\Filters\Check
-     */
-    public function addFilterCheck($name, $label)
-    {
-        return new Components\Filters\Check($this, $name, $label);
-    }
-
-    /**
-     * @param string $name
-     * @param string $label
-     * @param array $items
-     * @return \Grido\Components\Filters\Select
-     */
-    public function addFilterSelect($name, $label, array $items = NULL)
-    {
-        return new Components\Filters\Select($this, $name, $label, $items);
-    }
-
-    /**
-     * @param string $name
-     * @param string $label
-     * @return \Grido\Components\Filters\Number
-     */
-    public function addFilterNumber($name, $label)
-    {
-        return new Components\Filters\Number($this, $name, $label);
-    }
-
-    /**
-     * @param string $name
-     * @param \Nette\Forms\IControl $formControl
-     * @return \Grido\Components\Filters\Custom
-     */
-    public function addFilterCustom($name, \Nette\Forms\IControl $formControl)
-    {
-        return new Components\Filters\Custom($this, $name, NULL, $formControl);
-    }
-
-    /**********************************************************************************************/
-
-    /**
-     * @param string $name
-     * @param string $label
-     * @param string $destination
-     * @param array $args
-     * @return \Grido\Components\Actions\Href
-     */
-    public function addActionHref($name, $label, $destination = NULL, array $args = NULL)
-    {
-        return new Components\Actions\Href($this, $name, $label, $destination, $args);
-    }
-
-    /**
-     * @param string $name
-     * @param string $label
-     * @param callback $onClick
-     * @return \Grido\Components\Actions\Event
-     */
-    public function addActionEvent($name, $label, $onClick = NULL)
-    {
-        return new Components\Actions\Event($this, $name, $label, $onClick);
-    }
-
-    /**********************************************************************************************/
-
-    /**
-     * @param array $operations
-     * @param callback $onSubmit - callback after operation submit
-     * @return Operation
-     */
-    public function setOperations(array $operations, $onSubmit)
-    {
-        return new Operation($this, $operations, $onSubmit);
-    }
-
-    /**
-     * @param string $label of exporting file
-     * @return Export
-     */
-    public function setExport($label = NULL)
-    {
-        return new Export($this, $label);
     }
 }
