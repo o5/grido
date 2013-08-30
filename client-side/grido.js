@@ -234,7 +234,7 @@
                     $(_this.selector, _this.grido.$element).each(function() {
                         var val = $(this).prop('checked');
                         $(this).prop('checked', !val);
-                        _this.changeRow($(this).parent().parent(), !val);
+                        _this.changeRow($(this).closest('tr'), !val);
                     });
 
                     return false;
@@ -247,7 +247,7 @@
             $(this.selector, this.grido.$element)
                 .off('change.grido')
                 .on('change.grido', function() {
-                    $.proxy(_this.changeRow, _this)($(this).parent().parent(), $(this).prop('checked'));
+                    $.proxy(_this.changeRow, _this)($(this).closest('tr'), $(this).prop('checked'));
                 });
         },
 
