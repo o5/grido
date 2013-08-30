@@ -112,6 +112,9 @@ class Grid extends \Nette\Application\UI\Control
     /** @var bool cache */
     protected $hasFilters, $hasActions, $hasOperations, $hasExporting;
 
+    /** @var string */
+    protected $emptyMessage = '';
+
     /**
      * Sets a model that implements the interface Grido\DataSources\IDataSource or data-source object.
      * @param mixed $model
@@ -183,6 +186,17 @@ class Grid extends \Nette\Application\UI\Control
             $this->defaultSort[$column] = strtr(strtolower($dir), $replace);
         }
 
+        return $this;
+    }
+
+    /**
+     *
+     * @param string $str
+     * @return Grid
+     */
+    public function setEmptyMessage($str)
+    {
+        $this->emptyMessage = (string) $str;
         return $this;
     }
 
@@ -451,6 +465,15 @@ class Grid extends \Nette\Application\UI\Control
         }
 
         return $this->data;
+    }
+
+    /**
+     * Returns text whose display if item is not
+     * @return string
+     */
+    public function getEmptyMessage()
+    {
+        return $this->emptyMessage;
     }
 
     /**
@@ -781,6 +804,7 @@ class Grid extends \Nette\Application\UI\Control
         $this->template->data = $data;
 
         $this->onRender($this);
+        $this->template->emptyMessage = $this->emptyMessage;
         $this->template->render();
     }
 
