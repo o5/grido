@@ -78,7 +78,7 @@ class Date extends Column
     }
 
     /**
-     * @internal
+     * @internal - Do not call directly.
      * @param mixed $row
      * @return string
      */

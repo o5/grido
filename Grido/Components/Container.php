@@ -91,7 +91,7 @@ abstract class Container extends \Nette\Application\UI\Control
     /**********************************************************************************************/
 
     /**
-     * @internal
+     * @internal - Do not call directly.
      * @param bool $useCache
      * @return bool
      */
@@ -109,7 +109,7 @@ abstract class Container extends \Nette\Application\UI\Control
     }
 
     /**
-     * @internal
+     * @internal - Do not call directly.
      * @param bool $useCache
      * @return bool
      */
@@ -127,7 +127,7 @@ abstract class Container extends \Nette\Application\UI\Control
     }
 
     /**
-     * @internal
+     * @internal - Do not call directly.
      * @param bool $useCache
      * @return bool
      */
@@ -145,7 +145,7 @@ abstract class Container extends \Nette\Application\UI\Control
     }
 
     /**
-     * @internal
+     * @internal - Do not call directly.
      * @param bool $useCache
      * @return bool
      */
@@ -162,7 +162,7 @@ abstract class Container extends \Nette\Application\UI\Control
     }
 
     /**
-     * @internal
+     * @internal - Do not call directly.
      * @param bool $useCache
      * @return bool
      */

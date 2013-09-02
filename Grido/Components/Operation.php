@@ -100,7 +100,7 @@ class Operation extends Component
     /**********************************************************************************************/
 
     /**
-     * @internal
+     * @internal - Do not call directly.
      * @param \Nette\Forms\Controls\SubmitButton $button
      */
     public function handleOperations(\Nette\Forms\Controls\SubmitButton $button)
@@ -132,7 +132,7 @@ class Operation extends Component
     }
 
     /**
-     * @internal
+     * @internal - Do not call directly.
      * @param \Nette\Forms\Container $container
      */
     public function addCheckers(\Nette\Forms\Container $container)

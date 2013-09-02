@@ -250,7 +250,7 @@ abstract class Column extends \Grido\Components\Component
     }
 
     /**
-     * @internal
+     * @internal - Do not call directly.
      * @return mixed
      */
     public function getColumn()
@@ -259,7 +259,7 @@ abstract class Column extends \Grido\Components\Component
     }
 
     /**
-     * @internal
+     * @internal - Do not call directly.
      * @return string
      */
     public function getSort()
@@ -278,7 +278,7 @@ abstract class Column extends \Grido\Components\Component
     }
 
     /**
-     * @internal
+     * @internal - Do not call directly.
      * @return mixed
      */
     public function getCustomRender()
@@ -289,7 +289,7 @@ abstract class Column extends \Grido\Components\Component
     /**********************************************************************************************/
 
     /**
-     * @internal
+     * @internal - Do not call directly.
      * @return bool
      */
     public function isSortable()
@@ -298,7 +298,7 @@ abstract class Column extends \Grido\Components\Component
     }
 
     /**
-     * @internal
+     * @internal - Do not call directly.
      * @return bool
      */
     public function hasFilter()
@@ -309,7 +309,7 @@ abstract class Column extends \Grido\Components\Component
     /**********************************************************************************************/
 
     /**
-     * @internal
+     * @internal - Do not call directly.
      * @param mixed $row
      * @return string
      */
@@ -329,7 +329,7 @@ abstract class Column extends \Grido\Components\Component
     }
 
     /**
-     * @internal
+     * @internal - Do not call directly.
      * @param mixed $row
      * @return string
      */

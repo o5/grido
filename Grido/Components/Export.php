@@ -92,7 +92,7 @@ class Export extends Component implements \Nette\Application\IResponse
         return $this->label;
     }
     /**
-     * @internal
+     * @internal - Do not call directly.
      */
     public function handleExport()
     {

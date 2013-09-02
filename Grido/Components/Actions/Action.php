@@ -182,7 +182,7 @@ abstract class Action extends \Grido\Components\Component
     }
 
     /**
-     * @internal
+     * @internal - Do not call directly.
      * @return string
      */
     public function getPrimaryKey()
