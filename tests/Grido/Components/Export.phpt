@@ -48,11 +48,6 @@ class ExportTest extends Tester\TestCase
         Assert::exception(function() use ($grid) {
             $grid->getExport();
         }, 'InvalidArgumentException');
-
-        Assert::null($grid->getExport(FALSE));
-        Assert::error(function() use ($grid, $label) {
-            $grid->setExporting($label);
-        }, E_USER_DEPRECATED);
     }
 }
 

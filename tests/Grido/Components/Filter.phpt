@@ -200,14 +200,6 @@ class FilterTest extends Tester\TestCase
         Assert::type('\Grido\Components\Filters\Custom', $component);
         Assert::type('\Nette\Forms\Controls\TextArea', $component->formControl);
 
-        Assert::error(function() use ($grid, $label) {
-            $name = 'deprecated';
-            $grid->addFilter($name, $label, Grido\Components\Filters\Filter::TYPE_CHECK);
-            $component = $grid->getFilter($name);
-            Assert::type('\Grido\Components\Filters\Check', $component);
-            Assert::same($label, $component->label);
-        }, E_USER_DEPRECATED);
-
         // getter
         Assert::exception(function() use ($grid) {
             $grid->getFilter('filter');

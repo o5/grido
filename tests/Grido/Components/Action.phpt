@@ -47,16 +47,6 @@ class ActionTest extends Tester\TestCase
         Assert::same($label, $component->label);
         Assert::same(array($onClick), $component->onClick);
 
-        Assert::error(function() use ($grid, $label, $destination, $args) {
-            $name = 'deprecated';
-            $grid->addAction($name, $label, \Grido\Components\Actions\Action::TYPE_HREF, $destination, $args);
-            $component = $grid->getAction($name);
-            Assert::type('\Grido\Components\Actions\Href', $component);
-            Assert::same($label, $component->label);
-            Assert::same($destination, $component->destination);
-            Assert::same($args, $component->arguments);
-        }, E_USER_DEPRECATED);
-
         // getter
         Assert::exception(function() use ($grid) {
             $grid->getAction('action');

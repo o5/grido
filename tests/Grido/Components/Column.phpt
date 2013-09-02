@@ -135,14 +135,6 @@ class ColumnTest extends Tester\TestCase
             \Grido\Components\Columns\Number::NUMBER_FORMAT_THOUSANDS_SEPARATOR => $thousandsSep
         ), $component->numberFormat);
 
-        Assert::error(function() use ($grid, $label) {
-            $name = 'deprecated';
-            $grid->addColumn($name, $label, \Grido\Components\Columns\Column::TYPE_DATE);
-            $component = $grid->getColumn($name);
-            Assert::type('\Grido\Components\Columns\Text', $component);
-            Assert::same($label, $component->label);
-        }, E_USER_DEPRECATED);
-
         // getter
         Assert::exception(function() use ($grid) {
             $grid->getColumn('column');
