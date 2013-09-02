@@ -66,7 +66,7 @@ class Operation extends Component
     public function setConfirm($operation, $message)
     {
         $this->grid->onRender[] = function(Grid $grid) use ($operation, $message){
-            $grid['form'][Operation::ID][Operation::ID]->controlPrototype->attrs["data-grido-$operation"] = $message;
+            $grid['form'][Operation::ID][Operation::ID]->controlPrototype->data["grido-$operation"] = $message;
         };
 
         return $this;
@@ -110,6 +110,11 @@ class Operation extends Component
 
         $values = $form[self::ID]->values;
         if (empty($values[self::ID])) {
+            $httpData = $form->getHttpData();
+            if (!empty($httpData[self::ID][self::ID]) && $operation = $httpData[self::ID][self::ID]) {
+                trigger_error("Operation with name '$operation' does not exist.", E_USER_NOTICE);
+            }
+
             $this->grid->reload();
         }
 

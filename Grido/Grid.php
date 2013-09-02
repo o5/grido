@@ -317,6 +317,10 @@ class Grid extends Components\Container
      */
     public function getDefaultPerPage()
     {
+        if (!in_array($this->defaultPerPage, $this->perPageList)) {
+            $this->defaultPerPage = $this->perPageList[0];
+        }
+
         return $this->defaultPerPage;
     }
 
@@ -380,16 +384,9 @@ class Grid extends Components\Container
      */
     public function getPerPage()
     {
-        $perPage = $this->perPage === NULL
-            ? $this->defaultPerPage
+        return $this->perPage === NULL
+            ? $this->getDefaultPerPage()
             : $this->perPage;
-
-        if ($perPage !== NULL && !in_array($perPage, $this->perPageList)) {
-            trigger_error("The number '$perPage' of items per page is out of range.", E_USER_NOTICE);
-            $perPage = $this->defaultPerPage;
-        }
-
-        return $perPage;
     }
 
     /**
@@ -405,16 +402,19 @@ class Grid extends Components\Container
 
     /**
      * Returns fetched data.
+     * @param bool $applyPaging
+     * @param bool $useCache
      * @throws \Exception
      * @return array
      */
-    public function getData($applyPaging = TRUE)
+    public function getData($applyPaging = TRUE, $useCache = TRUE)
     {
         if ($this->model === NULL) {
             throw new \Exception('Model cannot be empty, please use method $grid->setModel().');
         }
 
-        if ($this->data === NULL) {
+        $data = $this->data;
+        if ($data === NULL || $useCache === FALSE) {
             $this->applyFiltering();
             $this->applySorting();
 
@@ -422,9 +422,13 @@ class Grid extends Components\Container
                 $this->applyPaging();
             }
 
-            $this->data = $this->model->getData();
+            $data = $this->model->getData();
 
-            if ($applyPaging && $this->data && !in_array($this->page, range(1, $this->getPaginator()->pageCount))) {
+            if ($useCache === TRUE) {
+                $this->data = $data;
+            }
+
+            if ($applyPaging && $data && !in_array($this->page, range(1, $this->getPaginator()->pageCount))) {
                 trigger_error("Page is out of range.", E_USER_NOTICE);
                 $this->page = 1;
             }
@@ -434,7 +438,7 @@ class Grid extends Components\Container
             }
         }
 
-        return $this->data;
+        return $data;
     }
 
     /**
@@ -627,8 +631,8 @@ class Grid extends Components\Container
     public function handleReset(\Nette\Forms\Controls\SubmitButton $button)
     {
         $this->sort = array();
-        $this->perPage = NULL;
         $this->filter = array();
+        $this->perPage = NULL;
         $this->getRememberSession()->remove();
         $button->form->setValues(array(Filter::ID => $this->defaultFilter), TRUE);
 
@@ -720,7 +724,7 @@ class Grid extends Components\Container
     public function _applyFiltering(array $filter)
     {
         $conditions = array();
-        if ($filter && $this->hasFilters()) {
+        if ($filter) {
             $this['form']->setDefaults(array(Filter::ID => $filter));
 
             foreach ($filter as $column => $value) {
@@ -781,7 +785,13 @@ class Grid extends Components\Container
             ->setItemCount($this->getCount())
             ->setPage($this->page);
 
-        $this['form']['count']->setValue($this->getPerPage());
+        $perPage = $this->getPerPage();
+        if ($perPage !== NULL && !in_array($perPage, $this->perPageList)) {
+            trigger_error("The number '$perPage' of items per page is out of range.", E_USER_NOTICE);
+            $perPage = $this->defaultPerPage;
+        }
+
+        $this['form']['count']->setValue($perPage);
         $this->model->limit($paginator->getOffset(), $paginator->getLength());
     }
 

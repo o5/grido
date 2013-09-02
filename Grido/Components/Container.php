@@ -27,7 +27,7 @@ use Grido\Components\Columns\Column,
 abstract class Container extends \Nette\Application\UI\Control
 {
     /** @var bool cache */
-    protected $hasFilters, $hasActions, $hasOperations, $hasExport;
+    protected $hasColumns, $hasFilters, $hasActions, $hasOperations, $hasExport;
 
     /**
      * Returns column component.
@@ -37,7 +37,9 @@ abstract class Container extends \Nette\Application\UI\Control
      */
     public function getColumn($name, $need = TRUE)
     {
-        return $this[Column::ID]->getComponent($name, $need);
+        return $this->hasColumns()
+            ? $this[Column::ID]->getComponent($name, $need)
+            : NULL;
     }
 
     /**
@@ -48,7 +50,9 @@ abstract class Container extends \Nette\Application\UI\Control
      */
     public function getFilter($name, $need = TRUE)
     {
-        return $this[Filter::ID]->getComponent($name, $need);
+        return $this->hasFilters()
+            ? $this[Filter::ID]->getComponent($name, $need)
+            : NULL;
     }
 
     /**
@@ -59,7 +63,9 @@ abstract class Container extends \Nette\Application\UI\Control
      */
     public function getAction($name, $need = TRUE)
     {
-        return $this[Action::ID]->getComponent($name, $need);
+        return $this->hasActions()
+            ? $this[Action::ID]->getComponent($name, $need)
+            : NULL;
     }
 
     /**
@@ -83,6 +89,24 @@ abstract class Container extends \Nette\Application\UI\Control
     }
 
     /**********************************************************************************************/
+
+    /**
+     * @internal
+     * @param bool $useCache
+     * @return bool
+     */
+    public function hasColumns($useCache = TRUE)
+    {
+        $hasColumns = $this->hasColumns;
+
+        if ($hasColumns === NULL || $useCache === FALSE) {
+            $container = $this->getComponent(Column::ID, FALSE);
+            $hasColumns = $container && count($container->getComponents()) > 0;
+            $this->hasColumns = $useCache ? $hasColumns : NULL;
+        }
+
+        return $hasColumns;
+    }
 
     /**
      * @internal
