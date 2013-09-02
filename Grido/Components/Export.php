@@ -97,7 +97,6 @@ class Export extends Base implements \Nette\Application\IResponse
     public function handleExport()
     {
         $this->grid->presenter->sendResponse($this);
-        $this->grid->presenter->terminate();
     }
 
     /*************************** interface \Nette\Application\IResponse ***************************/

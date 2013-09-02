@@ -1,4 +1,4 @@
 /vendor
 /composer.lock
-/tests/tmp
-tests/*/output
+/tests/Grido/tmp
+tests/*/*/output

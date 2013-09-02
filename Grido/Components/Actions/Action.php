@@ -171,7 +171,7 @@ abstract class Action extends \Grido\Components\Base
             ->setText($text);
 
         if ($this->confirm) {
-            $element->attrs['data-grido-confirm'] = $this->translate(
+            $element->data['grido-confirm'] = $this->translate(
                 is_callable($this->confirm)
                     ? callback($this->confirm)->invokeArgs(array($item))
                     : $this->confirm
