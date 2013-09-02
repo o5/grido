@@ -24,7 +24,6 @@ define('TEMP_DIR', __DIR__ . '/tmp/' . getmypid());
 @mkdir(dirname(TEMP_DIR)); // @ - directory may already exist
 Tester\Helpers::purge(TEMP_DIR);
 
-\Nette\Diagnostics\Debugger::$maxDepth = 5;
 
 
 if (extension_loaded('xdebug')) {
