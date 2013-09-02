@@ -148,7 +148,7 @@ abstract class Filter extends \Grido\Components\Base
     /**********************************************************************************************/
 
     /**
-     * @internal
+     * @internal - Do not call directly.
      * @return array
      */
     public function getColumns()
@@ -166,7 +166,7 @@ abstract class Filter extends \Grido\Components\Base
     }
 
     /**
-     * @internal
+     * @internal - Do not call directly.
      * @return \Nette\Forms\Controls\BaseControl
      */
     public function getControl()
@@ -195,11 +195,11 @@ abstract class Filter extends \Grido\Components\Base
     /**********************************************************************************************/
 
     /**
-     * @internal
+     * @internal - Do not call directly.
      * @param string $value
      * @return array
      */
-    public function makeFilter($value)
+    public function __makeFilter($value)
     {
         if ($this->condition == self::CONDITION_NOT_APPLY) {
             return array();
@@ -235,7 +235,7 @@ abstract class Filter extends \Grido\Components\Base
                 if (isset($customCondition[$value])) {
                     $condition[] = $customCondition[$value];
                 }
-            } elseif ($filter = $this->_makeFilter($column, $value)) {
+            } elseif ($filter = $this->makeFilter($column, $value)) {
                 $condition[] = $filter[0];
                 $values[] = $filter[1];
             }
@@ -266,7 +266,7 @@ abstract class Filter extends \Grido\Components\Base
      * @param string $value
      * @return array condition|value
      */
-    protected function _makeFilter($column, $value)
+    protected function makeFilter($column, $value)
     {
         return array("[$column] " . $this->condition, $this->formatValue($value));
     }
@@ -287,7 +287,7 @@ abstract class Filter extends \Grido\Components\Base
 
     /**
      * Value representation in URI.
-     * @internal
+     * @internal - Do not call directly.
      * @param string $value
      * @return string
      */

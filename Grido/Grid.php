@@ -544,7 +544,7 @@ class Grid extends \Nette\Application\UI\Control
     }
 
     /**
-     * @internal
+     * @internal - Do not call directly.
      * @return string
      */
     public function getFilterRenderType()
@@ -571,7 +571,7 @@ class Grid extends \Nette\Application\UI\Control
     }
 
     /**
-     * @internal
+     * @internal - Do not call directly.
      * @return DataSources\IDataSource
      */
     public function getModel()
@@ -580,7 +580,7 @@ class Grid extends \Nette\Application\UI\Control
     }
 
     /**
-     * @internal
+     * @internal - Do not call directly.
      * @return PropertyAccessors\IPropertyAccessor
      */
     public function getPropertyAccessor()
@@ -593,7 +593,7 @@ class Grid extends \Nette\Application\UI\Control
     }
 
     /**
-     * @internal
+     * @internal - Do not call directly.
      * @return Paginator
      */
     public function getPaginator()
@@ -608,7 +608,7 @@ class Grid extends \Nette\Application\UI\Control
     }
 
     /**
-     * @internal
+     * @internal - Do not call directly.
      * @param mixed $row item from db
      * @return \Nette\Utils\Html
      */
@@ -626,7 +626,7 @@ class Grid extends \Nette\Application\UI\Control
 
      /**
       * Loads state informations.
-      * @internal
+      * @internal - Do not call directly.
       * @param array $params
       */
     public function loadState(array $params)
@@ -644,7 +644,7 @@ class Grid extends \Nette\Application\UI\Control
 
     /**
      * Ajax method.
-     * @internal
+     * @internal - Do not call directly.
      */
     public function handleRefresh()
     {
@@ -652,7 +652,7 @@ class Grid extends \Nette\Application\UI\Control
     }
 
     /**
-     * @internal
+     * @internal - Do not call directly.
      * @param int $page
      */
     public function handlePage($page)
@@ -661,7 +661,7 @@ class Grid extends \Nette\Application\UI\Control
     }
 
     /**
-     * @internal
+     * @internal - Do not call directly.
      * @param array $sort
      */
     public function handleSort(array $sort)
@@ -671,7 +671,7 @@ class Grid extends \Nette\Application\UI\Control
     }
 
     /**
-     * @internal
+     * @internal - Do not call directly.
      * @param \Nette\Forms\Controls\SubmitButton $button
      */
     public function handleFilter(\Nette\Forms\Controls\SubmitButton $button)
@@ -690,7 +690,7 @@ class Grid extends \Nette\Application\UI\Control
     }
 
     /**
-     * @internal
+     * @internal - Do not call directly.
      * @param \Nette\Forms\Controls\SubmitButton $button
      */
     public function handleReset(\Nette\Forms\Controls\SubmitButton $button)
@@ -706,7 +706,7 @@ class Grid extends \Nette\Application\UI\Control
     }
 
     /**
-     * @internal
+     * @internal - Do not call directly.
      * @param \Nette\Forms\Controls\SubmitButton $button
      */
     public function handlePerPage(\Nette\Forms\Controls\SubmitButton $button)
@@ -722,7 +722,7 @@ class Grid extends \Nette\Application\UI\Control
 
     /**
      * Refresh wrapper.
-     * @internal
+     * @internal - Do not call directly.
      * @return void
      */
     public function reload()
@@ -737,7 +737,7 @@ class Grid extends \Nette\Application\UI\Control
     /**********************************************************************************************/
 
     /**
-     * @internal
+     * @internal - Do not call directly.
      * @param bool $useCache
      * @return bool
      */
@@ -755,7 +755,7 @@ class Grid extends \Nette\Application\UI\Control
     }
 
     /**
-     * @internal
+     * @internal - Do not call directly.
      * @param bool $useCache
      * @return bool
      */
@@ -773,7 +773,7 @@ class Grid extends \Nette\Application\UI\Control
     }
 
     /**
-     * @internal
+     * @internal - Do not call directly.
      * @param bool $useCache
      * @return bool
      */
@@ -791,7 +791,7 @@ class Grid extends \Nette\Application\UI\Control
     }
 
     /**
-     * @internal
+     * @internal - Do not call directly.
      * @param bool $useCache
      * @return bool
      */
@@ -808,7 +808,7 @@ class Grid extends \Nette\Application\UI\Control
     }
 
     /**
-     * @internal
+     * @internal - Do not call directly.
      * @param bool $useCache
      * @return bool
      */
@@ -827,7 +827,7 @@ class Grid extends \Nette\Application\UI\Control
     /**********************************************************************************************/
 
     /**
-     * @internal
+     * @internal - Do not call directly.
      * @param string $class
      * @return \Nette\Templating\FileTemplate
      */
@@ -841,7 +841,7 @@ class Grid extends \Nette\Application\UI\Control
     }
 
     /**
-     * @internal
+     * @internal - Do not call directly.
      */
     public function render()
     {
@@ -865,18 +865,19 @@ class Grid extends \Nette\Application\UI\Control
 
     protected function applyFiltering()
     {
-        $conditions = $this->_applyFiltering($this->getActualFilter());
+        $conditions = $this->__applyFiltering($this->getActualFilter());
         foreach ($conditions as $condition) {
             $this->model->filter($condition);
         }
     }
 
     /**
-     * @internal
+     * Do not call directly.
+     * @internal - Do not call directly.
      * @param array $filter
      * @return array
      */
-    public function _applyFiltering(array $filter)
+    public function __applyFiltering(array $filter)
     {
         $conditions = array();
         if ($filter) {
@@ -885,7 +886,7 @@ class Grid extends \Nette\Application\UI\Control
             foreach ($filter as $column => $value) {
                 $component = $this->getFilter($column, FALSE);
                 if ($component) {
-                    if ($condition = $component->makeFilter($value)) {
+                    if ($condition = $component->__makeFilter($value)) {
                         $conditions[] = $condition;
                     } else {
                         $conditions[] = array('0 = 1'); //result data must be null

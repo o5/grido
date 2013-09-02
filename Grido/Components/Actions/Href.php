@@ -91,7 +91,7 @@ class Href extends Action
     }
 
     /**
-     * @internal
+     * @internal - Do not call directly.
      * @return string
      */
     public function getDestination()
@@ -104,7 +104,7 @@ class Href extends Action
     }
 
     /**
-     * @internal
+     * @internal - Do not call directly.
      * @return array
      */
     public function getArguments($item = NULL)

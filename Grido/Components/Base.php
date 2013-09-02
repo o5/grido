@@ -58,7 +58,7 @@ abstract class Base extends \Nette\Application\UI\PresenterComponent
     }
 
     /**
-     * @internal
+     * @internal - Do not call directly.
      * @return string
      */
     public function getLabel()
@@ -67,7 +67,7 @@ abstract class Base extends \Nette\Application\UI\PresenterComponent
     }
 
     /**
-     * @internal
+     * @internal - Do not call directly.
      * @return string
      */
     public function getType()

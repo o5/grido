@@ -63,7 +63,7 @@ class Event extends Action
     /**********************************************************************************************/
 
     /**
-     * @internal
+     * @internal - Do not call directly.
      * @param $id
      */
     public function handleClick($id)

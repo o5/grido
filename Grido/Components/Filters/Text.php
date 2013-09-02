@@ -57,7 +57,7 @@ class Text extends Filter
     /**********************************************************************************************/
 
     /**
-     * @internal
+     * @internal - Do not call directly.
      * @param string $query - value from input
      */
     public function handleSuggest($query)
@@ -70,8 +70,8 @@ class Text extends Filter
         if (isset($actualFilter[$this->name])) {
             unset($actualFilter[$this->name]);
         }
-        $conditions = $this->grid->_applyFiltering($actualFilter);
-        $conditions[] = $this->makeFilter($query);
+        $conditions = $this->grid->__applyFiltering($actualFilter);
+        $conditions[] = $this->__makeFilter($query);
 
         $column = $this->suggestionColumn ? $this->suggestionColumn : key($this->getColumns());
         $items = $this->grid->model->suggest($column, $conditions);

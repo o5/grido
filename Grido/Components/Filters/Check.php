@@ -38,23 +38,24 @@ class Check extends Filter
     }
 
     /**
-     * @internal
-     * @param string $value
-     * @return array
-     */
-    public function makeFilter($value)
-    {
-        return parent::makeFilter($value == self::TRUE ? TRUE : FALSE);
-    }
-    
-    /**
+    * @internal - Do not call directly.
     * @param string $column
     * @param string $value
     * @return array
     */
-    public function _makeFilter($column, $value)
+    public function makeFilter($column, $value)
     {
         return array("[$column] " . $this->condition, '');
+    }
+
+    /**
+     * @internal - Do not call directly.
+     * @param string $value
+     * @return array
+     */
+    public function __makeFilter($value)
+    {
+        return parent::__makeFilter($value == self::TRUE ? TRUE : FALSE);
     }
 
     /**
