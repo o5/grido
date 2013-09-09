@@ -19,7 +19,7 @@ class Helper
 {
     const GRID_NAME = 'grid';
 
-    /** @var Grid */
+    /** @var \Grido\Grid */
     public static $grid;
 
     /** @var TestPresenter */
