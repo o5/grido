@@ -152,58 +152,6 @@ abstract class Column extends \Grido\Components\Component
         return $this;
     }
 
-    /******************************* Aliases for filters ******************************************/
-
-    /**
-     * @return \Grido\Components\Filters\Text
-     */
-    public function setFilterText()
-    {
-        return $this->grid->addFilterText($this->name, $this->label);
-    }
-
-    /**
-     * @return \Grido\Components\Filters\Date
-     */
-    public function setFilterDate()
-    {
-        return $this->grid->addFilterDate($this->name, $this->label);
-    }
-
-    /**
-     * @return \Grido\Components\Filters\Check
-     */
-    public function setFilterCheck()
-    {
-        return $this->grid->addFilterCheck($this->name, $this->label);
-    }
-
-    /**
-     * @param array $items
-     * @return \Grido\Components\Filters\Select
-     */
-    public function setFilterSelect(array $items = NULL)
-    {
-        return $this->grid->addFilterSelect($this->name, $this->label, $items);
-    }
-
-    /**
-     * @return \Grido\Components\Filters\Number
-     */
-    public function setFilterNumber()
-    {
-        return $this->grid->addFilterNumber($this->name, $this->label);
-    }
-
-    /**
-     * @param \Nette\Forms\IControl $formControl
-     * @return \Grido\Components\Filters\Custom
-     */
-    public function setFilterCustom(\Nette\Forms\IControl $formControl)
-    {
-        return $this->grid->addFilterCustom($this->name, $formControl);
-    }
-
     /**********************************************************************************************/
 
     /**
@@ -373,5 +321,57 @@ abstract class Column extends \Grido\Components\Component
         }
 
         return $value;
+    }
+
+    /******************************* Aliases for filters ******************************************/
+
+    /**
+     * @return \Grido\Components\Filters\Text
+     */
+    public function setFilterText()
+    {
+        return $this->grid->addFilterText($this->name, $this->label);
+    }
+
+    /**
+     * @return \Grido\Components\Filters\Date
+     */
+    public function setFilterDate()
+    {
+        return $this->grid->addFilterDate($this->name, $this->label);
+    }
+
+    /**
+     * @return \Grido\Components\Filters\Check
+     */
+    public function setFilterCheck()
+    {
+        return $this->grid->addFilterCheck($this->name, $this->label);
+    }
+
+    /**
+     * @param array $items
+     * @return \Grido\Components\Filters\Select
+     */
+    public function setFilterSelect(array $items = NULL)
+    {
+        return $this->grid->addFilterSelect($this->name, $this->label, $items);
+    }
+
+    /**
+     * @return \Grido\Components\Filters\Number
+     */
+    public function setFilterNumber()
+    {
+        return $this->grid->addFilterNumber($this->name, $this->label);
+    }
+
+    /**
+     * @param \Nette\Forms\IControl $formControl
+     * @return \Grido\Components\Filters\Custom
+     */
+    public function setFilterCustom(\Nette\Forms\IControl $formControl)
+    {
+        return $this->grid->addFilterCustom($this->name, $formControl);
     }
 }
