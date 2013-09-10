@@ -196,13 +196,12 @@ abstract class Column extends \Grido\Components\Component
     }
 
     /**
-     * @param string $type see filter's constants starting at TYPE_
-     * @param mixed $optional if type is select, then this it items for select
-     * @return Filter
+     * @param \Nette\Forms\IControl $formControl
+     * @return \Grido\Components\Filters\Custom
      */
-    public function setFilter($type = Filter::TYPE_TEXT, $optional = NULL)
+    public function setFilterCustom(\Nette\Forms\IControl $formControl)
     {
-        return $this->grid->addFilter($this->name, $this->label, $type, $optional);
+        return $this->grid->addFilterCustom($this->name, $formControl);
     }
 
     /**********************************************************************************************/

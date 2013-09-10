@@ -22,8 +22,8 @@ use Nette\Utils\Html;
  *
  * @property-read Html $element
  * @property-write Html $elementPrototype
- * @property-write array $customRender
- * @property-write array $disable
+ * @property-write callback $customRender
+ * @property-write callback $disable
  * @property-write string|callback $confirm
  * @property string $primaryKey
  * @property string $icon
@@ -32,17 +32,17 @@ abstract class Action extends \Grido\Components\Component
 {
     const ID = 'actions';
 
-    /** @var callback for custom rendering */
-    protected $customRender;
-
-    /** @var callback for disabling */
-    protected $disable;
-
     /** @var Html <a> html tag */
     protected $elementPrototype;
 
+    /** @var callback for custom rendering */
+    protected $customRender;
+
     /** @var string - name of primary key f.e.: link->('Article:edit', array($primaryKey => 1)) */
     protected $primaryKey;
+
+    /** @var callback for disabling */
+    protected $disable;
 
     /** @var string|callback */
     protected $confirm;
@@ -61,6 +61,17 @@ abstract class Action extends \Grido\Components\Component
 
         $this->type = get_class($this);
         $this->label = $label;
+    }
+
+    /**
+     * Sets html element.
+     * @param Html $elementPrototype
+     * @return Action
+     */
+    public function setElementPrototype(Html $elementPrototype)
+    {
+        $this->elementPrototype = $elementPrototype;
+        return $this;
     }
 
     /**
@@ -86,17 +97,6 @@ abstract class Action extends \Grido\Components\Component
     }
 
     /**
-     * Sets html element.
-     * @param Html $elementPrototype
-     * @return Action
-     */
-    public function setElementPrototype(Html $elementPrototype)
-    {
-        $this->elementPrototype = $elementPrototype;
-        return $this;
-    }
-
-    /**
      * Sets callback for disable.
      * Callback should return TRUE if the action is not allowed for current item.
      * @param callback
@@ -111,7 +111,7 @@ abstract class Action extends \Grido\Components\Component
     /**
      * Sets client side confirm.
      * @param string|callback $confirm
-     * @return Href
+     * @return Action
      */
     public function setConfirm($confirm)
     {
@@ -122,7 +122,7 @@ abstract class Action extends \Grido\Components\Component
     /**
      * Sets twitter bootstrap icon class.
      * @param string $iconName
-     * @return Href
+     * @return Action
      */
     public function setIcon($iconName)
     {
@@ -144,6 +144,19 @@ abstract class Action extends \Grido\Components\Component
         }
 
         return $this->elementPrototype;
+    }
+
+    /**
+     * @internal - Do not call directly.
+     * @return string
+     */
+    public function getPrimaryKey()
+    {
+        if ($this->primaryKey === NULL) {
+            $this->primaryKey = $this->grid->primaryKey;
+        }
+
+        return $this->primaryKey;
     }
 
     /**
@@ -179,19 +192,6 @@ abstract class Action extends \Grido\Components\Component
         }
 
         return $element;
-    }
-
-    /**
-     * @internal - Do not call directly.
-     * @return string
-     */
-    public function getPrimaryKey()
-    {
-        if ($this->primaryKey === NULL) {
-            $this->primaryKey = $this->grid->primaryKey;
-        }
-
-        return $this->primaryKey;
     }
 
     /**

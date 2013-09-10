@@ -29,6 +29,7 @@ class ColumnTest extends Tester\TestCase
         Assert::error(function() {
             $grid = new Grid;
             $grid->setModel(array());
+            $grid->addColumnText('column', 'Column');
             $grid->setDefaultSort(array('a' => 'asc'));
             $grid->getData();
         }, E_USER_NOTICE, "Column with name 'a' does not exist.");
@@ -99,18 +100,21 @@ class ColumnTest extends Tester\TestCase
         $grid->addColumnText($name, $label);
         $component = $grid->getColumn($name);
         Assert::type('\Grido\Components\Columns\Text', $component);
+        Assert::type('\Grido\Components\Columns\Column', $component);
         Assert::same($label, $component->label);
 
         $name = 'mail';
         $grid->addColumnMail($name, $label);
         $component = $grid->getColumn($name);
         Assert::type('\Grido\Components\Columns\Mail', $component);
+        Assert::type('\Grido\Components\Columns\Column', $component);
         Assert::same($label, $component->label);
 
         $name = 'href';
         $grid->addColumnHref($name, $label);
         $component = $grid->getColumn($name);
         Assert::type('\Grido\Components\Columns\Href', $component);
+        Assert::type('\Grido\Components\Columns\Column', $component);
         Assert::same($label, $component->label);
 
         $name = 'date';
@@ -118,6 +122,7 @@ class ColumnTest extends Tester\TestCase
         $grid->addColumnDate($name, $label, $format);
         $component = $grid->getColumn($name);
         Assert::type('\Grido\Components\Columns\Date', $component);
+        Assert::type('\Grido\Components\Columns\Column', $component);
         Assert::same($label, $component->label);
         Assert::same($format, $component->dateFormat);
 
@@ -128,6 +133,7 @@ class ColumnTest extends Tester\TestCase
         $grid->addColumnNumber($name, $label, $decimals, $decPoint, $thousandsSep);
         $component = $grid->getColumn($name);
         Assert::type('\Grido\Components\Columns\Number', $component);
+        Assert::type('\Grido\Components\Columns\Column', $component);
         Assert::same($label, $component->label);
         Assert::same(array(
             \Grido\Components\Columns\Number::NUMBER_FORMAT_DECIMALS => $decimals,

@@ -50,6 +50,7 @@ class FilterTest extends Tester\TestCase
             array('A' => 'A3', 'B' => 'B3'),
         );
         $grid->setModel($data);
+        $grid->addColumnText('column', 'Column');
         $grid->addFilterText('A', 'Column');
         $defaultFilter = array('A' => 'A2');
         $grid->setDefaultFilter($defaultFilter);
@@ -61,6 +62,7 @@ class FilterTest extends Tester\TestCase
         Assert::error(function() use ($defaultFilter) {
             $grid = new Grid;
             $grid->setModel(array());
+            $grid->addColumnText('column', 'Column');
             $grid->setDefaultFilter($defaultFilter);
             $grid->getData();
         }, E_USER_NOTICE, "Filter with name 'A' does not exist.");
@@ -101,6 +103,7 @@ class FilterTest extends Tester\TestCase
         Helper::grid(function(Grid $grid) use ($data) {
             $grid->setDefaultPerPage(1);
             $grid->setModel($data);
+            $grid->addColumnText('column', 'Column');
             $grid->addFilterText('B', 'B');
         });
 
@@ -121,6 +124,7 @@ class FilterTest extends Tester\TestCase
 
         Helper::grid(function(Grid $grid) use ($data) {
             $grid->setModel($data);
+            $grid->addColumnText('column', 'Column');
             $grid->addFilterText('B', 'B');
             $grid->addFilterText('A', 'A');
             $grid->setDefaultFilter(array('B' => 'B2'));
@@ -137,6 +141,7 @@ class FilterTest extends Tester\TestCase
 
         Assert::error(function() use ($data) {
             $grid = new Grid;
+            $grid->addColumnText('column', 'Column');
             $grid->setModel($data);
             $grid->addFilterText('A', 'A');
             $grid->filter['B'] = 'B2';

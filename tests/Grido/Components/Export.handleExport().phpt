@@ -13,7 +13,7 @@ require_once __DIR__ . '/../Helper.inc';
 use Tester\Assert,
     Grido\Grid;
 
-class MockResponse extends Nette\Object implements \Nette\Http\IResponse
+class MockResponse extends \Nette\Object implements \Nette\Http\IResponse
 {
     public static $headers = array();
 
