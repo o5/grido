@@ -476,6 +476,8 @@ class Grid extends \Nette\Application\UI\Control
     {
         if ($this->model === NULL) {
             throw new \Exception('Model cannot be empty, please use method $grid->setModel().');
+        } elseif (!$this->hasColumns(FALSE)) {
+            throw new \Exception('Grid must have defined a column, please use method $grid->addColumn*().');
         }
 
         $data = $this->data;
@@ -872,7 +874,6 @@ class Grid extends \Nette\Application\UI\Control
     }
 
     /**
-     * Do not call directly.
      * @internal - Do not call directly.
      * @param array $filter
      * @return array
