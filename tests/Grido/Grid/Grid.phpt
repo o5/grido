@@ -11,7 +11,9 @@ require_once __DIR__ . '/../bootstrap.php';
 require_once __DIR__ . '/../Helper.inc';
 
 use Tester\Assert,
-    Grido\Grid;
+    Grido\Grid,
+    Grido\Components\Columns\Column,
+    Grido\Components\Filters\Filter;
 
 class GridTest extends Tester\TestCase
 {
@@ -53,6 +55,7 @@ class GridTest extends Tester\TestCase
         $grid = new Grid;
         $data = array(array(), array(), array(), array());
         $grid->setModel($data);
+        $grid->addColumnText('column', 'Column');
 
         //test defaults
         Assert::same(array(10, 20, 30, 50, 100), $grid->perPageList);
@@ -70,6 +73,7 @@ class GridTest extends Tester\TestCase
 
         $grid = new Grid;
         $grid->setModel($data);
+        $grid->addColumnText('column', 'Column');
         $grid->setDefaultPerPage(2);
         $grid->perPage = 10;
         Assert::same(count($data), count($grid->data));
@@ -77,6 +81,7 @@ class GridTest extends Tester\TestCase
         Assert::error(function() {
             $grid = new Grid;
             $grid->setModel(array());
+            $grid->addColumnText('column', 'Column');
             $grid->perPage = 1;
             $grid->data;
         }, E_USER_NOTICE, "The number '1' of items per page is out of range.");
@@ -204,6 +209,7 @@ class GridTest extends Tester\TestCase
     {
         Helper::grid(function(Grid $grid) {
             $grid->setDefaultPerPage(2);
+            $grid->addColumnText('column', 'Column');
             $grid->setModel(array(
                 array('A' => 'A1', 'B' => 'B3'),
                 array('A' => 'A2', 'B' => 'B2'),
@@ -214,6 +220,52 @@ class GridTest extends Tester\TestCase
 
         Helper::request(array('grid-page' => 2, 'do' => 'grid-page'));
         Assert::same(array(array('A' => 'A3', 'B' => 'B1')), Helper::$grid->data);
+    }
+
+    function testHandleSort()
+    {
+        Helper::grid(function(Grid $grid) {
+            $grid->addColumnText('column', 'Column')->setSortable();
+        });
+
+        $sorting = array('column' => Column::ASC);
+        Helper::request(array('grid-page' => 2, 'grid-sort' => $sorting, 'do' => 'grid-sort'));
+        Assert::same($sorting, Helper::$grid->sort);
+        Assert::same(1, Helper::$grid->page);
+    }
+
+    function testHandleFilter()
+    {
+        $defaultFilter = array('filterB' => 'test');
+        Helper::grid(function(Grid $grid) use ($defaultFilter) {
+            $grid->setModel(array());
+            $grid->setDefaultFilter($defaultFilter);
+            $grid->addFilterText('filter', 'Filter');
+            $grid->addFilterText('filterB', 'FilterB');
+        });
+
+        $params = array('grid-page' => 2, 'do' => 'grid-form-submit', Grid::BUTTONS => array('search' => 'Search'));
+
+        $filter = array('filter' => 'test') + $defaultFilter;
+        Helper::request($params + array(Filter::ID => $filter));
+        Assert::same($filter, Helper::$grid->filter);
+        Assert::same(1, Helper::$grid->page);
+
+        $filter = array('filter' => '') + $defaultFilter;
+        Helper::request($params + array(Filter::ID => $filter));
+        Assert::same($defaultFilter, Helper::$grid->filter);
+        Assert::same(1, Helper::$grid->page);
+
+        $filter = array('filter' => '', 'filterB' => 'test');
+        Helper::request($params + array(Filter::ID => $filter));
+        unset($filter['filter']);
+        Assert::same($filter, Helper::$grid->filter);
+        Assert::same(1, Helper::$grid->page);
+
+        $filter = array('filter' => 'test', 'filterB' => '');
+        Helper::request($params + array(Filter::ID => $filter));
+        Assert::same($filter, Helper::$grid->filter);
+        Assert::same(1, Helper::$grid->page);
     }
 
     function testHandleReset()
@@ -232,7 +284,7 @@ class GridTest extends Tester\TestCase
             $grid->addFilterText('B', 'B');
 
             $params = array(
-                'sort' => array('A' => Grido\Components\Columns\Column::ASC),
+                'sort' => array('A' => Column::ASC),
                 'filter' => array('B' => 'B2'),
                 'perPage' => 2,
                 'page' => 2
@@ -245,6 +297,19 @@ class GridTest extends Tester\TestCase
         Assert::same(array(), Helper::$grid->sort);
         Assert::same(array(), Helper::$grid->filter);
         Assert::null(Helper::$grid->perPage);
+        Assert::same(1, Helper::$grid->page);
+    }
+
+    function testHandlePerPage()
+    {
+        Helper::grid(function(Grid $grid) {
+            $grid->setModel(array());
+            $grid->addColumnText('column', 'Column');
+        });
+
+        $perPage = 10;
+        Helper::request(array('count' => $perPage, 'grid-page' => 2, 'do' => 'grid-form-submit', Grid::BUTTONS => array('perPage' => 'Items per page')));
+        Assert::same($perPage, Helper::$grid->perPage);
         Assert::same(1, Helper::$grid->page);
     }
 }
