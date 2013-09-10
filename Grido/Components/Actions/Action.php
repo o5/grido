@@ -25,8 +25,8 @@ use Nette\Utils\Html;
  * @property-write array $customRender
  * @property-write array $disable
  * @property-write string|callback $confirm
+ * @property-write string $icon
  * @property string $primaryKey
- * @property string $icon
  */
 abstract class Action extends \Grido\Components\Base
 {
@@ -49,8 +49,8 @@ abstract class Action extends \Grido\Components\Base
     /** @var string|callback */
     protected $confirm;
 
-    /** @var string */
-    protected $icon;
+    /** @var array user options */
+    private $options = array();
 
     /**
      * @param \Grido\Grid $grid
@@ -121,15 +121,52 @@ abstract class Action extends \Grido\Components\Base
         return $this;
     }
 
-    /**
-     * Sets twitter bootstrap icon class.
-     * @param string $iconName
-     * @return Href
-     */
+    /** @deprecated */
     public function setIcon($iconName)
     {
-        $this->icon = $iconName;
+        trigger_error(__METHOD__ . '() is deprecated; use ' . __CLASS__ . '::setOption(\'icon\', ...) instead.', E_USER_WARNING);
+        $this->setOption('icon', $iconName);
         return $this;
+    }
+
+    /**
+     * Sets user-specific option.
+     * Options recognized by default template
+     * - 'icon' - Sets twitter bootstrap icon class.
+     *
+     * @param  string key
+     * @param  mixed  value
+     * @return Href
+     */
+    public function setOption($key, $value)
+    {
+        if ($value === NULL) {
+            unset($this->options[$key]);
+
+        } else {
+            $this->options[$key] = $value;
+        }
+        return $this;
+    }
+
+    /**
+     * Returns user-specific option.
+     * @param  string key
+     * @param  mixed  default value
+     * @return mixed
+     */
+    final public function getOption($key, $default = NULL)
+    {
+        return isset($this->options[$key]) ? $this->options[$key] : $default;
+    }
+
+    /**
+     * Returns user-specific options.
+     * @return array
+     */
+    final public function getOptions()
+    {
+        return $this->options;
     }
 
     /**********************************************************************************************/
@@ -142,7 +179,7 @@ abstract class Action extends \Grido\Components\Base
     {
         if (!$this->elementPrototype) {
             $this->elementPrototype = Html::el('a')
-                ->setClass(array('grid-action-' . $this->getName(), 'btn', 'btn-mini'));
+                ->setClass(array('grid-action-' . $this->getName()));
         }
 
         return $this->elementPrototype;
@@ -163,10 +200,9 @@ abstract class Action extends \Grido\Components\Base
         }
 
         $text = $this->translate($this->label);
-        $this->icon ? $text = ' ' . $text : $text;
 
         $element = clone $this->getElementPrototype()
-            ->setText($text);
+            ->add(htmlspecialchars((string) $text, ENT_NOQUOTES));
 
         if ($this->confirm) {
             $element->attrs['data-grido-confirm'] = $this->translate(
@@ -174,10 +210,6 @@ abstract class Action extends \Grido\Components\Base
                     ? callback($this->confirm)->invokeArgs(array($item))
                     : $this->confirm
             );
-        }
-
-        if ($this->icon) {
-            $element->insert(0, Html::el('i')->setClass(array("icon-$this->icon")));
         }
 
         return $element;

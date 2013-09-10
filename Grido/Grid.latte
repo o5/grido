@@ -15,6 +15,15 @@
 {?$form['buttons']['search']->controlPrototype->class[] = 'btn search'}
 {?$form['buttons']['reset']->controlPrototype->class[] = 'btn reset'}
 
+{if $control->hasActions()}
+	{foreach $control[\Grido\Components\Actions\Action::ID]->getComponents() as $action}
+		{if ($__icon = $action->getOption('icon')) !== NULL}
+			{?$action->elementPrototype->add(Nette\Utils\Html::el('span')->class('icon icon-' . $__icon) . ' ')}
+		{/if}
+		{?$action->elementPrototype->class[] = 'btn btn-mini'}
+	{/foreach}
+{/if}
+
 <ul n:foreach="$form->errors as $error">
     <li>{$error}</li>
 </ul>
