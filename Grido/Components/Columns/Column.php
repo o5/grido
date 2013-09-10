@@ -203,12 +203,24 @@ abstract class Column extends \Grido\Components\Base
     }
 
     /**
+     * @param \Nette\Forms\IControl $formControl
+     * @return \Grido\Components\Filters\Custom
+     */
+    public function setFilterCustom(\Nette\Forms\IControl $formControl)
+    {
+        return $this->grid->addFilterCustom($this->name, $formControl);
+    }
+
+    /**
+     * @deprecated
      * @param string $type see filter's constants starting at TYPE_
      * @param mixed $optional if type is select, then this it items for select
      * @return Filter
      */
     public function setFilter($type = Filter::TYPE_TEXT, $optional = NULL)
     {
+        trigger_error(__METHOD__ . '() is deprecated; use setFilter*() instead.', E_USER_DEPRECATED);
+
         return $this->grid->addFilter($this->name, $this->label, $type, $optional);
     }
 
