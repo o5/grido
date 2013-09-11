@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Test: Column's component.
+ * Test: Column.
  *
  * @author     Petr Bugyík
  * @package    Grido\Tests

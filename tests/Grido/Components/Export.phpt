@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Test: Export's component.
+ * Test: Export.
  *
  * @author     Petr Bugyík
  * @package    Grido\Tests

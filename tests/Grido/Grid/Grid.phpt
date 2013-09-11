@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Test: Grid - tests for a class's basic behaviour.
+ * Test: Grid.
  *
  * @author     Petr Bugyík
  * @package    Grido\Tests

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Test: Filter's component.
+ * Test: Filter.
  *
  * @author     Petr Bugyík
  * @package    Grido\Tests

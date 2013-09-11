@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Test: Operation's component.
+ * Test: Operation.
  *
  * @author     Petr Bugyík
  * @package    Grido\Tests
