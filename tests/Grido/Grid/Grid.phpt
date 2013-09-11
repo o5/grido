@@ -50,6 +50,19 @@ class GridTest extends Tester\TestCase
         }, 'InvalidArgumentException', 'Model must be implemented \Grido\DataSources\IDataSource.');
     }
 
+    function testSetPropertyAccessor()
+    {
+        $grid = new Grid;
+
+        $expected = 'Grido\PropertyAccessors\IPropertyAccessor';
+        $grid->setPropertyAccessor(mock($expected));
+        Assert::type($expected, $grid->propertyAccessor);
+
+        Assert::error(function() use ($grid) {
+            $grid->setPropertyAccessor('');
+        }, E_RECOVERABLE_ERROR);
+    }
+
     function testSetDefaultPerPage()
     {
         $grid = new Grid;
@@ -87,6 +100,78 @@ class GridTest extends Tester\TestCase
         }, E_USER_NOTICE, "The number '1' of items per page is out of range.");
     }
 
+    function testSetDefaultFilter()
+    {
+        $grid = new Grid;
+
+        Assert::error(function() use ($grid) {
+            $grid->setDefaultFilter('');
+        }, E_RECOVERABLE_ERROR);
+
+        $data = array(
+            array('A' => 'A1', 'B' => 'B1'),
+            array('A' => 'A2', 'B' => 'B2'),
+            array('A' => 'A3', 'B' => 'B3'),
+        );
+        $grid->setModel($data);
+        $grid->addColumnText('column', 'Column');
+        $grid->addFilterText('A', 'Column');
+        $defaultFilter = array('A' => 'A2');
+        $grid->setDefaultFilter($defaultFilter);
+
+        Assert::same($defaultFilter, $grid->defaultFilter);
+        Assert::same(array(array('A' => 'A2', 'B' => 'B2')), $grid->data);
+        Assert::same('A2', $grid['form'][Filter::ID]['A']->value);
+
+        Assert::error(function() use ($defaultFilter) {
+            $grid = new Grid;
+            $grid->setModel(array());
+            $grid->addColumnText('column', 'Column');
+            $grid->setDefaultFilter($defaultFilter);
+            $grid->getData();
+        }, E_USER_NOTICE, "Filter with name 'A' does not exist.");
+    }
+
+    function testSetDefaultSort()
+    {
+        $grid = new Grid;
+        $grid->setDefaultSort(array('a' => 'ASC', 'b' => 'desc', 'c' => 'Asc', 'd' => Column::DESC));
+        Assert::same(array('a' => Column::ASC, 'b' => Column::DESC, 'c' => Column::ASC, 'd' => Column::DESC), $grid->defaultSort);
+
+        Assert::exception(function() use ($grid) {
+            $grid->setDefaultSort(array('a' => 'up'));
+        }, 'InvalidArgumentException', "Dir 'up' for column 'a' is not allowed.");
+
+        Assert::error(function() {
+            $grid = new Grid;
+            $grid->setModel(array());
+            $grid->addColumnText('column', 'Column');
+            $grid->setDefaultSort(array('a' => 'asc'));
+            $grid->getData();
+        }, E_USER_NOTICE, "Column with name 'a' does not exist.");
+
+        $grid = new Grid;
+        $data = array(
+            array('A' => 'A1', 'B' => 'B3'),
+            array('A' => 'A2', 'B' => 'B2'),
+            array('A' => 'A3', 'B' => 'B1'),
+        );
+        $grid->setModel($data);
+        $grid->addColumnText('B', 'B');
+        $grid->setDefaultSort(array('B' => 'asc'));
+        $grid2 = clone $grid;
+
+        $expected = array(
+            array('A' => 'A3', 'B' => 'B1'),
+            array('A' => 'A2', 'B' => 'B2'),
+            array('A' => 'A1', 'B' => 'B3'),
+        );
+        Assert::same($expected, $grid->data);
+
+        $grid2->sort['B'] = Column::DESC;
+        Assert::same($data, $grid2->data);
+    }
+
     function testSetPerPageList()
     {
         $grid = new Grid;
@@ -102,19 +187,6 @@ class GridTest extends Tester\TestCase
         Assert::same(array_combine($a, $a), $grid['form']['count']->items);
     }
 
-    function testSetPropertyAccessor()
-    {
-        $grid = new Grid;
-
-        $expected = 'Grido\PropertyAccessors\IPropertyAccessor';
-        $grid->setPropertyAccessor(mock($expected));
-        Assert::type($expected, $grid->propertyAccessor);
-
-        Assert::error(function() use ($grid) {
-            $grid->setPropertyAccessor('');
-        }, E_RECOVERABLE_ERROR);
-    }
-
     function testSetTranslator()
     {
         $grid = new Grid;
@@ -126,6 +198,26 @@ class GridTest extends Tester\TestCase
         Assert::error(function() use ($grid) {
             $grid->setTranslator('');
         }, E_RECOVERABLE_ERROR);
+    }
+
+    function testSetFilterRenderType()
+    {
+        $grid = new Grid;
+
+        $type = Filter::RENDER_INNER;
+        $grid->setFilterRenderType($type);
+        Assert::same($type, $grid->filterRenderType);
+
+        $type = Filter::RENDER_OUTER;
+        $grid->setFilterRenderType($type);
+        Assert::same($type, $grid->filterRenderType);
+
+        $grid->setFilterRenderType('OUTER');
+        Assert::same($type, $grid->filterRenderType);
+
+        Assert::exception(function() use ($grid) {
+            $grid->setFilterRenderType('INNERR');
+        }, 'InvalidArgumentException', 'Type must be Filter::RENDER_INNER or Filter::RENDER_OUTER.');
     }
 
     function testSetPaginator()
@@ -203,6 +295,25 @@ class GridTest extends Tester\TestCase
         Assert::same(2, $grid->defaultPerPage);
     }
 
+    function testGetActualFilter()
+    {
+        $grid = new Grid;
+        $filter = array('a' => 'A', 'b' => 'B');
+        $defaultFilter = array('c' => 'C', 'd' => 'D');
+
+        Assert::same(array(), $grid->getActualFilter());
+
+        $grid->defaultFilter = $defaultFilter;
+        Assert::same($defaultFilter, $grid->getActualFilter());
+        Assert::same($defaultFilter, $grid->getActualFilter('undefined'));
+        Assert::same('D', $grid->getActualFilter('d'));
+
+        $grid->filter = $filter;
+        Assert::same($filter, $grid->getActualFilter());
+        Assert::same($filter, $grid->getActualFilter('undefined'));
+        Assert::same('B', $grid->getActualFilter('b'));
+    }
+
     /**********************************************************************************************/
 
     function testHandlePage()
@@ -232,6 +343,24 @@ class GridTest extends Tester\TestCase
         Helper::request(array('grid-page' => 2, 'grid-sort' => $sorting, 'do' => 'grid-sort'));
         Assert::same($sorting, Helper::$grid->sort);
         Assert::same(1, Helper::$grid->page);
+
+        Helper::grid(function(Grid $grid) {
+            $grid->setDefaultPerPage(2);
+            $grid->setModel(array(
+                array('A' => 'A1', 'B' => 'B3'),
+                array('A' => 'A2', 'B' => 'B2'),
+                array('A' => 'A3', 'B' => 'B1'),
+            ));
+            $grid->addColumnText('B', 'B')->setSortable();
+        });
+
+        Helper::request(array('grid-page' => 2, 'grid-sort' => array('B' => Column::ASC), 'do' => 'grid-sort'));
+
+        Assert::same(1, Helper::$grid->page); //test reset page after sorting
+        Assert::same(array(
+            array('A' => 'A3', 'B' => 'B1'),
+            array('A' => 'A2', 'B' => 'B2'),
+        ), Helper::$grid->data);
     }
 
     function testHandleFilter()
@@ -266,6 +395,61 @@ class GridTest extends Tester\TestCase
         Helper::request($params + array(Filter::ID => $filter));
         Assert::same($filter, Helper::$grid->filter);
         Assert::same(1, Helper::$grid->page);
+
+        $data = array(
+            array('A' => 'A1', 'B' => 'B3'),
+            array('A' => 'A2', 'B' => 'B2'),
+            array('A' => 'A22', 'B' => 'B22'),
+            array('A' => 'A3', 'B' => 'B1'),
+        );
+
+        Helper::grid(function(Grid $grid) use ($data) {
+            $grid->setDefaultPerPage(1);
+            $grid->setModel($data);
+            $grid->addColumnText('column', 'Column');
+            $grid->addFilterText('B', 'B');
+        });
+
+        Helper::request(array(
+            'do' => 'grid-form-submit',
+            'grid-page' => 2,
+            Filter::ID => array('B' => 'B2'),
+            Grid::BUTTONS => array('search' => 'Search'),
+        ));
+
+        Assert::same(1, Helper::$grid->page); //test reset page after filtering
+
+        $expected = array(
+            1 => array('A' => 'A2', 'B' => 'B2'),
+            2 => array('A' => 'A22', 'B' => 'B22'),
+        );
+        Assert::same($expected, Helper::$grid->getData(FALSE));
+
+        Helper::grid(function(Grid $grid) use ($data) {
+            $grid->setModel($data);
+            $grid->addColumnText('column', 'Column');
+            $grid->addFilterText('B', 'B');
+            $grid->addFilterText('A', 'A');
+            $grid->setDefaultFilter(array('B' => 'B2'));
+        });
+
+        Helper::request(array(
+            'do' => 'grid-form-submit',
+            'grid-page' => 1,
+            Filter::ID => array('A' => '', 'B' => ''),
+            Grid::BUTTONS => array('search' => 'Search'),
+        ));
+        Assert::same($data, Helper::$grid->getData(FALSE));
+        Assert::same(array('B' => ''), Helper::$grid->filter);
+
+        Assert::error(function() use ($data) {
+            $grid = new Grid;
+            $grid->addColumnText('column', 'Column');
+            $grid->setModel($data);
+            $grid->addFilterText('A', 'A');
+            $grid->filter['B'] = 'B2';
+            $grid->data;
+        }, E_USER_NOTICE, "Filter with name 'B' does not exist.");
     }
 
     function testHandleReset()
