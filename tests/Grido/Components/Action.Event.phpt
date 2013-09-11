@@ -18,7 +18,6 @@ class ActionEventTest extends Tester\TestCase
     function testOnclick()
     {
         Helper::grid(function(Grid $grid) {
-
             $grid->addActionEvent('delete', 'Delete')
                 ->onClick[] = function($primaryValue) {
                     Assert::same('value', $primaryValue);
