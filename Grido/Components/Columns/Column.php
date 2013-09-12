@@ -309,7 +309,7 @@ abstract class Column extends \Grido\Components\Component
     protected function applyReplacement($value)
     {
         return (is_string($value) || $value == '' || $value === NULL) && isset($this->replacements[$value])
-            ? str_replace(self::VALUE_IDENTIFIER, $value, $this->replacements[$value])
+            ? str_replace(static::VALUE_IDENTIFIER, $value, $this->replacements[$value])
             : $value;
     }
 

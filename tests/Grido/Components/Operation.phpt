@@ -1,14 +1,14 @@
 <?php
 
 /**
- * Test: Operation's component.
+ * Test: Operation.
  *
  * @author     Petr Bugyík
  * @package    Grido\Tests
  */
 
 require_once __DIR__ . '/../bootstrap.php';
-require_once __DIR__ . '/../Helper.inc';
+require_once __DIR__ . '/../Helper.inc.php';
 
 use Tester\Assert,
     Grido\Grid,
@@ -26,10 +26,7 @@ class OperationTest extends Tester\TestCase
             $grid->render();
         });
 
-        ob_start();
-            Helper::request();
-        $a = ob_get_clean();
-        Tester\Dumper::saveOutput('s', $a);
+        Helper::request();
 
         $formControl = Helper::$grid['form'][Operation::ID][Operation::ID];
         Assert::same($formControl->controlPrototype->data['grido-del'], 'Are you sure?');

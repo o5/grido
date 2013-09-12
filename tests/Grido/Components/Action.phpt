@@ -1,65 +1,20 @@
 <?php
 
 /**
- * Test: Action's component.
+ * Test: Action.
  *
  * @author     Petr Bugyík
  * @package    Grido\Tests
  */
 
 require_once __DIR__ . '/../bootstrap.php';
-require_once __DIR__ . '/../Helper.inc';
+require_once __DIR__ . '/../Helper.inc.php';
 
 use Tester\Assert,
     Grido\Grid;
 
 class ActionTest extends Tester\TestCase
 {
-    function testHasActions()
-    {
-        $grid = new Grid;
-        Assert::false($grid->hasActions());
-
-        $grid->addActionHref('action', 'Action');
-        Assert::false($grid->hasActions());
-        Assert::true($grid->hasActions(FALSE));
-    }
-
-    function testAddAction() //addAction*()
-    {
-        $grid = new Grid;
-        $label = 'Action';
-
-        $name = 'href';
-        $destination = 'edit';
-        $args = array('args');
-        $grid->addActionHref($name, $label, $destination, $args);
-        $component = $grid->getAction($name);
-        Assert::type('\Grido\Components\Actions\Href', $component);
-        Assert::type('\Grido\Components\Actions\Action', $component);
-        Assert::same($label, $component->label);
-        Assert::same($destination, $component->destination);
-        Assert::same($args, $component->arguments);
-
-        $name = 'event';
-        $onClick = function() {};
-        $grid->addActionEvent($name, $label, $onClick);
-        $component = $grid->getAction($name);
-        Assert::type('\Grido\Components\Actions\Event', $component);
-        Assert::type('\Grido\Components\Actions\Action', $component);
-        Assert::same($label, $component->label);
-        Assert::same(array($onClick), $component->onClick);
-
-        // getter
-        Assert::exception(function() use ($grid) {
-            $grid->getAction('action');
-        }, 'InvalidArgumentException', "Component with name 'action' does not exist.");
-        Assert::null($grid->getAction('action', FALSE));
-
-        $grid = new Grid;
-        Assert::null($grid->getAction('action'));
-    }
-
     function testSetElementPrototype()
     {
         Helper::grid(function(Grid $grid){
@@ -175,6 +130,63 @@ class ActionTest extends Tester\TestCase
         ob_start();
             Helper::$grid->getAction('delete')->render(array('id' => 2));
         Assert::same('<a class="grid-action-delete btn btn-mini" href="/index.php?id=2&amp;action=delete&amp;presenter=Test"><i class="icon-delete"></i> Delete</a>', ob_get_clean());
+    }
+
+    /**********************************************************************************************/
+
+    function testHasActions()
+    {
+        $grid = new Grid;
+        Assert::false($grid->hasActions());
+
+        $grid->addActionHref('action', 'Action');
+        Assert::false($grid->hasActions());
+        Assert::true($grid->hasActions(FALSE));
+    }
+
+    function testAddAction() //addAction*()
+    {
+        $grid = new Grid;
+        $label = 'Action';
+
+        $name = 'href';
+        $destination = 'edit';
+        $args = array('args');
+        $grid->addActionHref($name, $label, $destination, $args);
+        $component = $grid->getAction($name);
+        Assert::type('\Grido\Components\Actions\Href', $component);
+        Assert::type('\Grido\Components\Actions\Action', $component);
+        Assert::same($label, $component->label);
+        Assert::same($destination, $component->destination);
+        Assert::same($args, $component->arguments);
+
+        $name = 'event';
+        $onClick = function() {};
+        $grid->addActionEvent($name, $label, $onClick);
+        $component = $grid->getAction($name);
+        Assert::type('\Grido\Components\Actions\Event', $component);
+        Assert::type('\Grido\Components\Actions\Action', $component);
+        Assert::same($label, $component->label);
+        Assert::same(array($onClick), $component->onClick);
+
+        Assert::error(function() use ($grid, $label, $destination, $args) {
+            $name = 'deprecated';
+            $grid->addAction($name, $label, \Grido\Components\Actions\Action::TYPE_HREF, $destination, $args);
+            $component = $grid->getAction($name);
+            Assert::type('\Grido\Components\Actions\Href', $component);
+            Assert::same($label, $component->label);
+            Assert::same($destination, $component->destination);
+            Assert::same($args, $component->arguments);
+        }, E_USER_DEPRECATED);
+
+        // getter
+        Assert::exception(function() use ($grid) {
+            $grid->getAction('action');
+        }, 'InvalidArgumentException', "Component with name 'action' does not exist.");
+        Assert::null($grid->getAction('action', FALSE));
+
+        $grid = new Grid;
+        Assert::null($grid->getAction('action'));
     }
 }
 

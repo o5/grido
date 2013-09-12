@@ -1,14 +1,14 @@
 <?php
 
 /**
- * Test: Column's component.
+ * Test: Column.
  *
  * @author     Petr Bugyík
  * @package    Grido\Tests
  */
 
 require_once __DIR__ . '/../bootstrap.php';
-require_once __DIR__ . '/../Helper.inc';
+require_once __DIR__ . '/../Helper.inc.php';
 
 use Tester\Assert,
     Grido\Grid,
@@ -16,69 +16,6 @@ use Tester\Assert,
 
 class ColumnTest extends Tester\TestCase
 {
-    function testSetDefaultSort()
-    {
-        $grid = new Grid;
-        $grid->setDefaultSort(array('a' => 'ASC', 'b' => 'desc', 'c' => 'Asc', 'd' => Column::DESC));
-        Assert::same(array('a' => Column::ASC, 'b' => Column::DESC, 'c' => Column::ASC, 'd' => Column::DESC), $grid->defaultSort);
-
-        Assert::exception(function() use ($grid) {
-            $grid->setDefaultSort(array('a' => 'up'));
-        }, 'InvalidArgumentException', "Dir 'up' for column 'a' is not allowed.");
-
-        Assert::error(function() {
-            $grid = new Grid;
-            $grid->setModel(array());
-            $grid->addColumnText('column', 'Column');
-            $grid->setDefaultSort(array('a' => 'asc'));
-            $grid->getData();
-        }, E_USER_NOTICE, "Column with name 'a' does not exist.");
-
-        $grid = new Grid;
-        $data = array(
-            array('A' => 'A1', 'B' => 'B3'),
-            array('A' => 'A2', 'B' => 'B2'),
-            array('A' => 'A3', 'B' => 'B1'),
-        );
-        $grid->setModel($data);
-        $grid->addColumnText('B', 'B');
-        $grid->setDefaultSort(array('B' => 'asc'));
-        $grid2 = clone $grid;
-
-        $expected = array(
-            array('A' => 'A3', 'B' => 'B1'),
-            array('A' => 'A2', 'B' => 'B2'),
-            array('A' => 'A1', 'B' => 'B3'),
-        );
-        Assert::same($expected, $grid->data);
-
-        $grid2->sort['B'] = Column::DESC;
-        Assert::same($data, $grid2->data);
-    }
-
-    /**********************************************************************************************/
-
-    function testHandleSort()
-    {
-        Helper::grid(function(Grid $grid) {
-            $grid->setDefaultPerPage(2);
-            $grid->setModel(array(
-                array('A' => 'A1', 'B' => 'B3'),
-                array('A' => 'A2', 'B' => 'B2'),
-                array('A' => 'A3', 'B' => 'B1'),
-            ));
-            $grid->addColumnText('B', 'B')->setSortable();
-        });
-
-        Helper::request(array('grid-page' => 2, 'grid-sort' => array('B' => Column::ASC), 'do' => 'grid-sort'));
-
-        Assert::same(1, Helper::$grid->page); //test reset page after sorting
-        Assert::same(array(
-            array('A' => 'A3', 'B' => 'B1'),
-            array('A' => 'A2', 'B' => 'B2'),
-        ), Helper::$grid->data);
-    }
-
     /**********************************************************************************************/
 
     function testHasColumns()
@@ -149,6 +86,33 @@ class ColumnTest extends Tester\TestCase
 
         $grid = new Grid;
         Assert::null($grid->getColumn('column'));
+    }
+
+    function testSetFilter() //setFilter*()
+    {
+        $grid = new Grid;
+        $fiter = $grid->addColumnText('column', 'Column')->setFilterText();
+        Assert::type('\Grido\Components\Filters\Text', $fiter);
+
+        $grid = new Grid;
+        $fiter = $grid->addColumnText('column', 'Column')->setFilterDate();
+        Assert::type('\Grido\Components\Filters\Date', $fiter);
+
+        $grid = new Grid;
+        $fiter = $grid->addColumnText('column', 'Column')->setFilterCheck();
+        Assert::type('\Grido\Components\Filters\Check', $fiter);
+
+        $grid = new Grid;
+        $fiter = $grid->addColumnText('column', 'Column')->setFilterSelect();
+        Assert::type('\Grido\Components\Filters\Select', $fiter);
+
+        $grid = new Grid;
+        $fiter = $grid->addColumnText('column', 'Column')->setFilterNumber();
+        Assert::type('\Grido\Components\Filters\Number', $fiter);
+
+        $grid = new Grid;
+        $fiter = $grid->addColumnText('column', 'Column')->setFilterCustom(new Nette\Forms\Controls\TextArea);
+        Assert::type('\Grido\Components\Filters\Custom', $fiter);
     }
 }
 
