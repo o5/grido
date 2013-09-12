@@ -17,18 +17,13 @@ namespace Grido\Components;
  * @package     Grido
  * @subpackage  Components
  * @author      Petr Bugyík
- *
- * @property-read string $label
  */
 class Export extends Base implements \Nette\Application\IResponse
 {
     const ID = 'export';
 
-    /** @var Grido\Grid */
-    protected $grid;
-
-    /** @var string */
-    protected $label;
+    const NEW_LINE = "\n";
+    const DELIMITER = "\t";
 
     /**
      * @param \Grido\Grid $grid
@@ -37,12 +32,9 @@ class Export extends Base implements \Nette\Application\IResponse
     public function __construct(\Grido\Grid $grid, $label = NULL)
     {
         $this->grid = $grid;
-
-        if ($label === NULL) {
-            $label = ucfirst($this->grid->name);
-        }
-
-        $this->label = $label;
+        $this->label = $label === NULL
+            ? ucfirst($this->grid->name)
+            : $label;
 
         $grid->addComponent($this, self::ID);
     }
@@ -54,25 +46,22 @@ class Export extends Base implements \Nette\Application\IResponse
      */
     protected function generateCsv($data, $columns)
     {
-        $newLine = "\n";
-        $delimiter = "\t";
-
         $head = array();
         foreach ($columns as $column) {
             $head[] = $column->label;
         }
 
         $a = FALSE;
-        $source = implode($delimiter, $head) . $newLine;
+        $source = implode(static::DELIMITER, $head) . static::NEW_LINE;
         foreach ($data as $item) {
             if ($a) {
-                $source .= $newLine;
+                $source .= static::NEW_LINE;
             }
 
             $b = FALSE;
             foreach ($columns as $column) {
                 if ($b) {
-                    $source .= $delimiter;
+                    $source .= static::DELIMITER;
                 }
 
                 $source .= $column->renderExport($item);
@@ -84,13 +73,6 @@ class Export extends Base implements \Nette\Application\IResponse
         return $source;
     }
 
-    /**
-     * @return string
-     */
-    public function getLabel()
-    {
-        return $this->label;
-    }
     /**
      * @internal - Do not call directly.
      */
