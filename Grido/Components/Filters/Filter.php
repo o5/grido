@@ -279,7 +279,7 @@ abstract class Filter extends \Grido\Components\Base
     protected function formatValue($value)
     {
         if ($this->formatValue !== NULL) {
-            return str_replace(self::VALUE_IDENTIFIER, $value, $this->formatValue);
+            return str_replace(static::VALUE_IDENTIFIER, $value, $this->formatValue);
         } else {
             return $value;
         }
