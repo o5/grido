@@ -51,23 +51,20 @@ class Export extends Base implements \Nette\Application\IResponse
             $head[] = $column->label;
         }
 
-        $a = FALSE;
+        $addNewLine = FALSE;
         $source = implode(static::DELIMITER, $head) . static::NEW_LINE;
         foreach ($data as $item) {
-            if ($a) {
-                $source .= static::NEW_LINE;
-            }
+            $source .= $addNewLine ? static::NEW_LINE : NULL;
 
-            $b = FALSE;
+            $addDelimiter = FALSE;
             foreach ($columns as $column) {
-                if ($b) {
-                    $source .= static::DELIMITER;
-                }
-
+                $source .= $addDelimiter ? static::DELIMITER : NULL;
                 $source .= $column->renderExport($item);
-                $b = TRUE;
+
+                $addDelimiter = TRUE;
             }
-            $a = TRUE;
+
+            $addNewLine = TRUE;
         }
 
         return $source;
