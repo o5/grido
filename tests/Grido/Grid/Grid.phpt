@@ -351,6 +351,7 @@ class GridTest extends Tester\TestCase
                 array('A' => 'A2', 'B' => 'B2'),
                 array('A' => 'A3', 'B' => 'B1'),
             ));
+            $grid->addColumnText('A', 'A');
             $grid->addColumnText('B', 'B')->setSortable();
         });
 
@@ -361,6 +362,22 @@ class GridTest extends Tester\TestCase
             array('A' => 'A3', 'B' => 'B1'),
             array('A' => 'A2', 'B' => 'B2'),
         ), Helper::$grid->data);
+
+        //applySorting()
+        Helper::request(array('grid-sort' => array('B' => 'UP'), 'do' => 'grid-sort'));
+        Assert::error(function(){
+            Helper::$grid->data;
+        }, 'E_USER_NOTICE', "Dir 'UP' is not allowed.");
+
+        Helper::request(array('grid-sort' => array('C' => Column::ASC), 'do' => 'grid-sort'));
+        Assert::error(function(){
+            Helper::$grid->data;
+        }, 'E_USER_NOTICE', "Column with name 'C' does not exist.");
+
+        Helper::request(array('grid-sort' => array('A' => Column::ASC), 'do' => 'grid-sort'));
+        Assert::error(function(){
+            Helper::$grid->data;
+        }, 'E_USER_NOTICE', "Column with name 'A' is not sortable.");
     }
 
     function testHandleFilter()
