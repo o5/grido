@@ -14,18 +14,18 @@ use Tester\Assert,
     Grido\Grid;
 
 test(function() {
-    $testItem = array('id' => 2, 'firstname' => 'Lucie');
-    Helper::grid(function(Grid $grid) use ($testItem) {
+    $testRow = array('id' => 2, 'firstname' => 'Lucie');
+    Helper::grid(function(Grid $grid) use ($testRow) {
         $grid->addActionHref('delete', 'Delete')
-            ->setCustomHref(function($item) use ($testItem) {
-                Assert::same($testItem, $item);
-                return "/edit/{$item['id']}/{$item['firstname']}/";
+            ->setCustomHref(function($row) use ($testRow) {
+                Assert::same($testRow, $row);
+                return "/edit/{$row['id']}/{$row['firstname']}/";
             });
     });
 
     Helper::request();
 
     ob_start();
-        Helper::$grid->getAction('delete')->render($testItem);
+        Helper::$grid->getAction('delete')->render($testRow);
     Assert::same('<a class="grid-action-delete btn btn-mini" href="/edit/2/Lucie/">Delete</a>', ob_get_clean());
 });

@@ -164,16 +164,16 @@ abstract class Action extends \Grido\Components\Base
     }
 
     /**
-     * @param mixed $item
+     * @param mixed $row
      * @return Html
      * @throws \InvalidArgumentException
      */
-    protected function getElement($item)
+    protected function getElement($row)
     {
         $primaryKey = $this->getPrimaryKey();
         $propertyAccessor = $this->grid->propertyAccessor;
 
-        if (!$this->customRender && !$propertyAccessor->hasProperty($item, $primaryKey)) {
+        if (!$this->customRender && !$propertyAccessor->hasProperty($row, $primaryKey)) {
             throw new \InvalidArgumentException("Primary key '$primaryKey' not found.");
         }
 
@@ -186,7 +186,7 @@ abstract class Action extends \Grido\Components\Base
         if ($this->confirm) {
             $element->data['grido-confirm'] = $this->translate(
                 is_callable($this->confirm)
-                    ? callback($this->confirm)->invokeArgs(array($item))
+                    ? callback($this->confirm)->invokeArgs(array($row))
                     : $this->confirm
             );
         }
@@ -199,20 +199,20 @@ abstract class Action extends \Grido\Components\Base
     }
 
     /**
-     * @param mixed $item
+     * @param mixed $row
      * @throws \InvalidArgumentException
      * @return void
      */
-    public function render($item)
+    public function render($row)
     {
-        if (!$item || ($this->disable && callback($this->disable)->invokeArgs(array($item)))) {
+        if (!$row || ($this->disable && callback($this->disable)->invokeArgs(array($row)))) {
             return;
         }
 
-        $element = $this->getElement($item);
+        $element = $this->getElement($row);
 
         if ($this->customRender) {
-            echo callback($this->customRender)->invokeArgs(array($item, $element));
+            echo callback($this->customRender)->invokeArgs(array($row, $element));
             return;
         }
 

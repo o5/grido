@@ -30,12 +30,11 @@ class ActionTest extends Tester\TestCase
 
     function testSetCustomRender()
     {
-        $testItem = array('id' => 11, 'column' => 'value');
-
-        Helper::grid(function(Grid $grid) use ($testItem) {
+        $testRow = array('id' => 11, 'column' => 'value');
+        Helper::grid(function(Grid $grid) use ($testRow) {
             $grid->addActionHref('edit', 'Edit')
-                ->setCustomRender(function($item, \Nette\Utils\Html $element) use ($testItem) {
-                    Assert::same($testItem, $item);
+                ->setCustomRender(function($row, \Nette\Utils\Html $element) use ($testRow) {
+                    Assert::same($testRow, $row);
                     unset($element->class);
                     $element->setText('TEST');
                     return $element;
@@ -44,7 +43,7 @@ class ActionTest extends Tester\TestCase
         Helper::request();
 
         ob_start();
-            Helper::$grid->getAction('edit')->render($testItem);
+            Helper::$grid->getAction('edit')->render($testRow);
         Assert::same('<a href="/index.php?id=11&amp;action=edit&amp;presenter=Test">TEST</a>', ob_get_clean());
     }
 
@@ -71,8 +70,8 @@ class ActionTest extends Tester\TestCase
     {
         Helper::grid(function(Grid $grid){
             $grid->addActionHref('delete', 'Delete')
-                ->setDisable(function($item){
-                    return $item['status'] == 'delete';
+                ->setDisable(function($row){
+                    return $row['status'] == 'delete';
                 });
         });
 
@@ -102,19 +101,19 @@ class ActionTest extends Tester\TestCase
         Assert::same('<a class="grid-action-delete btn btn-mini" data-grido-confirm="Are you sure?" href="/index.php?id=2&amp;action=delete&amp;presenter=Test">Delete</a>', ob_get_clean());
 
         //test callback
-        $testItem = array('id' => 2, 'firstname' => 'Lucie');
-        Helper::grid(function(Grid $grid) use ($testItem) {
+        $testRow = array('id' => 2, 'firstname' => 'Lucie');
+        Helper::grid(function(Grid $grid) use ($testRow) {
             $grid->addActionHref('delete', 'Delete')
-                ->setConfirm(function($item) use ($testItem) {
-                    Assert::same($testItem, $item);
-                    return "Are you sure you want to delete {$item['firstname']}?";
+                ->setConfirm(function($row) use ($testRow) {
+                    Assert::same($testRow, $row);
+                    return "Are you sure you want to delete {$row['firstname']}?";
                 });
         });
 
         Helper::request();
 
         ob_start();
-            Helper::$grid->getAction('delete')->render($testItem);
+            Helper::$grid->getAction('delete')->render($testRow);
         Assert::same('<a class="grid-action-delete btn btn-mini" data-grido-confirm="Are you sure you want to delete Lucie?" href="/index.php?id=2&amp;action=delete&amp;presenter=Test">Delete</a>', ob_get_clean());
     }
 

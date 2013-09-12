@@ -43,16 +43,16 @@ class Event extends Action
     /**********************************************************************************************/
 
     /**
-     * @param mixed $item
+     * @param mixed $row
      * @return \Nette\Utils\Html
      */
-    public function getElement($item)
+    public function getElement($row)
     {
-        $element = parent::getElement($item);
+        $element = parent::getElement($row);
 
         $primaryKey = $this->getPrimaryKey();
-        $primaryValue = $this->grid->propertyAccessor->hasProperty($item, $primaryKey)
-            ? $this->grid->propertyAccessor->getProperty($item, $primaryKey)
+        $primaryValue = $this->grid->propertyAccessor->hasProperty($row, $primaryKey)
+            ? $this->grid->propertyAccessor->getProperty($row, $primaryKey)
             : NULL;
 
         $element->href($this->link('click!', $primaryValue));
