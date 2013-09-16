@@ -24,9 +24,7 @@ class OperationTest extends Tester\TestCase
             $grid->setOperations(array('edit' => 'Edit', 'del' => 'Del'), function() {})
                 ->setConfirm('del', 'Are you sure?');
             $grid->render();
-        });
-
-        Helper::request();
+        })->run();
 
         $formControl = Helper::$grid['form'][Operation::ID][Operation::ID];
         Assert::same($formControl->controlPrototype->data['grido-del'], 'Are you sure?');

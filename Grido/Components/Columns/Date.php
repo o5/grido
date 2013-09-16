@@ -20,7 +20,7 @@ namespace Grido\Components\Columns;
  *
  * @property string $dateFormat
  */
-class Date extends Text
+class Date extends Column
 {
     const FORMAT_TEXT = 'd M Y';
     const FORMAT_DATE = 'd.m.Y';
@@ -70,11 +70,17 @@ class Date extends Text
     {
         if ($value === NULL) {
             return $this->applyReplacement($value);
+        } elseif (is_scalar($value)) {
+            $value = \Nette\Templating\Helpers::escapeHtml($value);
+            $replaced = $this->applyReplacement($value);
+            if ($value !== $replaced && is_scalar($replaced)) {
+                return $replaced;
+            }
         }
 
         return $value instanceof \DateTime
             ? $value->format($this->dateFormat)
-            : date($this->dateFormat, strtotime($value));
+            : date($this->dateFormat, strtotime($value)); //@todo add notice when result is "01.01.1970"
     }
 
     /**

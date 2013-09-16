@@ -70,9 +70,6 @@ abstract class Column extends \Grido\Components\Base
     /** @var array of arrays('pattern' => 'replacement') */
     protected $replacements = array();
 
-    /** @var Closure */
-    protected $truncate;
-
     /**
      * @param \Grido\Grid $grid
      * @param string $name
@@ -133,19 +130,6 @@ abstract class Column extends \Grido\Components\Base
     public function setCustomRender($customRender)
     {
         $this->customRender = $customRender;
-        return $this;
-    }
-
-    /**
-     * @param string $maxLen UTF-8 encoding
-     * @param string $append UTF-8 encoding
-     * @return Column
-     */
-    public function setTruncate($maxLen, $append = "\xE2\x80\xA6")
-    {
-        $this->truncate = function($string) use ($maxLen, $append) {
-            return \Nette\Utils\Strings::truncate($string, $maxLen, $append);
-        };
         return $this;
     }
 
@@ -290,7 +274,7 @@ abstract class Column extends \Grido\Components\Base
                 ? $this->grid->sort[$name]
                 : NULL;
 
-            $this->sort = $sort === NULL ? NULL : strtolower($sort);
+            $this->sort = $sort === NULL ? NULL : $sort;
         }
 
         return $this->sort;
@@ -339,11 +323,6 @@ abstract class Column extends \Grido\Components\Base
         }
 
         $value = $this->getValue($row);
-        if (is_scalar($value) || (is_object($value) && method_exists($value, '__toString'))) {
-            $value = \Nette\Templating\Helpers::escapeHtml($value);
-            $value = $this->applyReplacement($value);
-        }
-
         return $this->formatValue($value);
     }
 
@@ -378,6 +357,10 @@ abstract class Column extends \Grido\Components\Base
         }
     }
 
+    /***
+     * @param mixed $value
+     * @return mixed
+     */
     protected function applyReplacement($value)
     {
         return (is_string($value) || $value == '' || $value === NULL) && isset($this->replacements[$value])
@@ -385,11 +368,15 @@ abstract class Column extends \Grido\Components\Base
             : $value;
     }
 
+    /**
+     * @param mixed $value
+     * @return mixed
+     */
     protected function formatValue($value)
     {
-        if ($this->truncate) {
-            $truncate = $this->truncate;
-            $value = $truncate($value);
+        if (is_null($value) || is_scalar($value) || (is_object($value) && method_exists($value, '__toString'))) {
+            $value = \Nette\Templating\Helpers::escapeHtml($value);
+            $value = $this->applyReplacement($value);
         }
 
         return $value;
