@@ -513,6 +513,18 @@ class GridTest extends Tester\TestCase
         Assert::same($perPage, Helper::$grid->perPage);
         Assert::same(1, Helper::$grid->page);
     }
+
+    /**********************************************************************************************/
+
+    function testOnFetchDataCallback()
+    {
+        $grid = new Grid;
+        $testData = array('id' => 1, 'column' => 'value');
+        $grid->setModel($testData);
+        $grid->onFetchData[] = function(Grid $grid) use ($testData) {
+            Assert::same($testData, $grid->data);
+        };
+    }
 }
 
 run(__FILE__);
