@@ -20,8 +20,7 @@ class ActionTest extends Tester\TestCase
         Helper::grid(function(Grid $grid){
             $grid->addActionHref('edit', 'Edit')
                 ->setElementPrototype(\Nette\Utils\Html::el('a')->setClass(array('action')));
-        });
-        Helper::request();
+        })->run();
 
         ob_start();
             Helper::$grid->getAction('edit')->render(array('id' => 11));
@@ -39,8 +38,7 @@ class ActionTest extends Tester\TestCase
                     $element->setText('TEST');
                     return $element;
                 });
-        });
-        Helper::request();
+        })->run();
 
         ob_start();
             Helper::$grid->getAction('edit')->render($testRow);
@@ -52,9 +50,7 @@ class ActionTest extends Tester\TestCase
         Helper::grid(function(Grid $grid){
             $grid->addActionHref('edit', 'Edit')
                 ->setPrimaryKey('primary');
-        });
-
-        Helper::request();
+        })->run();
 
         ob_start();
             Helper::$grid->getAction('edit')->render(array('primary' => 11));
@@ -73,9 +69,7 @@ class ActionTest extends Tester\TestCase
                 ->setDisable(function($row){
                     return $row['status'] == 'delete';
                 });
-        });
-
-        Helper::request();
+        })->run();
 
         ob_start();
             Helper::$grid->getAction('delete')->render(array('id' => 2, 'status' => 'delete'));
@@ -92,9 +86,7 @@ class ActionTest extends Tester\TestCase
         Helper::grid(function(Grid $grid){
             $grid->addActionHref('delete', 'Delete')
                 ->setConfirm('Are you sure?');
-        });
-
-        Helper::request();
+        })->run();
 
         ob_start();
             Helper::$grid->getAction('delete')->render(array('id' => 2));
@@ -108,9 +100,7 @@ class ActionTest extends Tester\TestCase
                     Assert::same($testRow, $row);
                     return "Are you sure you want to delete {$row['firstname']}?";
                 });
-        });
-
-        Helper::request();
+        })->run();
 
         ob_start();
             Helper::$grid->getAction('delete')->render($testRow);
@@ -122,9 +112,7 @@ class ActionTest extends Tester\TestCase
         Helper::grid(function(Grid $grid){
             $grid->addActionHref('delete', 'Delete')
                 ->setIcon('delete');
-        });
-
-        Helper::request();
+        })->run();
 
         ob_start();
             Helper::$grid->getAction('delete')->render(array('id' => 2));

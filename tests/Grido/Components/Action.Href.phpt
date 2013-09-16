@@ -21,9 +21,7 @@ test(function() {
                 Assert::same($testRow, $row);
                 return "/edit/{$row['id']}/{$row['firstname']}/";
             });
-    });
-
-    Helper::request();
+    })->run();
 
     ob_start();
         Helper::$grid->getAction('delete')->render($testRow);
