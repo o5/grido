@@ -18,7 +18,7 @@ namespace Grido\Components\Columns;
  * @subpackage  Components\Columns
  * @author      Petr Bugyík
  */
-class Href extends Column
+class Href extends Text
 {
     /**
      * @param $value
@@ -26,15 +26,18 @@ class Href extends Column
      */
     protected function formatValue($value)
     {
-        $a = \Nette\Utils\Html::el('a')->href($value)->setText($value);
-        $a->attrs['target'] = '_blank';
+        $truncate = $this->truncate;
+        $this->truncate = NULL;
+        $value = parent::formatValue($value);
 
-        if ($this->truncate) {
-            $truncate = $this->truncate;
-            $a->setText($truncate($value))
+        $anchor = \Nette\Utils\Html::el('a')->href($value)->setText($value);
+        $anchor->attrs['target'] = '_blank';
+
+        if ($truncate) {
+            $anchor->setText($truncate($value))
                 ->setTitle($value);
         }
 
-        return $a;
+        return $anchor;
     }
 }

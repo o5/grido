@@ -87,6 +87,8 @@ class Number extends Column
     */
     protected function formatValue($value)
     {
+        $value = parent::formatValue($value);
+
         $decimals = $this->numberFormat[self::NUMBER_FORMAT_DECIMALS];
         $decPoint = $this->numberFormat[self::NUMBER_FORMAT_DECIMAL_POINT];
         $thousandsSep = $this->numberFormat[self::NUMBER_FORMAT_THOUSANDS_SEPARATOR];

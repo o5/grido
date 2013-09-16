@@ -40,8 +40,7 @@ class ExportTest extends Tester\TestCase
             $grid->setExport();
             $component = $grid->getExport();
             Assert::same('Grid', $component->label);
-        });
-        Helper::request();
+        })->run();
 
         unset($grid[Export::ID]);
         // getter

@@ -60,23 +60,23 @@ class Href extends Action
     /**********************************************************************************************/
 
     /**
-     * @param mixed $item
+     * @param mixed $row
      * @return \Nette\Utils\Html
      */
-    public function getElement($item)
+    public function getElement($row)
     {
-        $element = parent::getElement($item);
+        $element = parent::getElement($row);
 
         $href = '';
         $primaryKey = $this->getPrimaryKey();
-        $primaryValue = $this->grid->propertyAccessor->hasProperty($item, $primaryKey)
-            ? $this->grid->propertyAccessor->getProperty($item, $primaryKey)
+        $primaryValue = $this->grid->propertyAccessor->hasProperty($row, $primaryKey)
+            ? $this->grid->propertyAccessor->getProperty($row, $primaryKey)
             : NULL;
 
         if ($this->customHref) {
-            $href = callback($this->customHref)->invokeArgs(array($item));
+            $href = callback($this->customHref)->invokeArgs(array($row));
         } elseif ($primaryValue) {
-            $href = $this->presenter->link($this->getDestination(), $this->getArguments($item));
+            $href = $this->presenter->link($this->getDestination(), $this->getArguments($row));
         }
 
         $element->href($href);
@@ -101,13 +101,13 @@ class Href extends Action
      * @internal - Do not call directly.
      * @return array
      */
-    public function getArguments($item = NULL)
+    public function getArguments($row = NULL)
     {
-        if ($this->arguments === NULL && $item !== NULL) {
+        if ($this->arguments === NULL && $row !== NULL) {
             //@todo: remove code below
             $primaryKey = $this->getPrimaryKey();
-            $primaryValue = $this->grid->propertyAccessor->hasProperty($item, $primaryKey)
-                ? $this->grid->propertyAccessor->getProperty($item, $primaryKey)
+            $primaryValue = $this->grid->propertyAccessor->hasProperty($row, $primaryKey)
+                ? $this->grid->propertyAccessor->getProperty($row, $primaryKey)
                 : NULL;
 
             $this->arguments[$primaryKey] = $primaryValue;

@@ -30,8 +30,10 @@ class Helper
      */
     public static function grid(\Closure $definition)
     {
+        $self = new self;
+
         if (self::$presenter === NULL) {
-            self::$presenter = self::createPresenter();
+            self::$presenter = $self->createPresenter();
         }
 
         self::$presenter->onStartUp = array();
@@ -42,12 +44,39 @@ class Helper
 
             $definition(new \Grido\Grid($presenter, Helper::GRID_NAME));
         };
+
+        return $self;
+    }
+
+    /**
+     * @param array $params
+     * @param string $method
+     * @return \Nette\Application\IResponse
+     */
+    public static function request(array $params = array(), $method = \Nette\Http\Request::GET)
+    {
+        $request = new \Nette\Application\Request('Test', $method, $params);
+        $response = self::$presenter->run($request);
+
+        self::$grid = self::$presenter[self::GRID_NAME];
+
+        return $response;
+    }
+
+    /**
+     * @param array $params
+     * @param string $method
+     * @return \Nette\Application\IResponse
+     */
+    public function run(array $params = array(), $method = \Nette\Http\Request::GET)
+    {
+        self::request($params, $method);
     }
 
     /**
      * @return \TestPresenter
      */
-    public static function createPresenter()
+    private function createPresenter()
     {
         $url = new \Nette\Http\UrlScript('http://localhost/index.php');
         $url->setScriptPath('/index.php');
@@ -66,19 +95,6 @@ class Helper
         $presenter->autoCanonicalize = FALSE;
 
         return $presenter;
-    }
-
-    /**
-     * @param array $params
-     * @param string $method
-     */
-    public static function request(array $params = array(), $method = \Nette\Http\Request::GET)
-    {
-        $request = new \Nette\Application\Request('Test', $method, $params);
-        $response = self::$presenter->run($request);
-
-        self::$grid = self::$presenter[self::GRID_NAME];
-        return $response;
     }
 }
 
