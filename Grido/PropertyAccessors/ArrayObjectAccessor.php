@@ -34,7 +34,7 @@ class ArrayObjectAccessor implements IPropertyAccessor
         } elseif (is_object($object) && $object instanceof \ArrayObject) {
             return $object->offsetExists($name);
         } elseif (is_object($object)) {
-            return property_exists($object, $name);
+            return property_exists($object, $name) || method_exists($object, 'get' . ucfirst($name));
         } elseif (is_array($object) || $object instanceof \ArrayAccess) {
             return array_key_exists($name, $object);
         } else {
