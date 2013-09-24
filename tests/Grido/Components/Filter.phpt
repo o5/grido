@@ -8,7 +8,6 @@
  */
 
 require_once __DIR__ . '/../bootstrap.php';
-require_once __DIR__ . '/../Helper.inc.php';
 
 use Tester\Assert,
     Grido\Grid,
@@ -16,6 +15,75 @@ use Tester\Assert,
 
 class FilterTest extends Tester\TestCase
 {
+    function testSetColumn() //+ getColumns()
+    {
+        $grid = new Grid;
+        $filter = $grid->addFilterText('filter', 'Filter')
+            ->setColumn('column1')->setColumn('column2', Filter::OPERATOR_OR);
+        Assert::same(array('column1' => Filter::OPERATOR_AND, 'column2' => Filter::OPERATOR_OR), $filter->columns);
+    }
+
+    function testSetCondition()
+    {
+        $grid = new Grid;
+        $filter = $grid->addFilterText('filter', 'Filter');
+
+        Assert::error(function() use ($filter) {
+            $filter->setCondition(Filter::CONDITION_CUSTOM);
+        }, 'InvalidArgumentException', 'Second param cannot be empty.');
+
+        Assert::error(function() use ($filter) {
+            $filter->setCondition(Filter::CONDITION_CALLBACK);
+        }, 'InvalidArgumentException', 'Second param cannot be empty.');
+
+        $filter->setCondition('<> %s');
+        Assert::same(array(' ([filter] <> %s )', '%value%'), $filter->__makeFilter('value'));
+
+        $filter->setCondition(Filter::CONDITION_CUSTOM, array('deleted' => '[status] = deleted'));
+        Assert::same(array(' ([status] = deleted )'), $filter->__makeFilter('deleted'));
+
+        $testValue = 'TEST';
+        $filter->setCondition(Filter::CONDITION_CALLBACK, function($value) use ($testValue) {
+            Assert::same($testValue, $value);
+            return array('[column] <> "TEST"');
+        });
+        Assert::same(array('[column] <> "TEST"'), $filter->__makeFilter($testValue));
+
+        $filter->setCondition(Filter::CONDITION_NOT_APPLY);
+        Assert::same(array(), $filter->__makeFilter('deleted'));
+    }
+
+    function testChangeValue()
+    {
+        $grid = new Grid;
+        $filter = $grid->addFilterText('filter', 'Filter');
+        Assert::same('TEST', $filter->changeValue('TEST'));
+    }
+
+    function testFormatValue()
+    {
+        $grid = new Grid;
+        $filter = $grid->addFilterText('filter', 'Filter')
+            ->setFormatValue('%%value%');
+
+        Assert::same(array(' ([filter] LIKE %s )', '%TEST%'), $filter->__makeFilter('TEST'));
+    }
+
+    function testSetDefaufaulValue()
+    {
+        $grid = new Grid;
+        $grid->addFilterText('filter', 'Filter')
+            ->setDefaultValue('default');
+        Assert::same(array('filter' => 'default'), $grid->defaultFilter);
+    }
+
+    function testGetWrapperPrototype()
+    {
+        $grid = new Grid;
+        $filter = $grid->addFilterText('filter', 'Filter');
+        Assert::type('Nette\Utils\Html', $filter->wrapperPrototype);
+    }
+
     /**********************************************************************************************/
 
     function testHasFilters()
@@ -43,6 +111,7 @@ class FilterTest extends Tester\TestCase
         $grid->addFilterDate($name, $label);
         $component = $grid->getFilter($name);
         Assert::type('\Grido\Components\Filters\Date', $component);
+        Assert::type('\Grido\Components\Filters\Text', $component);
         Assert::same($label, $component->label);
 
         $name = 'check';
@@ -63,6 +132,7 @@ class FilterTest extends Tester\TestCase
         $grid->addFilterNumber($name, $label);
         $component = $grid->getFilter($name);
         Assert::type('\Grido\Components\Filters\Number', $component);
+        Assert::type('\Grido\Components\Filters\Text', $component);
         Assert::same($label, $component->label);
 
         $name = 'custom';

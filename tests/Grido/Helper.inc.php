@@ -103,6 +103,9 @@ class TestPresenter extends \Nette\Application\UI\Presenter
     /** @var array */
     public $onStartUp;
 
+    /** @var bool */
+    public $forceAjaxMode = FALSE;
+
     public function startup()
     {
         parent::startup();
@@ -113,5 +116,19 @@ class TestPresenter extends \Nette\Application\UI\Presenter
     public function sendTemplate()
     {
         //parent::sendTemplate();
+    }
+
+    public function isAjax()
+    {
+        return $this->forceAjaxMode === TRUE
+            ? TRUE
+            : parent::isAjax();
+    }
+
+    public function terminate()
+    {
+        if ($this->forceAjaxMode === FALSE) {
+            parent::terminate();
+        }
     }
 }
