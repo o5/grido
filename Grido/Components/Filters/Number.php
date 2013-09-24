@@ -41,7 +41,7 @@ class Number extends Text
      * @param string $value
      * @return array condition|value
      */
-    protected function _makeFilter($column, $value)
+    protected function makeFilter($column, $value)
     {
         $condition = NULL;
         if (preg_match($this->condition, $value, $matches)) {

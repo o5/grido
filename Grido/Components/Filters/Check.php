@@ -26,9 +26,6 @@ class Check extends Filter
     /** @var string for ->where('<column> IS NOT NULL) */
     protected $condition = 'IS NOT NULL';
 
-    /** @var string */
-    protected $formatValue;
-
     /**
      * @return \Nette\Forms\Controls\Checkbox
      */
@@ -43,7 +40,7 @@ class Check extends Filter
     * @param string $value
     * @return array
     */
-    public function makeFilter($column, $value)
+    protected function makeFilter($column, $value)
     {
         return array("[$column] " . $this->condition, '');
     }
