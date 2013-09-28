@@ -27,12 +27,15 @@ class FilterNumber extends Tester\TestCase
     {
         $grid = new Grid;
         $filter = $grid->addFilterNumber('number', 'Number');
-        Assert::same(array(' ([number] <> %f )', '12.34'), $filter->__makeFilter('<>12,34'));
+        Assert::same(array(' ([number] = %f )', '12.34'), $filter->__makeFilter('=12.34'));
+        Assert::same(array(' ([number] = %f )', '-12.34'), $filter->__makeFilter('-12,34'));
+        Assert::same(array(' ([number] = %f )', '12.34'), $filter->__makeFilter('**12.34'));
+        Assert::same(array(' ([number] = %f )', '12'), $filter->__makeFilter('12'));
+        Assert::same(array(' ([number] <> %f )', '12.34'), $filter->__makeFilter('<>12.34'));
         Assert::same(array(' ([number] > %f )', '12.34'), $filter->__makeFilter('>12.34'));
         Assert::same(array(' ([number] < %f )', '12'), $filter->__makeFilter('<12'));
-        Assert::same(array(' ([number] = %f )', '12.34'), $filter->__makeFilter('=12.34'));
-        Assert::same(array(' ([number] = %f )', '-12.34'), $filter->__makeFilter('-12.34'));
-        Assert::same(array(' ([number] = %f )', '12.34'), $filter->__makeFilter('**12.34'));
+        Assert::same(array(' ([number] >= %f )', '12.34'), $filter->__makeFilter('>=12.34'));
+        Assert::same(array(' ([number] <= %f )', '12.34'), $filter->__makeFilter('<=12.34'));
     }
 }
 
