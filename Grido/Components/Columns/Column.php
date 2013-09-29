@@ -26,6 +26,7 @@ use Grido\Components\Filters\Filter;
  * @property-write callback $cellCallback
  * @property-write string $defaultSorting
  * @property-write mixed $customRender
+ * @property-write mixed $customRenderExport
  * @property-write array $replacements
  * @property-write bool $sortable
  * @property string $column
@@ -61,8 +62,11 @@ abstract class Column extends \Grido\Components\Base
     /** @var \Nette\Utils\Html <th> html tag */
     protected $headerPrototype;
 
-    /** @var mixed for custom rendering */
+    /** @var mixed custom rendering */
     protected $customRender;
+
+    /** @var mixed custom export rendering */
+    protected $customRenderExport;
 
     /** @var bool */
     protected $sortable = FALSE;
@@ -124,12 +128,22 @@ abstract class Column extends \Grido\Components\Base
     }
 
     /**
-     * @param mixed $customRender callback | string for name of template filename
+     * @param mixed $callback callback or string for name of template filename
      * @return Column
      */
-    public function setCustomRender($customRender)
+    public function setCustomRender($callback)
     {
-        $this->customRender = $customRender;
+        $this->customRender = $callback;
+        return $this;
+    }
+
+    /**
+     * @param mixed $callback|
+     * @return Column
+     */
+    public function setCustomRenderExport($callback)
+    {
+        $this->customRenderExport = $callback;
         return $this;
     }
 
@@ -333,6 +347,10 @@ abstract class Column extends \Grido\Components\Base
      */
     public function renderExport($row)
     {
+        if (is_callable($this->customRenderExport)) {
+            return callback($this->customRenderExport)->invokeArgs(array($row));
+        }
+
         $value = $this->getValue($row);
         return strip_tags($this->applyReplacement($value));
     }
