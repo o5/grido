@@ -16,13 +16,13 @@ use Tester\Assert,
 test(function() {
     $grid = new Grid;
     $column = $grid->addColumnDate('column', 'Column')->setReplacement(array(
-        NULL => 'NULL', '2012-12-21' => 'Was The End Of World'
+        NULL => 'NULL', '2012-12-21' => 'The End Of World'
     ));
 
     Assert::same('NULL', $column->render(array('column' => NULL)));
     Assert::same('NULL', $column->renderExport(array('column' => NULL)));
-    Assert::same('Was The End Of World', $column->render(array('column' => '2012-12-21')));
-    Assert::same('Was The End Of World', $column->renderExport(array('column' => '2012-12-21')));
+    Assert::same('The End Of World', $column->render(array('column' => '2012-12-21')));
+    Assert::same('The End Of World', $column->renderExport(array('column' => '2012-12-21')));
     Assert::same('01.01.1970', $column->render(array('column' => '<script>alert("XSS")</script>')));
     Assert::same('01.01.1970', $column->renderExport(array('column' => '<script>alert("XSS")</script>')));
 
