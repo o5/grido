@@ -52,7 +52,7 @@ test(function() {
 
     ob_start();
         Helper::request(array('do' => 'grid-export-export'))->send(mock('\Nette\Http\IRequest'), new MockResponse);
-    Assert::same(file_get_contents(__DIR__ . '/Export.handleExport().expect'), ob_get_clean());
+    Assert::same(file_get_contents(__DIR__ . '/files/Export.handleExport.expect'), ob_get_clean());
 
     Assert::same(array(
 	'Content-Encoding' => 'UTF-16LE',

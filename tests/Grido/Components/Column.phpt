@@ -68,7 +68,7 @@ class ColumnTest extends Tester\TestCase
 
         Helper::grid(function(Grid $grid){
             $grid->setModel(array(array('id' => 1, 'column' => 'TEST')));
-            $grid->addColumnText('column', 'Column')->setCustomRender(__DIR__ . '/templates/Column.customRender.latte');
+            $grid->addColumnText('column', 'Column')->setCustomRender(__DIR__ . '/files/Column.customRender.latte');
         })->run();
 
         ob_start();
