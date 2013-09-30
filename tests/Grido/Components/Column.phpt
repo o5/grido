@@ -263,29 +263,45 @@ class ColumnTest extends \Tester\TestCase
 
     function testSetFilter() //setFilter*()
     {
+        $name = 'column';
+        $label = 'Column';
+
         $grid = new Grid;
-        $fiter = $grid->addColumnText('column', 'Column')->setFilterText();
+        $fiter = $grid->addColumnText($name, $label)->setFilterText();
         Assert::type('\Grido\Components\Filters\Text', $fiter);
+        Assert::same($name, $fiter->name);
+        Assert::same($label, $fiter->label);
 
         $grid = new Grid;
-        $fiter = $grid->addColumnText('column', 'Column')->setFilterDate();
+        $fiter = $grid->addColumnText($name, $label)->setFilterDate();
         Assert::type('\Grido\Components\Filters\Date', $fiter);
+        Assert::same($name, $fiter->name);
+        Assert::same($label, $fiter->label);
 
         $grid = new Grid;
-        $fiter = $grid->addColumnText('column', 'Column')->setFilterCheck();
+        $fiter = $grid->addColumnText($name, $label)->setFilterCheck();
         Assert::type('\Grido\Components\Filters\Check', $fiter);
+        Assert::same($name, $fiter->name);
+        Assert::same($label, $fiter->label);
 
         $grid = new Grid;
-        $fiter = $grid->addColumnText('column', 'Column')->setFilterSelect();
+        $items = array('one' => 'One');
+        $fiter = $grid->addColumnText($name, $label)->setFilterSelect($items);
         Assert::type('\Grido\Components\Filters\Select', $fiter);
+        Assert::same($name, $fiter->name);
+        Assert::same($label, $fiter->label);
+        Assert::same($items, $fiter->control->items);
 
         $grid = new Grid;
-        $fiter = $grid->addColumnText('column', 'Column')->setFilterNumber();
+        $fiter = $grid->addColumnText($name, $label)->setFilterNumber();
         Assert::type('\Grido\Components\Filters\Number', $fiter);
+        Assert::same($name, $fiter->name);
+        Assert::same($label, $fiter->label);
 
         $grid = new Grid;
-        $fiter = $grid->addColumnText('column', 'Column')->setFilterCustom(new \Nette\Forms\Controls\TextArea);
+        $fiter = $grid->addColumnText($name, $label)->setFilterCustom(new \Nette\Forms\Controls\TextArea);
         Assert::type('\Grido\Components\Filters\Custom', $fiter);
+        Assert::same($name, $fiter->name);
     }
 }
 
