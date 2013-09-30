@@ -7,15 +7,17 @@
  * @package    Grido\Tests
  */
 
-require_once __DIR__ . '/../bootstrap.php';
-require_once __DIR__ . '/../Helper.inc.php';
+namespace Grido\Tests;
 
 use Tester\Assert,
     Grido\Grid,
     Grido\Components\Columns\Column,
     Grido\Components\Filters\Filter;
 
-class GridTest extends Tester\TestCase
+require_once __DIR__ . '/../bootstrap.php';
+require_once __DIR__ . '/../Helper.inc.php';
+
+class GridTest extends \Tester\TestCase
 {
     function testSetModel()
     {
@@ -26,7 +28,7 @@ class GridTest extends Tester\TestCase
         $grid->setModel(mock('Grido\DataSources\IDataSource'), TRUE);
         Assert::type('Grido\DataSources\Model', $grid->model);
 
-        $grid->setModel(mock('\DibiFluent'));
+        $grid->setModel(new \DibiFluent(mock('\DibiConnection')));
         Assert::type('Grido\DataSources\Model', $grid->model);
 
         $grid->setModel(mock('\Nette\Database\Table\Selection'));
@@ -38,7 +40,7 @@ class GridTest extends Tester\TestCase
         $grid->setModel(array());
         Assert::type('Grido\DataSources\Model', $grid->model);
 
-        $grid->setModel(mock('\DibiFluent'), TRUE);
+        $grid->setModel(new \DibiFluent(mock('\DibiConnection')));
         Assert::type('Grido\DataSources\Model', $grid->model);
 
         Assert::exception(function() use ($grid) {

@@ -7,12 +7,14 @@
  * @package    Grido\Tests
  */
 
-require_once __DIR__ . '/../bootstrap.php';
+namespace Grido\Tests;
 
 use Tester\Assert,
     Grido\Grid;
 
-class FilterCustom extends Tester\TestCase
+require_once __DIR__ . '/../bootstrap.php';
+
+class FilterCustom extends \Tester\TestCase
 {
     function testFormControl()
     {

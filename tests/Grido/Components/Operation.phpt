@@ -7,6 +7,8 @@
  * @package    Grido\Tests
  */
 
+namespace Grido\Tests;
+
 require_once __DIR__ . '/../bootstrap.php';
 require_once __DIR__ . '/../Helper.inc.php';
 
@@ -14,7 +16,7 @@ use Tester\Assert,
     Grido\Grid,
     Grido\Components\Operation;
 
-class OperationTest extends Tester\TestCase
+class OperationTest extends \Tester\TestCase
 {
     function testSetConfirm()
     {
@@ -101,7 +103,7 @@ class OperationTest extends Tester\TestCase
         $grid->setOperations($operations, $onSubmit);
         $component = $grid->getOperations();
         Assert::type('\Grido\Components\Operation', $component);
-        $componentId = Grido\Components\Operation::ID;
+        $componentId = \Grido\Components\Operation::ID;
         Assert::same($operations, $grid['form'][$componentId][$componentId]->items);
         Assert::same($component->onSubmit, array($onSubmit));
 

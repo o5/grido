@@ -60,7 +60,8 @@ function run($path, $name = NULL)
     $count = count($tokens);
     for ($i = 2; $i < $count; $i++) {
         if ($tokens[$i - 2][0] == T_CLASS && $tokens[$i - 1][0] == T_WHITESPACE && $tokens[$i][0] == T_STRING) {
-            $test = new $tokens[$i][1];
+            $class = '\Grido\Tests\\' . $tokens[$i][1];
+            $test = new $class;
             if ($name) {
                 $test->runTest($name);
             } else {

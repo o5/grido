@@ -7,13 +7,15 @@
  * @package    Grido\Tests
  */
 
+namespace Grido\Tests;
+
 require_once __DIR__ . '/../bootstrap.php';
 require_once __DIR__ . '/../Helper.inc.php';
 
 use Tester\Assert,
     Grido\Grid;
 
-class FilterText extends Tester\TestCase
+class FilterText extends \Tester\TestCase
 {
     function testSetSuggestion()
     {
@@ -46,15 +48,18 @@ class FilterText extends Tester\TestCase
 
         ob_start();
             Helper::$grid->getFilter('name')->handleSuggest('aa');
-        Assert::same('["AAtest","AAxxx"]', ob_get_clean());
+        $output = ob_get_clean();
+        Assert::same('["AAtest","AAxxx"]', $output);
 
         ob_start();
             Helper::$grid->getFilter('name')->handleSuggest('xx');
-        Assert::same('["AAxxx","BBxxx"]', ob_get_clean());
+        $output = ob_get_clean();
+        Assert::same('["AAxxx","BBxxx"]', $output);
 
         ob_start();
             Helper::$grid->getFilter('name')->handleSuggest('###');
-        Assert::same('[]', ob_get_clean());
+        $output = ob_get_clean();
+        Assert::same('[]', $output);
     }
 
     function testFormControl()

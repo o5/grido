@@ -7,13 +7,15 @@
  * @package    Grido\Tests
  */
 
+namespace Grido\Tests;
+
 require_once __DIR__ . '/../bootstrap.php';
 
 use Tester\Assert,
     Grido\Grid,
     Grido\Components\Filters\Filter;
 
-class FilterTest extends Tester\TestCase
+class FilterTest extends \Tester\TestCase
 {
     function testSetColumn() //+ getColumns()
     {
@@ -144,7 +146,7 @@ class FilterTest extends Tester\TestCase
 
         Assert::error(function() use ($grid, $label) {
             $name = 'deprecated';
-            $grid->addFilter($name, $label, Grido\Components\Filters\Filter::TYPE_CHECK);
+            $grid->addFilter($name, $label, Filter::TYPE_CHECK);
             $component = $grid->getFilter($name);
             Assert::type('\Grido\Components\Filters\Check', $component);
             Assert::same($label, $component->label);

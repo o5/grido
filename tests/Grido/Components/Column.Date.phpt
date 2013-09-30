@@ -7,11 +7,11 @@
  * @package    Grido\Tests
  */
 
-require_once __DIR__ . '/../bootstrap.php';
-
 use Tester\Assert,
     Grido\Grid,
     Grido\Components\Columns\Date;
+
+require_once __DIR__ . '/../bootstrap.php';
 
 test(function() {
     $grid = new Grid;

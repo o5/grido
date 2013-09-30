@@ -9,6 +9,8 @@
  * the file license.md that was distributed with this source code.
  */
 
+namespace Grido\Tests;
+
 /**
  * Test helper.
  *
@@ -26,7 +28,7 @@ class Helper
     public static $presenter;
 
     /**
-     * @param \Closure $definition of grid; function(Grid $grid) { };
+     * @param \Closure $definition of grid; function(Grid $grid, TestPresenter $presenter) { };
      */
     public static function grid(\Closure $definition)
     {
@@ -42,7 +44,7 @@ class Helper
                 unset($presenter[Helper::GRID_NAME]);
             }
 
-            $definition(new \Grido\Grid($presenter, Helper::GRID_NAME));
+            $definition(new \Grido\Grid($presenter, Helper::GRID_NAME), $presenter);
         };
 
         return $self;
@@ -81,7 +83,11 @@ class Helper
         $url = new \Nette\Http\UrlScript('http://localhost/index.php');
         $url->setScriptPath('/index.php');
 
-        $container = id(new \Nette\Config\Configurator)
+        $configurator = new \Nette\Config\Configurator;
+//        $configurator->addConfig(__DIR__ . '/config.neon');
+//        \Nella\Doctrine\Config\Extension::register($configurator);
+
+        $container = id($configurator)
             ->setTempDirectory(TEMP_DIR)
             ->createContainer();
         $container->removeService('httpRequest');

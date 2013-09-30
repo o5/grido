@@ -7,13 +7,15 @@
  * @package    Grido\Tests
  */
 
-require_once __DIR__ . '/../bootstrap.php';
-require_once __DIR__ . '/../Helper.inc.php';
+namespace Grido\Tests;
 
 use Tester\Assert,
     Grido\Grid;
 
-class MockResponse extends \Nette\Object implements \Nette\Http\IResponse
+require_once __DIR__ . '/../bootstrap.php';
+require_once __DIR__ . '/../Helper.inc.php';
+
+class Response extends \Nette\Object implements \Nette\Http\IResponse
 {
     public static $headers = array();
 
@@ -51,13 +53,14 @@ test(function() {
     });
 
     ob_start();
-        Helper::request(array('do' => 'grid-export-export'))->send(mock('\Nette\Http\IRequest'), new MockResponse);
-    Assert::same(file_get_contents(__DIR__ . '/files/Export.handleExport.expect'), ob_get_clean());
+        Helper::request(array('do' => 'grid-export-export'))->send(mock('\Nette\Http\IRequest'), new Response);
+    $output = ob_get_clean();
+    Assert::same(file_get_contents(__DIR__ . '/files/Export.handleExport.expect'), $output);
 
     Assert::same(array(
 	'Content-Encoding' => 'UTF-16LE',
 	'Content-Length' => 68,
 	'Content-Type' => 'text/csv; charset=UTF-16LE',
 	'Content-Disposition' => 'attachment; filename="Grid.csv"; filename*=utf-8\'\'Grid.csv',
-    ), MockResponse::$headers);
+    ), Response::$headers);
 });

@@ -7,14 +7,17 @@
  * @package    Grido\Tests
  */
 
-require_once __DIR__ . '/../bootstrap.php';
-require_once __DIR__ . '/../Helper.inc.php';
+namespace Grido\Tests;
 
 use Tester\Assert,
     Grido\Grid,
+    Grido\Tests\Helper,
     Grido\Components\Export;
 
-class ExportTest extends Tester\TestCase
+require_once __DIR__ . '/../bootstrap.php';
+require_once __DIR__ . '/../Helper.inc.php';
+
+class ExportTest extends \Tester\TestCase
 {
     function testHasExport()
     {

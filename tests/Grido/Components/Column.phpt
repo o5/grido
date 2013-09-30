@@ -7,14 +7,16 @@
  * @package    Grido\Tests
  */
 
-require_once __DIR__ . '/../bootstrap.php';
-require_once __DIR__ . '/../Helper.inc.php';
+namespace Grido\Tests;
 
 use Tester\Assert,
     Grido\Grid,
     Grido\Components\Columns\Column;
 
-class ColumnTest extends Tester\TestCase
+require_once __DIR__ . '/../bootstrap.php';
+require_once __DIR__ . '/../Helper.inc.php';
+
+class ColumnTest extends \Tester\TestCase
 {
     function testSetSortable()
     {
@@ -33,7 +35,7 @@ class ColumnTest extends Tester\TestCase
         Assert::same('new_value', $column->render(array('column' => 'value')));
         Assert::same('normal', $column->render(array('column' => 'normal')));
 
-        $value = new stdClass;
+        $value = new \stdClass;
         Assert::same($value, $column->render(array('column' => $value)));
 
         $column = $grid->addColumnText('date', 'Date')->setReplacement(array(NULL => 'NEVER', '' => 'NEVER'));
@@ -73,7 +75,8 @@ class ColumnTest extends Tester\TestCase
 
         ob_start();
             Helper::$grid->render();
-        $node = Tester\DomQuery::fromHtml(ob_get_clean())->find('.grid-cell-column');
+        $output = ob_get_clean();
+        $node = \Tester\DomQuery::fromHtml($output)->find('.grid-cell-column');
         Assert::same('CUSTOM_TEMPLATE-TEST', trim((string) $node[0]));
     }
 
@@ -111,7 +114,8 @@ class ColumnTest extends Tester\TestCase
 
         ob_start();
             Helper::$grid->render();
-        $node = Tester\DomQuery::fromHtml(ob_get_clean())->find('.grid-cell-column');
+        $output = ob_get_clean();
+        $node = \Tester\DomQuery::fromHtml($output)->find('.grid-cell-column');
         Assert::same('grid-cell-column test_class', (string) $node[0]->attributes());
     }
 
@@ -169,7 +173,7 @@ class ColumnTest extends Tester\TestCase
     {
         $grid = new Grid;
         $column = $grid->addColumnText('column', 'Column')->setReplacement(array(
-            'value' => 'new_value', 'html' => Nette\Utils\Html::el('b')->setText('html')
+            'value' => 'new_value', 'html' => \Nette\Utils\Html::el('b')->setText('html')
         ));
         Assert::same('new_value', $column->renderExport(array('column' => 'value')));
         Assert::same('test', $column->renderExport(array('column' => 'test')));
@@ -280,7 +284,7 @@ class ColumnTest extends Tester\TestCase
         Assert::type('\Grido\Components\Filters\Number', $fiter);
 
         $grid = new Grid;
-        $fiter = $grid->addColumnText('column', 'Column')->setFilterCustom(new Nette\Forms\Controls\TextArea);
+        $fiter = $grid->addColumnText('column', 'Column')->setFilterCustom(new \Nette\Forms\Controls\TextArea);
         Assert::type('\Grido\Components\Filters\Custom', $fiter);
     }
 }

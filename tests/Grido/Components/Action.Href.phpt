@@ -7,11 +7,12 @@
  * @package    Grido\Tests
  */
 
+use Tester\Assert,
+    Grido\Tests\Helper,
+    Grido\Grid;
+
 require_once __DIR__ . '/../bootstrap.php';
 require_once __DIR__ . '/../Helper.inc.php';
-
-use Tester\Assert,
-    Grido\Grid;
 
 test(function() {
     $testRow = array('id' => 2, 'firstname' => 'Lucie');
@@ -25,5 +26,6 @@ test(function() {
 
     ob_start();
         Helper::$grid->getAction('delete')->render($testRow);
-    Assert::same('<a class="grid-action-delete btn btn-mini" href="/edit/2/Lucie/">Delete</a>', ob_get_clean());
+    $output = ob_get_clean();
+    Assert::same('<a class="grid-action-delete btn btn-mini" href="/edit/2/Lucie/">Delete</a>', $output);
 });
