@@ -174,7 +174,7 @@ class Condition extends \Nette\Object
     /**********************************************************************************************/
 
     /**
-     * Returns TRUE if $item is Condition:OPERATOR_AND or Condition:OPERATOR_AND else FALSE.
+     * Returns TRUE if $item is Condition:OPERATOR_AND or Condition:OPERATOR_OR else FALSE.
      * @param string $item
      * @return bool
      */

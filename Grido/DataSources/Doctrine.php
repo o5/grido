@@ -102,8 +102,7 @@ class Doctrine extends \Nette\Object implements IDataSource
             : $qb;
 
         if ($condition->callback) {
-            callback($condition->callback)->invokeArgs(array($condition->value, $qb));
-            return;
+            return callback($condition->callback)->invokeArgs(array($condition->value, $qb));
         }
 
         $columns = $condition->column;
@@ -116,9 +115,7 @@ class Doctrine extends \Nette\Object implements IDataSource
         }
 
         list($where) = $condition->__toArray(NULL, NULL, FALSE);
-
-        $keys = array_keys($columns);
-        $where = str_replace($keys, array_values($columns), $where);
+        $where = str_replace(array_keys($columns), array_values($columns), $where);
 
         $rand = $this->getRand();
         $where = preg_replace_callback('/\?/', function() use ($rand) {
