@@ -82,7 +82,8 @@ class Href extends Action
             trigger_error('Parameter $onClick is deprecated in "href" type; use type "event" instead.', E_USER_DEPRECATED);
             $href = $this->link('click!', $primaryValue);
         } elseif ($primaryValue) {
-            $href = $this->presenter->link($this->getDestination(), $this->getArguments($row));
+            $this->arguments[$primaryKey] = $primaryValue;
+            $href = $this->presenter->link($this->getDestination(), $this->arguments);
         }
 
         $element->href($href);
@@ -104,21 +105,10 @@ class Href extends Action
     }
 
     /**
-     * @internal - Do not call directly.
      * @return array
      */
-    public function getArguments($row = NULL)
+    public function getArguments()
     {
-        if ($this->arguments === NULL && $row !== NULL) {
-            //@todo: remove code below
-            $primaryKey = $this->getPrimaryKey();
-            $primaryValue = $this->grid->propertyAccessor->hasProperty($row, $primaryKey)
-                ? $this->grid->propertyAccessor->getProperty($row, $primaryKey)
-                : NULL;
-
-            $this->arguments[$primaryKey] = $primaryValue;
-        }
-
         return $this->arguments;
     }
 
