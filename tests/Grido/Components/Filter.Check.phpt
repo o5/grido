@@ -7,12 +7,14 @@
  * @package    Grido\Tests
  */
 
-require_once __DIR__ . '/../bootstrap.php';
+namespace Grido\Tests;
 
 use Tester\Assert,
     Grido\Grid;
 
-class FilterCheck extends Tester\TestCase
+require_once __DIR__ . '/../bootstrap.php';
+
+class FilterCheckTest extends \Tester\TestCase
 {
     function testFormControl()
     {
@@ -21,11 +23,11 @@ class FilterCheck extends Tester\TestCase
         Assert::type('\Nette\Forms\Controls\Checkbox', $filter->control);
     }
 
-    function testMakeFilter() //__makeFilter()
+    function testGetCondition()
     {
         $grid = new Grid;
         $filter = $grid->addFilterCheck('check', 'Check');
-        Assert::same(array(' ([check] IS NOT NULL )', ''), $filter->__makeFilter(TRUE));
+        Assert::same(array('check IS NOT NULL'), $filter->__getCondition(TRUE)->__toArray());
     }
 
     function testChangeValue()

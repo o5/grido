@@ -142,7 +142,10 @@ class Operation extends Component
         $propertyAccessor = $this->grid->getPropertyAccessor();
 
         foreach ($items as $item) {
-            $container->addCheckbox($propertyAccessor->getProperty($item, $primaryKey));
+            $primaryValue = $propertyAccessor->getProperty($item, $primaryKey);
+            if (!isset($container[$primaryValue])) {
+                $container->addCheckbox($primaryValue);
+            }
         }
     }
 }

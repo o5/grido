@@ -7,12 +7,14 @@
  * @package    Grido\Tests
  */
 
+namespace Grido\Tests;
+
 require_once __DIR__ . '/../bootstrap.php';
 
 use Tester\Assert,
     Grido\Grid;
 
-class FilterDate extends Tester\TestCase
+class FilterDateTest extends \Tester\TestCase
 {
     function testFormControl()
     {
@@ -23,11 +25,11 @@ class FilterDate extends Tester\TestCase
         Assert::same(array('text', 'date'), $filter->control->controlPrototype->class);
     }
 
-    function testMakeFilter() //__makeFilter()
+    function testGetCondition()
     {
         $grid = new Grid;
         $filter = $grid->addFilterDate('date', 'Date');
-        Assert::same(array(' ([date] LIKE %s )', '%TEST%'), $filter->__makeFilter('TEST'));
+        Assert::same(array('date = ?', 'TEST'), $filter->__getCondition('TEST')->__toArray());
     }
 }
 

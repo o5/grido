@@ -23,10 +23,10 @@ class Text extends Filter
     /** @var mixed */
     protected $suggestionColumn;
 
-    /** @var string for ->where('<column> LIKE %s', <value>) */
-    protected $condition = 'LIKE %s';
+    /** @var string */
+    protected $condition = 'LIKE ?';
 
-    /** @var string for ->where('<column> LIKE %s', '%'.<value>.'%') */
+    /** @var string */
     protected $formatValue = '%%value%';
 
     /**
@@ -70,10 +70,10 @@ class Text extends Filter
         if (isset($actualFilter[$this->name])) {
             unset($actualFilter[$this->name]);
         }
-        $conditions = $this->grid->__applyFiltering($actualFilter);
-        $conditions[] = $this->__makeFilter($query);
+        $conditions = $this->grid->__getConditions($actualFilter);
+        $conditions[] = $this->__getCondition($query);
 
-        $column = $this->suggestionColumn ? $this->suggestionColumn : key($this->getColumns());
+        $column = $this->suggestionColumn ? $this->suggestionColumn : current($this->getColumn());
         $items = $this->grid->model->suggest($column, $conditions);
 
         print \Nette\Utils\Json::encode($items);

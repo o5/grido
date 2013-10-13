@@ -7,11 +7,12 @@
  * @package    Grido\Tests
  */
 
+use Tester\Assert,
+    Grido\Tests\Helper,
+    Grido\Grid;
+
 require_once __DIR__ . '/../bootstrap.php';
 require_once __DIR__ . '/../Helper.inc.php';
-
-use Tester\Assert,
-    Grido\Grid;
 
 test(function() {
     Helper::grid(function(Grid $grid) {

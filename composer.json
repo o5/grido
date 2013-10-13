@@ -25,6 +25,8 @@
     },
     "require-dev": {
         "nette/tester": "@dev",
-        "mockery/mockery": "@dev"
+        "mockery/mockery": "@dev",
+        "dibi/dibi": "2.1.*",
+        "nella/doctrine": "dev-master"
     }
 }

@@ -23,7 +23,7 @@ class Check extends Filter
     /* representation TRUE in URI */
     const TRUE = '✓';
 
-    /** @var string for ->where('<column> IS NOT NULL) */
+    /** @var string */
     protected $condition = 'IS NOT NULL';
 
     /**
@@ -35,33 +35,38 @@ class Check extends Filter
     }
 
     /**
-    * @internal - Do not call directly.
-    * @param string $column
-    * @param string $value
-    * @return array
-    */
-    protected function makeFilter($column, $value)
-    {
-        return array("[$column] " . $this->condition, '');
-    }
-
-    /**
      * @internal - Do not call directly.
      * @param string $value
      * @return array
      */
-    public function __makeFilter($value)
+    public function __getCondition($value)
     {
-        return parent::__makeFilter($value == self::TRUE ? TRUE : FALSE);
+        $value = $value == self::TRUE
+            ? TRUE
+            : FALSE;
+
+        return parent::__getCondition($value);
     }
 
     /**
-     * @internal
+     * @internal - Do not call directly.
+     * @param bool $value
+     * @return NULL
+     */
+    public function formatValue($value)
+    {
+        return NULL;
+    }
+
+    /**
+     * @internal - Do not call directly.
      * @param bool $value
      * @return string
      */
     public function changeValue($value)
     {
-        return $value === TRUE ? self::TRUE : $value;
+        return $value === TRUE
+            ? self::TRUE
+            : $value;
     }
 }

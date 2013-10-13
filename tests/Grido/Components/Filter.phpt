@@ -7,50 +7,102 @@
  * @package    Grido\Tests
  */
 
+namespace Grido\Tests;
+
 require_once __DIR__ . '/../bootstrap.php';
 
 use Tester\Assert,
     Grido\Grid,
-    Grido\Components\Filters\Filter;
+    Grido\Components\Filters\Filter,
+    Grido\Components\Filters\Condition;
 
-class FilterTest extends Tester\TestCase
+class FilterTest extends \Tester\TestCase
 {
-    function testSetColumn() //+ getColumns()
+    function testSetColumn() //+ getColumn()
     {
         $grid = new Grid;
+
         $filter = $grid->addFilterText('filter', 'Filter')
-            ->setColumn('column1')->setColumn('column2', Filter::OPERATOR_OR);
-        Assert::same(array('column1' => Filter::OPERATOR_AND, 'column2' => Filter::OPERATOR_OR), $filter->columns);
+            ->setColumn('column1', 'xx');
+        Assert::same(array('column1'), $filter->column);
+
+        $filter = $grid->addFilterText('filterX', 'Filter')
+            ->setColumn('column1')
+            ->setColumn('column2', Condition::OPERATOR_AND);
+        Assert::same(array('column1', Condition::OPERATOR_AND, 'column2'), $filter->column);
+
+        $filter->setColumn('column3', 'and');
+        Assert::error(function() use ($filter) {
+            $filter->setColumn('column4', 'ORR');
+        }, 'InvalidArgumentException', 'Operator must be Condition::OPERATOR_AND or Condition::OPERATOR_OR.');
+
+        $filter = $grid->addFilterText('filterY', 'Filter');
+        Assert::same(array('filterY'), $filter->column);
+
+        $filter = $grid->addColumnText('columnX', 'ColumnX')
+            ->setFilterText();
+        Assert::same(array('columnX'), $filter->column);
     }
 
-    function testSetCondition()
+    function testSetCondition() //+ __getCondition()
     {
         $grid = new Grid;
         $filter = $grid->addFilterText('filter', 'Filter');
 
-        Assert::error(function() use ($filter) {
-            $filter->setCondition(Filter::CONDITION_CUSTOM);
-        }, 'InvalidArgumentException', 'Second param cannot be empty.');
+        //test "where callback" is in method testSetWhere()
 
-        Assert::error(function() use ($filter) {
-            $filter->setCondition(Filter::CONDITION_CALLBACK);
-        }, 'InvalidArgumentException', 'Second param cannot be empty.');
+        //string condition
+        $filter->setCondition('<> ?');
+        Assert::type('Grido\Components\Filters\Condition', $filter->__getCondition('value'));
+        Assert::same(array('filter <> ?', '%value%'), $filter->__getCondition('value')->__toArray());
 
-        $filter->setCondition('<> %s');
-        Assert::same(array(' ([filter] <> %s )', '%value%'), $filter->__makeFilter('value'));
+        //object Condition
+        $filter->setCondition(new Condition('filter', '<> ?', 'value%'));
+        Assert::type('Grido\Components\Filters\Condition', $filter->__getCondition('value'));
+        Assert::same(array('filter <> ?', 'value%'), $filter->__getCondition('value')->__toArray());
 
-        $filter->setCondition(Filter::CONDITION_CUSTOM, array('deleted' => '[status] = deleted'));
-        Assert::same(array(' ([status] = deleted )'), $filter->__makeFilter('deleted'));
-
-        $testValue = 'TEST';
-        $filter->setCondition(Filter::CONDITION_CALLBACK, function($value) use ($testValue) {
-            Assert::same($testValue, $value);
-            return array('[column] <> "TEST"');
+        //callback condition - return array
+        $filter->setCondition(function($value) {
+            Assert::same('value', $value);
+            return array('status', '= ?', $value);
         });
-        Assert::same(array('[column] <> "TEST"'), $filter->__makeFilter($testValue));
+        Assert::type('Grido\Components\Filters\Condition', $filter->__getCondition('value'));
+        Assert::same(array('status = ?', 'value'), $filter->__getCondition('value')->__toArray());
 
-        $filter->setCondition(Filter::CONDITION_NOT_APPLY);
-        Assert::same(array(), $filter->__makeFilter('deleted'));
+        //callback condition - return object Condition
+        $filter->setCondition(function($value) {
+            Assert::same('value', $value);
+            return new Condition('status', '<> ?', $value);
+        });
+        Assert::type('Grido\Components\Filters\Condition', $filter->__getCondition('value'));
+        Assert::same(array('status <> ?', 'value'), $filter->__getCondition('value')->__toArray());
+
+        //array of array condition
+        $filter->setCondition(array('deleted' => array('status', '= ?', 'deleted')));
+        Assert::type('Grido\Components\Filters\Condition', $filter->__getCondition('deleted'));
+        Assert::same(array('status = ?', 'deleted'), $filter->__getCondition('deleted')->__toArray());
+        Assert::type('Grido\Components\Filters\Condition', $filter->__getCondition('value'));
+        Assert::same(array('0 = 1'), $filter->__getCondition('value')->__toArray());
+
+        //array of object condition
+        $filter->setCondition(array('deleted' => new Condition('status', '= ?', 'deleted')));
+        Assert::type('Grido\Components\Filters\Condition', $filter->__getCondition('deleted'));
+        Assert::same(array('status = ?', 'deleted'), $filter->__getCondition('deleted')->__toArray());
+        Assert::type('Grido\Components\Filters\Condition', $filter->__getCondition('value'));
+        Assert::same(array('0 = 1'), $filter->__getCondition('value')->__toArray());
+    }
+
+    function testSetWhere()
+    {
+        $grid = new Grid;
+        $where = function() {};
+        $filter = $grid->addFilterText('filter', 'Filter')
+            ->setWhere($where);
+
+        $condition = $filter->__getCondition('value');
+        Assert::type('Grido\Components\Filters\Condition', $condition);
+        Assert::same($where, $condition->callback);
+        Assert::same('value', $condition->value);
     }
 
     function testChangeValue()
@@ -66,7 +118,7 @@ class FilterTest extends Tester\TestCase
         $filter = $grid->addFilterText('filter', 'Filter')
             ->setFormatValue('%%value%');
 
-        Assert::same(array(' ([filter] LIKE %s )', '%TEST%'), $filter->__makeFilter('TEST'));
+        Assert::same(array('filter LIKE ?', '%TEST%'), $filter->__getCondition('TEST')->__toArray());
     }
 
     function testSetDefaufaulValue()

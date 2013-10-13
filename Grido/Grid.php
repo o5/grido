@@ -169,7 +169,7 @@ class Grid extends Components\Container
      */
     public function setDefaultSort(array $sort)
     {
-        static $replace = array('asc' => Column::ASC, 'desc' => Column::DESC);
+        static $replace = array('asc' => Column::ORDER_ASC, 'desc' => Column::ORDER_DESC);
 
         foreach ($sort as $column => $dir) {
             $dir = strtr(strtolower($dir), $replace);
@@ -220,7 +220,6 @@ class Grid extends Components\Container
     public function setFilterRenderType($type)
     {
         $type = strtolower($type);
-
         if (!in_array($type, array(Filter::RENDER_INNER, Filter::RENDER_OUTER))) {
             throw new \InvalidArgumentException('Type must be Filter::RENDER_INNER or Filter::RENDER_OUTER.');
         }
@@ -411,8 +410,6 @@ class Grid extends Components\Container
     {
         if ($this->model === NULL) {
             throw new \Exception('Model cannot be empty, please use method $grid->setModel().');
-        } elseif (!$this->hasColumns(FALSE)) {
-            throw new \Exception('Grid must have defined a column, please use method $grid->addColumn*().');
         }
 
         $data = $this->data;
@@ -692,6 +689,10 @@ class Grid extends Components\Container
      */
     public function render()
     {
+        if (!$this->hasColumns(FALSE)) {
+            throw new \Exception('Grid must have defined a column, please use method $grid->addColumn*().');
+        }
+
         $this->saveRememberState();
         $data = $this->getData();
 
@@ -712,10 +713,8 @@ class Grid extends Components\Container
 
     protected function applyFiltering()
     {
-        $conditions = $this->__applyFiltering($this->getActualFilter());
-        foreach ($conditions as $condition) {
-            $this->model->filter($condition);
-        }
+        $conditions = $this->__getConditions($this->getActualFilter());
+        $this->model->filter($conditions);
     }
 
     /**
@@ -723,19 +722,16 @@ class Grid extends Components\Container
      * @param array $filter
      * @return array
      */
-    public function __applyFiltering(array $filter)
+    public function __getConditions(array $filter)
     {
         $conditions = array();
         if ($filter) {
             $this['form']->setDefaults(array(Filter::ID => $filter));
 
             foreach ($filter as $column => $value) {
-                $component = $this->getFilter($column, FALSE);
-                if ($component) {
-                    if ($condition = $component->__makeFilter($value)) {
+                if ($component = $this->getFilter($column, FALSE)) {
+                    if ($condition = $component->__getCondition($value)) {
                         $conditions[] = $condition;
-                    } else {
-                        $conditions[] = array('0 = 1'); //result data must be null
                     }
                 } else {
                     trigger_error("Filter with name '$column' does not exist.", E_USER_NOTICE);
@@ -763,7 +759,7 @@ class Grid extends Components\Container
                     trigger_error("Column with name '$column' is not sortable.", E_USER_NOTICE);
                     break;
                 }
-            } elseif (!in_array($dir, array(Column::ASC, Column::DESC))) {
+            } elseif (!in_array($dir, array(Column::ORDER_ASC, Column::ORDER_DESC))) {
                 if ($dir == '' && isset($this->defaultSort[$column])) {
                     unset($this->sort[$column]);
                     break;
@@ -773,7 +769,7 @@ class Grid extends Components\Container
                 break;
             }
 
-            $sort[$component->column] = $dir == Column::ASC ? 'ASC' : 'DESC';
+            $sort[$component->column] = $dir == Column::ORDER_ASC ? 'ASC' : 'DESC';
         }
 
         if ($sort) {

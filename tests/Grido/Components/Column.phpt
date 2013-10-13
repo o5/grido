@@ -7,14 +7,16 @@
  * @package    Grido\Tests
  */
 
-require_once __DIR__ . '/../bootstrap.php';
-require_once __DIR__ . '/../Helper.inc.php';
+namespace Grido\Tests;
 
 use Tester\Assert,
     Grido\Grid,
     Grido\Components\Columns\Column;
 
-class ColumnTest extends Tester\TestCase
+require_once __DIR__ . '/../bootstrap.php';
+require_once __DIR__ . '/../Helper.inc.php';
+
+class ColumnTest extends \Tester\TestCase
 {
     function testSetSortable()
     {
@@ -33,7 +35,7 @@ class ColumnTest extends Tester\TestCase
         Assert::same('new_value', $column->render(array('column' => 'value')));
         Assert::same('normal', $column->render(array('column' => 'normal')));
 
-        $value = new stdClass;
+        $value = new \stdClass;
         Assert::same($value, $column->render(array('column' => $value)));
 
         $column = $grid->addColumnText('date', 'Date')->setReplacement(array(NULL => 'NEVER', '' => 'NEVER'));
@@ -54,8 +56,8 @@ class ColumnTest extends Tester\TestCase
     function testSetDefaultSort()
     {
         $grid = new Grid;
-        $grid->addColumnText('column', 'Column')->setDefaultSort(Column::DESC);
-        Assert::same(array('column' => Column::DESC), $grid->defaultSort);
+        $grid->addColumnText('column', 'Column')->setDefaultSort(Column::ORDER_DESC);
+        Assert::same(array('column' => Column::ORDER_DESC), $grid->defaultSort);
     }
 
     function testSetCustomRender()
@@ -73,8 +75,18 @@ class ColumnTest extends Tester\TestCase
 
         ob_start();
             Helper::$grid->render();
-        $node = Tester\DomQuery::fromHtml(ob_get_clean())->find('.grid-cell-column');
+        $output = ob_get_clean();
+        $node = \Tester\DomQuery::fromHtml($output)->find('.grid-cell-column');
         Assert::same('CUSTOM_TEMPLATE-TEST', trim((string) $node[0]));
+    }
+
+    function testSetCustomRenderExport()
+    {
+        $grid = new Grid;
+        $column = $grid->addColumnText('column', 'Column')->setCustomRenderExport(function($row) {
+            return 'CUSTOM_RENDER_EXPORT-' . $row['column'];
+        });
+        Assert::same('CUSTOM_RENDER_EXPORT-TEST', $column->renderExport(array('column' => 'TEST')));
     }
 
     function testSetTruncate()
@@ -102,7 +114,8 @@ class ColumnTest extends Tester\TestCase
 
         ob_start();
             Helper::$grid->render();
-        $node = Tester\DomQuery::fromHtml(ob_get_clean())->find('.grid-cell-column');
+        $output = ob_get_clean();
+        $node = \Tester\DomQuery::fromHtml($output)->find('.grid-cell-column');
         Assert::same('grid-cell-column test_class', (string) $node[0]->attributes());
     }
 
@@ -130,11 +143,11 @@ class ColumnTest extends Tester\TestCase
 
         Helper::grid(function(Grid $grid){
             $grid->setModel(array());
-            $grid->addColumnText('column', 'Column')->setDefaultSort(Column::ASC);
+            $grid->addColumnText('column', 'Column')->setDefaultSort(Column::ORDER_ASC);
             $grid->data;
         })->run();
 
-        Assert::same(Column::ASC, Helper::$grid->getColumn('column')->sort);
+        Assert::same(Column::ORDER_ASC, Helper::$grid->getColumn('column')->sort);
     }
 
     function testHasFilter()
@@ -160,7 +173,7 @@ class ColumnTest extends Tester\TestCase
     {
         $grid = new Grid;
         $column = $grid->addColumnText('column', 'Column')->setReplacement(array(
-            'value' => 'new_value', 'html' => Nette\Utils\Html::el('b')->setText('html')
+            'value' => 'new_value', 'html' => \Nette\Utils\Html::el('b')->setText('html')
         ));
         Assert::same('new_value', $column->renderExport(array('column' => 'value')));
         Assert::same('test', $column->renderExport(array('column' => 'test')));
@@ -241,29 +254,45 @@ class ColumnTest extends Tester\TestCase
 
     function testSetFilter() //setFilter*()
     {
+        $name = 'column';
+        $label = 'Column';
+
         $grid = new Grid;
-        $fiter = $grid->addColumnText('column', 'Column')->setFilterText();
+        $fiter = $grid->addColumnText($name, $label)->setFilterText();
         Assert::type('\Grido\Components\Filters\Text', $fiter);
+        Assert::same($name, $fiter->name);
+        Assert::same($label, $fiter->label);
 
         $grid = new Grid;
-        $fiter = $grid->addColumnText('column', 'Column')->setFilterDate();
+        $fiter = $grid->addColumnText($name, $label)->setFilterDate();
         Assert::type('\Grido\Components\Filters\Date', $fiter);
+        Assert::same($name, $fiter->name);
+        Assert::same($label, $fiter->label);
 
         $grid = new Grid;
-        $fiter = $grid->addColumnText('column', 'Column')->setFilterCheck();
+        $fiter = $grid->addColumnText($name, $label)->setFilterCheck();
         Assert::type('\Grido\Components\Filters\Check', $fiter);
+        Assert::same($name, $fiter->name);
+        Assert::same($label, $fiter->label);
 
         $grid = new Grid;
-        $fiter = $grid->addColumnText('column', 'Column')->setFilterSelect();
+        $items = array('one' => 'One');
+        $fiter = $grid->addColumnText($name, $label)->setFilterSelect($items);
         Assert::type('\Grido\Components\Filters\Select', $fiter);
+        Assert::same($name, $fiter->name);
+        Assert::same($label, $fiter->label);
+        Assert::same($items, $fiter->control->items);
 
         $grid = new Grid;
-        $fiter = $grid->addColumnText('column', 'Column')->setFilterNumber();
+        $fiter = $grid->addColumnText($name, $label)->setFilterNumber();
         Assert::type('\Grido\Components\Filters\Number', $fiter);
+        Assert::same($name, $fiter->name);
+        Assert::same($label, $fiter->label);
 
         $grid = new Grid;
-        $fiter = $grid->addColumnText('column', 'Column')->setFilterCustom(new Nette\Forms\Controls\TextArea);
+        $fiter = $grid->addColumnText($name, $label)->setFilterCustom(new \Nette\Forms\Controls\TextArea);
         Assert::type('\Grido\Components\Filters\Custom', $fiter);
+        Assert::same($name, $fiter->name);
     }
 }
 
