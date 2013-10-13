@@ -24,12 +24,12 @@ class FilterCustom extends \Tester\TestCase
         Assert::same($control, $filter->control);
     }
 
-    function testMakeFilter() //__makeFilter()
+    function testGetCondition()
     {
         $grid = new Grid;
         $control = new \Nette\Forms\Controls\TextArea;
         $filter = $grid->addFilterCustom('custom', $control);
-        Assert::same(array(' ([custom] = %s )', 'TEST'), $filter->__makeFilter('TEST'));
+        Assert::same(array('custom = ?', 'TEST'), $filter->__getCondition('TEST')->__toArray());
     }
 }
 

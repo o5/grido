@@ -25,11 +25,11 @@ class FilterSelect extends \Tester\TestCase
         Assert::same($items, $filter->control->items);
     }
 
-    function testMakeFilter() //__makeFilter()
+    function testGetCondition()
     {
         $grid = new Grid;
         $filter = $grid->addFilterSelect('select', 'Select');
-        Assert::same(array(' ([select] = %s )', 'TEST'), $filter->__makeFilter('TEST'));
+        Assert::same(array('select = ?', 'TEST'), $filter->__getCondition('TEST')->__toArray());
     }
 }
 

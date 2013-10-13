@@ -69,11 +69,11 @@ class FilterText extends \Tester\TestCase
         Assert::type('Nette\Forms\Controls\TextInput', $filter->control);
     }
 
-    function testMakeFilter() //__makeFilter()
+    function testGetCondition()
     {
         $grid = new Grid;
         $filter = $grid->addFilterText('text', 'Text');
-        Assert::same(array(' ([text] LIKE %s )', '%value%'), $filter->__makeFilter('value'));
+        Assert::same(array('text LIKE ?', '%value%'), $filter->__getCondition('value')->__toArray());
     }
 }
 

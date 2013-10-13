@@ -72,7 +72,7 @@ class Helper
      */
     public function run(array $params = array(), $method = \Nette\Http\Request::GET)
     {
-        self::request($params, $method);
+        return self::request($params, $method);
     }
 
     /**
@@ -84,10 +84,10 @@ class Helper
         $url->setScriptPath('/index.php');
 
         $configurator = new \Nette\Config\Configurator;
-//        $configurator->addConfig(__DIR__ . '/config.neon');
-//        \Nella\Doctrine\Config\Extension::register($configurator);
+        $configurator->addConfig(__DIR__ . '/config.neon');
+        \Nella\Doctrine\Config\Extension::register($configurator);
 
-        $container = id($configurator)
+        $container = $configurator
             ->setTempDirectory(TEMP_DIR)
             ->createContainer();
         $container->removeService('httpRequest');
@@ -121,7 +121,7 @@ class TestPresenter extends \Nette\Application\UI\Presenter
 
     public function sendTemplate()
     {
-        //parent::sendTemplate();
+        //parent::sendTemplate(); @intentionally
     }
 
     public function isAjax()

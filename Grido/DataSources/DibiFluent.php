@@ -67,6 +67,23 @@ class DibiFluent extends \Nette\Object implements IDataSource
         return $this->offset;
     }
 
+    /**
+     * @param \Grido\Components\Filters\Condition $condition
+     * @param \DibiFluent $fluent
+     */
+    protected function makeWhere(\Grido\Components\Filters\Condition $condition, \DibiFluent $fluent = NULL)
+    {
+        $fluent = $fluent === NULL
+            ? $this->fluent
+            : $fluent;
+
+        if ($condition->callback) {
+            callback($condition->callback)->invokeArgs(array($condition->value, $fluent));
+        } else {
+            call_user_func_array(array($fluent, 'where'), $condition->__toArray('[', ']'));
+        }
+    }
+
     /*********************************** interface IDataSource ************************************/
 
     /**
@@ -87,11 +104,13 @@ class DibiFluent extends \Nette\Object implements IDataSource
     }
 
     /**
-     * @param array $condition
+     * @param array $conditions
      */
-    public function filter(array $condition)
+    public function filter(array $conditions)
     {
-        call_user_func_array(array($this->fluent, 'where'), $condition);
+        foreach ($conditions as $condition) {
+            $this->makeWhere($condition);
+        }
     }
 
     /**
@@ -121,9 +140,13 @@ class DibiFluent extends \Nette\Object implements IDataSource
      */
     public function suggest($column, array $conditions)
     {
+        if (!is_string($column)) {
+            throw new \InvalidArgumentException('Suggest column must be string.');
+        }
+
         $fluent = clone $this->fluent;
         foreach ($conditions as $condition) {
-            call_user_func_array(array($fluent, 'where'), $condition);
+            $this->makeWhere($condition, $fluent);
         }
 
         $items = array();
@@ -133,6 +156,9 @@ class DibiFluent extends \Nette\Object implements IDataSource
             $items[$value] = $value;
         }
 
-        return array_values($items);
+        $items = array_values($items);
+        sort($items);
+
+        return $items;;
     }
 }

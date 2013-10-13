@@ -20,8 +20,8 @@ namespace Grido\Components\Filters;
  */
 class Number extends Text
 {
-    /** @var string for ->where('<column> <> %f', <value>) */
-    protected $condition = '/(<>|[<|>]=?)?([-0-9,|.]+)/';
+    /** @var string */
+    protected $condition;
 
     /**
      * @return \Nette\Forms\Controls\TextInput
@@ -37,20 +37,26 @@ class Number extends Text
     }
 
     /**
-     * @param string $column
+     * @internal - do not call directly.
      * @param string $value
-     * @return array condition|value
+     * @return Condition
+     * @throws \Exception
      */
-    protected function makeFilter($column, $value)
+    public function __getCondition($value)
     {
-        $condition = NULL;
-        if (preg_match($this->condition, $value, $matches)) {
-            $operator = $matches[1] ? $matches[1] : '=';
-            $value = str_replace(',', '.', $matches[2]);
-            $condition = array(
-                "[$column] $operator %f",
-                $value === '.' ? 0 : $value //prevents error for input like ">."
-            );
+        $condition = parent::__getCondition($value);
+
+        if ($condition === NULL) {
+            $condition = Condition::setupEmpty();
+
+            if (preg_match('/(<>|[<|>]=?)?([-0-9,|.]+)/', $value, $matches)) {
+                $value = str_replace(',', '.', $matches[2]);
+                $operator = $matches[1]
+                    ? $matches[1]
+                    : '=';
+
+                $condition = Condition::setup($this->getColumn(), $operator . ' ?', $value);
+            }
         }
 
         return $condition;

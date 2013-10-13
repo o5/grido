@@ -20,11 +20,11 @@ namespace Grido\Components\Filters;
  */
 class Date extends Text
 {
-    /** @var string for ->where('<column> LIKE %s', <value>) */
-    protected $condition = 'LIKE %s';
+    /** @var string */
+    protected $condition = '= ?';
 
-    /** @var string for ->where('<column> LIKE %s', '%'.<value>.'%') */
-    protected $formatValue = '%%value%';
+    /** @var string */
+    protected $formatValue;
 
     /**
      * @return \Nette\Forms\Controls\TextInput

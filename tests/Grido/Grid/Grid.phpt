@@ -418,7 +418,7 @@ class GridTest extends \Tester\TestCase
         $data = array(
             array('A' => 'A1', 'B' => 'B3'),
             array('A' => 'A2', 'B' => 'B2'),
-            array('A' => 'A22', 'B' => 'B22'),
+            array('A' => 'A22','B' => 'B22'),
             array('A' => 'A3', 'B' => 'B1'),
         );
 
@@ -447,9 +447,9 @@ class GridTest extends \Tester\TestCase
         Helper::grid(function(Grid $grid) use ($data) {
             $grid->setModel($data);
             $grid->addColumnText('column', 'Column');
-            $grid->addFilterText('B', 'B');
             $grid->addFilterText('A', 'A');
-            $grid->setDefaultFilter(array('B' => 'B2'));
+            $grid->addFilterText('B', 'B')
+                ->setDefaultValue('B2');
         });
 
         Helper::request(array(
@@ -458,6 +458,7 @@ class GridTest extends \Tester\TestCase
             Filter::ID => array('A' => '', 'B' => ''),
             Grid::BUTTONS => array('search' => 'Search'),
         ));
+
         Assert::same($data, Helper::$grid->getData(FALSE));
         Assert::same(array('B' => ''), Helper::$grid->filter);
 
