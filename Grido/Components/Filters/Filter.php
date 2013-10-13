@@ -38,8 +38,9 @@ abstract class Filter extends \Grido\Components\Base
         TYPE_NUMBER = 'Grido\Components\Filters\Number',
         TYPE_CUSTOM = 'Grido\Components\Filters\Custom';
 
-    const OPERATOR_OR = 'OR';
-    const OPERATOR_AND = 'AND';
+    /** @deprecated */
+    const OPERATOR_OR = 'OR',
+        OPERATOR_AND = 'AND';
 
     const VALUE_IDENTIFIER = '%value';
 
@@ -101,14 +102,14 @@ abstract class Filter extends \Grido\Components\Base
      * @param string $operator
      * @return Filter
      */
-    public function setColumn($column, $operator = self::OPERATOR_OR)
+    public function setColumn($column, $operator = Condition::OPERATOR_OR)
     {
-        $operator = strtoupper($operator);
-        if (!in_array($operator, array(self::OPERATOR_AND, self::OPERATOR_OR))) {
-            throw new \InvalidArgumentException('Operator must be Filter::OPERATOR_AND or Filter::OPERATOR_OR.');
+        $columnAlreadySet = count($this->column) > 0;
+        if (!Condition::isOperator($operator) && $columnAlreadySet) {
+            throw new \InvalidArgumentException('Operator must be Condition::OPERATOR_AND or Condition::OPERATOR_OR.');
         }
 
-        if (count($this->column) > 0) {
+        if ($columnAlreadySet) {
             $this->column[] = $operator;
             $this->column[] = $column;
         } else {

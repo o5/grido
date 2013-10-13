@@ -11,7 +11,7 @@
 
 namespace Grido\DataSources;
 
-use Grido\Components\Filters\Filter;
+use Grido\Components\Filters\Condition;
 
 /**
  * Array data source.
@@ -42,7 +42,7 @@ class ArraySource extends \Nette\Object implements IDataSource
      * @param array $data
      * @return array
      */
-    protected function makeWhere(\Grido\Components\Filters\Condition $condition, array $data = NULL)
+    protected function makeWhere(Condition $condition, array $data = NULL)
     {
         $data = $data === NULL
             ? $this->data
@@ -54,16 +54,22 @@ class ArraySource extends \Nette\Object implements IDataSource
                 return callback($condition->callback)->invokeArgs(array($condition->value, $row));
             }
 
-            $columns = $condition->column;
+            $i = 0;
             $results = array();
-            foreach ($columns as $column) {
-                $results[] = in_array($column, array(Filter::OPERATOR_AND, Filter::OPERATOR_OR))
-                    ? " $column "
-                    : (int) $that->compare($row[$column], $condition->condition, $condition->value);
+            foreach ($condition->column as $column) {
+                if (Condition::isOperator($column)) {
+                    $results[] = " $column ";
+
+                } else {
+                    $i = count($condition->condition) > 1 ? $i : 0;
+                    $results[] = (int) $that->compare($row[$column], $condition->condition[$i], $condition->value[$i]);
+
+                    $i++;
+                }
             }
 
             $result = implode('', $results);
-            return count($columns) === 1
+            return count($condition->column) === 1
                 ? (bool) $result
                 : eval("return $result;");
         });
@@ -72,7 +78,7 @@ class ArraySource extends \Nette\Object implements IDataSource
     /**
      * @param string $actual
      * @param string $condition
-     * @param array $expected
+     * @param mixed $expected
      * @return bool
      * @throws \InvalidArgumentException
      */

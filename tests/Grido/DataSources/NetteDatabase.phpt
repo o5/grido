@@ -11,7 +11,7 @@ namespace Grido\Tests;
 
 use Tester\Assert,
     Grido\Grid,
-    Grido\Components\Filters\Filter;
+    Grido\Components\Filters\Condition;
 
 require_once __DIR__ . '/DataSource.TestCase.php';
 
@@ -30,7 +30,7 @@ class NetteDatabaseTests extends DataSourceTestCase
 
             $grid->addFilterText('name', 'Name')
                 ->setColumn('surname')
-                ->setColumn('firstname', Filter::OPERATOR_AND);
+                ->setColumn('firstname', Condition::OPERATOR_AND);
 
             $renderer =function($row) { return $row->country->title; };
             $grid->addColumnText('country', 'Country')

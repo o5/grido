@@ -20,15 +20,18 @@ namespace Grido\Components\Filters;
  *
  * @property-read callable $callback
  * @property-write array $column
- * @property-write string $condition
+ * @property-write array $condition
  * @property-write array $value
  */
 class Condition extends \Nette\Object
 {
+    const OPERATOR_OR = 'OR';
+    const OPERATOR_AND = 'AND';
+
     /** @var array */
     protected $column;
 
-    /** @var string */
+    /** @var array */
     protected $condition;
 
     /** @var array */
@@ -39,7 +42,7 @@ class Condition extends \Nette\Object
 
     /**
      * @param mixed $column
-     * @param string $condition
+     * @param mixed $condition
      * @param mixed $value
      */
     public function __construct($column, $condition, $value = NULL)
@@ -51,20 +54,27 @@ class Condition extends \Nette\Object
 
     /**
      * @param mixed $column
+     * @throws \InvalidArgumentException
      * @return \Grido\Components\Filters\Condition
      */
     public function setColumn($column)
     {
-        if (is_string($column)) {
-            $column = (array) $column;
-        } elseif (is_array($column)) {
+        if (is_array($column)) {
+            $count = count($column);
+
             //check validity
-            for ($i = 0; $i < count($column); $i++) {
+            if ($count % 2 === 0) {
+                throw new \InvalidArgumentException('Count of column must be odd.');
+            }
+
+            for ($i = 0; $i < $count; $i++) {
                 $item = strtoupper($column[$i]);
-                if ($i & 1 && !in_array($item, array(Filter::OPERATOR_AND, Filter::OPERATOR_OR))) {
-                    throw new \InvalidArgumentException("The even values of column must be Filter::OPERATOR_AND or Filter::OPERATOR_OR, '$column[$i]' given.");
+                if ($i & 1 && !self::isOperator($item)) {
+                    throw new \InvalidArgumentException("The even values of column must be Condition::OPERATOR_AND or Condition::OPERATOR_OR, '$column[$i]' given.");
                 }
             }
+        } else {
+            $column = (array) $column;
         }
 
         $this->column = $column;
@@ -72,12 +82,12 @@ class Condition extends \Nette\Object
     }
 
     /**
-     * @param string $condition
+     * @param mixed $condition
      * @return \Grido\Components\Filters\Condition
      */
     public function setCondition($condition)
     {
-        $this->condition = $condition;
+        $this->condition = (array) $condition;
         return $this;
     }
 
@@ -102,7 +112,7 @@ class Condition extends \Nette\Object
     }
 
     /**
-     * @return string
+     * @return array
      */
     public function getCondition()
     {
@@ -122,9 +132,13 @@ class Condition extends \Nette\Object
      */
     public function getValueForColumn()
     {
+        if (count($this->condition) > 1) {
+            return $this->value;
+        }
+
         $values = array();
         foreach ($this->getColumn() as $column) {
-            if (!in_array(strtoupper($column), array(Filter::OPERATOR_AND, Filter::OPERATOR_OR))) {
+            if (!self::isOperator($column)) {
                 foreach ($this->getValue() as $val) {
                     $values[] = $val;
                 }
@@ -132,6 +146,21 @@ class Condition extends \Nette\Object
         }
 
         return $values;
+    }
+
+    /**
+     * @return array
+     */
+    public function getColumnWithoutOperator()
+    {
+        $columns = array();
+        foreach ($this->column as $column) {
+            if (!self::isOperator($column)) {
+                $columns[] = $column;
+            }
+        }
+
+        return $columns;
     }
 
     /**
@@ -143,6 +172,16 @@ class Condition extends \Nette\Object
     }
 
     /**********************************************************************************************/
+
+    /**
+     * Returns TRUE if $item is Condition:OPERATOR_AND or Condition:OPERATOR_AND else FALSE.
+     * @param string $item
+     * @return bool
+     */
+    public static function isOperator($item)
+    {
+        return in_array(strtoupper($item), array(self::OPERATOR_AND, self::OPERATOR_OR));
+    }
 
     /**
      * @param mixed $column
@@ -197,35 +236,47 @@ class Condition extends \Nette\Object
      * @param string $prefix - column prefix
      * @param string $suffix - column suffix
      * @param bool $brackets - add brackets when multiple where
+     * @throws \InvalidArgumentException
      * @return array
      */
     public function __toArray($prefix = NULL, $suffix = NULL, $brackets = TRUE)
     {
+        $count = 0;
+        foreach ($this->condition as $cond) {
+            $count += substr_count($cond, '?');
+        }
+
+        if ($count !== count($this->value)) {
+            throw new \InvalidArgumentException("Count of condition requires $count values.");
+        }
+
         $condition = array();
-        $columns = $this->getColumn();
-        $addBrackets = $brackets && count($columns) > 1;
+        $addBrackets = $brackets && count($this->column) > 1;
 
         if ($addBrackets) {
             $condition[] = '(';
         }
 
-        foreach ($columns as $column) {
-            $operator = strtoupper($column);
-            $condition[] = in_array($operator, array(Filter::OPERATOR_AND, Filter::OPERATOR_OR))
-                ? " $operator "
-                : "{$prefix}$column{$suffix} {$this->getCondition()}";
+        $i = 0;
+        foreach ($this->column as $column) {
+            if (self::isOperator($column)) {
+                $operator = strtoupper($column);
+                $condition[] = " $operator ";
+
+            } else {
+                $i = count($this->condition) > 1 ? $i : 0;
+                $condition[] = "{$prefix}$column{$suffix} {$this->condition[$i]}";
+
+                $i++;
+            }
         }
 
         if ($addBrackets) {
             $condition[] = ')';
         }
 
-        if (($count = substr_count($this->getCondition(), '?')) && $count !== count($this->getValue())) {
-            throw new \InvalidArgumentException("Condition '{$this->getCondition()}' requires $count values.");
-        }
-
         return $condition
             ? array_values(array_merge(array(implode('', $condition)), $this->getValueForColumn()))
-            : (array) $this->getCondition();
+            : $this->condition;
     }
 }

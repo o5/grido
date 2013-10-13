@@ -12,7 +12,7 @@
 namespace Grido\DataSources;
 
 use Doctrine\ORM\Tools\Pagination\Paginator,
-    Grido\Components\Filters\Filter;
+    Grido\Components\Filters\Condition;
 
 /**
  * Doctrine data source.
@@ -95,7 +95,7 @@ class Doctrine extends \Nette\Object implements IDataSource
      * @param \Grido\Components\Filters\Condition $condition
      * @param \Doctrine\ORM\QueryBuilder $qb
      */
-    protected function makeWhere(\Grido\Components\Filters\Condition $condition, \Doctrine\ORM\QueryBuilder $qb = NULL)
+    protected function makeWhere(Condition $condition, \Doctrine\ORM\QueryBuilder $qb = NULL)
     {
         $qb = $qb === NULL
             ? $this->qb
@@ -108,7 +108,7 @@ class Doctrine extends \Nette\Object implements IDataSource
 
         $columns = $condition->column;
         foreach ($columns as $column) {
-            if (!in_array($column, array(Filter::OPERATOR_AND, Filter::OPERATOR_OR))) {
+            if (!Condition::isOperator($column)) {
                 $columns[$column] = isset($this->filterMapping[$column])
                     ? $this->filterMapping[$column]
                     : $this->qb->getRootAlias() . '.' . $column;

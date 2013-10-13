@@ -11,7 +11,7 @@ namespace Grido\Tests;
 
 use Tester\Assert,
     Grido\Grid,
-    Grido\Components\Filters\Filter;
+    Grido\Components\Filters\Condition;
 
 require_once __DIR__ . '/DataSource.TestCase.php';
 require_once __DIR__ . '/files/doctrine/entities/Country.php';
@@ -43,7 +43,7 @@ class DoctrineTests extends DataSourceTestCase
 
             $grid->addFilterText('name', 'Name')
                 ->setColumn('surname')
-                ->setColumn('firstname', Filter::OPERATOR_AND);
+                ->setColumn('firstname', Condition::OPERATOR_AND);
 
             $grid->addColumnText('country', 'Country')
                 ->setSortable()
