@@ -15,7 +15,7 @@ use Tester\Assert,
 
 require_once __DIR__ . '/DataSource.TestCase.php';
 
-class NetteDatabaseTests extends DataSourceTestCase
+class NetteDatabaseTest extends DataSourceTestCase
 {
     function setUp()
     {

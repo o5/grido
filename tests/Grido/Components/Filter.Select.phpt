@@ -14,7 +14,7 @@ require_once __DIR__ . '/../bootstrap.php';
 use Tester\Assert,
     Grido\Grid;
 
-class FilterSelect extends \Tester\TestCase
+class FilterSelectTest extends \Tester\TestCase
 {
     function testFormControl()
     {

@@ -14,7 +14,7 @@ require_once __DIR__ . '/../bootstrap.php';
 use Tester\Assert,
     Grido\Grid;
 
-class FilterDate extends \Tester\TestCase
+class FilterDateTest extends \Tester\TestCase
 {
     function testFormControl()
     {

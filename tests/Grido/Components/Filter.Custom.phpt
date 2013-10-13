@@ -14,7 +14,7 @@ use Tester\Assert,
 
 require_once __DIR__ . '/../bootstrap.php';
 
-class FilterCustom extends \Tester\TestCase
+class FilterCustomTest extends \Tester\TestCase
 {
     function testFormControl()
     {

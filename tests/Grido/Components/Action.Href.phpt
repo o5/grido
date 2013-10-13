@@ -16,7 +16,7 @@ use Tester\Assert,
 require_once __DIR__ . '/../bootstrap.php';
 require_once __DIR__ . '/../Helper.inc.php';
 
-class ActionHref extends \Tester\TestCase
+class ActionHrefTest extends \Tester\TestCase
 {
     function testRender()
     {

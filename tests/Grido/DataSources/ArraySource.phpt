@@ -15,7 +15,7 @@ use Tester\Assert,
 
 require_once __DIR__ . '/DataSource.TestCase.php';
 
-class ArraySourceTests extends DataSourceTestCase
+class ArraySourceTest extends DataSourceTestCase
 {
     function setUp()
     {

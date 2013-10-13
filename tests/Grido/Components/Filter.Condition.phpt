@@ -14,7 +14,7 @@ use Tester\Assert,
 
 require_once __DIR__ . '/../bootstrap.php';
 
-class FilterCondition extends \Tester\TestCase
+class FilterConditionTest extends \Tester\TestCase
 {
     function testSetColumn()
     {

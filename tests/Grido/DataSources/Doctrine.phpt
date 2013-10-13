@@ -17,7 +17,7 @@ require_once __DIR__ . '/DataSource.TestCase.php';
 require_once __DIR__ . '/files/doctrine/entities/Country.php';
 require_once __DIR__ . '/files/doctrine/entities/User.php';
 
-class DoctrineTests extends DataSourceTestCase
+class DoctrineTest extends DataSourceTestCase
 {
     /** @var Grido\DataSources\Doctrine */
     public $model;

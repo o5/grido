@@ -15,7 +15,7 @@ use Tester\Assert,
 
 require_once __DIR__ . '/DataSource.TestCase.php';
 
-class DibiFluentTests extends DataSourceTestCase
+class DibiFluentTest extends DataSourceTestCase
 {
     /** @var \DibiFluent */
     public $fluent;

@@ -15,7 +15,7 @@ require_once __DIR__ . '/../Helper.inc.php';
 use Tester\Assert,
     Grido\Grid;
 
-class FilterText extends \Tester\TestCase
+class FilterTextTest extends \Tester\TestCase
 {
     function testSetSuggestion()
     {
