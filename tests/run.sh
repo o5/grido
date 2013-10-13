@@ -12,7 +12,7 @@ if [ ! -f "$runnerScript" ]; then
 fi
 
 # Default runner arguments
-jobsNum=20
+jobsNum=30
 
 # Command line arguments processing
 for i in `seq 1 $#`; do
