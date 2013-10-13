@@ -55,6 +55,10 @@ function mock()
 
 function run($path, $name = NULL)
 {
+    $name = $name
+        ? $name
+        : (isset($_SERVER['argv'][1]) ? $_SERVER['argv'][1] : NULL);
+
     $code = file_get_contents($path);
     $tokens = token_get_all($code);
     $count = count($tokens);
