@@ -226,7 +226,6 @@ class Grid extends \Nette\Application\UI\Control
     public function setFilterRenderType($type)
     {
         $type = strtolower($type);
-
         if (!in_array($type, array(Filter::RENDER_INNER, Filter::RENDER_OUTER))) {
             throw new \InvalidArgumentException('Type must be Filter::RENDER_INNER or Filter::RENDER_OUTER.');
         }
@@ -476,8 +475,6 @@ class Grid extends \Nette\Application\UI\Control
     {
         if ($this->model === NULL) {
             throw new \Exception('Model cannot be empty, please use method $grid->setModel().');
-        } elseif (!$this->hasColumns(FALSE)) {
-            throw new \Exception('Grid must have defined a column, please use method $grid->addColumn*().');
         }
 
         $data = $this->data;
@@ -847,6 +844,10 @@ class Grid extends \Nette\Application\UI\Control
      */
     public function render()
     {
+        if (!$this->hasColumns(FALSE)) {
+            throw new \Exception('Grid must have defined a column, please use method $grid->addColumn*().');
+        }
+
         $this->saveRememberState();
         $data = $this->getData();
 
@@ -867,10 +868,8 @@ class Grid extends \Nette\Application\UI\Control
 
     protected function applyFiltering()
     {
-        $conditions = $this->__applyFiltering($this->getActualFilter());
-        foreach ($conditions as $condition) {
-            $this->model->filter($condition);
-        }
+        $conditions = $this->__getConditions($this->getActualFilter());
+        $this->model->filter($conditions);
     }
 
     /**
@@ -878,19 +877,16 @@ class Grid extends \Nette\Application\UI\Control
      * @param array $filter
      * @return array
      */
-    public function __applyFiltering(array $filter)
+    public function __getConditions(array $filter)
     {
         $conditions = array();
         if ($filter) {
             $this['form']->setDefaults(array(Filter::ID => $filter));
 
             foreach ($filter as $column => $value) {
-                $component = $this->getFilter($column, FALSE);
-                if ($component) {
-                    if ($condition = $component->__makeFilter($value)) {
+                if ($component = $this->getFilter($column, FALSE)) {
+                    if ($condition = $component->__getCondition($value)) {
                         $conditions[] = $condition;
-                    } else {
-                        $conditions[] = array('0 = 1'); //result data must be null
                     }
                 } else {
                     trigger_error("Filter with name '$column' does not exist.", E_USER_NOTICE);
