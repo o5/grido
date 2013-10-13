@@ -175,7 +175,7 @@ class Grid extends \Nette\Application\UI\Control
      */
     public function setDefaultSort(array $sort)
     {
-        static $replace = array('asc' => Column::ASC, 'desc' => Column::DESC);
+        static $replace = array('asc' => Column::ORDER_ASC, 'desc' => Column::ORDER_DESC);
 
         foreach ($sort as $column => $dir) {
             $dir = strtr(strtolower($dir), $replace);
@@ -914,7 +914,7 @@ class Grid extends \Nette\Application\UI\Control
                     trigger_error("Column with name '$column' is not sortable.", E_USER_NOTICE);
                     break;
                 }
-            } elseif (!in_array($dir, array(Column::ASC, Column::DESC))) {
+            } elseif (!in_array($dir, array(Column::ORDER_ASC, Column::ORDER_DESC))) {
                 if ($dir == '' && isset($this->defaultSort[$column])) {
                     unset($this->sort[$column]);
                     break;
@@ -924,7 +924,7 @@ class Grid extends \Nette\Application\UI\Control
                 break;
             }
 
-            $sort[$component->column] = $dir == Column::ASC ? 'ASC' : 'DESC';
+            $sort[$component->column] = $dir == Column::ORDER_ASC ? 'ASC' : 'DESC';
         }
 
         if ($sort) {

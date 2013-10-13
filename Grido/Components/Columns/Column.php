@@ -44,8 +44,12 @@ abstract class Column extends \Grido\Components\Base
         TYPE_DATE = 'Grido\Components\Columns\Date',
         TYPE_NUMBER = 'Grido\Components\Columns\Number';
 
-    const ASC  = '↑';
-    const DESC = '↓';
+    /** @deprecated */
+    const ASC  = '↑',
+        DESC = '↓';
+
+    const ORDER_ASC  = '↑';
+    const ORDER_DESC = '↓';
 
     /** @var string */
     protected $sort;
@@ -258,7 +262,7 @@ abstract class Column extends \Grido\Components\Base
         }
 
         if ($this->isSortable() && $this->getSort()) {
-            $this->headerPrototype->class[] = $this->getSort() == self::DESC
+            $this->headerPrototype->class[] = $this->getSort() == self::ORDER_DESC
                 ? 'desc'
                 : 'asc';
         }

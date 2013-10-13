@@ -56,8 +56,8 @@ class ColumnTest extends \Tester\TestCase
     function testSetDefaultSort()
     {
         $grid = new Grid;
-        $grid->addColumnText('column', 'Column')->setDefaultSort(Column::DESC);
-        Assert::same(array('column' => Column::DESC), $grid->defaultSort);
+        $grid->addColumnText('column', 'Column')->setDefaultSort(Column::ORDER_DESC);
+        Assert::same(array('column' => Column::ORDER_DESC), $grid->defaultSort);
     }
 
     function testSetCustomRender()
@@ -143,11 +143,11 @@ class ColumnTest extends \Tester\TestCase
 
         Helper::grid(function(Grid $grid){
             $grid->setModel(array());
-            $grid->addColumnText('column', 'Column')->setDefaultSort(Column::ASC);
+            $grid->addColumnText('column', 'Column')->setDefaultSort(Column::ORDER_ASC);
             $grid->data;
         })->run();
 
-        Assert::same(Column::ASC, Helper::$grid->getColumn('column')->sort);
+        Assert::same(Column::ORDER_ASC, Helper::$grid->getColumn('column')->sort);
     }
 
     function testHasFilter()

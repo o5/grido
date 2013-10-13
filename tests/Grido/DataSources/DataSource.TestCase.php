@@ -20,7 +20,7 @@ abstract class DataSourceTestCase extends \Tester\TestCase
     /** @var array GET parameters to request */
     private $params =  array(
         'grid-page' => 2,
-        'grid-sort' => array('country' => Column::ASC),
+        'grid-sort' => array('country' => Column::ORDER_ASC),
         'grid-filter' => array(
             'name' => 'a',
             'male' => TRUE,

@@ -137,8 +137,8 @@ class GridTest extends \Tester\TestCase
     function testSetDefaultSort()
     {
         $grid = new Grid;
-        $grid->setDefaultSort(array('a' => 'ASC', 'b' => 'desc', 'c' => 'Asc', 'd' => Column::DESC));
-        Assert::same(array('a' => Column::ASC, 'b' => Column::DESC, 'c' => Column::ASC, 'd' => Column::DESC), $grid->defaultSort);
+        $grid->setDefaultSort(array('a' => 'ASC', 'b' => 'desc', 'c' => 'Asc', 'd' => Column::ORDER_DESC));
+        Assert::same(array('a' => Column::ORDER_ASC, 'b' => Column::ORDER_DESC, 'c' => Column::ORDER_ASC, 'd' => Column::ORDER_DESC), $grid->defaultSort);
 
         Assert::exception(function() use ($grid) {
             $grid->setDefaultSort(array('a' => 'up'));
@@ -170,7 +170,7 @@ class GridTest extends \Tester\TestCase
         );
         Assert::same($expected, $grid->data);
 
-        $grid2->sort['B'] = Column::DESC;
+        $grid2->sort['B'] = Column::ORDER_DESC;
         Assert::same($data, $grid2->data);
     }
 
@@ -341,7 +341,7 @@ class GridTest extends \Tester\TestCase
             $grid->addColumnText('column', 'Column')->setSortable();
         });
 
-        $sorting = array('column' => Column::ASC);
+        $sorting = array('column' => Column::ORDER_ASC);
         Helper::request(array('grid-page' => 2, 'grid-sort' => $sorting, 'do' => 'grid-sort'));
         Assert::same($sorting, Helper::$grid->sort);
         Assert::same(1, Helper::$grid->page);
@@ -357,7 +357,7 @@ class GridTest extends \Tester\TestCase
             $grid->addColumnText('B', 'B')->setSortable();
         });
 
-        Helper::request(array('grid-page' => 2, 'grid-sort' => array('B' => Column::ASC), 'do' => 'grid-sort'));
+        Helper::request(array('grid-page' => 2, 'grid-sort' => array('B' => Column::ORDER_ASC), 'do' => 'grid-sort'));
 
         Assert::same(1, Helper::$grid->page); //test reset page after sorting
         Assert::same(array(
@@ -371,12 +371,12 @@ class GridTest extends \Tester\TestCase
             Helper::$grid->data;
         }, 'E_USER_NOTICE', "Dir 'UP' is not allowed.");
 
-        Helper::request(array('grid-sort' => array('C' => Column::ASC), 'do' => 'grid-sort'));
+        Helper::request(array('grid-sort' => array('C' => Column::ORDER_ASC), 'do' => 'grid-sort'));
         Assert::error(function(){
             Helper::$grid->data;
         }, 'E_USER_NOTICE', "Column with name 'C' does not exist.");
 
-        Helper::request(array('grid-sort' => array('A' => Column::ASC), 'do' => 'grid-sort'));
+        Helper::request(array('grid-sort' => array('A' => Column::ORDER_ASC), 'do' => 'grid-sort'));
         Assert::error(function(){
             Helper::$grid->data;
         }, 'E_USER_NOTICE', "Column with name 'A' is not sortable.");
@@ -488,7 +488,7 @@ class GridTest extends \Tester\TestCase
             $grid->addFilterText('B', 'B');
 
             $params = array(
-                'sort' => array('A' => Column::ASC),
+                'sort' => array('A' => Column::ORDER_ASC),
                 'filter' => array('B' => 'B2'),
                 'perPage' => 2,
                 'page' => 2
