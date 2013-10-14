@@ -38,7 +38,7 @@ class Text extends Filter
     {
         $this->suggestionColumn = $column;
 
-        $prototype = $this->getControl()->controlPrototype;
+        $prototype = $this->getControl()->getControlPrototype();
         $prototype->attrs['autocomplete'] = 'off';
         $prototype->class[] = 'suggest';
 
@@ -62,13 +62,13 @@ class Text extends Filter
      */
     public function handleSuggest($query)
     {
-        if (!$this->grid->presenter->isAjax()) {
-            $this->presenter->terminate();
+        if (!$this->getPresenter()->isAjax()) {
+            $this->getPresenter()->terminate();
         }
 
         $actualFilter = $this->grid->getActualFilter();
-        if (isset($actualFilter[$this->name])) {
-            unset($actualFilter[$this->name]);
+        if (isset($actualFilter[$this->getName()])) {
+            unset($actualFilter[$this->getName()]);
         }
         $conditions = $this->grid->__getConditions($actualFilter);
         $conditions[] = $this->__getCondition($query);
@@ -77,7 +77,7 @@ class Text extends Filter
         $items = $this->grid->model->suggest($column, $conditions);
 
         print \Nette\Utils\Json::encode($items);
-        $this->grid->presenter->terminate();
+        $this->getPresenter()->terminate();
     }
 
     /**
@@ -86,7 +86,7 @@ class Text extends Filter
     protected function getFormControl()
     {
         $control = new \Nette\Forms\Controls\TextInput($this->label);
-        $control->controlPrototype->class[] = 'text';
+        $control->getControlPrototype()->class[] = 'text';
 
         return $control;
     }

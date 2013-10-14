@@ -1,21 +1,17 @@
-<div id="snippet-grid-grid"><form action="/index.php" method="get" id="frm-grid-form" class="ajax">
-
-
-
-    <div class="grido filter outer">
+<div id="snippet-grid-grid"><form action="/index.php" method="get" id="frm-grid-form" class="ajax">    <div class="grido filter outer">
         <div class="items">
-                <span class="grid-filter-name">
-                    <label for="frmform-filters-name">Name</label>
-                    <input type="text" class="text" name="filters[name]" id="frmform-filters-name" value="a" />
-                </span>
-                <span class="grid-filter-country">
-                    <label for="frmform-filters-country">Country</label>
-                    <input type="text" class="text suggest" autocomplete="off" data-grido-suggest-replacement="-query-" data-grido-suggest-handler="/index.php?grid-filters-country-query=-query-&amp;action=default&amp;do=grid-filters-country-suggest&amp;presenter=Test" name="filters[country]" id="frmform-filters-country" value="au" />
-                </span>
-                <span class="grid-filter-male">
-                    <label for="frmform-filters-male">Only male</label>
-                    <input type="checkbox" name="filters[male]" id="frmform-filters-male" checked="checked" />
-                </span>
+            <span class="grid-filter-name">
+                <label for="frmform-filters-name">Name</label>
+                <input type="text" class="text" name="filters[name]" id="frmform-filters-name" value="a" />
+            </span>
+            <span class="grid-filter-country">
+                <label for="frmform-filters-country">Country</label>
+                <input type="text" class="text suggest" autocomplete="off" data-grido-suggest-replacement="-query-" data-grido-suggest-handler="/index.php?grid-filters-country-query=-query-&amp;action=default&amp;do=grid-filters-country-suggest&amp;presenter=Test" name="filters[country]" id="frmform-filters-country" value="au" />
+            </span>
+            <span class="grid-filter-male">
+                <label for="frmform-filters-male">Only male</label>
+                <input type="checkbox" name="filters[male]" id="frmform-filters-male" checked="checked" />
+            </span>
         </div>
         <div class="buttons">
 <input type="submit" class="btn search" name="buttons[search]" id="frmform-buttons-search" value="Search" /><input type="submit" class="btn reset" name="buttons[reset]" id="frmform-buttons-reset" value="Reset" />        </div>

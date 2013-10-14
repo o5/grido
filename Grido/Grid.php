@@ -403,7 +403,7 @@ class Grid extends \Nette\Application\UI\Control
     public function getColumn($name, $need = TRUE)
     {
         return $this->hasColumns()
-            ? $this[Column::ID]->getComponent($name, $need)
+            ? $this->getComponent(Column::ID)->getComponent($name, $need)
             : NULL;
     }
 
@@ -416,7 +416,7 @@ class Grid extends \Nette\Application\UI\Control
     public function getFilter($name, $need = TRUE)
     {
         return $this->hasFilters()
-            ? $this[Filter::ID]->getComponent($name, $need)
+            ? $this->getComponent(Filter::ID)->getComponent($name, $need)
             : NULL;
     }
 
@@ -429,7 +429,7 @@ class Grid extends \Nette\Application\UI\Control
     public function getAction($name, $need = TRUE)
     {
         return $this->hasActions()
-            ? $this[Action::ID]->getComponent($name, $need)
+            ? $this->getComponent(Action::ID)->getComponent($name, $need)
             : NULL;
     }
 
@@ -524,7 +524,8 @@ class Grid extends \Nette\Application\UI\Control
      */
     public function getRememberSession()
     {
-        return $this->presenter->getSession($this->presenter->name . '\\' . ucfirst($this->name));
+        $presenter = $this->getPresenter();
+        return $presenter->getSession($presenter->getName() . '\\' . ucfirst($this->getName()));
     }
 
     /**
@@ -535,7 +536,7 @@ class Grid extends \Nette\Application\UI\Control
     {
         if ($this->tablePrototype === NULL) {
             $this->tablePrototype = \Nette\Utils\Html::el('table')
-                ->id($this->name)
+                ->id($this->getName())
                 ->class('grido table table-striped table-hover');
         }
 
@@ -632,7 +633,7 @@ class Grid extends \Nette\Application\UI\Control
     {
         //loads state from session
         $session = $this->getRememberSession();
-        if ($this->presenter->isSignalReceiver($this)) {
+        if ($this->getPresenter()->isSignalReceiver($this)) {
             $session->remove();
         } elseif (!$params && $session->params) {
             $params = (array) $session->params;
@@ -844,7 +845,7 @@ class Grid extends \Nette\Application\UI\Control
      */
     public function render()
     {
-        if (!$this->hasColumns(FALSE)) {
+        if (!$this->hasColumns()) {
             throw new \Exception('Grid must have defined a column, please use method $grid->addColumn*().');
         }
 
@@ -854,7 +855,10 @@ class Grid extends \Nette\Application\UI\Control
         $this->template->paginator = $this->paginator;
         $this->template->data = $data;
 
-        $this->onRender($this);
+        if ($this->onRender) {
+            $this->onRender($this);
+        }
+
         $this->template->render();
     }
 

@@ -157,7 +157,7 @@ abstract class Action extends \Grido\Components\Base
     public function getPrimaryKey()
     {
         if ($this->primaryKey === NULL) {
-            $this->primaryKey = $this->grid->primaryKey;
+            $this->primaryKey = $this->grid->getPrimaryKey();
         }
 
         return $this->primaryKey;
@@ -171,9 +171,7 @@ abstract class Action extends \Grido\Components\Base
     protected function getElement($row)
     {
         $primaryKey = $this->getPrimaryKey();
-        $propertyAccessor = $this->grid->propertyAccessor;
-
-        if (!$this->customRender && !$propertyAccessor->hasProperty($row, $primaryKey)) {
+        if (!$this->customRender && !$this->propertyAccessor->hasProperty($row, $primaryKey)) {
             throw new \InvalidArgumentException("Primary key '$primaryKey' not found.");
         }
 

@@ -37,6 +37,9 @@ abstract class Base extends \Nette\Application\UI\PresenterComponent
     /** @var \Nette\Application\UI\Form */
     protected $form;
 
+    /** @var \Grido\PropertyAccessors\IPropertyAccessor */
+    protected $propertyAccessor;
+
     /**
      * @return \Grido\Grid
      */
@@ -51,10 +54,22 @@ abstract class Base extends \Nette\Application\UI\PresenterComponent
     public function getForm()
     {
         if ($this->form === NULL) {
-            $this->form = $this->grid['form'];
+            $this->form = $this->grid->getComponent('form');
         }
 
         return $this->form;
+    }
+
+    /**
+     * @return \Grido\PropertyAccessors\IPropertyAccessor
+     */
+    public function getPropertyAccessor()
+    {
+        if ($this->propertyAccessor === NULL) {
+            $this->propertyAccessor = $this->grid->getPropertyAccessor();
+        }
+
+        return $this->propertyAccessor;
     }
 
     /**
@@ -83,6 +98,7 @@ abstract class Base extends \Nette\Application\UI\PresenterComponent
     protected function addComponentToGrid($grid, $name)
     {
         $this->grid = $grid;
+        $this->propertyAccessor = $grid->getPropertyAccessor();
 
         //check container exist
         $container = $this->grid->getComponent($this::ID, FALSE);

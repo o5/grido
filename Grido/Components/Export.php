@@ -33,7 +33,7 @@ class Export extends Base implements \Nette\Application\IResponse
     {
         $this->grid = $grid;
         $this->label = $label === NULL
-            ? ucfirst($this->grid->name)
+            ? ucfirst($this->grid->getName())
             : $label;
 
         $grid->addComponent($this, self::ID);
@@ -48,7 +48,7 @@ class Export extends Base implements \Nette\Application\IResponse
     {
         $head = array();
         foreach ($columns as $column) {
-            $head[] = $column->label;
+            $head[] = $column->getLabel();
         }
 
         $addNewLine = FALSE;
