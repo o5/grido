@@ -8,6 +8,7 @@
  *}
 
 {snippet grid}
+{if $control->count}
 {?$control['form']->elementPrototype->class[] = 'ajax'}
 {form form}
 
@@ -168,4 +169,7 @@
 {!$control->tablePrototype->endTag()}
 {/block}
 {/form}
+{else}
+    <p n:if="$emptyMessage" class="grido-empty-message alert">{_$emptyMessage}</p>
+{/if}
 {/snippet}
