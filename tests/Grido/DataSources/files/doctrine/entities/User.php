@@ -46,31 +46,13 @@ class User extends Object
      * @var string
      * @ORM\Column
      */
-    public $birthday;
-
-    /**
-     * @var string
-     * @ORM\Column
-     */
     public $country_code;
 
     /**
      * @var string
      * @ORM\Column
      */
-    public $cctype;
-
-    /**
-     * @var string
-     * @ORM\Column
-     */
-    public $emailaddress;
-
-    /**
-     * @var string
-     * @ORM\Column
-     */
-    public $centimeters;
+    public $telephonenumber;
 
     /**
      * @var Country

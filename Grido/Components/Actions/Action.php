@@ -165,16 +165,27 @@ abstract class Action extends \Grido\Components\Base
 
     /**
      * @param mixed $row
+     * @return string
+     * @throws \InvalidArgumentException
+     */
+    protected function getPrimaryValue($row)
+    {
+        try {
+            $primaryKey = $this->getPrimaryKey();
+            return $this->propertyAccessor->getProperty($row, $primaryKey);
+
+        } catch (\Grido\PropertyAccessors\PropertyAccessorException $e) {
+            throw new \InvalidArgumentException("Primary key '$primaryKey' not found.");
+        }
+    }
+
+    /**
+     * @param mixed $row
      * @return Html
      * @throws \InvalidArgumentException
      */
     protected function getElement($row)
     {
-        $primaryKey = $this->getPrimaryKey();
-        if (!$this->customRender && !$this->propertyAccessor->hasProperty($row, $primaryKey)) {
-            throw new \InvalidArgumentException("Primary key '$primaryKey' not found.");
-        }
-
         $text = $this->translate($this->label);
         $this->icon ? $text = ' ' . $text : $text;
 

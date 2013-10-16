@@ -49,13 +49,7 @@ class Event extends Action
     public function getElement($row)
     {
         $element = parent::getElement($row);
-
-        $primaryKey = $this->getPrimaryKey();
-        $primaryValue = $this->propertyAccessor->hasProperty($row, $primaryKey)
-            ? $this->propertyAccessor->getProperty($row, $primaryKey)
-            : NULL;
-
-        $element->href($this->link('click!', $primaryValue));
+        $element->href($this->link('click!', $this->getPrimaryValue($row)));
 
         return $element;
     }

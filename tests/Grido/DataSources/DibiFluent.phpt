@@ -36,6 +36,7 @@ class DibiFluentTest extends DataSourceTestCase
                 ->setSortable();
             $grid->addColumnText('surname', 'Surname');
             $grid->addColumnText('gender', 'Gender');
+            $grid->addColumnText('telephonenumber', 'Phone');
 
             $grid->addFilterText('name', 'Name')
                 ->setColumn('surname')

@@ -30,6 +30,9 @@
                 <th class="column grid-header-gender">
                         Gender
                 </th>
+                <th class="column grid-header-telephonenumber">
+                        Phone
+                </th>
                 <th class="column grid-header-country asc">
                         <a class="sort ajax" href="/index.php?grid-sort%5Bcountry%5D=%E2%86%93&amp;grid-page=2&amp;grid-filter%5Bname%5D=a&amp;grid-filter%5Bmale%5D=1&amp;grid-filter%5Bcountry%5D=au&amp;action=default&amp;do=grid-sort&amp;presenter=Test">Country</a>
                         <span></span>
@@ -38,7 +41,7 @@
     </thead>
     <tfoot>
         <tr>
-            <td colspan="4">
+            <td colspan="5">
 
                 <span class="paginator">
                         <a class="btn btn-mini ajax" href="/index.php?grid-sort%5Bcountry%5D=%E2%86%91&amp;grid-filter%5Bname%5D=a&amp;grid-filter%5Bmale%5D=1&amp;grid-filter%5Bcountry%5D=au&amp;action=default&amp;do=grid-page&amp;presenter=Test"><i class="icon-arrow-left"></i> Previous</a>
@@ -65,6 +68,9 @@
                     <td class="grid-cell-gender">
                             male
                     </td>
+                    <td class="grid-cell-telephonenumber">
+                            905-895-1107
+                    </td>
                     <td class="grid-cell-country">
                             Australia
                     </td>
@@ -79,6 +85,9 @@
                     <td class="grid-cell-gender">
                             male
                     </td>
+                    <td class="grid-cell-telephonenumber">
+                            02752 18 49 11
+                    </td>
                     <td class="grid-cell-country">
                             Australia
                     </td>
@@ -92,6 +101,9 @@
                     </td>
                     <td class="grid-cell-gender">
                             male
+                    </td>
+                    <td class="grid-cell-telephonenumber">
+
                     </td>
                     <td class="grid-cell-country">
                             Austria

@@ -23,35 +23,22 @@ class ArrayObjectAccessor implements IPropertyAccessor
     /**
      * @param mixed $object
      * @param string $name
-     * @return bool
-     * @throws \InvalidArgumentException
-     */
-    public static function hasProperty($object, $name)
-    {
-        if (is_object($object) && $object instanceof \Nette\Database\Table\ActiveRow) {
-            //https://github.com/nette/nette/pull/1100
-            return array_key_exists($name, $object->toArray());
-        } elseif (is_object($object) && $object instanceof \ArrayObject) {
-            return $object->offsetExists($name);
-        } elseif (is_object($object)) {
-            return property_exists($object, $name);
-        } elseif (is_array($object) || $object instanceof \ArrayAccess) {
-            return array_key_exists($name, $object);
-        } else {
-            throw new \InvalidArgumentException('Please implement your own property accessor.');
-        }
-    }
-
-    /**
-     * @param mixed $object
-     * @param string $name
      * @return mixed
      */
     public static function getProperty($object, $name)
     {
-        return isset($object->$name) || (is_object($object) && property_exists($object, $name))
-            ? $object->$name
-            : $object[$name];
+        if ($object instanceof \Nette\Database\Table\ActiveRow) {
+            //https://github.com/nette/nette/pull/1100
+            $object = $object->toArray();
+        }
+
+        if (is_array($object) && array_key_exists($name, $object)) {
+            return $object[$name];
+        } elseif (is_object($object) && property_exists($object, $name)) {
+            return $object->$name;
+        } else {
+            throw new PropertyAccessorException("Property with name '$name' does not exists in datasource.");
+        }
     }
 
     /**
