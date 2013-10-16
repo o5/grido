@@ -172,7 +172,7 @@
                 </td>
             {!$tr->endTag()}
         {/foreach}
-        <tr n:if="!$data"><td colspan="{=$showActionsColumn ? $columnCount + 1 : $columnCount}" class="no-results">{_'No results.'}</td></tr>
+        <tr n:if="!$control->getCount()"><td colspan="{=$showActionsColumn ? $columnCount + 1 : $columnCount}" class="no-results">{_'No results.'}</td></tr>
     </tbody>
 {!$control->getTablePrototype()->endTag()}
 {/block}
