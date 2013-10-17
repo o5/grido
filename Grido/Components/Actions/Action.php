@@ -22,8 +22,8 @@ use Nette\Utils\Html;
  *
  * @property-read Html $element
  * @property-write Html $elementPrototype
- * @property-write array $customRender
- * @property-write array $disable
+ * @property-write callback $customRender
+ * @property-write callback $disable
  * @property-write string|callback $confirm
  * @property string $primaryKey
  * @property string $icon
@@ -32,19 +32,21 @@ abstract class Action extends \Grido\Components\Base
 {
     const ID = 'actions';
 
-    const TYPE_HREF = 'Grido\Components\Actions\Href';
-
-    /** @var callback for custom rendering */
-    protected $customRender;
-
-    /** @var callback for disabling */
-    protected $disable;
+    /** @deprecated */
+    const TYPE_HREF = 'Grido\Components\Actions\Href',
+        TYPE_EVENT = 'Grido\Components\Actions\Event';
 
     /** @var Html <a> html tag */
     protected $elementPrototype;
 
+    /** @var callback for custom rendering */
+    protected $customRender;
+
     /** @var string - name of primary key f.e.: link->('Article:edit', array($primaryKey => 1)) */
     protected $primaryKey;
+
+    /** @var callback for disabling */
+    protected $disable;
 
     /** @var string|callback */
     protected $confirm;
@@ -63,6 +65,17 @@ abstract class Action extends \Grido\Components\Base
 
         $this->type = get_class($this);
         $this->label = $label;
+    }
+
+    /**
+     * Sets html element.
+     * @param Html $elementPrototype
+     * @return Action
+     */
+    public function setElementPrototype(Html $elementPrototype)
+    {
+        $this->elementPrototype = $elementPrototype;
+        return $this;
     }
 
     /**
@@ -88,17 +101,6 @@ abstract class Action extends \Grido\Components\Base
     }
 
     /**
-     * Sets html element.
-     * @param Html $elementPrototype
-     * @return Action
-     */
-    public function setElementPrototype(Html $elementPrototype)
-    {
-        $this->elementPrototype = $elementPrototype;
-        return $this;
-    }
-
-    /**
      * Sets callback for disable.
      * Callback should return TRUE if the action is not allowed for current item.
      * @param callback
@@ -113,7 +115,7 @@ abstract class Action extends \Grido\Components\Base
     /**
      * Sets client side confirm.
      * @param string|callback $confirm
-     * @return Href
+     * @return Action
      */
     public function setConfirm($confirm)
     {
@@ -124,7 +126,7 @@ abstract class Action extends \Grido\Components\Base
     /**
      * Sets twitter bootstrap icon class.
      * @param string $iconName
-     * @return Href
+     * @return Action
      */
     public function setIcon($iconName)
     {
@@ -149,19 +151,34 @@ abstract class Action extends \Grido\Components\Base
     }
 
     /**
-     * @param $item
+     * @internal - Do not call directly.
+     * @return string
+     */
+    public function getPrimaryKey()
+    {
+        if ($this->primaryKey === NULL) {
+            $this->primaryKey = $this->grid->getPrimaryKey();
+        }
+
+        return $this->primaryKey;
+    }
+
+    /**
+     * @param mixed $row
+     * @return string
+     */
+    protected function getPrimaryValue($row)
+    {
+        return $this->propertyAccessor->getProperty($row, $this->getPrimaryKey());
+    }
+
+    /**
+     * @param mixed $row
      * @return Html
      * @throws \InvalidArgumentException
      */
-    protected function getElement($item)
+    protected function getElement($row)
     {
-        $primaryKey = $this->getPrimaryKey();
-        $propertyAccessor = $this->grid->propertyAccessor;
-
-        if (!$this->customRender && !$propertyAccessor->hasProperty($item, $primaryKey)) {
-            throw new \InvalidArgumentException("Primary key '$primaryKey' not found.");
-        }
-
         $text = $this->translate($this->label);
         $this->icon ? $text = ' ' . $text : $text;
 
@@ -169,9 +186,9 @@ abstract class Action extends \Grido\Components\Base
             ->setText($text);
 
         if ($this->confirm) {
-            $element->attrs['data-grido-confirm'] = $this->translate(
+            $element->data['grido-confirm'] = $this->translate(
                 is_callable($this->confirm)
-                    ? callback($this->confirm)->invokeArgs(array($item))
+                    ? callback($this->confirm)->invokeArgs(array($row))
                     : $this->confirm
             );
         }
@@ -184,33 +201,20 @@ abstract class Action extends \Grido\Components\Base
     }
 
     /**
-     * @internal
-     * @return string
-     */
-    public function getPrimaryKey()
-    {
-        if ($this->primaryKey === NULL) {
-            $this->primaryKey = $this->grid->primaryKey;
-        }
-
-        return $this->primaryKey;
-    }
-
-    /**
-     * @param mixed $item
+     * @param mixed $row
      * @throws \InvalidArgumentException
      * @return void
      */
-    public function render($item)
+    public function render($row)
     {
-        if (!$item || ($this->disable && callback($this->disable)->invokeArgs(array($item)))) {
+        if (!$row || ($this->disable && callback($this->disable)->invokeArgs(array($row)))) {
             return;
         }
 
-        $element = $this->getElement($item);
+        $element = $this->getElement($row);
 
         if ($this->customRender) {
-            echo callback($this->customRender)->invokeArgs(array($item, $element));
+            echo callback($this->customRender)->invokeArgs(array($row, $element));
             return;
         }
 

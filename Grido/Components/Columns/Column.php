@@ -26,6 +26,7 @@ use Grido\Components\Filters\Filter;
  * @property-write callback $cellCallback
  * @property-write string $defaultSorting
  * @property-write mixed $customRender
+ * @property-write mixed $customRenderExport
  * @property-write array $replacements
  * @property-write bool $sortable
  * @property string $column
@@ -36,14 +37,19 @@ abstract class Column extends \Grido\Components\Base
 
     const VALUE_IDENTIFIER = '%value';
 
-    const TYPE_TEXT = 'Grido\Components\Columns\Text';
-    const TYPE_MAIL = 'Grido\Components\Columns\Mail';
-    const TYPE_HREF = 'Grido\Components\Columns\Href';
-    const TYPE_DATE = 'Grido\Components\Columns\Date';
-    const TYPE_NUMBER = 'Grido\Components\Columns\Number';
+    /** @deprecated */
+    const TYPE_TEXT = 'Grido\Components\Columns\Text',
+        TYPE_MAIL = 'Grido\Components\Columns\Mail',
+        TYPE_HREF = 'Grido\Components\Columns\Href',
+        TYPE_DATE = 'Grido\Components\Columns\Date',
+        TYPE_NUMBER = 'Grido\Components\Columns\Number';
 
-    const ASC  = '↑';
-    const DESC = '↓';
+    /** @deprecated */
+    const ASC  = '↑',
+        DESC = '↓';
+
+    const ORDER_ASC  = '↑';
+    const ORDER_DESC = '↓';
 
     /** @var string */
     protected $sort;
@@ -60,17 +66,17 @@ abstract class Column extends \Grido\Components\Base
     /** @var \Nette\Utils\Html <th> html tag */
     protected $headerPrototype;
 
-    /** @var mixed for custom rendering */
+    /** @var mixed custom rendering */
     protected $customRender;
+
+    /** @var mixed custom export rendering */
+    protected $customRenderExport;
 
     /** @var bool */
     protected $sortable = FALSE;
 
     /** @var array of arrays('pattern' => 'replacement') */
     protected $replacements = array();
-
-    /** @var Closure */
-    protected $truncate;
 
     /**
      * @param \Grido\Grid $grid
@@ -121,30 +127,27 @@ abstract class Column extends \Grido\Components\Base
      */
     public function setDefaultSort($dir)
     {
-        $this->grid->setDefaultSort(array($this->name => $dir));
+        $this->grid->setDefaultSort(array($this->getName() => $dir));
         return $this;
     }
 
     /**
-     * @param mixed $customRender callback | string for name of template filename
+     * @param mixed $callback callback or string for name of template filename
      * @return Column
      */
-    public function setCustomRender($customRender)
+    public function setCustomRender($callback)
     {
-        $this->customRender = $customRender;
+        $this->customRender = $callback;
         return $this;
     }
 
     /**
-     * @param string $maxLen UTF-8 encoding
-     * @param string $append UTF-8 encoding
+     * @param mixed $callback|
      * @return Column
      */
-    public function setTruncate($maxLen, $append = "\xE2\x80\xA6")
+    public function setCustomRenderExport($callback)
     {
-        $this->truncate = function($string) use ($maxLen, $append) {
-            return \Nette\Utils\Strings::truncate($string, $maxLen, $append);
-        };
+        $this->customRenderExport = $callback;
         return $this;
     }
 
@@ -165,7 +168,7 @@ abstract class Column extends \Grido\Components\Base
      */
     public function setFilterText()
     {
-        return $this->grid->addFilterText($this->name, $this->label);
+        return $this->grid->addFilterText($this->getName(), $this->label);
     }
 
     /**
@@ -173,7 +176,7 @@ abstract class Column extends \Grido\Components\Base
      */
     public function setFilterDate()
     {
-        return $this->grid->addFilterDate($this->name, $this->label);
+        return $this->grid->addFilterDate($this->getName(), $this->label);
     }
 
     /**
@@ -181,7 +184,7 @@ abstract class Column extends \Grido\Components\Base
      */
     public function setFilterCheck()
     {
-        return $this->grid->addFilterCheck($this->name, $this->label);
+        return $this->grid->addFilterCheck($this->getName(), $this->label);
     }
 
     /**
@@ -190,7 +193,7 @@ abstract class Column extends \Grido\Components\Base
      */
     public function setFilterSelect(array $items = NULL)
     {
-        return $this->grid->addFilterSelect($this->name, $this->label, $items);
+        return $this->grid->addFilterSelect($this->getName(), $this->label, $items);
     }
 
     /**
@@ -198,17 +201,29 @@ abstract class Column extends \Grido\Components\Base
      */
     public function setFilterNumber()
     {
-        return $this->grid->addFilterNumber($this->name, $this->label);
+        return $this->grid->addFilterNumber($this->getName(), $this->label);
     }
 
     /**
+     * @param \Nette\Forms\IControl $formControl
+     * @return \Grido\Components\Filters\Custom
+     */
+    public function setFilterCustom(\Nette\Forms\IControl $formControl)
+    {
+        return $this->grid->addFilterCustom($this->getName(), $formControl);
+    }
+
+    /**
+     * @deprecated
      * @param string $type see filter's constants starting at TYPE_
      * @param mixed $optional if type is select, then this it items for select
      * @return Filter
      */
     public function setFilter($type = Filter::TYPE_TEXT, $optional = NULL)
     {
-        return $this->grid->addFilter($this->name, $this->label, $type, $optional);
+        trigger_error(__METHOD__ . '() is deprecated; use setFilter*() instead.', E_USER_DEPRECATED);
+
+        return $this->grid->addFilter($this->getName(), $this->label, $type, $optional);
     }
 
     /**********************************************************************************************/
@@ -247,7 +262,7 @@ abstract class Column extends \Grido\Components\Base
         }
 
         if ($this->isSortable() && $this->getSort()) {
-            $this->headerPrototype->class[] = $this->getSort() == self::DESC
+            $this->headerPrototype->class[] = $this->getSort() == self::ORDER_DESC
                 ? 'desc'
                 : 'asc';
         }
@@ -256,7 +271,7 @@ abstract class Column extends \Grido\Components\Base
     }
 
     /**
-     * @internal
+     * @internal - Do not call directly.
      * @return mixed
      */
     public function getColumn()
@@ -265,7 +280,7 @@ abstract class Column extends \Grido\Components\Base
     }
 
     /**
-     * @internal
+     * @internal - Do not call directly.
      * @return string
      */
     public function getSort()
@@ -277,14 +292,14 @@ abstract class Column extends \Grido\Components\Base
                 ? $this->grid->sort[$name]
                 : NULL;
 
-            $this->sort = $sort === NULL ? NULL : strtolower($sort);
+            $this->sort = $sort === NULL ? NULL : $sort;
         }
 
         return $this->sort;
     }
 
     /**
-     * @internal
+     * @internal - Do not call directly.
      * @return mixed
      */
     public function getCustomRender()
@@ -295,7 +310,7 @@ abstract class Column extends \Grido\Components\Base
     /**********************************************************************************************/
 
     /**
-     * @internal
+     * @internal - Do not call directly.
      * @return bool
      */
     public function isSortable()
@@ -304,18 +319,18 @@ abstract class Column extends \Grido\Components\Base
     }
 
     /**
-     * @internal
+     * @internal - Do not call directly.
      * @return bool
      */
     public function hasFilter()
     {
-        return $this->grid->hasFilters() && $this->grid[Filter::ID]->getComponent($this->name, FALSE);
+        return $this->grid->hasFilters() && $this->grid->getComponent(Filter::ID)->getComponent($this->getName(), FALSE);
     }
 
     /**********************************************************************************************/
 
     /**
-     * @internal
+     * @internal - Do not call directly.
      * @param mixed $row
      * @return string
      */
@@ -326,21 +341,20 @@ abstract class Column extends \Grido\Components\Base
         }
 
         $value = $this->getValue($row);
-        if (is_scalar($value) || (is_object($value) && method_exists($value, '__toString'))) {
-            $value = \Nette\Templating\Helpers::escapeHtml($value);
-            $value = $this->applyReplacement($value);
-        }
-
         return $this->formatValue($value);
     }
 
     /**
-     * @internal
+     * @internal - Do not call directly.
      * @param mixed $row
      * @return string
      */
     public function renderExport($row)
     {
+        if (is_callable($this->customRenderExport)) {
+            return callback($this->customRenderExport)->invokeArgs(array($row));
+        }
+
         $value = $this->getValue($row);
         return strip_tags($this->applyReplacement($value));
     }
@@ -354,29 +368,36 @@ abstract class Column extends \Grido\Components\Base
     {
         $column = $this->getColumn();
         if (is_string($column)) {
-            if (!$this->grid->propertyAccessor->hasProperty($row, $column)) {
-                throw new \InvalidArgumentException("Column '$column' does not exist in datasource.");
-            }
-            return $this->grid->propertyAccessor->getProperty($row, $column);
+            return $this->propertyAccessor->getProperty($row, $column);
+
         } elseif (is_callable($column)) {
             return callback($column)->invokeArgs(array($row));
+
         } else {
             throw new \InvalidArgumentException('Column must be string or callback.');
         }
     }
 
+    /***
+     * @param mixed $value
+     * @return mixed
+     */
     protected function applyReplacement($value)
     {
         return (is_string($value) || $value == '' || $value === NULL) && isset($this->replacements[$value])
-            ? str_replace(self::VALUE_IDENTIFIER, $value, $this->replacements[$value])
+            ? str_replace(static::VALUE_IDENTIFIER, $value, $this->replacements[$value])
             : $value;
     }
 
+    /**
+     * @param mixed $value
+     * @return mixed
+     */
     protected function formatValue($value)
     {
-        if ($this->truncate) {
-            $truncate = $this->truncate;
-            $value = $truncate($value);
+        if (is_null($value) || is_scalar($value) || (is_object($value) && method_exists($value, '__toString'))) {
+            $value = \Nette\Templating\Helpers::escapeHtml($value);
+            $value = $this->applyReplacement($value);
         }
 
         return $value;

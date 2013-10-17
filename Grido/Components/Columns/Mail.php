@@ -26,14 +26,17 @@ class Mail extends Text
      */
     protected function formatValue($value)
     {
-        $a = \Nette\Utils\Html::el('a')->href("mailto:$value")->setText($value);
+        $truncate = $this->truncate;
+        $this->truncate = NULL;
+        $value = parent::formatValue($value);
 
-        if ($this->truncate) {
-            $truncate = $this->truncate;
-            $a->setText($truncate($value))
+        $anchor = \Nette\Utils\Html::el('a')->href("mailto:$value")->setText($value);
+
+        if ($truncate) {
+            $anchor->setText($truncate($value))
                 ->setTitle($value);
         }
 
-        return $a;
+        return $anchor;
     }
 }

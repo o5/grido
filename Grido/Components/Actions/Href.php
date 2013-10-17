@@ -22,9 +22,6 @@ namespace Grido\Components\Actions;
  */
 class Href extends Action
 {
-    /** @var array callback */
-    public $onClick;
-
     /** @var string first param for method $presenter->link() */
     protected $destination;
 
@@ -33,6 +30,9 @@ class Href extends Action
 
     /** @var callback for custom href attribute creating */
     protected $customHref;
+
+    /** @var array callback @deprecated */
+    public $onClick = array();
 
     /**
      * @param \Grido\Grid $grid
@@ -63,22 +63,21 @@ class Href extends Action
     /**********************************************************************************************/
 
     /**
-     * @param $item
+     * @param mixed $row
      * @return \Nette\Utils\Html
      */
-    public function getElement($item)
+    public function getElement($row)
     {
-        $element = parent::getElement($item);
+        $element = parent::getElement($row);
 
         $href = '';
         $primaryKey = $this->getPrimaryKey();
-        $primaryValue = $this->grid->propertyAccessor->hasProperty($item, $primaryKey)
-            ? $this->grid->propertyAccessor->getProperty($item, $primaryKey)
-            : NULL;
+        $primaryValue = $this->getPrimaryValue($row);
 
         if ($this->customHref) {
-            $href = callback($this->customHref)->invokeArgs(array($item));
-        } elseif ($this->onClick) {
+            $href = callback($this->customHref)->invokeArgs(array($row));
+        } elseif ($this->onClick) { //@deprecated
+            trigger_error('Parameter $onClick is deprecated in "href" type; use type "event" instead.', E_USER_DEPRECATED);
             $href = $this->link('click!', $primaryValue);
         } elseif ($primaryValue) {
             $this->arguments[$primaryKey] = $primaryValue;
@@ -91,22 +90,30 @@ class Href extends Action
     }
 
     /**
-     * @internal
+     * @internal - Do not call directly.
      * @return string
      */
-    protected function getDestination()
+    public function getDestination()
     {
         if ($this->destination === NULL) {
-            $this->destination = $this->name;
+            $this->destination = $this->getName();
         }
 
         return $this->destination;
     }
 
+    /**
+     * @return array
+     */
+    public function getArguments()
+    {
+        return $this->arguments;
+    }
+
     /**********************************************************************************************/
 
     /**
-     * @internal
+     * @deprecated
      * @param $id
      */
     public function handleClick($id)
