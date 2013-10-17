@@ -63,7 +63,7 @@ class ActionTest extends \Tester\TestCase
 
         Assert::error(function(){
             Helper::$grid->getAction('edit')->render(array('id' => 11));
-        }, 'InvalidArgumentException', "Primary key 'primary' not found.");
+        }, 'Grido\PropertyAccessors\PropertyAccessorException', "Property with name 'primary' does not exists in datasource.");
     }
 
     function testSetDisable()
