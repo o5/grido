@@ -23,11 +23,8 @@ class Check extends Filter
     /* representation TRUE in URI */
     const TRUE = '✓';
 
-    /** @var string for ->where('<column> IS NOT NULL) */
-    protected $condition = 'IS NOT NULL';
-
     /** @var string */
-    protected $formatValue;
+    protected $condition = 'IS NOT NULL';
 
     /**
      * @return \Nette\Forms\Controls\Checkbox
@@ -38,32 +35,38 @@ class Check extends Filter
     }
 
     /**
-     * @internal
+     * @internal - Do not call directly.
      * @param string $value
      * @return array
      */
-    public function makeFilter($value)
+    public function __getCondition($value)
     {
-        return parent::makeFilter($value == self::TRUE ? TRUE : FALSE);
-    }
-    
-    /**
-    * @param string $column
-    * @param string $value
-    * @return array
-    */
-    public function _makeFilter($column, $value)
-    {
-        return array("[$column] " . $this->condition, '');
+        $value = $value == self::TRUE
+            ? TRUE
+            : FALSE;
+
+        return parent::__getCondition($value);
     }
 
     /**
-     * @internal
+     * @internal - Do not call directly.
+     * @param bool $value
+     * @return NULL
+     */
+    public function formatValue($value)
+    {
+        return NULL;
+    }
+
+    /**
+     * @internal - Do not call directly.
      * @param bool $value
      * @return string
      */
     public function changeValue($value)
     {
-        return $value === TRUE ? self::TRUE : $value;
+        return $value === TRUE
+            ? self::TRUE
+            : $value;
     }
 }

@@ -11,12 +11,15 @@
 
 namespace Grido\DataSources;
 
+use Grido\Components\Filters\Condition;
+
 /**
  * Array data source.
  *
  * @package     Grido
  * @subpackage  DataSources
  * @author      Josef Kříž <pepakriz@gmail.com>
+ * @author      Petr Bugyík
  *
  * @property-read array $data
  * @property-read int $count
@@ -34,47 +37,74 @@ class ArraySource extends \Nette\Object implements IDataSource
         $this->data = $data;
     }
 
-    protected function formatFilterCondition(array $condition)
+    /**
+     * @param \Grido\Components\Filters\Condition $condition
+     * @param array $data
+     * @return array
+     */
+    protected function makeWhere(Condition $condition, array $data = NULL)
     {
-        $matches = \Nette\Utils\Strings::matchAll($condition[0], '/\[([\w_-]+)\]* ([\w\!<>=]+) ([%\w]+)/');
+        $data = $data === NULL
+            ? $this->data
+            : $data;
 
-        if (!$matches) {
-            return $condition;
-        }
+        $that = $this;
+        return array_filter($data, function ($row) use ($condition, $that) {
+            if ($condition->callback) {
+                return callback($condition->callback)->invokeArgs(array($condition->value, $row));
+            }
 
-        return array(
-            $matches[0][1],
-            $matches[0][2],
-            trim(str_replace(array('%s', '%i', '%f'), '?', $matches[0][3]))
-        );
+            $i = 0;
+            $results = array();
+            foreach ($condition->column as $column) {
+                if (Condition::isOperator($column)) {
+                    $results[] = " $column ";
+
+                } else {
+                    $i = count($condition->condition) > 1 ? $i : 0;
+                    $results[] = (int) $that->compare($row[$column], $condition->condition[$i], $condition->value[$i]);
+
+                    $i++;
+                }
+            }
+
+            $result = implode('', $results);
+            return count($condition->column) === 1
+                ? (bool) $result
+                : eval("return $result;");
+        });
     }
 
     /**
-     * @param array $data
-     * @param array $condition
-     * @return void
+     * @param string $actual
+     * @param string $condition
+     * @param mixed $expected
+     * @return bool
+     * @throws \InvalidArgumentException
      */
-    protected function getFilter(array $data, array $condition)
+    public function compare($actual, $condition, $expected)
     {
-        $value = $condition[1];
-        $condition = $this->formatFilterCondition($condition);
+        $expected = current((array) $expected);
+        $cond = str_replace(' ?', '', $condition);
+        if ($cond === 'LIKE') {
+            $pattern = str_replace('%', '.*', preg_quote($expected));
+            return (bool) preg_match("/^{$pattern}$/i", $actual);
 
-        return array_filter($data, function ($row) use ($value, $condition) {
-            if ($condition[1] === 'LIKE') {
-                return strlen($value) <= 2
-                    ? TRUE
-                    : stripos($row[$condition[0]], substr($value, 1, -1)) !== FALSE;
+        } else if ($cond === '=') {
+            return $actual == $expected;
 
-            } else if ($condition[1] === '=') {
-                return $row[$condition[0]] == $value;
+        } elseif ($cond === 'IS NULL') {
+            return $actual === NULL;
 
-            } elseif ($condition[1] === 'IS' && $condition[2] == 'NULL') {
-                return $row[$condition[0]] == NULL;
+        } elseif ($cond === 'IS NOT NULL') {
+            return $actual !== NULL;
 
-            } elseif (in_array($condition[1], array('<', '<=', '>', '>='))) {
-                return eval("return {$row[$condition[0]]}{$condition[1]}{$value};");
-            }
-        });
+        } elseif (in_array($cond, array('<', '<=', '>', '>='))) {
+            return eval("return {$actual} {$cond} {$expected};");
+
+        } else {
+            throw new \InvalidArgumentException("Condition '$condition' not implemented yet.");
+        }
     }
 
     /*********************************** interface IDataSource ************************************/
@@ -96,18 +126,18 @@ class ArraySource extends \Nette\Object implements IDataSource
     }
 
     /**
-     * @param array $condition
-     * @return void
+     * @param array $conditions
      */
-    public function filter(array $condition)
+    public function filter(array $conditions)
     {
-        $this->data = $this->getFilter($this->data, $condition);
+        foreach ($conditions as $condition) {
+            $this->data = $this->makeWhere($condition);
+        }
     }
 
     /**
      * @param int $offset
      * @param int $limit
-     * @return void
      */
     public function limit($offset, $limit)
     {
@@ -116,14 +146,18 @@ class ArraySource extends \Nette\Object implements IDataSource
 
     /**
      * @param array $sorting
-     * @return void
      */
     public function sort(array $sorting)
     {
+        if (count($sorting) > 1) {
+            throw new \Exception('Multi-column sorting is not implemented yet.');
+        }
+
         foreach ($sorting as $column => $sort) {
             $data = array();
             foreach ($this->data as $item) {
-                $data[(string) $item[$column]][] = $item; //HOTFIX: (string)
+                $sorter = (string) $item[$column];
+                $data[$sorter][] = $item;
             }
 
             if ($sort === 'ASC') {
@@ -150,7 +184,7 @@ class ArraySource extends \Nette\Object implements IDataSource
     {
         $data = $this->data;
         foreach ($conditions as $condition) {
-            $data = $this->getFilter($data, $condition);
+            $data = $this->makeWhere($condition, $data);
         }
 
         $items = array();
@@ -159,6 +193,9 @@ class ArraySource extends \Nette\Object implements IDataSource
             $items[$value] = $value;
         }
 
-        return array_values($items);
+        $items = array_values($items);
+        sort($items);
+
+        return $items;;
     }
 }

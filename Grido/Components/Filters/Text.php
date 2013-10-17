@@ -23,10 +23,10 @@ class Text extends Filter
     /** @var mixed */
     protected $suggestionColumn;
 
-    /** @var string for ->where('<column> LIKE %s', <value>) */
-    protected $condition = 'LIKE %s';
+    /** @var string */
+    protected $condition = 'LIKE ?';
 
-    /** @var string for ->where('<column> LIKE %s', '%'.<value>.'%') */
+    /** @var string */
     protected $formatValue = '%%value%';
 
     /**
@@ -38,15 +38,15 @@ class Text extends Filter
     {
         $this->suggestionColumn = $column;
 
-        $prototype = $this->getControl()->controlPrototype;
+        $prototype = $this->getControl()->getControlPrototype();
         $prototype->attrs['autocomplete'] = 'off';
         $prototype->class[] = 'suggest';
 
         $filter = $this;
         $this->grid->onRender[] = function(\Grido\Grid $grid) use ($prototype, $filter) {
             $replacement = '-query-';
-            $prototype->attrs['data-grido-suggest-replacement'] = $replacement;
-            $prototype->attrs['data-grido-suggest-handler'] = $filter->link('suggest!', array(
+            $prototype->data['grido-suggest-replacement'] = $replacement;
+            $prototype->data['grido-suggest-handler'] = $filter->link('suggest!', array(
                 'query' => $replacement)
             );
         };
@@ -57,27 +57,27 @@ class Text extends Filter
     /**********************************************************************************************/
 
     /**
-     * @internal
+     * @internal - Do not call directly.
      * @param string $query - value from input
      */
     public function handleSuggest($query)
     {
-        if (!$this->grid->presenter->isAjax()) {
-            $this->presenter->terminate();
+        if (!$this->getPresenter()->isAjax()) {
+            $this->getPresenter()->terminate();
         }
 
         $actualFilter = $this->grid->getActualFilter();
-        if (isset($actualFilter[$this->name])) {
-            unset($actualFilter[$this->name]);
+        if (isset($actualFilter[$this->getName()])) {
+            unset($actualFilter[$this->getName()]);
         }
-        $conditions = $this->grid->_applyFiltering($actualFilter);
-        $conditions[] = $this->makeFilter($query);
+        $conditions = $this->grid->__getConditions($actualFilter);
+        $conditions[] = $this->__getCondition($query);
 
-        $column = $this->suggestionColumn ? $this->suggestionColumn : key($this->getColumns());
+        $column = $this->suggestionColumn ? $this->suggestionColumn : current($this->getColumn());
         $items = $this->grid->model->suggest($column, $conditions);
 
         print \Nette\Utils\Json::encode($items);
-        $this->grid->presenter->terminate();
+        $this->getPresenter()->terminate();
     }
 
     /**
@@ -86,7 +86,7 @@ class Text extends Filter
     protected function getFormControl()
     {
         $control = new \Nette\Forms\Controls\TextInput($this->label);
-        $control->controlPrototype->class[] = 'text';
+        $control->getControlPrototype()->class[] = 'text';
 
         return $control;
     }

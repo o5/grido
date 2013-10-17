@@ -18,10 +18,11 @@ namespace Grido\Components\Filters;
  * @subpackage  Components\Filters
  * @author      Petr Bugyík
  *
- * @property-read string $columns
+ * @property-read array $column
  * @property-read string $wrapperPrototype
  * @property-read \Nette\Forms\Controls\BaseControl $control
- * @property-write mixed $condition
+ * @property-write string $condition
+ * @property-write callable $where
  * @property-write string $formatValue
  * @property-write string $defaultValue
  */
@@ -29,21 +30,24 @@ abstract class Filter extends \Grido\Components\Base
 {
     const ID = 'filters';
 
-    const TYPE_TEXT = 'Grido\Components\Filters\Text';
-    const TYPE_DATE = 'Grido\Components\Filters\Date';
-    const TYPE_CHECK = 'Grido\Components\Filters\Check';
-    const TYPE_SELECT = 'Grido\Components\Filters\Select';
-    const TYPE_NUMBER = 'Grido\Components\Filters\Number';
-    const TYPE_CUSTOM = 'Grido\Components\Filters\Custom';
+    /** @deprecated */
+    const TYPE_TEXT = 'Grido\Components\Filters\Text',
+        TYPE_DATE = 'Grido\Components\Filters\Date',
+        TYPE_CHECK = 'Grido\Components\Filters\Check',
+        TYPE_SELECT = 'Grido\Components\Filters\Select',
+        TYPE_NUMBER = 'Grido\Components\Filters\Number',
+        TYPE_CUSTOM = 'Grido\Components\Filters\Custom';
 
-    const OPERATOR_AND  = 'AND';
-    const OPERATOR_OR   = 'OR';
+    /** @deprecated */
+    const OPERATOR_OR = 'OR',
+        OPERATOR_AND = 'AND';
 
     const VALUE_IDENTIFIER = '%value';
 
-    const CONDITION_CUSTOM = ':condition-custom:';
-    const CONDITION_CALLBACK = ':condition-callback:';
-    const CONDITION_NOT_APPLY = ':not-apply:';
+    /** @deprecated */
+    const CONDITION_CUSTOM = ':condition-custom:',
+        CONDITION_CALLBACK = ':condition-callback:',
+        CONDITION_NOT_APPLY = ':not-apply:';
 
     const RENDER_INNER = 'inner';
     const RENDER_OUTER = 'outer';
@@ -52,10 +56,13 @@ abstract class Filter extends \Grido\Components\Base
     protected $optional;
 
     /** @var array */
-    protected $columns = array();
+    protected $column = array();
 
-    /** @var mixed for ->where('<column> = %s', <value>)  */
-    protected $condition = '= %s';
+    /** @var string */
+    protected $condition = '= ?';
+
+    /** @var callable */
+    protected $where;
 
     /** @var string */
     protected $formatValue;
@@ -95,30 +102,46 @@ abstract class Filter extends \Grido\Components\Base
      * @param string $operator
      * @return Filter
      */
-    public function setColumn($column, $operator = self::OPERATOR_AND)
+    public function setColumn($column, $operator = Condition::OPERATOR_OR)
     {
-        $this->columns[$column] = $operator;
+        $columnAlreadySet = count($this->column) > 0;
+        if (!Condition::isOperator($operator) && $columnAlreadySet) {
+            throw new \InvalidArgumentException('Operator must be Condition::OPERATOR_AND or Condition::OPERATOR_OR.');
+        }
+
+        if ($columnAlreadySet) {
+            $this->column[] = $operator;
+            $this->column[] = $column;
+        } else {
+            $this->column[] = $column;
+        }
+
         return $this;
     }
 
     /**
-     * Sets custom sql condition.
+     * Sets custom condition.
      * @param $condition
-     * @param mixed $custom
-     * @throws \InvalidArgumentException
      * @return Filter
      */
-    public function setCondition($condition, $custom = NULL)
+    public function setCondition($condition)
     {
         if (in_array($condition, array(self::CONDITION_CUSTOM, self::CONDITION_CALLBACK))) {
-            if (empty($custom)) {
-                throw new \InvalidArgumentException('Second param cannot be empty.');
-            }
-            $this->condition = array($condition => $custom);
-        } else {
-            $this->condition = $condition;
+            trigger_error("Condition type '$condition' is deprecated, check out the new usage.", E_USER_DEPRECATED);
         }
 
+        $this->condition = $condition;
+        return $this;
+    }
+
+    /**
+     * Sets custom "sql" where.
+     * @param callable $callback function($value, $source) {}
+     * @return \Grido\Components\Filters\Filter
+     */
+    public function setWhere($callback)
+    {
+        $this->where = $callback;
         return $this;
     }
 
@@ -140,7 +163,7 @@ abstract class Filter extends \Grido\Components\Base
      */
     public function setDefaultValue($value)
     {
-        $this->grid->setDefaultFilter(array($this->name => $value));
+        $this->grid->setDefaultFilter(array($this->getName() => $value));
         return $this;
     }
 
@@ -150,28 +173,28 @@ abstract class Filter extends \Grido\Components\Base
      * @internal
      * @return array
      */
-    public function getColumns()
+    public function getColumn()
     {
-        if (!$this->columns) {
-            $column = $this->name;
-            if ($column = $this->grid->getColumn($this->name, FALSE)) {
-                $column = $column->column; //use db column from column compoment
+        if (!$this->column) {
+            $column = $this->getName();
+            if ($columnComponent = $this->grid->getColumn($column, FALSE)) {
+                $column = $columnComponent->column; //use db column from column compoment
             }
 
             $this->setColumn($column);
         }
 
-        return $this->columns;
+        return $this->column;
     }
 
     /**
-     * @internal
+     * @internal - Do not call directly.
      * @return \Nette\Forms\Controls\BaseControl
      */
     public function getControl()
     {
         if ($this->control === NULL) {
-            $this->control = $this->getForm()->getComponent(self::ID)->getComponent($this->name);
+            $this->control = $this->getForm()->getComponent(self::ID)->getComponent($this->getName());
         }
 
         return $this->control;
@@ -191,84 +214,56 @@ abstract class Filter extends \Grido\Components\Base
         return $this->wrapperPrototype;
     }
 
-    /**********************************************************************************************/
+    /**
+     * @return string
+     */
+    public function getCondition()
+    {
+        return $this->condition;
+    }
 
     /**
-     * @internal
+     * @internal - do not call directly.
      * @param string $value
-     * @return array
+     * @return Condition
+     * @throws \Exception
      */
-    public function makeFilter($value)
+    public function __getCondition($value)
     {
-        if ($this->condition == self::CONDITION_NOT_APPLY) {
-            return array();
+        if ($value === '' || $value === NULL) {
+            return FALSE; //skip
         }
 
-        $customCallback = is_array($this->condition) && isset($this->condition[self::CONDITION_CALLBACK])
-            ? $this->condition[self::CONDITION_CALLBACK]
-            : FALSE;
+        $condition = $this->getCondition();
 
-        if ($customCallback) {
-            return callback($customCallback)->invokeArgs(array($value));
+        if ($this->where !== NULL) {
+            $condition = Condition::setupFromCallback($this->where, $value);
+
+        } else if (is_string($condition)) {
+            $condition = Condition::setup($this->getColumn(), $condition, $this->formatValue($value));
+
+        } elseif ($condition instanceof Condition) {
+            $condition = $condition;
+
+        } elseif (is_callable($condition)) {
+            $condition = callback($condition)->invokeArgs(array($value));
+
+        } elseif (is_array($condition)) {
+            $condition = isset($condition[$value])
+                ? $condition[$value]
+                : Condition::setupEmpty();
         }
 
-        $values = array();
-        $addOperator = FALSE;
-        $condition = array();
-        $columns = $this->getColumns();
-        $moreColumns = count($columns) > 1;
-        $customCondition = is_array($this->condition) && isset($this->condition[self::CONDITION_CUSTOM])
-            ? $this->condition[self::CONDITION_CUSTOM]
-            : FALSE;
-
-        foreach ($columns as $column => $operator ) {
-            if ($addOperator) {
-                $condition[] = " $operator ";
-            }
-
-            if ($moreColumns) {
-                $condition[] = '(';
-            }
-
-            if ($customCondition) {
-                if (isset($customCondition[$value])) {
-                    $condition[] = $customCondition[$value];
-                }
-            } elseif ($filter = $this->_makeFilter($column, $value)) {
-                $condition[] = $filter[0];
-                $values[] = $filter[1];
-            }
-
-            if ($moreColumns) {
-                $condition[] = ')';
-            }
-            $addOperator = TRUE;
-        }
-
-        if ($condition) {
-            array_unshift($condition, ' (');
-            $condition[] = ' )';
-        }
-
-        if ($condition) {
-            $condition = array(implode('', $condition));
-            foreach ($values as $val) {
-                $condition[] = $val;
-            }
+        if (is_array($condition)) { //for user-defined condition by array or callback
+            $condition = Condition::setupFromArray($condition);
+        }  elseif ($condition !== NULL && !$condition instanceof Condition) {
+            throw new \InvalidArgumentException('Condition must be array or Grido\Components\Filters\Condition. Type "' . gettype($condition) . '" given.');
         }
 
         return $condition;
     }
 
-    /**
-     * @param string $column
-     * @param string $value
-     * @return array condition|value
-     */
-    protected function _makeFilter($column, $value)
-    {
-        return array("[$column] " . $this->condition, $this->formatValue($value));
-    }
+    /**********************************************************************************************/
 
     /**
      * Format value for database.
@@ -278,7 +273,7 @@ abstract class Filter extends \Grido\Components\Base
     protected function formatValue($value)
     {
         if ($this->formatValue !== NULL) {
-            return str_replace(self::VALUE_IDENTIFIER, $value, $this->formatValue);
+            return str_replace(static::VALUE_IDENTIFIER, $value, $this->formatValue);
         } else {
             return $value;
         }
@@ -286,7 +281,7 @@ abstract class Filter extends \Grido\Components\Base
 
     /**
      * Value representation in URI.
-     * @internal
+     * @internal - Do not call directly.
      * @param string $value
      * @return string
      */

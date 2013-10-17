@@ -20,9 +20,6 @@ namespace Grido\Components\Filters;
  */
 class Select extends Filter
 {
-    /** @var string for ->where('<column> = %s', <value>) */
-    protected $condition = '= %s';
-
     /**
      * @param \Grido\Grid $grid
      * @param string $name
@@ -43,9 +40,6 @@ class Select extends Filter
      */
     protected function getFormControl()
     {
-        $control = new \Nette\Forms\Controls\SelectBox($this->label);
-        $control->controlPrototype->class[] = 'text';
-
-        return $control;
+        return new \Nette\Forms\Controls\SelectBox($this->label);
     }
 }
