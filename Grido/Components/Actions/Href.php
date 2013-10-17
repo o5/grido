@@ -69,9 +69,7 @@ class Href extends Action
 
         $href = '';
         $primaryKey = $this->getPrimaryKey();
-        $primaryValue = $this->grid->propertyAccessor->hasProperty($row, $primaryKey)
-            ? $this->grid->propertyAccessor->getProperty($row, $primaryKey)
-            : NULL;
+        $primaryValue = $this->getPrimaryValue($row);
 
         if ($this->customHref) {
             $href = callback($this->customHref)->invokeArgs(array($row));
@@ -92,7 +90,7 @@ class Href extends Action
     public function getDestination()
     {
         if ($this->destination === NULL) {
-            $this->destination = $this->name;
+            $this->destination = $this->getName();
         }
 
         return $this->destination;

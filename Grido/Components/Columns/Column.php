@@ -116,7 +116,7 @@ abstract class Column extends \Grido\Components\Component
      */
     public function setDefaultSort($dir)
     {
-        $this->grid->setDefaultSort(array($this->name => $dir));
+        $this->grid->setDefaultSort(array($this->getName() => $dir));
         return $this;
     }
 
@@ -248,7 +248,7 @@ abstract class Column extends \Grido\Components\Component
      */
     public function hasFilter()
     {
-        return $this->grid->hasFilters() && $this->grid[Filter::ID]->getComponent($this->name, FALSE);
+        return $this->grid->hasFilters() && $this->grid->getComponent(Filter::ID)->getComponent($this->getName(), FALSE);
     }
 
     /**********************************************************************************************/
@@ -292,12 +292,11 @@ abstract class Column extends \Grido\Components\Component
     {
         $column = $this->getColumn();
         if (is_string($column)) {
-            if (!$this->grid->propertyAccessor->hasProperty($row, $column)) {
-                throw new \InvalidArgumentException("Column '$column' does not exist in datasource.");
-            }
-            return $this->grid->propertyAccessor->getProperty($row, $column);
+            return $this->propertyAccessor->getProperty($row, $column);
+
         } elseif (is_callable($column)) {
             return callback($column)->invokeArgs(array($row));
+
         } else {
             throw new \InvalidArgumentException('Column must be string or callback.');
         }
@@ -335,7 +334,7 @@ abstract class Column extends \Grido\Components\Component
      */
     public function setFilterText()
     {
-        return $this->grid->addFilterText($this->name, $this->label);
+        return $this->grid->addFilterText($this->getName(), $this->label);
     }
 
     /**
@@ -343,7 +342,7 @@ abstract class Column extends \Grido\Components\Component
      */
     public function setFilterDate()
     {
-        return $this->grid->addFilterDate($this->name, $this->label);
+        return $this->grid->addFilterDate($this->getName(), $this->label);
     }
 
     /**
@@ -351,7 +350,7 @@ abstract class Column extends \Grido\Components\Component
      */
     public function setFilterCheck()
     {
-        return $this->grid->addFilterCheck($this->name, $this->label);
+        return $this->grid->addFilterCheck($this->getName(), $this->label);
     }
 
     /**
@@ -360,7 +359,7 @@ abstract class Column extends \Grido\Components\Component
      */
     public function setFilterSelect(array $items = NULL)
     {
-        return $this->grid->addFilterSelect($this->name, $this->label, $items);
+        return $this->grid->addFilterSelect($this->getName(), $this->label, $items);
     }
 
     /**
@@ -368,7 +367,7 @@ abstract class Column extends \Grido\Components\Component
      */
     public function setFilterNumber()
     {
-        return $this->grid->addFilterNumber($this->name, $this->label);
+        return $this->grid->addFilterNumber($this->getName(), $this->label);
     }
 
     /**
@@ -377,6 +376,6 @@ abstract class Column extends \Grido\Components\Component
      */
     public function setFilterCustom(\Nette\Forms\IControl $formControl)
     {
-        return $this->grid->addFilterCustom($this->name, $formControl);
+        return $this->grid->addFilterCustom($this->getName(), $formControl);
     }
 }

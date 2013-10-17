@@ -142,7 +142,7 @@ abstract class Filter extends \Grido\Components\Component
      */
     public function setDefaultValue($value)
     {
-        $this->grid->setDefaultFilter(array($this->name => $value));
+        $this->grid->setDefaultFilter(array($this->getName() => $value));
         return $this;
     }
 
@@ -155,8 +155,8 @@ abstract class Filter extends \Grido\Components\Component
     public function getColumn()
     {
         if (!$this->column) {
-            $column = $this->name;
-            if ($columnComponent = $this->grid->getColumn($this->name, FALSE)) {
+            $column = $this->getName();
+            if ($columnComponent = $this->grid->getColumn($column, FALSE)) {
                 $column = $columnComponent->column; //use db column from column compoment
             }
 
@@ -173,7 +173,7 @@ abstract class Filter extends \Grido\Components\Component
     public function getControl()
     {
         if ($this->control === NULL) {
-            $this->control = $this->getForm()->getComponent(self::ID)->getComponent($this->name);
+            $this->control = $this->getForm()->getComponent(self::ID)->getComponent($this->getName());
         }
 
         return $this->control;

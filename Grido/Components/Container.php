@@ -38,7 +38,7 @@ abstract class Container extends \Nette\Application\UI\Control
     public function getColumn($name, $need = TRUE)
     {
         return $this->hasColumns()
-            ? $this[Column::ID]->getComponent($name, $need)
+            ? $this->getComponent(Column::ID)->getComponent($name, $need)
             : NULL;
     }
 
@@ -51,7 +51,7 @@ abstract class Container extends \Nette\Application\UI\Control
     public function getFilter($name, $need = TRUE)
     {
         return $this->hasFilters()
-            ? $this[Filter::ID]->getComponent($name, $need)
+            ? $this->getComponent(Filter::ID)->getComponent($name, $need)
             : NULL;
     }
 
@@ -64,7 +64,7 @@ abstract class Container extends \Nette\Application\UI\Control
     public function getAction($name, $need = TRUE)
     {
         return $this->hasActions()
-            ? $this[Action::ID]->getComponent($name, $need)
+            ? $this->getComponent(Action::ID)->getComponent($name, $need)
             : NULL;
     }
 
@@ -178,7 +178,6 @@ abstract class Container extends \Nette\Application\UI\Control
         return $hasExport;
     }
 
-    /**********************************************************************************************/
     /**********************************************************************************************/
 
     /**

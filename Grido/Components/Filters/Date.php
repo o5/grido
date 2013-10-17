@@ -32,8 +32,8 @@ class Date extends Text
     protected function getFormControl()
     {
         $control = parent::getFormControl();
-        $control->controlPrototype->class[] = 'date';
-        $control->controlPrototype->attrs['autocomplete'] = 'off';
+        $control->getControlPrototype()->class[] = 'date';
+        $control->getControlPrototype()->attrs['autocomplete'] = 'off';
 
         return $control;
     }

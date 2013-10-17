@@ -153,10 +153,26 @@ abstract class Action extends \Grido\Components\Component
     public function getPrimaryKey()
     {
         if ($this->primaryKey === NULL) {
-            $this->primaryKey = $this->grid->primaryKey;
+            $this->primaryKey = $this->grid->getPrimaryKey();
         }
 
         return $this->primaryKey;
+    }
+
+    /**
+     * @param mixed $row
+     * @return string
+     * @throws \InvalidArgumentException
+     */
+    protected function getPrimaryValue($row)
+    {
+        try {
+            $primaryKey = $this->getPrimaryKey();
+            return $this->propertyAccessor->getProperty($row, $primaryKey);
+
+        } catch (\Grido\PropertyAccessors\PropertyAccessorException $e) {
+            throw new \InvalidArgumentException("Primary key '$primaryKey' not found.");
+        }
     }
 
     /**
@@ -166,13 +182,6 @@ abstract class Action extends \Grido\Components\Component
      */
     protected function getElement($row)
     {
-        $primaryKey = $this->getPrimaryKey();
-        $propertyAccessor = $this->grid->propertyAccessor;
-
-        if (!$this->customRender && !$propertyAccessor->hasProperty($row, $primaryKey)) {
-            throw new \InvalidArgumentException("Primary key '$primaryKey' not found.");
-        }
-
         $text = $this->translate($this->label);
         $this->icon ? $text = ' ' . $text : $text;
 
