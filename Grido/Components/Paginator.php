@@ -72,15 +72,15 @@ class Paginator extends \Nette\Utils\Paginator
     {
         if (!$this->steps) {
             $arr = range(
-                max($this->firstPage, $this->getPage() - 3),
-                min($this->lastPage, $this->getPage() + 3)
+                max($this->getFirstPage(), $this->getPage() - 3),
+                min($this->getLastPage(), $this->getPage() + 3)
             );
 
             $count = 4;
-            $quotient = ($this->pageCount - 1) / $count;
+            $quotient = ($this->getPageCount() - 1) / $count;
 
             for ($i = 0; $i <= $count; $i++) {
-                $arr[] = (int) (round($quotient * $i) + $this->firstPage);
+                $arr[] = (int) (round($quotient * $i) + $this->getFirstPage());
             }
 
             sort($arr);
