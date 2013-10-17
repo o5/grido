@@ -37,7 +37,7 @@ class Operation extends Base
      * @param array $operations
      * @param callback $onSubmit - callback after operation submit
      */
-    public function __construct($grid, $operations, $onSubmit)
+    public function __construct($grid, array $operations, $onSubmit)
     {
         $this->grid = $grid;
         $grid->addComponent($this, self::ID);
@@ -66,7 +66,7 @@ class Operation extends Base
     public function setConfirm($operation, $message)
     {
         $this->grid->onRender[] = function(Grid $grid) use ($operation, $message){
-            $grid['form'][Operation::ID][Operation::ID]->controlPrototype->attrs["data-grido-$operation"] = $message;
+            $grid['form'][Operation::ID][Operation::ID]->controlPrototype->data["grido-$operation"] = $message;
         };
 
         return $this;
@@ -100,7 +100,7 @@ class Operation extends Base
     /**********************************************************************************************/
 
     /**
-     * @internal
+     * @internal - Do not call directly.
      * @param \Nette\Forms\Controls\SubmitButton $button
      */
     public function handleOperations(\Nette\Forms\Controls\SubmitButton $button)
@@ -110,6 +110,11 @@ class Operation extends Base
 
         $values = $form[self::ID]->values;
         if (empty($values[self::ID])) {
+            $httpData = $form->getHttpData();
+            if (!empty($httpData[self::ID][self::ID]) && $operation = $httpData[self::ID][self::ID]) {
+                trigger_error("Operation with name '$operation' does not exist.", E_USER_NOTICE);
+            }
+
             $this->grid->reload();
         }
 
@@ -127,7 +132,7 @@ class Operation extends Base
     }
 
     /**
-     * @internal
+     * @internal - Do not call directly.
      * @param \Nette\Forms\Container $container
      */
     public function addCheckers(\Nette\Forms\Container $container)
