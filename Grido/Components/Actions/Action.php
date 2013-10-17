@@ -166,17 +166,10 @@ abstract class Action extends \Grido\Components\Base
     /**
      * @param mixed $row
      * @return string
-     * @throws \InvalidArgumentException
      */
     protected function getPrimaryValue($row)
     {
-        try {
-            $primaryKey = $this->getPrimaryKey();
-            return $this->propertyAccessor->getProperty($row, $primaryKey);
-
-        } catch (\Grido\PropertyAccessors\PropertyAccessorException $e) {
-            throw new \InvalidArgumentException("Primary key '$primaryKey' not found.");
-        }
+        return $this->propertyAccessor->getProperty($row, $this->getPrimaryKey());
     }
 
     /**

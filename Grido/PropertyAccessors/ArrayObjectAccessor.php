@@ -23,35 +23,41 @@ class ArrayObjectAccessor implements IPropertyAccessor
     /**
      * @param mixed $object
      * @param string $name
+     * @throws \Grido\PropertyAccessors\PropertyAccessorException
+     * @throws \Nette\MemberAccessException
+     * @throws \InvalidArgumentException
      * @return mixed
      */
     public static function getProperty($object, $name)
     {
-        if ($object instanceof \Nette\Database\Table\ActiveRow) {
-            //https://github.com/nette/nette/pull/1100
-            $object = $object->toArray();
-        }
+        if (is_array($object)) {
+            if (!array_key_exists($name, $object)) {
+                throw new PropertyAccessorException("Property with name '$name' does not exists in datasource.");
+            }
 
-        if (is_array($object) && array_key_exists($name, $object)) {
             return $object[$name];
-        } elseif (is_object($object) && property_exists($object, $name)) {
+
+        } elseif (is_object($object)) {
             return $object->$name;
+
         } else {
-            throw new PropertyAccessorException("Property with name '$name' does not exists in datasource.");
+            throw new \InvalidArgumentException('Please implement your own property accessor.');
         }
     }
 
     /**
      * @param mixed $object
      * @param string $name
-     * @param string $value
+     * @param mixed $value
      */
     public static function setProperty($object, $name, $value)
     {
-        if (isset($object->$name) || (is_object($object) && property_exists($object, $name))) {
+        if (is_array($object)) {
             $object->$name = $value;
-        } else {
+        } elseif (is_object($object)) {
             $object[$name] = $value;
+        } else {
+            throw new \InvalidArgumentException('Please implement your own property accessor.');
         }
     }
 }
