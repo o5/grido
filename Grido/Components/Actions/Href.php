@@ -79,7 +79,7 @@ class Href extends Action
         } elseif ($this->onClick) { //@deprecated
             trigger_error('Parameter $onClick is deprecated in "href" type; use type "event" instead.', E_USER_DEPRECATED);
             $href = $this->link('click!', $primaryValue);
-        } elseif ($primaryValue) {
+        } else {
             $this->arguments[$primaryKey] = $primaryValue;
             $href = $this->presenter->link($this->getDestination(), $this->arguments);
         }
