@@ -33,6 +33,21 @@ class ActionHrefTest extends \Tester\TestCase
             Helper::$grid->getAction('delete')->render(array('id' => 1));
         $output = ob_get_clean();
         Assert::same('<a class="grid-action-delete btn btn-mini" href="/index.php?id=1&amp;action=delete&amp;presenter=Test">Delete</a>', $output);
+
+        ob_start();
+            Helper::$grid->getAction('delete')->render(array('id' => NULL));
+        $output = ob_get_clean();
+        Assert::same('<a class="grid-action-delete btn btn-mini" href="/index.php?action=delete&amp;presenter=Test">Delete</a>', $output);
+
+        ob_start();
+            Helper::$grid->getAction('delete')->render(array('id' => FALSE));
+        $output = ob_get_clean();
+        Assert::same('<a class="grid-action-delete btn btn-mini" href="/index.php?id=0&amp;action=delete&amp;presenter=Test">Delete</a>', $output);
+
+        ob_start();
+            Helper::$grid->getAction('delete')->render(array('id' => 0));
+        $output = ob_get_clean();
+        Assert::same('<a class="grid-action-delete btn btn-mini" href="/index.php?id=0&amp;action=delete&amp;presenter=Test">Delete</a>', $output);
     }
 
     function testSetCustomHref()
