@@ -554,8 +554,7 @@ class Grid extends \Nette\Application\UI\Control
         }
 
         $this->filterRenderType = Filter::RENDER_OUTER;
-
-        if ($this->hasFilters() && $this->hasActions()) {
+        if ($this->hasColumns() && $this->hasFilters() && $this->hasActions()) {
             $this->filterRenderType = Filter::RENDER_INNER;
 
             $filters = $this[Filter::ID]->getComponents();
