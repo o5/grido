@@ -92,7 +92,7 @@
 }
 
 .grido .filter.outer .items {
-    width: 85%;
+    width: 88%;
     float: left;
     min-height: 60px;
 }
@@ -100,7 +100,8 @@
 .grido .filter.outer .items span {
     float: left;
     display: block;
-    width: 133px;
+    width: 130px;
+    height: 55px;
     padding: 7px;
 }
 
