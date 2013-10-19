@@ -80,8 +80,8 @@ class Helper
      */
     private function createPresenter()
     {
-        $url = new \Nette\Http\UrlScript('http://localhost/index.php');
-        $url->setScriptPath('/index.php');
+        $url = new \Nette\Http\UrlScript('http://localhost/');
+        $url->setScriptPath('/');
 
         $configurator = new \Nette\Config\Configurator;
         $configurator->addConfig(__DIR__ . '/config.neon');
