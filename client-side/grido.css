@@ -9,7 +9,7 @@
 
 /******************** GRID ********************/
 
-.grido {
+.grido table, .grido .filter {
     background: #fff;
     border-radius: 4px;
     border-spacing: 0;
@@ -22,7 +22,7 @@
 
 .grido thead th,
 .grido tfoot td,
-.grido.filter.outer {
+.grido .filter.outer {
     background: #E9E9E9;
     background:-moz-linear-gradient(top, #FAFAFA 0%, #E9E9E9 100%);
     background:-webkit-gradient(linear, left top, left bottom, color-stop(0%,#FAFAFA), color-stop(100%,#E9E9E9));
@@ -85,31 +85,31 @@
     height: 35px;
 }
 
-.grido.filter.outer {
+.grido .filter.outer {
     display: inline-block;
     width: 100%;
     margin-bottom: 20px;
 }
 
-.grido.filter.outer .items {
+.grido .filter.outer .items {
     width: 85%;
     float: left;
     min-height: 60px;
 }
 
-.grido.filter.outer .items span {
+.grido .filter.outer .items span {
     float: left;
     display: block;
     width: 133px;
     padding: 7px;
 }
 
-.filter.outer select,
-.filter.outer input.text,
-.filter.inner select,
-.filter.inner input.text {width: 100%}
+.grido .filter.outer select,
+.grido .filter.outer input.text,
+.grido .filter.inner select,
+.grido .filter.inner input.text {width: 100%}
 
-.grido.filter.outer .buttons {
+.grido .filter.outer .buttons {
     float: right;
     margin: 15px 5px 0 0;
 }
@@ -160,13 +160,13 @@
 .grido .left {text-align: left}
 .grido .right {text-align: right}
 
-.grido.filter.outer label {font-size: 12px}
+.grido .filter.outer label {font-size: 12px}
 
 /******************** TWITTER BOOTSTRAP RESET ********************/
 
-.grido.table thead th {vertical-align: middle}
-.grido.table th, .table td {vertical-align: middle}
-.grido.table tfoot td {text-align: inherit}
+.grido .table thead th {vertical-align: middle}
+.grido .table th, .table td {vertical-align: middle}
+.grido .table tfoot td {text-align: inherit}
 
 .grido input.text, .grido select {
     margin-bottom: 0;

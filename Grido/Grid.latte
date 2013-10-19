@@ -9,21 +9,25 @@
 
 {snippet grid}
 {?
-    /* TWITTER BOOTSTRAP */
     $form = $control->getComponent('form');
     $buttons = $form->getComponent('buttons');
+
+    /* TWITTER BOOTSTRAP */
     $buttons->getComponent('search')->getControlPrototype()->class[] = 'btn search';
     $buttons->getComponent('reset')->getControlPrototype()->class[] = 'btn reset';
 
     $form->getElementPrototype()->class[] = 'ajax';
+    $form->getElementPrototype()->class[] = 'grido';
 
     $operations = $control->hasOperations();
     $actions = $control->hasActions() ? $control->getComponent(\Grido\Components\Actions\Action::ID)->getComponents() : array();
+
     $filters = $control->hasFilters() ? $form->getComponent(\Grido\Components\Filters\Filter::ID)->getComponents() : array();
+    $filterRenderType = $control->getFilterRenderType();
 
     $columns = $control->getComponent(Grido\Components\Columns\Column::ID)->getComponents();
     $columnCount = count($columns) + ($operations ? 1 : 0);
-    $showActionsColumn = $actions || ($filters && $control->getFilterRenderType() == Grido\Components\Filters\Filter::RENDER_INNER);
+    $showActionsColumn = $actions || ($filters && $filterRenderType == Grido\Components\Filters\Filter::RENDER_INNER);
 }
 {if $form->getErrors()}
 <ul n:foreach="$form->getErrors() as $error">
@@ -31,8 +35,8 @@
 </ul>
 {/if}
 {form form}
-{if $control->getFilterRenderType() == Grido\Components\Filters\Filter::RENDER_OUTER}
-    <div n:block="outerFilter" class="grido filter outer">
+{if $filterRenderType == Grido\Components\Filters\Filter::RENDER_OUTER}
+    <div n:block="outerFilter" class="filter outer">
         <div class="items">
             <span n:foreach="$filters as $filter" class="grid-filter-{$filter->getName()}">
                 {$filter->getLabel()}
@@ -54,7 +58,7 @@
 {!$control->getTablePrototype()->startTag()}
     <thead>
         <tr class="head">
-            <th n:if="$operations" class="checker"{if $filters} rowspan="{if $control->getFilterRenderType() == Grido\Components\Filters\Filter::RENDER_OUTER}1{else}2{/if}"{/if}>
+            <th n:if="$operations" class="checker"{if $filters} rowspan="{if $filterRenderType == Grido\Components\Filters\Filter::RENDER_OUTER}1{else}2{/if}"{/if}>
                 <input type="checkbox" title="{_'Invert'}">
             </th>
             {foreach $columns as $column}
@@ -73,7 +77,7 @@
                 {_'Actions'}
             </th>
         </tr>
-        <tr n:if="$control->getFilterRenderType() == Grido\Components\Filters\Filter::RENDER_INNER && $filters" class="filter inner">
+        <tr n:if="$filterRenderType == Grido\Components\Filters\Filter::RENDER_INNER && $filters" class="filter inner">
             {foreach $columns as $column}
                 {if $column->hasFilter()}
                     {!$control->getFilter($column->getName())->getWrapperPrototype()->startTag()}
@@ -102,7 +106,6 @@
                     {?$form[Grido\Grid::BUTTONS][Grido\Components\Operation::ID]->controlPrototype->class[] = 'hide'}
                     {$form[Grido\Grid::BUTTONS][Grido\Components\Operation::ID]->control}
                 </span>
-
                 <span n:if="$paginator->steps && $paginator->pageCount > 1" n:block="paginator" class="paginator">
                     {if $control->page == 1}
                         <span class="btn btn-mini disabled" n:href="page! page => $paginator->getPage() - 1"><i class="icon-arrow-left"></i> {_'Previous'}</span>
@@ -125,7 +128,6 @@
                         <a class="btn btn-mini ajax" n:href="page! page => $paginator->getPage() + 1">{_'Next'} <i class="icon-arrow-right"></i></a>
                     {/if}
                 </span>
-
                 <span n:block="count" class="count">
                     {= sprintf($template->translate('Items %d - %d of %d'), $paginator->getCountBegin(), $paginator->getCountEnd(), $control->getCount())}
                     {input count}
