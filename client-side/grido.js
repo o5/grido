@@ -27,8 +27,10 @@
     Grido.Grid = function($element, options)
     {
         this.$element = $element;
-        this.name = $element.attr('id');
-        this.options = $.extend($.fn.grido.defaults, options, $element.data('grido-options') || {});
+        this.$table = $('table', $element);
+
+        this.name = this.$table.attr('id');
+        this.options = $.extend($.fn.grido.defaults, options, this.$table.data('grido-options') || {});
     };
 
     Grido.Grid.prototype =
@@ -67,7 +69,7 @@
          */
         initItemsPerPage: function()
         {
-            $('[name=count]', this.$element)
+            $('[name=count]', this.$table)
                 .off('change.grido')
                 .on('change.grido', function() {
                     $(this).next().trigger('click');
@@ -79,7 +81,7 @@
          */
         initActions: function()
         {
-            $('.actions a', this.$element)
+            $('.actions a', this.$table)
                 .off('click.grido')
                 .on('click.grido', function(event) {
                     var hasConfirm = $(this).data('grido-confirm');
@@ -97,7 +99,7 @@
         initPagePrompt: function()
         {
             var _this = this;
-            $('.paginator .prompt', this.$element)
+            $('.paginator .prompt', this.$table)
                 .off('click.grido')
                 .on('click.grido', function() {
                     var page = parseInt(prompt($(this).data('grido-prompt')), 10);
@@ -113,7 +115,7 @@
          */
         initOperation: function()
         {
-            if ($('th.checker', this.$element).length) {
+            if ($('th.checker', this.$table).length) {
                 this.operation = new Grido.Operation(this).init();
             }
         },
@@ -123,7 +125,7 @@
          */
         initCheckNumeric: function()
         {
-            $('input.number', this.$element)
+            $('.filter input.number', this.$element)
                 .off('keyup.grido')
                 .on('keyup.grido', function() {
                     var value = $(this).val(),
@@ -145,7 +147,7 @@
          */
         sendFilterForm: function()
         {
-            $('[name="buttons[search]"]', this.$element).click();
+            $('.filter [name="buttons[search]"]', this.$element).click();
         }
     };
 
@@ -179,7 +181,7 @@
 
         initSelectState: function()
         {
-            $(this.selector + ':checked', this.grido.$element).length === 0 && this.controlState('disabled');
+            $(this.selector + ':checked', this.grido.$table).length === 0 && this.controlState('disabled');
         },
 
         /**
@@ -188,11 +190,11 @@
         bindClickOnCheckbox: function()
         {
             var _this = this;
-            $(this.selector, this.grido.$element)
+            $(this.selector, this.grido.$table)
                 .off('click.grido')
                 .on('click.grido', function(event, data) {
                     if(event.shiftKey || (data && data.shiftKey)) {
-                        var $boxes = $(_this.selector, _this.grido.$element),
+                        var $boxes = $(_this.selector, _this.grido.$table),
                             start = $boxes.index(this),
                             end = $boxes.index(_this.$last);
 
@@ -208,7 +210,7 @@
         bindClickOnRow: function()
         {
             var _this = this;
-            $('tbody td:not(.checker,.actions a)', this.grido.$element)
+            $('tbody td:not(.checker,.actions a)', this.grido.$table)
                 .off('click.grido')
                 .on('click.grido', function(event) {
                     if (event.shiftKey) {
@@ -228,10 +230,10 @@
         bindClickOnInvertor: function()
         {
             var _this = this;
-            $('th.checker [type=checkbox]', this.grido.$element)
+            $('th.checker [type=checkbox]', this.grido.$table)
                 .off('click.grido')
                 .on('click.grido', function() {
-                    $(_this.selector, _this.grido.$element).each(function() {
+                    $(_this.selector, _this.grido.$table).each(function() {
                         var val = $(this).prop('checked');
                         $(this).prop('checked', !val);
                         _this.changeRow($(this).closest('tr'), !val);
@@ -244,7 +246,7 @@
         bindChangeOnCheckbox: function()
         {
             var _this = this;
-            $(this.selector, this.grido.$element)
+            $(this.selector, this.grido.$table)
                 .off('change.grido')
                 .on('change.grido', function() {
                     $.proxy(_this.changeRow, _this)($(this).closest('tr'), $(this).prop('checked'));
@@ -254,23 +256,23 @@
         bindChangeOnSelect: function()
         {
             var _this = this;
-            $('.operations [name="operations[operations]"]', this.grido.$element)
+            $('.operations [name="operations[operations]"]', this.grido.$table)
                 .off('change.grido')
                 .on('change.grido', function() {
-                    $(this).val() && $('.operations [type=submit]', _this.grido.$element).click();
+                    $(this).val() && $('.operations [type=submit]', _this.grido.$table).click();
                 });
         },
 
         bindClickOnButton: function()
         {
-            $('.operations [type=submit]', this.grido.$element)
+            $('.operations [type=submit]', this.grido.$table)
                 .off('click.grido')
                 .on('click.grido', $.proxy(this.onSubmit, this));
         },
 
         disableSelection: function()
         {
-            this.grido.$element
+            this.grido.$table
                 .attr('unselectable', 'on')
                 .css('user-select', 'none');
         },
@@ -285,7 +287,7 @@
                 document.selection.empty();
             }
 
-            this.grido.$element
+            this.grido.$table
                 .attr('unselectable', 'off')
                 .attr('style', null);
         },
@@ -296,7 +298,7 @@
          */
         getSelect: function()
         {
-            return $('.operations [name="operations[operations]"]', this.grido.$element);
+            return $('.operations [name="operations[operations]"]', this.grido.$table);
         },
 
         /**
@@ -309,7 +311,7 @@
                 ? $row.addClass('info')
                 : $row.removeClass('info');
 
-            $(this.selector + ':checked', this.grido.$element).length === 0
+            $(this.selector + ':checked', this.grido.$table).length === 0
                 ? this.controlState('disabled')
                 : this.controlState('enabled');
         },
@@ -318,7 +320,7 @@
         {
             var hasConfirm = this.getSelect().data('grido-' + this.getSelect().val());
             if (hasConfirm) {
-                if (confirm(hasConfirm.replace(/%i/g, $(this.selector + ':checked', this.grido.$element).length))) {
+                if (confirm(hasConfirm.replace(/%i/g, $(this.selector + ':checked', this.grido.$table).length))) {
                     return true;
                 }
 
@@ -334,7 +336,7 @@
          */
         controlState: function(state)
         {
-            var $button = $('[name="buttons[operations]"]', this.grido.$element);
+            var $button = $('[name="buttons[operations]"]', this.grido.$table);
             if (state === 'disabled') {
                 this.getSelect().attr('disabled', 'disabled').addClass('disabled');
                 $button.addClass('disabled');
@@ -394,14 +396,14 @@
                 });
 
                 var hash = decodeURIComponent($.param(params));
-                $.data(document, 'grido-state', hash);
+                $.data(document, this.grido.name + '-state', hash);
                 window.location.hash = hash;
             }
         },
 
         handleHashChangeEvent: function()
         {
-            var state = $.data(document, 'grido-state') || '',
+            var state = $.data(document, this.grido.name + '-state') || '',
                 hash = window.location.hash.toString().replace('#', '');
 
             if (hash.indexOf(this.grido.name + '-') >= 0 && state !== hash) {
