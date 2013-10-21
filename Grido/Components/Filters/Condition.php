@@ -12,7 +12,7 @@
 namespace Grido\Components\Filters;
 
 /**
- * Filter condition wrapper.
+ * Builds filter condition.
  *
  * @package     Grido
  * @subpackage  Components\Filters
@@ -241,15 +241,6 @@ class Condition extends \Nette\Object
      */
     public function __toArray($prefix = NULL, $suffix = NULL, $brackets = TRUE)
     {
-        $count = 0;
-        foreach ($this->condition as $cond) {
-            $count += substr_count($cond, '?');
-        }
-
-        if ($count !== count($this->value)) {
-            throw new \InvalidArgumentException("Count of condition requires $count values.");
-        }
-
         $condition = array();
         $addBrackets = $brackets && count($this->column) > 1;
 
