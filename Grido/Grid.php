@@ -110,7 +110,7 @@ class Grid extends \Nette\Application\UI\Control
     protected $propertyAccessor;
 
     /** @var bool cache */
-    protected $hasColumns, $hasFilters, $hasActions, $hasOperations, $hasExport;
+    protected $hasColumns, $hasFilters, $hasActions, $hasOperation, $hasExport;
 
     /**
      * Sets a model that implements the interface Grido\DataSources\IDataSource or data-source object.
@@ -198,7 +198,7 @@ class Grid extends \Nette\Application\UI\Control
     {
         $this->perPageList = $perPageList;
 
-        if ($this->hasFilters(FALSE) || $this->hasOperations(FALSE)) {
+        if ($this->hasFilters(FALSE) || $this->hasOperation(FALSE)) {
             $this['form']['count']->setItems($this->getItemsForCountSelect());
         }
 
@@ -434,13 +434,20 @@ class Grid extends \Nette\Application\UI\Control
     }
 
     /**
-     * Returns operations component.
+     * Returns operation component.
      * @param bool $need
      * @return Operation
      */
-    public function getOperations($need = TRUE)
+    public function getOperation($need = TRUE)
     {
         return $this->getComponent(Operation::ID, $need);
+    }
+
+    /** @deprecated */
+    public function getOperations($need = TRUE)
+    {
+        trigger_error(__METHOD__ . '() is deprecated; use getOperation() instead.', E_USER_DEPRECATED);
+        return $this->getOperation($need);
     }
 
     /**
@@ -794,16 +801,22 @@ class Grid extends \Nette\Application\UI\Control
      * @param bool $useCache
      * @return bool
      */
-    public function hasOperations($useCache = TRUE)
+    public function hasOperation($useCache = TRUE)
     {
-        $hasOperations = $this->hasOperations;
-
-        if ($hasOperations === NULL || $useCache === FALSE) {
-            $hasOperations = (bool) $this->getComponent(Operation::ID, FALSE);
-            $this->hasOperations = $useCache ? $hasOperations : NULL;
+        $hasOperation = $this->hasOperation;
+        if ($hasOperation === NULL || $useCache === FALSE) {
+            $hasOperation = (bool) $this->getComponent(Operation::ID, FALSE);
+            $this->hasOperation = $useCache ? $hasOperation : NULL;
         }
 
-        return $hasOperations;
+        return $hasOperation;
+    }
+
+    /** @deprecated */
+    public function hasOperations($useCache = TRUE)
+    {
+        trigger_error(__METHOD__ . '() is deprecated; use hasOperation() instead.', E_USER_DEPRECATED);
+        return $this->hasOperation($useCache);
     }
 
     /**

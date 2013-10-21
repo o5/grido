@@ -88,11 +88,11 @@ class OperationTest extends \Tester\TestCase
     function testHasOperations()
     {
         $grid = new Grid;
-        Assert::false($grid->hasOperations());
+        Assert::false($grid->hasOperation());
 
         $grid->setOperation(array(), array());
-        Assert::false($grid->hasOperations());
-        Assert::true($grid->hasOperations(FALSE));
+        Assert::false($grid->hasOperation());
+        Assert::true($grid->hasOperation(FALSE));
     }
 
     function testSetOperations()
@@ -101,7 +101,7 @@ class OperationTest extends \Tester\TestCase
         $operations = array('print' => 'Print', 'delete' => 'Delete');
         $onSubmit = function() {};
         $grid->setOperation($operations, $onSubmit);
-        $component = $grid->getOperations();
+        $component = $grid->getOperation();
         Assert::type('\Grido\Components\Operation', $component);
         $componentId = \Grido\Components\Operation::ID;
         Assert::same($operations, $grid['form'][$componentId][$componentId]->items);
@@ -110,10 +110,10 @@ class OperationTest extends \Tester\TestCase
         // getter
         $grid = new Grid;
         Assert::exception(function() use ($grid) {
-            $grid->getOperations();
+            $grid->getOperation();
         }, 'InvalidArgumentException');
 
-        Assert::null($grid->getOperations(FALSE));
+        Assert::null($grid->getOperation(FALSE));
     }
 }
 

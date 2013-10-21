@@ -19,14 +19,14 @@
     $form->getElementPrototype()->class[] = 'ajax';
     $form->getElementPrototype()->class[] = 'grido';
 
-    $operations = $control->hasOperations();
+    $operation = $control->hasOperation();
     $actions = $control->hasActions() ? $control->getComponent(\Grido\Components\Actions\Action::ID)->getComponents() : array();
 
     $filters = $control->hasFilters() ? $form->getComponent(\Grido\Components\Filters\Filter::ID)->getComponents() : array();
     $filterRenderType = $control->getFilterRenderType();
 
     $columns = $control->getComponent(Grido\Components\Columns\Column::ID)->getComponents();
-    $columnCount = count($columns) + ($operations ? 1 : 0);
+    $columnCount = count($columns) + ($operation ? 1 : 0);
     $showActionsColumn = $actions || ($filters && $filterRenderType == Grido\Components\Filters\Filter::RENDER_INNER);
 }
 {if $form->getErrors()}
@@ -58,7 +58,7 @@
 {!$control->getTablePrototype()->startTag()}
     <thead>
         <tr class="head">
-            <th n:if="$operations" class="checker"{if $filters} rowspan="{if $filterRenderType == Grido\Components\Filters\Filter::RENDER_OUTER}1{else}2{/if}"{/if}>
+            <th n:if="$operation" class="checker"{if $filters} rowspan="{if $filterRenderType == Grido\Components\Filters\Filter::RENDER_OUTER}1{else}2{/if}"{/if}>
                 <input type="checkbox" title="{_'Invert'}">
             </th>
             {foreach $columns as $column}
@@ -101,7 +101,7 @@
     <tfoot>
         <tr>
             <td colspan="{=$showActionsColumn ? $columnCount + 1 : $columnCount}">
-                <span n:if="$operations" n:block="operations" class="operations"  title="{_'Select some row'}">
+                <span n:if="$operation" n:block="operations" class="operations"  title="{_'Select some row'}">
                     {$form[Grido\Components\Operation::ID][Grido\Components\Operation::ID]->control}
                     {?$form[Grido\Grid::BUTTONS][Grido\Components\Operation::ID]->controlPrototype->class[] = 'hide'}
                     {$form[Grido\Grid::BUTTONS][Grido\Components\Operation::ID]->control}
@@ -142,7 +142,7 @@
     <tbody>
         {var $propertyAccessor = $control->getPropertyAccessor()}
         {foreach $data as $row}
-            {? $checkbox = $operations
+            {? $checkbox = $operation
                     ? $form[Grido\Components\Operation::ID][$propertyAccessor->getProperty($row, $control->getComponent(Grido\Components\Operation::ID)->getPrimaryKey())]
                     : NULL;
                 $tr = $control->getRowPrototype($row);
