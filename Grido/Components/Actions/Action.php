@@ -24,9 +24,8 @@ use Nette\Utils\Html;
  * @property-write Html $elementPrototype
  * @property-write callback $customRender
  * @property-write callback $disable
- * @property-write string|callback $confirm
  * @property string $primaryKey
- * @property string $icon
+ * @property string $options
  */
 abstract class Action extends \Grido\Components\Base
 {
@@ -48,11 +47,8 @@ abstract class Action extends \Grido\Components\Base
     /** @var callback for disabling */
     protected $disable;
 
-    /** @var string|callback */
-    protected $confirm;
-
     /** @var string */
-    protected $icon;
+    protected $options;
 
     /**
      * @param \Grido\Grid $grid
@@ -119,18 +115,36 @@ abstract class Action extends \Grido\Components\Base
      */
     public function setConfirm($confirm)
     {
-        $this->confirm = $confirm;
+        $this->setOption('confirm', $confirm);
         return $this;
     }
 
     /**
-     * Sets twitter bootstrap icon class.
-     * @param string $iconName
+     * Sets name of icon.
+     * @param string $name
      * @return Action
      */
-    public function setIcon($iconName)
+    public function setIcon($name)
     {
-        $this->icon = $iconName;
+        $this->setOption('icon', $name);
+        return $this;
+    }
+
+    /**
+     * Sets user-specific option.
+     * @param stribg $key
+     * @param mixed $value
+     * @return Action
+     */
+    public function setOption($key, $value)
+    {
+        if ($value === NULL) {
+            unset($this->options[$key]);
+
+        } else {
+            $this->options[$key] = $value;
+        }
+
         return $this;
     }
 
@@ -142,9 +156,10 @@ abstract class Action extends \Grido\Components\Base
      */
     public function getElementPrototype()
     {
-        if (!$this->elementPrototype) {
+        if ($this->elementPrototype === NULL) {
             $this->elementPrototype = Html::el('a')
-                ->setClass(array('grid-action-' . $this->getName(), 'btn', 'btn-mini'));
+                ->setClass(array('grid-action-' . $this->getName()))
+                ->setText($this->translate($this->label));
         }
 
         return $this->elementPrototype;
@@ -164,41 +179,45 @@ abstract class Action extends \Grido\Components\Base
     }
 
     /**
-     * @param mixed $row
-     * @return string
-     */
-    protected function getPrimaryValue($row)
-    {
-        return $this->propertyAccessor->getProperty($row, $this->getPrimaryKey());
-    }
-
-    /**
+     * @internal - Do not call directly.
      * @param mixed $row
      * @return Html
-     * @throws \InvalidArgumentException
      */
-    protected function getElement($row)
+    public function getElement($row)
     {
-        $text = $this->translate($this->label);
-        $this->icon ? $text = ' ' . $text : $text;
+        $element = clone $this->getElementPrototype();
 
-        $element = clone $this->getElementPrototype()
-            ->setText($text);
-
-        if ($this->confirm) {
-            $element->data['grido-confirm'] = $this->translate(
-                is_callable($this->confirm)
-                    ? callback($this->confirm)->invokeArgs(array($row))
-                    : $this->confirm
-            );
-        }
-
-        if ($this->icon) {
-            $element->insert(0, Html::el('i')->setClass(array("icon-$this->icon")));
+        if ($confirm = $this->getOption('confirm')) {
+            $confirm = is_callable($confirm) ? callback($confirm)->invokeArgs(array($row)) : $confirm;
+            $element->data['grido-confirm'] = $this->translate($confirm);
         }
 
         return $element;
     }
+
+    /**
+     * Returns user-specific option.
+     * @param string $key
+     * @param mixed $default
+     * @return mixed
+     */
+    public function getOption($key, $default = NULL)
+    {
+        return isset($this->options[$key])
+            ? $this->options[$key]
+            : $default;
+    }
+
+    /**
+     * Returns user-specific options.
+     * @return array
+     */
+    public function getOptions()
+    {
+        return $this->options;
+    }
+
+    /**********************************************************************************************/
 
     /**
      * @param mixed $row

@@ -27,27 +27,27 @@ class ActionHrefTest extends \Tester\TestCase
         ob_start();
             Helper::$grid->getAction('delete')->render(array('id' => 3));
         $output = ob_get_clean();
-        Assert::same('<a class="grid-action-delete btn btn-mini" href="/?id=3&amp;action=delete&amp;presenter=Test">Delete</a>', $output);
+        Assert::same('<a class="grid-action-delete" href="/?id=3&amp;action=delete&amp;presenter=Test">Delete</a>', $output);
 
         ob_start();
             Helper::$grid->getAction('delete')->render(array('id' => 1));
         $output = ob_get_clean();
-        Assert::same('<a class="grid-action-delete btn btn-mini" href="/?id=1&amp;action=delete&amp;presenter=Test">Delete</a>', $output);
+        Assert::same('<a class="grid-action-delete" href="/?id=1&amp;action=delete&amp;presenter=Test">Delete</a>', $output);
 
         ob_start();
             Helper::$grid->getAction('delete')->render(array('id' => NULL));
         $output = ob_get_clean();
-        Assert::same('<a class="grid-action-delete btn btn-mini" href="/?action=delete&amp;presenter=Test">Delete</a>', $output);
+        Assert::same('<a class="grid-action-delete" href="/?action=delete&amp;presenter=Test">Delete</a>', $output);
 
         ob_start();
             Helper::$grid->getAction('delete')->render(array('id' => FALSE));
         $output = ob_get_clean();
-        Assert::same('<a class="grid-action-delete btn btn-mini" href="/?id=0&amp;action=delete&amp;presenter=Test">Delete</a>', $output);
+        Assert::same('<a class="grid-action-delete" href="/?id=0&amp;action=delete&amp;presenter=Test">Delete</a>', $output);
 
         ob_start();
             Helper::$grid->getAction('delete')->render(array('id' => 0));
         $output = ob_get_clean();
-        Assert::same('<a class="grid-action-delete btn btn-mini" href="/?id=0&amp;action=delete&amp;presenter=Test">Delete</a>', $output);
+        Assert::same('<a class="grid-action-delete" href="/?id=0&amp;action=delete&amp;presenter=Test">Delete</a>', $output);
     }
 
     function testSetCustomHref()
@@ -64,7 +64,7 @@ class ActionHrefTest extends \Tester\TestCase
         ob_start();
             Helper::$grid->getAction('delete')->render($testRow);
         $output = ob_get_clean();
-        Assert::same('<a class="grid-action-delete btn btn-mini" href="/edit/2/Lucie/">Delete</a>', $output);
+        Assert::same('<a class="grid-action-delete" href="/edit/2/Lucie/">Delete</a>', $output);
     }
 }
 

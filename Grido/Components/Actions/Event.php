@@ -43,13 +43,16 @@ class Event extends Action
     /**********************************************************************************************/
 
     /**
+     * @internal - Do not call directly.
      * @param mixed $row
      * @return \Nette\Utils\Html
      */
     public function getElement($row)
     {
         $element = parent::getElement($row);
-        $element->href($this->link('click!', $this->getPrimaryValue($row)));
+
+        $primaryValue = $this->propertyAccessor->getProperty($row, $this->getPrimaryKey());
+        $element->href($this->link('click!', $primaryValue));
 
         return $element;
     }

@@ -63,6 +63,7 @@ class Href extends Action
     /**********************************************************************************************/
 
     /**
+     * @internal - Do not call directly.
      * @param mixed $row
      * @return \Nette\Utils\Html
      */
@@ -72,7 +73,7 @@ class Href extends Action
 
         $href = '';
         $primaryKey = $this->getPrimaryKey();
-        $primaryValue = $this->getPrimaryValue($row);
+        $primaryValue = $this->propertyAccessor->getProperty($row, $primaryKey);
 
         if ($this->customHref) {
             $href = callback($this->customHref)->invokeArgs(array($row));

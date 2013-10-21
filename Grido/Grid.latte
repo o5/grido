@@ -10,14 +10,7 @@
 {snippet grid}
 {?
     $form = $control->getComponent('form');
-    $buttons = $form->getComponent('buttons');
-
-    /* TWITTER BOOTSTRAP */
-    $buttons->getComponent('search')->getControlPrototype()->class[] = 'btn search';
-    $buttons->getComponent('reset')->getControlPrototype()->class[] = 'btn reset';
-
-    $form->getElementPrototype()->class[] = 'ajax';
-    $form->getElementPrototype()->class[] = 'grido';
+    $form->getElementPrototype()->class[] = 'ajax grido';
 
     $operation = $control->hasOperation();
     $actions = $control->hasActions() ? $control->getComponent(\Grido\Components\Actions\Action::ID)->getComponents() : array();
@@ -28,7 +21,23 @@
     $columns = $control->getComponent(Grido\Components\Columns\Column::ID)->getComponents();
     $columnCount = count($columns) + ($operation ? 1 : 0);
     $showActionsColumn = $actions || ($filters && $filterRenderType == Grido\Components\Filters\Filter::RENDER_INNER);
-}
+
+    /* TWITTER BOOTSTRAP 2 */
+    $buttons = $form->getComponent('buttons');
+    $buttons->getComponent('search')->getControlPrototype()->class[] = 'btn search';
+    $buttons->getComponent('reset')->getControlPrototype()->class[] = 'btn reset'}
+    {foreach $actions as $action}
+        {?
+            $element = $action->getElementPrototype();
+            $element->class[] = 'btn btn-mini';
+        }
+        {if $icon = $action->getOption('icon')}
+        {?
+            $element->setText(' ' . $action->getLabel());
+            $element->insert(0, \Nette\Utils\Html::el('i')->setClass(array("icon-$icon")));
+        }
+        {/if}
+    {/foreach}
 {if $form->getErrors()}
 <ul n:foreach="$form->getErrors() as $error">
     <li>{$error}</li>
