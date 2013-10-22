@@ -92,7 +92,7 @@ class Doctrine extends \Nette\Object implements IDataSource
     }
 
     /**
-     * @param \Grido\Components\Filters\Condition $condition
+     * @param Condition $condition
      * @param \Doctrine\ORM\QueryBuilder $qb
      */
     protected function makeWhere(Condition $condition, \Doctrine\ORM\QueryBuilder $qb = NULL)

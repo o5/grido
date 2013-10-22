@@ -20,7 +20,7 @@ namespace Grido\Components;
  *
  * @property-read string $label
  * @property-read string $type
- * @property-read \Grido\Grid $grid
+ * @property-read Grido\Grid $grid
  * @property-read \Nette\Application\UI\Form $form
  */
 abstract class Component extends \Nette\Application\UI\PresenterComponent
@@ -31,13 +31,13 @@ abstract class Component extends \Nette\Application\UI\PresenterComponent
     /** @var string */
     protected $type;
 
-    /** @var \Grido\Grid */
+    /** @var Grido\Grid */
     protected $grid;
 
     /** @var \Nette\Application\UI\Form */
     protected $form;
 
-    /** @var \Grido\PropertyAccessors\IPropertyAccessor */
+    /** @var Grido\PropertyAccessors\IPropertyAccessor */
     protected $propertyAccessor;
 
     /**
@@ -91,7 +91,7 @@ abstract class Component extends \Nette\Application\UI\PresenterComponent
     }
 
     /**
-     * @param \Grido\Grid $grid
+     * @param Grido\Grid $grid
      * @param string $name
      * @return \Nette\ComponentModel\Container
      */

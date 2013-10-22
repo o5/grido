@@ -26,7 +26,7 @@ class Event extends Action
     public $onClick = array();
 
     /**
-     * @param \Grido\Grid $grid
+     * @param Grido\Grid $grid
      * @param string $name
      * @param string $label
      * @param callback $onClick

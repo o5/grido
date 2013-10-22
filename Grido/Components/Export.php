@@ -26,7 +26,7 @@ class Export extends Component implements \Nette\Application\IResponse
     const DELIMITER = "\t";
 
     /**
-     * @param \Grido\Grid $grid
+     * @param Grido\Grid $grid
      * @param string $label
      */
     public function __construct(\Grido\Grid $grid, $label = NULL)

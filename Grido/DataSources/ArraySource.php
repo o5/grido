@@ -38,7 +38,7 @@ class ArraySource extends \Nette\Object implements IDataSource
     }
 
     /**
-     * @param \Grido\Components\Filters\Condition $condition
+     * @param Condition $condition
      * @param array $data
      * @return array
      */

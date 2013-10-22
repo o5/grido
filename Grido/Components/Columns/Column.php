@@ -68,7 +68,7 @@ abstract class Column extends \Grido\Components\Component
     protected $replacements = array();
 
     /**
-     * @param \Grido\Grid $grid
+     * @param Grido\Grid $grid
      * @param string $name
      * @param string $label
      */

@@ -68,7 +68,7 @@ class DibiFluent extends \Nette\Object implements IDataSource
     }
 
     /**
-     * @param \Grido\Components\Filters\Condition $condition
+     * @param Grido\Components\Filters\Condition $condition
      * @param \DibiFluent $fluent
      */
     protected function makeWhere(\Grido\Components\Filters\Condition $condition, \DibiFluent $fluent = NULL)

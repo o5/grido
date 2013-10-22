@@ -57,7 +57,7 @@ abstract class Filter extends \Grido\Components\Component
     protected $control;
 
     /**
-     * @param \Grido\Grid $grid
+     * @param Grido\Grid $grid
      * @param string $name
      * @param string $label
      */
@@ -235,8 +235,11 @@ abstract class Filter extends \Grido\Components\Component
 
         if (is_array($condition)) { //for user-defined condition by array or callback
             $condition = Condition::setupFromArray($condition);
+
         }  elseif ($condition !== NULL && !$condition instanceof Condition) {
-            throw new \InvalidArgumentException('Condition must be array or Grido\Components\Filters\Condition. Type "' . gettype($condition) . '" given.');
+            throw new \InvalidArgumentException(
+                'Condition must be array or Grido\Components\Filters\Condition. Type "' . gettype($condition) . '" given.'
+            );
         }
 
         return $condition;

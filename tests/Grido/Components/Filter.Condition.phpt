@@ -33,7 +33,7 @@ class FilterConditionTest extends \Tester\TestCase
 
         Assert::exception(function() {
             new Condition(array('column', 'xxx', 'column2'), NULL);
-        }, 'InvalidArgumentException', "The even values of column must be Condition::OPERATOR_AND or Condition::OPERATOR_OR, 'xxx' given.");
+        }, 'InvalidArgumentException', "The even values of column must be 'AND' or 'OR', 'xxx' given.");
     }
 
     function testSetCondition()

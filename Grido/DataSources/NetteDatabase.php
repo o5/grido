@@ -44,7 +44,7 @@ class NetteDatabase extends \Nette\Object implements IDataSource
     }
 
     /**
-     * @param \Grido\Components\Filters\Condition $condition
+     * @param Grido\Components\Filters\Condition $condition
      * @param \Nette\Database\Table\Selection $selection
      */
     protected function makeWhere(\Grido\Components\Filters\Condition $condition, \Nette\Database\Table\Selection $selection = NULL)

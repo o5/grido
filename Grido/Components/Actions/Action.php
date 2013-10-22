@@ -47,7 +47,7 @@ abstract class Action extends \Grido\Components\Component
     protected $options;
 
     /**
-     * @param \Grido\Grid $grid
+     * @param Grido\Grid $grid
      * @param string $name
      * @param string $label
      */
