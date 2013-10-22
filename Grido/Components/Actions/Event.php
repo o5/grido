@@ -6,7 +6,7 @@
  * Copyright (c) 2011 Petr Bugyík (http://petr.bugyik.cz)
  *
  * For the full copyright and license information, please view
- * the file license.md that was distributed with this source code.
+ * the file LICENSE.md that was distributed with this source code.
  */
 
 namespace Grido\Components\Actions;
@@ -43,13 +43,16 @@ class Event extends Action
     /**********************************************************************************************/
 
     /**
+     * @internal - Do not call directly.
      * @param mixed $row
      * @return \Nette\Utils\Html
      */
     public function getElement($row)
     {
         $element = parent::getElement($row);
-        $element->href($this->link('click!', $this->getPrimaryValue($row)));
+
+        $primaryValue = $this->propertyAccessor->getProperty($row, $this->getPrimaryKey());
+        $element->href($this->link('click!', $primaryValue));
 
         return $element;
     }

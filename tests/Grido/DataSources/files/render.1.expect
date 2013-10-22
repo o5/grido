@@ -1,4 +1,4 @@
-<div id="snippet-grid-grid"><form action="/index.php" method="get" id="frm-grid-form" class="ajax">    <div class="grido filter outer">
+<div id="snippet-grid-grid"><form action="/" method="get" id="frm-grid-form" class="ajax grido">    <div class="filter outer">
         <div class="items">
             <span class="grid-filter-name">
                 <label for="frmform-filters-name">Name</label>
@@ -6,7 +6,7 @@
             </span>
             <span class="grid-filter-country">
                 <label for="frmform-filters-country">Country</label>
-                <input type="text" class="text suggest" autocomplete="off" data-grido-suggest-replacement="-query-" data-grido-suggest-handler="/index.php?grid-filters-country-query=-query-&amp;action=default&amp;do=grid-filters-country-suggest&amp;presenter=Test" name="filters[country]" id="frmform-filters-country" value="au" />
+                <input type="text" class="text suggest" autocomplete="off" data-grido-suggest-replacement="-query-" data-grido-suggest-handler="/?grid-filters-country-query=-query-&amp;action=default&amp;do=grid-filters-country-suggest&amp;presenter=Test" name="filters[country]" id="frmform-filters-country" value="au" />
             </span>
             <span class="grid-filter-male">
                 <label for="frmform-filters-male">Only male</label>
@@ -17,11 +17,11 @@
 <input type="submit" class="btn search" name="buttons[search]" id="frmform-buttons-search" value="Search" /><input type="submit" class="btn reset" name="buttons[reset]" id="frmform-buttons-reset" value="Reset" />        </div>
     </div>
 
-<table id="grid" class="grido table table-striped table-hover">
+<table id="grid" class="table table-striped table-hover">
     <thead>
         <tr class="head">
                 <th class="column grid-header-firstname">
-                        <a class="ajax" href="/index.php?grid-sort%5Bfirstname%5D=%E2%86%91&amp;grid-page=2&amp;grid-filter%5Bname%5D=a&amp;grid-filter%5Bmale%5D=1&amp;grid-filter%5Bcountry%5D=au&amp;action=default&amp;do=grid-sort&amp;presenter=Test">Firstname</a>
+                        <a class="ajax" href="/?grid-sort%5Bfirstname%5D=%E2%86%91&amp;grid-page=2&amp;grid-filter%5Bname%5D=a&amp;grid-filter%5Bmale%5D=1&amp;grid-filter%5Bcountry%5D=au&amp;action=default&amp;do=grid-sort&amp;presenter=Test">Firstname</a>
                         <span></span>
                 </th>
                 <th class="column grid-header-surname">
@@ -34,7 +34,7 @@
                         Phone
                 </th>
                 <th class="column grid-header-country asc">
-                        <a class="sort ajax" href="/index.php?grid-sort%5Bcountry%5D=%E2%86%93&amp;grid-page=2&amp;grid-filter%5Bname%5D=a&amp;grid-filter%5Bmale%5D=1&amp;grid-filter%5Bcountry%5D=au&amp;action=default&amp;do=grid-sort&amp;presenter=Test">Country</a>
+                        <a class="sort ajax" href="/?grid-sort%5Bcountry%5D=%E2%86%93&amp;grid-page=2&amp;grid-filter%5Bname%5D=a&amp;grid-filter%5Bmale%5D=1&amp;grid-filter%5Bcountry%5D=au&amp;action=default&amp;do=grid-sort&amp;presenter=Test">Country</a>
                         <span></span>
                 </th>
         </tr>
@@ -42,17 +42,15 @@
     <tfoot>
         <tr>
             <td colspan="5">
-
                 <span class="paginator">
-                        <a class="btn btn-mini ajax" href="/index.php?grid-sort%5Bcountry%5D=%E2%86%91&amp;grid-filter%5Bname%5D=a&amp;grid-filter%5Bmale%5D=1&amp;grid-filter%5Bcountry%5D=au&amp;action=default&amp;do=grid-page&amp;presenter=Test"><i class="icon-arrow-left"></i> Previous</a>
-                            <a class="btn btn-mini ajax" href="/index.php?grid-sort%5Bcountry%5D=%E2%86%91&amp;grid-filter%5Bname%5D=a&amp;grid-filter%5Bmale%5D=1&amp;grid-filter%5Bcountry%5D=au&amp;action=default&amp;do=grid-page&amp;presenter=Test">1</a>
+                        <a class="btn btn-mini ajax" href="/?grid-sort%5Bcountry%5D=%E2%86%91&amp;grid-filter%5Bname%5D=a&amp;grid-filter%5Bmale%5D=1&amp;grid-filter%5Bcountry%5D=au&amp;action=default&amp;do=grid-page&amp;presenter=Test"><i class="icon-arrow-left"></i> Previous</a>
+                            <a class="btn btn-mini ajax" href="/?grid-sort%5Bcountry%5D=%E2%86%91&amp;grid-filter%5Bname%5D=a&amp;grid-filter%5Bmale%5D=1&amp;grid-filter%5Bcountry%5D=au&amp;action=default&amp;do=grid-page&amp;presenter=Test">1</a>
                             <span class="btn btn-mini disabled">2</span>
-                        <span class="btn btn-mini disabled" href="/index.php?grid-page=3&amp;grid-sort%5Bcountry%5D=%E2%86%91&amp;grid-filter%5Bname%5D=a&amp;grid-filter%5Bmale%5D=1&amp;grid-filter%5Bcountry%5D=au&amp;action=default&amp;do=grid-page&amp;presenter=Test">Next <i class="icon-arrow-right"></i></span>
+                        <span class="btn btn-mini disabled" href="/?grid-page=3&amp;grid-sort%5Bcountry%5D=%E2%86%91&amp;grid-filter%5Bname%5D=a&amp;grid-filter%5Bmale%5D=1&amp;grid-filter%5Bcountry%5D=au&amp;action=default&amp;do=grid-page&amp;presenter=Test">Next <i class="icon-arrow-right"></i></span>
                 </span>
-
                 <span class="count">
                     Items 4 - 6 of 6
-<select title="Items per page" name="count" id="frmform-count"><option value="3" selected="selected">3</option><option value="10">10</option><option value="20">20</option><option value="30">30</option><option value="50">50</option><option value="100">100</option></select><input class="hide" type="submit" name="buttons[perPage]" id="frmform-buttons-perPage" value="Items per page" />                    <a class="btn btn-mini" href="/index.php?action=default&amp;do=grid-export-export&amp;presenter=Test" title="Export all items"><i class="icon-download"></i></a>
+<select title="Items per page" name="count" id="frmform-count"><option value="3" selected="selected">3</option><option value="10">10</option><option value="20">20</option><option value="30">30</option><option value="50">50</option><option value="100">100</option></select><input class="hide" type="submit" name="buttons[perPage]" id="frmform-buttons-perPage" value="Items per page" />                    <a class="btn btn-mini" href="/?action=default&amp;do=grid-export-export&amp;presenter=Test" title="Export all items"><i class="icon-download"></i></a>
                 </span>
             </td>
         </tr>

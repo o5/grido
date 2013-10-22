@@ -316,6 +316,42 @@ class GridTest extends \Tester\TestCase
         Assert::same('B', $grid->getActualFilter('b'));
     }
 
+    function testGetFilterRenderType()
+    {
+        $grid = new Grid;
+        Assert::same(Filter::RENDER_OUTER, $grid->filterRenderType);
+
+        $grid = new Grid;
+        $grid->addFilterText('xxx', 'Filter');
+        Assert::same(Filter::RENDER_OUTER, $grid->filterRenderType);
+
+        $grid = new Grid;
+        $grid->addActionHref('action', 'Action');
+        Assert::same(Filter::RENDER_OUTER, $grid->filterRenderType);
+
+        $grid = new Grid;
+        $grid->addFilterText('xxx', 'Filter');
+        $grid->addActionHref('action', 'Action');
+        Assert::same(Filter::RENDER_OUTER, $grid->filterRenderType);
+
+        $grid = new Grid;
+        $grid->addFilterText('xxx', 'Filter');
+        $grid->addActionHref('action', 'Action');
+        $grid->addColumnText('yyy', 'Column');
+        Assert::same(Filter::RENDER_OUTER, $grid->filterRenderType);
+
+        $grid = new Grid;
+        $grid->addFilterText('xxx', 'Filter');
+        $grid->addColumnText('xxx', 'Column');
+        Assert::same(Filter::RENDER_OUTER, $grid->filterRenderType);
+
+        $grid = new Grid;
+        $grid->addFilterText('xxx', 'Filter');
+        $grid->addActionHref('action', 'Action');
+        $grid->addColumnText('xxx', 'Column');
+        Assert::same(Filter::RENDER_INNER, $grid->filterRenderType);
+    }
+
     /**********************************************************************************************/
 
     function testHandlePage()

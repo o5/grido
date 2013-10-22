@@ -6,7 +6,7 @@
  * Copyright (c) 2011 Petr Bugyík (http://petr.bugyik.cz)
  *
  * For the full copyright and license information, please view
- * the file license.md that was distributed with this source code.
+ * the file LICENSE.md that was distributed with this source code.
  */
 
 namespace Grido\Tests;
@@ -80,8 +80,8 @@ class Helper
      */
     private function createPresenter()
     {
-        $url = new \Nette\Http\UrlScript('http://localhost/index.php');
-        $url->setScriptPath('/index.php');
+        $url = new \Nette\Http\UrlScript('http://localhost/');
+        $url->setScriptPath('/');
 
         $configurator = new \Nette\Config\Configurator;
         $configurator->addConfig(__DIR__ . '/config.neon');

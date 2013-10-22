@@ -120,10 +120,6 @@ class FilterConditionTest extends \Tester\TestCase
         $condition = new Condition(array('column', 'or', 'column2'), 'BETWEEN ? AND ?', array('min', 'max'));
         Assert::same(array('(column BETWEEN ? AND ? OR column2 BETWEEN ? AND ?)', 'min', 'max', 'min', 'max'), $condition->__toArray());
 
-        Assert::error(function() {
-            id(new Condition('column', 'BETWEEN ? AND ?', array('min')))->__toArray();
-        }, '\InvalidArgumentException', "Count of condition requires 2 values.");
-
         $condition = new Condition(NULL, '0 = 1');
         Assert::same(array('0 = 1'), $condition->__toArray());
 
@@ -132,11 +128,6 @@ class FilterConditionTest extends \Tester\TestCase
 
         $condition = new Condition(array('column', 'or', 'column2'), array('= ?', 'BETWEEN ? AND ?'), array('value', 'min', 'max'));
         Assert::same(array('(column = ? OR column2 BETWEEN ? AND ?)', 'value', 'min', 'max'), $condition->__toArray());
-
-//        @todo
-//        Assert::error(function() {
-//            id(new Condition('column', array('= ?', '>= ?'), array('value', 'max')))->__toArray();
-//        }, '\InvalidArgumentException', 'Count of condition requires 2 columns.');
     }
 }
 

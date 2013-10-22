@@ -23,7 +23,7 @@ class OperationTest extends \Tester\TestCase
         Helper::grid(function(Grid $grid) {
             $grid->setModel(array());
             $grid->addColumnText('column', 'Column');
-            $grid->setOperations(array('edit' => 'Edit', 'del' => 'Del'), function() {})
+            $grid->setOperation(array('edit' => 'Edit', 'del' => 'Del'), function() {})
                 ->setConfirm('del', 'Are you sure?');
             $grid->render();
         })->run();
@@ -37,7 +37,7 @@ class OperationTest extends \Tester\TestCase
     function testGetPrimaryKey()
     {
         $grid = new Grid;
-        $operation = $grid->setOperations(array(), array());
+        $operation = $grid->setOperation(array(), array());
         Assert::same($grid->primaryKey, $operation->primaryKey);
 
         $primaryKey = 'xx';
@@ -59,7 +59,7 @@ class OperationTest extends \Tester\TestCase
             ));
             $grid->addColumnText('a', 'A');
             $grid->addColumnText('b', 'B');
-            $grid->setOperations(array('edit' => 'Edit', 'del' => 'Del'), function($operation, $id) {
+            $grid->setOperation(array('edit' => 'Edit', 'del' => 'Del'), function($operation, $id) {
                 Assert::same('edit', $operation);
                 Assert::same(array('2','4'), $id);
             });
@@ -88,11 +88,11 @@ class OperationTest extends \Tester\TestCase
     function testHasOperations()
     {
         $grid = new Grid;
-        Assert::false($grid->hasOperations());
+        Assert::false($grid->hasOperation());
 
-        $grid->setOperations(array(), array());
-        Assert::false($grid->hasOperations());
-        Assert::true($grid->hasOperations(FALSE));
+        $grid->setOperation(array(), array());
+        Assert::false($grid->hasOperation());
+        Assert::true($grid->hasOperation(FALSE));
     }
 
     function testSetOperations()
@@ -100,8 +100,8 @@ class OperationTest extends \Tester\TestCase
         $grid = new Grid;
         $operations = array('print' => 'Print', 'delete' => 'Delete');
         $onSubmit = function() {};
-        $grid->setOperations($operations, $onSubmit);
-        $component = $grid->getOperations();
+        $grid->setOperation($operations, $onSubmit);
+        $component = $grid->getOperation();
         Assert::type('\Grido\Components\Operation', $component);
         $componentId = \Grido\Components\Operation::ID;
         Assert::same($operations, $grid['form'][$componentId][$componentId]->items);
@@ -110,10 +110,10 @@ class OperationTest extends \Tester\TestCase
         // getter
         $grid = new Grid;
         Assert::exception(function() use ($grid) {
-            $grid->getOperations();
+            $grid->getOperation();
         }, 'InvalidArgumentException');
 
-        Assert::null($grid->getOperations(FALSE));
+        Assert::null($grid->getOperation(FALSE));
     }
 }
 

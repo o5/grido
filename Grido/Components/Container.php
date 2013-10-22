@@ -27,7 +27,7 @@ use Grido\Components\Columns\Column,
 abstract class Container extends \Nette\Application\UI\Control
 {
     /** @var bool cache */
-    protected $hasColumns, $hasFilters, $hasActions, $hasOperations, $hasExport;
+    protected $hasColumns, $hasFilters, $hasActions, $hasOperation, $hasExport;
 
     /**
      * Returns column component.
@@ -73,7 +73,7 @@ abstract class Container extends \Nette\Application\UI\Control
      * @param bool $need
      * @return Operation
      */
-    public function getOperations($need = TRUE)
+    public function getOperation($need = TRUE)
     {
         return $this->getComponent(Operation::ID, $need);
     }
@@ -149,16 +149,16 @@ abstract class Container extends \Nette\Application\UI\Control
      * @param bool $useCache
      * @return bool
      */
-    public function hasOperations($useCache = TRUE)
+    public function hasOperation($useCache = TRUE)
     {
-        $hasOperations = $this->hasOperations;
+        $hasOperation = $this->hasOperation;
 
-        if ($hasOperations === NULL || $useCache === FALSE) {
-            $hasOperations = (bool) $this->getComponent(Operation::ID, FALSE);
-            $this->hasOperations = $useCache ? $hasOperations : NULL;
+        if ($hasOperation === NULL || $useCache === FALSE) {
+            $hasOperation = (bool) $this->getComponent(Operation::ID, FALSE);
+            $this->hasOperation = $useCache ? $hasOperation : NULL;
         }
 
-        return $hasOperations;
+        return $hasOperation;
     }
 
     /**
@@ -329,7 +329,7 @@ abstract class Container extends \Nette\Application\UI\Control
      * @param callback $onSubmit - callback after operation submit
      * @return Operation
      */
-    public function setOperations(array $operations, $onSubmit)
+    public function setOperation(array $operations, $onSubmit)
     {
         return new Operation($this, $operations, $onSubmit);
     }

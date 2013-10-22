@@ -6,7 +6,7 @@
  * Copyright (c) 2011 Petr Bugyík (http://petr.bugyik.cz)
  *
  * For the full copyright and license information, please view
- * the file license.md that was distributed with this source code.
+ * the file LICENSE.md that was distributed with this source code.
  */
 
 namespace Grido\Components\Actions;
@@ -60,20 +60,21 @@ class Href extends Action
     /**********************************************************************************************/
 
     /**
+     * @internal - Do not call directly.
      * @param mixed $row
      * @return \Nette\Utils\Html
      */
     public function getElement($row)
     {
         $element = parent::getElement($row);
-
         $href = '';
-        $primaryKey = $this->getPrimaryKey();
-        $primaryValue = $this->getPrimaryValue($row);
 
         if ($this->customHref) {
             $href = callback($this->customHref)->invokeArgs(array($row));
-        } elseif ($primaryValue) {
+        } else {
+            $primaryKey = $this->getPrimaryKey();
+            $primaryValue = $this->propertyAccessor->getProperty($row, $primaryKey);
+
             $this->arguments[$primaryKey] = $primaryValue;
             $href = $this->presenter->link($this->getDestination(), $this->arguments);
         }

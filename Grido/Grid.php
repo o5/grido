@@ -6,7 +6,7 @@
  * Copyright (c) 2011 Petr Bugyík (http://petr.bugyik.cz)
  *
  * For the full copyright and license information, please view
- * the file license.md that was distributed with this source code.
+ * the file LICENSE.md that was distributed with this source code.
  */
 
 namespace Grido;
@@ -192,7 +192,7 @@ class Grid extends Components\Container
     {
         $this->perPageList = $perPageList;
 
-        if ($this->hasFilters(FALSE) || $this->hasOperations(FALSE)) {
+        if ($this->hasFilters(FALSE) || $this->hasOperation(FALSE)) {
             $this['form']['count']->setItems($this->getItemsForCountSelect());
         }
 
@@ -472,7 +472,7 @@ class Grid extends Components\Container
         if ($this->tablePrototype === NULL) {
             $this->tablePrototype = \Nette\Utils\Html::el('table')
                 ->id($this->getName())
-                ->class('grido table table-striped table-hover');
+                ->class('table table-striped table-hover');
         }
 
         return $this->tablePrototype;
@@ -489,8 +489,7 @@ class Grid extends Components\Container
         }
 
         $this->filterRenderType = Filter::RENDER_OUTER;
-
-        if ($this->hasFilters() && $this->hasActions()) {
+        if ($this->hasColumns() && $this->hasFilters() && $this->hasActions()) {
             $this->filterRenderType = Filter::RENDER_INNER;
 
             $filters = $this[Filter::ID]->getComponents();
