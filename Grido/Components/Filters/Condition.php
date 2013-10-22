@@ -55,7 +55,7 @@ class Condition extends \Nette\Object
     /**
      * @param mixed $column
      * @throws \InvalidArgumentException
-     * @return \Grido\Components\Filters\Condition
+     * @return Condition
      */
     public function setColumn($column)
     {
@@ -83,7 +83,7 @@ class Condition extends \Nette\Object
 
     /**
      * @param mixed $condition
-     * @return \Grido\Components\Filters\Condition
+     * @return Condition
      */
     public function setCondition($condition)
     {
@@ -93,7 +93,7 @@ class Condition extends \Nette\Object
 
     /**
      * @param mixed $value
-     * @return \Grido\Components\Filters\Condition
+     * @return Condition
      */
     public function setValue($value)
     {
@@ -187,7 +187,7 @@ class Condition extends \Nette\Object
      * @param mixed $column
      * @param string $condition
      * @param mixed $value
-     * @return \Grido\Components\Filters\Condition
+     * @return Condition
      */
     public static function setup($column, $condition, $value)
     {
@@ -195,7 +195,7 @@ class Condition extends \Nette\Object
     }
 
     /**
-     * @return \Grido\Components\Filters\Condition
+     * @return Condition
      */
     public static function setupEmpty()
     {
@@ -205,7 +205,7 @@ class Condition extends \Nette\Object
     /**
      * @param array $condition
      * @throws \InvalidArgumentException
-     * @return \Grido\Components\Filters\Condition
+     * @return Condition
      */
     public static function setupFromArray(array $condition)
     {
@@ -219,7 +219,7 @@ class Condition extends \Nette\Object
     /**
      * @param callabke $callback
      * @param string $value
-     * @return \Grido\Components\Filters\Condition
+     * @return Condition
      */
     public static function setupFromCallback($callback, $value)
     {

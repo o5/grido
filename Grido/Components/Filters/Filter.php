@@ -137,7 +137,7 @@ abstract class Filter extends \Grido\Components\Base
     /**
      * Sets custom "sql" where.
      * @param callable $callback function($value, $source) {}
-     * @return \Grido\Components\Filters\Filter
+     * @return Filter
      */
     public function setWhere($callback)
     {
@@ -170,8 +170,8 @@ abstract class Filter extends \Grido\Components\Base
     /**********************************************************************************************/
 
     /**
-     * @internal
      * @return array
+     * @internal
      */
     public function getColumn()
     {
@@ -188,8 +188,8 @@ abstract class Filter extends \Grido\Components\Base
     }
 
     /**
-     * @internal - Do not call directly.
      * @return \Nette\Forms\Controls\BaseControl
+     * @internal
      */
     public function getControl()
     {
@@ -223,10 +223,10 @@ abstract class Filter extends \Grido\Components\Base
     }
 
     /**
-     * @internal - do not call directly.
      * @param string $value
      * @return Condition
      * @throws \Exception
+     * @internal
      */
     public function __getCondition($value)
     {
@@ -281,9 +281,9 @@ abstract class Filter extends \Grido\Components\Base
 
     /**
      * Value representation in URI.
-     * @internal - Do not call directly.
      * @param string $value
      * @return string
+     * @internal
      */
     public function changeValue($value)
     {

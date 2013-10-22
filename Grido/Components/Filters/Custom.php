@@ -37,8 +37,8 @@ class Custom extends Filter
     }
 
     /**
-     * @internal - Do not call directly.
      * @return \Nette\Forms\IControl
+     * @internal
      */
     public function getFormControl()
     {

@@ -35,9 +35,9 @@ class Check extends Filter
     }
 
     /**
-     * @internal - Do not call directly.
      * @param string $value
      * @return array
+     * @internal
      */
     public function __getCondition($value)
     {
@@ -49,9 +49,9 @@ class Check extends Filter
     }
 
     /**
-     * @internal - Do not call directly.
      * @param bool $value
      * @return NULL
+     * @internal
      */
     public function formatValue($value)
     {
@@ -59,9 +59,9 @@ class Check extends Filter
     }
 
     /**
-     * @internal - Do not call directly.
      * @param bool $value
      * @return string
+     * @internal
      */
     public function changeValue($value)
     {

@@ -63,9 +63,9 @@ class Href extends Action
     /**********************************************************************************************/
 
     /**
-     * @internal - Do not call directly.
      * @param mixed $row
      * @return \Nette\Utils\Html
+     * @internal
      */
     public function getElement($row)
     {
@@ -91,8 +91,8 @@ class Href extends Action
     }
 
     /**
-     * @internal - Do not call directly.
      * @return string
+     * @internal
      */
     public function getDestination()
     {

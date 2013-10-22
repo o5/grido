@@ -153,7 +153,7 @@ abstract class Column extends \Grido\Components\Base
 
     /**
      * @param callback $callback
-     * @return \Grido\Components\Columns\Column
+     * @return Column
      */
     public function setCellCallback($callback)
     {
@@ -164,7 +164,8 @@ abstract class Column extends \Grido\Components\Base
     /******************************* Aliases for filters ******************************************/
 
     /**
-     * @return \Grido\Components\Filters\Text
+     * @return Text
+     * @return Grido\Components\Filters\Text
      */
     public function setFilterText()
     {
@@ -172,7 +173,7 @@ abstract class Column extends \Grido\Components\Base
     }
 
     /**
-     * @return \Grido\Components\Filters\Date
+     * @return Grido\Components\Filters\Date
      */
     public function setFilterDate()
     {
@@ -180,7 +181,7 @@ abstract class Column extends \Grido\Components\Base
     }
 
     /**
-     * @return \Grido\Components\Filters\Check
+     * @return Grido\Components\Filters\Check
      */
     public function setFilterCheck()
     {
@@ -189,7 +190,7 @@ abstract class Column extends \Grido\Components\Base
 
     /**
      * @param array $items
-     * @return \Grido\Components\Filters\Select
+     * @return Grido\Components\Filters\Select
      */
     public function setFilterSelect(array $items = NULL)
     {
@@ -197,7 +198,7 @@ abstract class Column extends \Grido\Components\Base
     }
 
     /**
-     * @return \Grido\Components\Filters\Number
+     * @return Grido\Components\Filters\Number
      */
     public function setFilterNumber()
     {
@@ -206,7 +207,7 @@ abstract class Column extends \Grido\Components\Base
 
     /**
      * @param \Nette\Forms\IControl $formControl
-     * @return \Grido\Components\Filters\Custom
+     * @return Grido\Components\Filters\Custom
      */
     public function setFilterCustom(\Nette\Forms\IControl $formControl)
     {
@@ -271,8 +272,8 @@ abstract class Column extends \Grido\Components\Base
     }
 
     /**
-     * @internal - Do not call directly.
      * @return mixed
+     * @internal
      */
     public function getColumn()
     {
@@ -280,8 +281,8 @@ abstract class Column extends \Grido\Components\Base
     }
 
     /**
-     * @internal - Do not call directly.
      * @return string
+     * @internal
      */
     public function getSort()
     {
@@ -299,8 +300,8 @@ abstract class Column extends \Grido\Components\Base
     }
 
     /**
-     * @internal - Do not call directly.
      * @return mixed
+     * @internal
      */
     public function getCustomRender()
     {
@@ -310,8 +311,8 @@ abstract class Column extends \Grido\Components\Base
     /**********************************************************************************************/
 
     /**
-     * @internal - Do not call directly.
      * @return bool
+     * @internal
      */
     public function isSortable()
     {
@@ -319,8 +320,8 @@ abstract class Column extends \Grido\Components\Base
     }
 
     /**
-     * @internal - Do not call directly.
      * @return bool
+     * @internal
      */
     public function hasFilter()
     {
@@ -330,9 +331,9 @@ abstract class Column extends \Grido\Components\Base
     /**********************************************************************************************/
 
     /**
-     * @internal - Do not call directly.
      * @param mixed $row
      * @return string
+     * @internal
      */
     public function render($row)
     {
@@ -345,9 +346,9 @@ abstract class Column extends \Grido\Components\Base
     }
 
     /**
-     * @internal - Do not call directly.
      * @param mixed $row
      * @return string
+     * @internal
      */
     public function renderExport($row)
     {

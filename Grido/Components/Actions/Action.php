@@ -172,8 +172,8 @@ abstract class Action extends \Grido\Components\Base
     }
 
     /**
-     * @internal - Do not call directly.
      * @return string
+     * @internal
      */
     public function getPrimaryKey()
     {
@@ -185,9 +185,9 @@ abstract class Action extends \Grido\Components\Base
     }
 
     /**
-     * @internal - Do not call directly.
      * @param mixed $row
      * @return Html
+     * @internal
      */
     public function getElement($row)
     {

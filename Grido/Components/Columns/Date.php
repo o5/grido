@@ -84,9 +84,9 @@ class Date extends Column
     }
 
     /**
-     * @internal - Do not call directly.
      * @param mixed $row
      * @return string
+     * @internal
      */
     public function renderExport($row)
     {

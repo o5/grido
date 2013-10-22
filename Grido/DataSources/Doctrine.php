@@ -60,7 +60,7 @@ class Doctrine extends \Nette\Object implements IDataSource
     }
 
     /**
-     * @return Doctrine\ORM\Query
+     * @return \Doctrine\ORM\Query
      */
     public function getQuery()
     {

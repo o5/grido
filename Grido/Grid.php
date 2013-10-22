@@ -293,7 +293,7 @@ class Grid extends \Nette\Application\UI\Control
     /**
      * Sets client-side options.
      * @param array $options
-     * @return \Grido\Grid
+     * @return Grid
      */
     public function setClientSideOptions(array $options)
     {
@@ -551,8 +551,8 @@ class Grid extends \Nette\Application\UI\Control
     }
 
     /**
-     * @internal - Do not call directly.
      * @return string
+     * @internal
      */
     public function getFilterRenderType()
     {
@@ -577,8 +577,8 @@ class Grid extends \Nette\Application\UI\Control
     }
 
     /**
-     * @internal - Do not call directly.
      * @return DataSources\IDataSource
+     * @internal
      */
     public function getModel()
     {
@@ -586,8 +586,8 @@ class Grid extends \Nette\Application\UI\Control
     }
 
     /**
-     * @internal - Do not call directly.
      * @return PropertyAccessors\IPropertyAccessor
+     * @internal
      */
     public function getPropertyAccessor()
     {
@@ -599,8 +599,8 @@ class Grid extends \Nette\Application\UI\Control
     }
 
     /**
-     * @internal - Do not call directly.
      * @return Paginator
+     * @internal
      */
     public function getPaginator()
     {
@@ -614,9 +614,9 @@ class Grid extends \Nette\Application\UI\Control
     }
 
     /**
-     * @internal - Do not call directly.
      * @param mixed $row item from db
      * @return \Nette\Utils\Html
+     * @internal
      */
     public function getRowPrototype($row)
     {
@@ -632,8 +632,8 @@ class Grid extends \Nette\Application\UI\Control
 
      /**
       * Loads state informations.
-      * @internal - Do not call directly.
       * @param array $params
+      * @internal
       */
     public function loadState(array $params)
     {
@@ -650,7 +650,7 @@ class Grid extends \Nette\Application\UI\Control
 
     /**
      * Ajax method.
-     * @internal - Do not call directly.
+     * @internal
      */
     public function handleRefresh()
     {
@@ -658,8 +658,8 @@ class Grid extends \Nette\Application\UI\Control
     }
 
     /**
-     * @internal - Do not call directly.
      * @param int $page
+     * @internal
      */
     public function handlePage($page)
     {
@@ -667,8 +667,8 @@ class Grid extends \Nette\Application\UI\Control
     }
 
     /**
-     * @internal - Do not call directly.
      * @param array $sort
+     * @internal
      */
     public function handleSort(array $sort)
     {
@@ -677,8 +677,8 @@ class Grid extends \Nette\Application\UI\Control
     }
 
     /**
-     * @internal - Do not call directly.
      * @param \Nette\Forms\Controls\SubmitButton $button
+     * @internal
      */
     public function handleFilter(\Nette\Forms\Controls\SubmitButton $button)
     {
@@ -696,8 +696,8 @@ class Grid extends \Nette\Application\UI\Control
     }
 
     /**
-     * @internal - Do not call directly.
      * @param \Nette\Forms\Controls\SubmitButton $button
+     * @internal
      */
     public function handleReset(\Nette\Forms\Controls\SubmitButton $button)
     {
@@ -712,8 +712,8 @@ class Grid extends \Nette\Application\UI\Control
     }
 
     /**
-     * @internal - Do not call directly.
      * @param \Nette\Forms\Controls\SubmitButton $button
+     * @internal
      */
     public function handlePerPage(\Nette\Forms\Controls\SubmitButton $button)
     {
@@ -728,8 +728,8 @@ class Grid extends \Nette\Application\UI\Control
 
     /**
      * Refresh wrapper.
-     * @internal - Do not call directly.
      * @return void
+     * @internal
      */
     public function reload()
     {
@@ -743,9 +743,9 @@ class Grid extends \Nette\Application\UI\Control
     /**********************************************************************************************/
 
     /**
-     * @internal - Do not call directly.
      * @param bool $useCache
      * @return bool
+     * @internal
      */
     public function hasColumns($useCache = TRUE)
     {
@@ -761,9 +761,9 @@ class Grid extends \Nette\Application\UI\Control
     }
 
     /**
-     * @internal - Do not call directly.
      * @param bool $useCache
      * @return bool
+     * @internal
      */
     public function hasFilters($useCache = TRUE)
     {
@@ -779,9 +779,9 @@ class Grid extends \Nette\Application\UI\Control
     }
 
     /**
-     * @internal - Do not call directly.
      * @param bool $useCache
      * @return bool
+     * @internal
      */
     public function hasActions($useCache = TRUE)
     {
@@ -797,9 +797,9 @@ class Grid extends \Nette\Application\UI\Control
     }
 
     /**
-     * @internal - Do not call directly.
      * @param bool $useCache
      * @return bool
+     * @internal
      */
     public function hasOperation($useCache = TRUE)
     {
@@ -820,9 +820,9 @@ class Grid extends \Nette\Application\UI\Control
     }
 
     /**
-     * @internal - Do not call directly.
      * @param bool $useCache
      * @return bool
+     * @internal
      */
     public function hasExport($useCache = TRUE)
     {
@@ -839,9 +839,9 @@ class Grid extends \Nette\Application\UI\Control
     /**********************************************************************************************/
 
     /**
-     * @internal - Do not call directly.
      * @param string $class
      * @return \Nette\Templating\FileTemplate
+     * @internal
      */
     public function createTemplate($class = NULL)
     {
@@ -853,7 +853,7 @@ class Grid extends \Nette\Application\UI\Control
     }
 
     /**
-     * @internal - Do not call directly.
+     * @internal
      */
     public function render()
     {
@@ -889,9 +889,9 @@ class Grid extends \Nette\Application\UI\Control
     }
 
     /**
-     * @internal - Do not call directly.
      * @param array $filter
      * @return array
+     * @internal
      */
     public function __getConditions(array $filter)
     {
@@ -995,7 +995,7 @@ class Grid extends \Nette\Application\UI\Control
     /**
      * @param string $name
      * @param string $label
-     * @return \Grido\Components\Columns\Text
+     * @return Components\Columns\Text
      */
     public function addColumnText($name, $label)
     {
@@ -1005,7 +1005,7 @@ class Grid extends \Nette\Application\UI\Control
     /**
      * @param string $name
      * @param string $label
-     * @return \Grido\Components\Columns\Mail
+     * @return Components\Columns\Mail
      */
     public function addColumnMail($name, $label)
     {
@@ -1015,7 +1015,7 @@ class Grid extends \Nette\Application\UI\Control
     /**
      * @param string $name
      * @param string $label
-     * @return \Grido\Components\Columns\Href
+     * @return Components\Columns\Href
      */
     public function addColumnHref($name, $label)
     {
@@ -1026,7 +1026,7 @@ class Grid extends \Nette\Application\UI\Control
      * @param string $name
      * @param string $label
      * @param string $dateFormat
-     * @return \Grido\Components\Columns\Date
+     * @return Components\Columns\Date
      */
     public function addColumnDate($name, $label, $dateFormat = NULL)
     {
@@ -1039,7 +1039,7 @@ class Grid extends \Nette\Application\UI\Control
      * @param int $decimals number of decimal points
      * @param string $decPoint separator for the decimal point
      * @param string $thousandsSep thousands separator
-     * @return \Grido\Components\Columns\Number
+     * @return Components\Columns\Number
      */
     public function addColumnNumber($name, $label, $decimals = NULL, $decPoint = NULL, $thousandsSep = NULL)
     {
@@ -1053,7 +1053,7 @@ class Grid extends \Nette\Application\UI\Control
 
         $column = new $type($this, $name, $label);
         if (!$column instanceof Column) {
-            throw new \InvalidArgumentException('Column must be inherited from \Grido\Components\Columns\Column.');
+            throw new \InvalidArgumentException('Column must be inherited from Components\Columns\Column.');
         }
 
         return $column;
@@ -1064,7 +1064,7 @@ class Grid extends \Nette\Application\UI\Control
     /**
      * @param string $name
      * @param string $label
-     * @return \Grido\Components\Filters\Text
+     * @return Components\Filters\Text
      */
     public function addFilterText($name, $label)
     {
@@ -1074,7 +1074,7 @@ class Grid extends \Nette\Application\UI\Control
     /**
      * @param string $name
      * @param string $label
-     * @return \Grido\Components\Filters\Date
+     * @return Components\Filters\Date
      */
     public function addFilterDate($name, $label)
     {
@@ -1084,7 +1084,7 @@ class Grid extends \Nette\Application\UI\Control
     /**
      * @param string $name
      * @param string $label
-     * @return \Grido\Components\Filters\Check
+     * @return Components\Filters\Check
      */
     public function addFilterCheck($name, $label)
     {
@@ -1095,7 +1095,7 @@ class Grid extends \Nette\Application\UI\Control
      * @param string $name
      * @param string $label
      * @param array $items
-     * @return \Grido\Components\Filters\Select
+     * @return Components\Filters\Select
      */
     public function addFilterSelect($name, $label, array $items = NULL)
     {
@@ -1105,7 +1105,7 @@ class Grid extends \Nette\Application\UI\Control
     /**
      * @param string $name
      * @param string $label
-     * @return \Grido\Components\Filters\Number
+     * @return Components\Filters\Number
      */
     public function addFilterNumber($name, $label)
     {
@@ -1115,7 +1115,7 @@ class Grid extends \Nette\Application\UI\Control
     /**
      * @param string $name
      * @param \Nette\Forms\IControl $formControl
-     * @return \Grido\Components\Filters\Custom
+     * @return Components\Filters\Custom
      */
     public function addFilterCustom($name, \Nette\Forms\IControl $formControl)
     {
@@ -1142,7 +1142,7 @@ class Grid extends \Nette\Application\UI\Control
      * @param string $label
      * @param string $destination
      * @param array $args
-     * @return \Grido\Components\Actions\Href
+     * @return Components\Actions\Href
      */
     public function addActionHref($name, $label, $destination = NULL, array $args = NULL)
     {
@@ -1153,7 +1153,7 @@ class Grid extends \Nette\Application\UI\Control
      * @param string $name
      * @param string $label
      * @param callback $onClick
-     * @return \Grido\Components\Actions\Event
+     * @return Components\Actions\Event
      */
     public function addActionEvent($name, $label, $onClick = NULL)
     {

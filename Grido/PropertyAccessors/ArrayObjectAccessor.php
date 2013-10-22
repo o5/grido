@@ -23,7 +23,7 @@ class ArrayObjectAccessor implements IPropertyAccessor
     /**
      * @param mixed $object
      * @param string $name
-     * @throws \Grido\PropertyAccessors\PropertyAccessorException
+     * @throws PropertyAccessorException
      * @throws \Nette\MemberAccessException
      * @throws \InvalidArgumentException
      * @return mixed

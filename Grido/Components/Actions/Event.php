@@ -43,9 +43,9 @@ class Event extends Action
     /**********************************************************************************************/
 
     /**
-     * @internal - Do not call directly.
      * @param mixed $row
      * @return \Nette\Utils\Html
+     * @internal
      */
     public function getElement($row)
     {
@@ -60,8 +60,8 @@ class Event extends Action
     /**********************************************************************************************/
 
     /**
-     * @internal - Do not call directly.
      * @param $id
+     * @internal
      */
     public function handleClick($id)
     {
