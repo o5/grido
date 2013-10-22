@@ -37,10 +37,10 @@ class Number extends Text
     }
 
     /**
-     * @internal - do not call directly.
      * @param string $value
      * @return Condition
      * @throws \Exception
+     * @internal
      */
     public function __getCondition($value)
     {

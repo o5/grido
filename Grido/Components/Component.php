@@ -41,7 +41,7 @@ abstract class Component extends \Nette\Application\UI\PresenterComponent
     protected $propertyAccessor;
 
     /**
-     * @return \Grido\Grid
+     * @return Grido\Grid
      */
     public function getGrid()
     {
@@ -61,7 +61,7 @@ abstract class Component extends \Nette\Application\UI\PresenterComponent
     }
 
     /**
-     * @return \Grido\PropertyAccessors\IPropertyAccessor
+     * @return Grido\PropertyAccessors\IPropertyAccessor
      */
     public function getPropertyAccessor()
     {
@@ -73,8 +73,8 @@ abstract class Component extends \Nette\Application\UI\PresenterComponent
     }
 
     /**
-     * @internal - Do not call directly.
      * @return string
+     * @internal
      */
     public function getLabel()
     {
@@ -82,8 +82,8 @@ abstract class Component extends \Nette\Application\UI\PresenterComponent
     }
 
     /**
-     * @internal - Do not call directly.
      * @return string
+     * @internal
      */
     public function getType()
     {

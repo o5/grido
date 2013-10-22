@@ -71,7 +71,7 @@ class Export extends Component implements \Nette\Application\IResponse
     }
 
     /**
-     * @internal - Do not call directly.
+     * @internal
      */
     public function handleExport()
     {

@@ -57,8 +57,8 @@ class Text extends Filter
     /**********************************************************************************************/
 
     /**
-     * @internal - Do not call directly.
      * @param string $query - value from input
+     * @internal
      */
     public function handleSuggest($query)
     {

@@ -287,7 +287,7 @@ class Grid extends Components\Container
     /**
      * Sets client-side options.
      * @param array $options
-     * @return \Grido\Grid
+     * @return Grid
      */
     public function setClientSideOptions(array $options)
     {
@@ -479,8 +479,8 @@ class Grid extends Components\Container
     }
 
     /**
-     * @internal - Do not call directly.
      * @return string
+     * @internal
      */
     public function getFilterRenderType()
     {
@@ -505,8 +505,8 @@ class Grid extends Components\Container
     }
 
     /**
-     * @internal - Do not call directly.
      * @return DataSources\IDataSource
+     * @internal
      */
     public function getModel()
     {
@@ -514,8 +514,8 @@ class Grid extends Components\Container
     }
 
     /**
-     * @internal - Do not call directly.
      * @return PropertyAccessors\IPropertyAccessor
+     * @internal
      */
     public function getPropertyAccessor()
     {
@@ -527,8 +527,8 @@ class Grid extends Components\Container
     }
 
     /**
-     * @internal - Do not call directly.
      * @return Paginator
+     * @internal
      */
     public function getPaginator()
     {
@@ -542,9 +542,9 @@ class Grid extends Components\Container
     }
 
     /**
-     * @internal - Do not call directly.
      * @param mixed $row item from db
      * @return \Nette\Utils\Html
+     * @internal
      */
     public function getRowPrototype($row)
     {
@@ -560,8 +560,8 @@ class Grid extends Components\Container
 
      /**
       * Loads state informations.
-      * @internal - Do not call directly.
       * @param array $params
+      * @internal
       */
     public function loadState(array $params)
     {
@@ -578,7 +578,7 @@ class Grid extends Components\Container
 
     /**
      * Ajax method.
-     * @internal - Do not call directly.
+     * @internal
      */
     public function handleRefresh()
     {
@@ -586,8 +586,8 @@ class Grid extends Components\Container
     }
 
     /**
-     * @internal - Do not call directly.
      * @param int $page
+     * @internal
      */
     public function handlePage($page)
     {
@@ -595,8 +595,8 @@ class Grid extends Components\Container
     }
 
     /**
-     * @internal - Do not call directly.
      * @param array $sort
+     * @internal
      */
     public function handleSort(array $sort)
     {
@@ -605,8 +605,8 @@ class Grid extends Components\Container
     }
 
     /**
-     * @internal - Do not call directly.
      * @param \Nette\Forms\Controls\SubmitButton $button
+     * @internal
      */
     public function handleFilter(\Nette\Forms\Controls\SubmitButton $button)
     {
@@ -624,8 +624,8 @@ class Grid extends Components\Container
     }
 
     /**
-     * @internal - Do not call directly.
      * @param \Nette\Forms\Controls\SubmitButton $button
+     * @internal
      */
     public function handleReset(\Nette\Forms\Controls\SubmitButton $button)
     {
@@ -640,8 +640,8 @@ class Grid extends Components\Container
     }
 
     /**
-     * @internal - Do not call directly.
      * @param \Nette\Forms\Controls\SubmitButton $button
+     * @internal
      */
     public function handlePerPage(\Nette\Forms\Controls\SubmitButton $button)
     {
@@ -656,8 +656,8 @@ class Grid extends Components\Container
 
     /**
      * Refresh wrapper.
-     * @internal - Do not call directly.
      * @return void
+     * @internal
      */
     public function reload()
     {
@@ -671,9 +671,9 @@ class Grid extends Components\Container
     /**********************************************************************************************/
 
     /**
-     * @internal - Do not call directly.
      * @param string $class
      * @return \Nette\Templating\FileTemplate
+     * @internal
      */
     public function createTemplate($class = NULL)
     {
@@ -685,7 +685,7 @@ class Grid extends Components\Container
     }
 
     /**
-     * @internal - Do not call directly.
+     * @internal
      */
     public function render()
     {
@@ -721,9 +721,9 @@ class Grid extends Components\Container
     }
 
     /**
-     * @internal - Do not call directly.
      * @param array $filter
      * @return array
+     * @internal
      */
     public function __getConditions(array $filter)
     {

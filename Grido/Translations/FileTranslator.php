@@ -47,8 +47,8 @@ class FileTranslator extends \Nette\Object implements \Nette\Localization\ITrans
 
     /**
      * @param string $lang
+     * @throws \Exception
      * @return array
-     * @throws Exception
      */
     protected function getTranslationsFromFile($lang)
     {

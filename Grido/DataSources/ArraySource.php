@@ -79,8 +79,8 @@ class ArraySource extends \Nette\Object implements IDataSource
      * @param string $actual
      * @param string $condition
      * @param mixed $expected
-     * @return bool
      * @throws \InvalidArgumentException
+     * @return bool
      */
     public function compare($actual, $condition, $expected)
     {
