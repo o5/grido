@@ -162,6 +162,12 @@ abstract class Action extends \Grido\Components\Base
                 ->setText($this->translate($this->label));
         }
 
+        if (is_string($this->elementPrototype->class)) {
+            $this->elementPrototype->class = (array) $this->elementPrototype->class;
+        } elseif (!is_array($this->elementPrototype->class)) {
+            throw new \Exception('Attribute class must be string or array.');
+        }
+
         return $this->elementPrototype;
     }
 
@@ -235,12 +241,6 @@ abstract class Action extends \Grido\Components\Base
         if ($this->customRender) {
             echo callback($this->customRender)->invokeArgs(array($row, $element));
             return;
-        }
-
-        if (is_string($element->class)) {
-            $element->class = (array) $element->class;
-        } elseif (!is_array($element->class)) {
-            throw new \Exception('Attribute class must be string or array.');
         }
 
         echo $element->render();
