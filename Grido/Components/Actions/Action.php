@@ -237,6 +237,12 @@ abstract class Action extends \Grido\Components\Base
             return;
         }
 
+        if (is_string($element->class)) {
+            $element->class = (array) $element->class;
+        } elseif (!is_array($element->class)) {
+            throw new \Exception('Attribute class must be string or array.');
+        }
+
         echo $element->render();
     }
 }
