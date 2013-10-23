@@ -20,7 +20,7 @@ class ArraySourceTest extends DataSourceTestCase
     function setUp()
     {
         Helper::grid(function(Grid $grid) {
-            $grid->setModel(\Nette\Utils\Json::decode(file_get_contents(__DIR__ . '/files/users.json'), 1));
+            $grid->setModel(json_decode(file_get_contents(__DIR__ . '/files/users.json'), 1));
             $grid->setDefaultPerPage(3);
 
             $grid->addColumnText('firstname', 'Firstname')
@@ -51,7 +51,7 @@ class ArraySourceTest extends DataSourceTestCase
     function testSetWhere()
     {
         Helper::grid(function(Grid $grid) {
-            $grid->setModel(\Nette\Utils\Json::decode(file_get_contents(__DIR__ . '/files/users.json'), 1));
+            $grid->setModel(json_decode(file_get_contents(__DIR__ . '/files/users.json'), 1));
             $grid->addFilterCheck('male', 'Only male')
                 ->setWhere(function($value, array $row) {
                     Assert::true($value);
