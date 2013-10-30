@@ -30,8 +30,10 @@ test(function() {
     $output = '12.12.2012';
     Assert::same($output, $column->render(array('column' => $input)));
     Assert::same($output, $column->render(array('column' => new DateTime($input))));
+    Assert::same($output, $column->render(array('column' => strtotime($input))));
     Assert::same($output, $column->renderExport(array('column' => $input)));
     Assert::same($output, $column->renderExport(array('column' => new DateTime($input))));
+    Assert::same($output, $column->renderExport(array('column' => strtotime($input))));
 
     $column->setDateFormat(Date::FORMAT_TEXT);
     $output = '12 Dec 2012';
