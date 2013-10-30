@@ -80,7 +80,7 @@ class Date extends Column
 
         return $value instanceof \DateTime
             ? $value->format($this->dateFormat)
-            : date($this->dateFormat, strtotime($value)); //@todo add notice when result is "01.01.1970"
+            : date($this->dateFormat, is_numeric($value) ? $value : strtotime($value)); //@todo add notice when result is "01.01.1970"
     }
 
     /**
