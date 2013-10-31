@@ -167,6 +167,7 @@
 
 /******************** TWITTER BOOTSTRAP RESET ********************/
 
+.grido table {border-collapse: inherit}
 .grido table thead th {vertical-align: middle}
 .grido table th, .table td {vertical-align: middle}
 .grido table tfoot td {text-align: inherit}
@@ -205,10 +206,6 @@
 
 .grido tfoot .form-control {
     display: inline;
-}
-
-.grido .glyphicon, .grido .icon {
-    /*line-height: inherit;*/
 }
 
 .grido tr.active td {background-color: #d9edf7!important}
