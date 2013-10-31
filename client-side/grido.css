@@ -15,7 +15,6 @@
     border-spacing: 0;
     border: 1px solid #CACACA;
     text-align: left;
-    border-collapse: inherit;
     width: 100%;
     box-shadow: 1px 1px 12px -1px rgba(0,0,0,.2);
 }
@@ -61,14 +60,13 @@
 
 .grido th,
 .grido td
- {
-    padding:0 6px ;
-    border:solid #CACACA;
+{
+    border:1px solid #CACACA;
     border-width: 0 1px 1px 0;
     height: 30px;
 }
 
-.grido th.column {width: 8%}
+.grido th.column {width: 7%}
 
 .grido thead {font-size: 1.15em}
 .grido tfoot {font-size: 1.1em}
@@ -80,7 +78,7 @@
 .grido tr.filter {height: 20px}
 
 .grido tr.filter th {
-    padding: 2px 6px 0 5px;
+    padding: 2px 6px 2px 6px;
     border-radius: 0;
     height: 35px;
 }
@@ -89,20 +87,24 @@
     display: inline-block;
     width: 100%;
     margin-bottom: 20px;
+    min-height: 5em;
 }
 
 .grido .filter.outer .items {
     width: 88%;
     float: left;
-    min-height: 60px;
 }
 
 .grido .filter.outer .items span {
     float: left;
     display: block;
-    width: 130px;
-    height: 55px;
+    width: 12em;
+    height: 5em;
     padding: 7px;
+}
+
+.grido .filter.outer label {
+    margin-bottom: 2px;
 }
 
 .grido .filter.outer select,
@@ -112,7 +114,7 @@
 
 .grido .filter.outer .buttons {
     float: right;
-    margin: 15px 5px 0 0;
+    margin: 1.2em 1em 0;
 }
 
 /******************** SORTING ********************/
@@ -153,7 +155,7 @@
 .grido tfoot td:first-child {border-radius: 0 0 0 4px}
 .grido tfoot td:last-child {border-radius: 0 0 4px 4px}
 
-.grido tfoot {text-align: center; line-height: 23px}
+.grido tfoot {text-align: center; line-height: 23px!important}
 .grido tfoot .operations {float: left;text-align: left}
 .grido tfoot .count {float:right; text-align: left}
 
@@ -165,9 +167,22 @@
 
 /******************** TWITTER BOOTSTRAP RESET ********************/
 
-.grido .table thead th {vertical-align: middle}
-.grido .table th, .table td {vertical-align: middle}
-.grido .table tfoot td {text-align: inherit}
+.grido table thead th {vertical-align: middle}
+.grido table th, .table td {vertical-align: middle}
+.grido table tfoot td {text-align: inherit}
+
+.grido tfoot tr td {line-height: 22px}
+
+.grido table td, .grido table th {border-top: 0!important}
+.grido thead th {
+    border-bottom: 1px solid #CACACA!important;
+    padding: 3px 6px!important;
+}
+.grido tbody tr td, .grido tfoot tr td {
+    vertical-align: middle;
+    height: 20px;
+    padding: 5px;
+}
 
 .grido input.text, .grido select {
     margin-bottom: 0;
@@ -179,9 +194,26 @@
 
 .grido .buttons input {
     width: auto;
-    padding: 4px 10px 4px;
     height: auto;
     margin-right: 4px;
 }
-.grido label {display: inline}
-.grido input[type="checkbox"] {margin: 3px 0}
+
+.grido .form-control {
+    height: auto;
+    width: auto;
+}
+
+.grido tfoot .form-control {
+    display: inline;
+}
+
+.grido .glyphicon, .grido .icon {
+    /*line-height: inherit;*/
+}
+
+.grido tr.active td {background-color: #d9edf7!important}
+
+.btn-mini [class*=" icon-"]
+{
+    margin-top: 1px
+}

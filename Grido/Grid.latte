@@ -24,17 +24,25 @@
 
     /* TWITTER BOOTSTRAP 2 */
     $buttons = $form->getComponent('buttons');
-    $buttons->getComponent('search')->getControlPrototype()->class[] = 'btn search';
-    $buttons->getComponent('reset')->getControlPrototype()->class[] = 'btn reset'}
+    $buttons->getComponent('search')->getControlPrototype()->class[] = 'btn btn-default search';
+    $buttons->getComponent('reset')->getControlPrototype()->class[] = 'btn btn-default reset';
+
+    $form['count']->controlPrototype->class[] = 'form-control';
+    $operation ? $form['operations']['operations']->controlPrototype->class[] = 'form-control' : NULL}
+
+    {foreach $filters as $filter}
+        {?$filter->controlPrototype->class[] = 'form-control'}
+    {/foreach}
+
     {foreach $actions as $action}
         {?
             $element = $action->getElementPrototype();
-            $element->class[] = 'btn btn-mini';
+            $element->class[] = 'btn btn-default btn-xs btn-mini';
         }
         {if $icon = $action->getOption('icon')}
         {?
             $element->setText(' ' . $action->getLabel());
-            $element->insert(0, \Nette\Utils\Html::el('i')->setClass(array("icon-$icon")));
+            $element->insert(0, \Nette\Utils\Html::el('i')->setClass(array("glyphicon glyphicon-$icon icon-$icon")));
         }
         {/if}
     {/foreach}
@@ -117,24 +125,24 @@
                 </span>
                 <span n:if="$paginator->steps && $paginator->pageCount > 1" n:block="paginator" class="paginator">
                     {if $control->page == 1}
-                        <span class="btn btn-mini disabled" n:href="page! page => $paginator->getPage() - 1"><i class="icon-arrow-left"></i> {_'Previous'}</span>
+                        <span class="btn btn-default btn-xs btn-mini disabled" n:href="page! page => $paginator->getPage() - 1"><i class="glyphicon glyphicon-arrow-left icon-arrow-left"></i> {_'Previous'}</span>
                     {else}
-                        <a class="btn btn-mini ajax" n:href="page! page => $paginator->getPage() - 1"><i class="icon-arrow-left"></i> {_'Previous'}</a>
+                        <a class="btn btn-default btn-xs btn-mini ajax" n:href="page! page => $paginator->getPage() - 1"><i class="glyphicon glyphicon-arrow-left icon-arrow-left"></i> {_'Previous'}</a>
                     {/if}
                     {var $steps = $paginator->getSteps()}
                     {foreach $steps as $step}
                         {if $step == $control->page}
-                            <span class="btn btn-mini disabled">{$step}</span>
+                            <span class="btn btn-default btn-xs btn-mini disabled">{$step}</span>
                         {else}
-                            <a class="btn btn-mini ajax" n:href="page! page => $step">{$step}</a>
+                            <a class="btn btn-default btn-xs btn-mini ajax" n:href="page! page => $step">{$step}</a>
                         {/if}
                         <a n:if="$iterator->nextValue > $step + 1" class="prompt" data-grido-prompt="{_'Enter page:'}" data-grido-link="{link page! page => 0}">...</a>
                         {var $prevStep = $step}
                     {/foreach}
                     {if $control->page == $paginator->getPageCount()}
-                        <span class="btn btn-mini disabled" n:href="page! page => $paginator->getPage() + 1">{_'Next'} <i class="icon-arrow-right"></i></span>
+                        <span class="btn btn-default btn-xs btn-mini disabled" n:href="page! page => $paginator->getPage() + 1">{_'Next'} <i class="glyphicon glyphicon-arrow-right icon-arrow-right"></i></span>
                     {else}
-                        <a class="btn btn-mini ajax" n:href="page! page => $paginator->getPage() + 1">{_'Next'} <i class="icon-arrow-right"></i></a>
+                        <a class="btn btn-default btn-xs btn-mini ajax" n:href="page! page => $paginator->getPage() + 1">{_'Next'} <i class="glyphicon glyphicon-arrow-right icon-arrow-right"></i></a>
                     {/if}
                 </span>
                 <span n:block="count" class="count">
@@ -143,7 +151,7 @@
                     {formContainer buttons}
                         {input perPage, class => 'hide'}
                     {/formContainer}
-                    <a n:if="$control->hasExport()" class="btn btn-mini" href="{=$control->getComponent(Grido\Components\Export::ID)->link('export!')}" title="{_'Export all items'}"><i class="icon-download"></i></a>
+                    <a n:if="$control->hasExport()" class="btn btn-default btn-xs btn-mini" href="{=$control->getComponent(Grido\Components\Export::ID)->link('export!')}" title="{_'Export all items'}"><i class="glyphicon glyphicon-download icon-download"></i></a>
                 </span>
             </td>
         </tr>
