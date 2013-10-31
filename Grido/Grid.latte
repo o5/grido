@@ -22,7 +22,7 @@
     $columnCount = count($columns) + ($operation ? 1 : 0);
     $showActionsColumn = $actions || ($filters && $filterRenderType == Grido\Components\Filters\Filter::RENDER_INNER);
 
-    /* TWITTER BOOTSTRAP 2 */
+    /* TWITTER BOOTSTRAP 2/3 */
     $buttons = $form->getComponent('buttons');
     $buttons->getComponent('search')->getControlPrototype()->class[] = 'btn btn-default search';
     $buttons->getComponent('reset')->getControlPrototype()->class[] = 'btn btn-default reset';
