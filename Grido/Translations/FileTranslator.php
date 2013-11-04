@@ -6,7 +6,7 @@
  * Copyright (c) 2011 Petr Bugyík (http://petr.bugyik.cz)
  *
  * For the full copyright and license information, please view
- * the file license.md that was distributed with this source code.
+ * the file LICENSE.md that was distributed with this source code.
  */
 
 namespace Grido\Translations;
@@ -47,8 +47,8 @@ class FileTranslator extends \Nette\Object implements \Nette\Localization\ITrans
 
     /**
      * @param string $lang
+     * @throws \Exception
      * @return array
-     * @throws Exception
      */
     protected function getTranslationsFromFile($lang)
     {

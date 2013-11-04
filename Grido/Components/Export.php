@@ -6,7 +6,7 @@
  * Copyright (c) 2011 Petr Bugyík (http://petr.bugyik.cz)
  *
  * For the full copyright and license information, please view
- * the file license.md that was distributed with this source code.
+ * the file LICENSE.md that was distributed with this source code.
  */
 
 namespace Grido\Components;
@@ -18,24 +18,23 @@ namespace Grido\Components;
  * @subpackage  Components
  * @author      Petr Bugyík
  */
-class Export extends Base implements \Nette\Application\IResponse
+class Export extends Component implements \Nette\Application\IResponse
 {
     const ID = 'export';
 
-    /** @var Grido\Grid */
-    protected $grid;
-
-    /** @var string */
-    protected $name;
+    const NEW_LINE = "\n";
+    const DELIMITER = "\t";
 
     /**
-     * @param \Grido\Grid $grid
-     * @param string $name
+     * @param Grido\Grid $grid
+     * @param string $label
      */
-    public function __construct(\Grido\Grid $grid, $name)
+    public function __construct(\Grido\Grid $grid, $label = NULL)
     {
         $this->grid = $grid;
-        $this->name = $name;
+        $this->label = $label === NULL
+            ? ucfirst($this->grid->getName())
+            : $label;
 
         $grid->addComponent($this, self::ID);
     }
@@ -47,31 +46,25 @@ class Export extends Base implements \Nette\Application\IResponse
      */
     protected function generateCsv($data, $columns)
     {
-        $newLine = "\n";
-        $delimiter = "\t";
-
         $head = array();
         foreach ($columns as $column) {
-            $head[] = $column->label;
+            $head[] = $column->getLabel();
         }
 
-        $a = FALSE;
-        $source = implode($delimiter, $head) . $newLine;
+        $addNewLine = FALSE;
+        $source = implode(static::DELIMITER, $head) . static::NEW_LINE;
         foreach ($data as $item) {
-            if ($a) {
-                $source .= $newLine;
-            }
+            $source .= $addNewLine ? static::NEW_LINE : NULL;
 
-            $b = FALSE;
+            $addDelimiter = FALSE;
             foreach ($columns as $column) {
-                if ($b) {
-                    $source .= $delimiter;
-                }
-
+                $source .= $addDelimiter ? static::DELIMITER : NULL;
                 $source .= $column->renderExport($item);
-                $b = TRUE;
+
+                $addDelimiter = TRUE;
             }
-            $a = TRUE;
+
+            $addNewLine = TRUE;
         }
 
         return $source;
@@ -83,7 +76,6 @@ class Export extends Base implements \Nette\Application\IResponse
     public function handleExport()
     {
         $this->grid->presenter->sendResponse($this);
-        $this->grid->presenter->terminate();
     }
 
     /*************************** interface \Nette\Application\IResponse ***************************/
@@ -94,7 +86,7 @@ class Export extends Base implements \Nette\Application\IResponse
      */
     public function send(\Nette\Http\IRequest $httpRequest, \Nette\Http\IResponse $httpResponse)
     {
-        $file = $this->name . '.csv';
+        $file = $this->label . '.csv';
         $data = $this->grid->getData(FALSE);
         $columns = $this->grid[\Grido\Components\Columns\Column::ID]->getComponents();
         $source = $this->generateCsv($data, $columns);

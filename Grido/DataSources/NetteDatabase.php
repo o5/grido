@@ -6,7 +6,7 @@
  * Copyright (c) 2011 Petr Bugyík (http://petr.bugyik.cz)
  *
  * For the full copyright and license information, please view
- * the file license.md that was distributed with this source code.
+ * the file LICENSE.md that was distributed with this source code.
  */
 
 namespace Grido\DataSources;
@@ -43,12 +43,21 @@ class NetteDatabase extends \Nette\Object implements IDataSource
         return $this->selection;
     }
 
-    protected function removePlaceholders(array $condition)
+    /**
+     * @param Grido\Components\Filters\Condition $condition
+     * @param \Nette\Database\Table\Selection $selection
+     */
+    protected function makeWhere(\Grido\Components\Filters\Condition $condition, \Nette\Database\Table\Selection $selection = NULL)
     {
-        $condition[0] = trim(str_replace(array('%s', '%i', '%f'), '?', $condition[0]));
-        return isset($condition[1])
-            ? array(str_replace(array('[', ']'), array('', ''), $condition[0]) => $condition[1])
-            : array(str_replace(array('[', ']'), array('', ''), $condition[0]));
+        $selection = $selection === NULL
+            ? $this->selection
+            : $selection;
+
+        if ($condition->callback) {
+            callback($condition->callback)->invokeArgs(array($condition->value, $selection));
+        } else {
+            call_user_func_array(array($selection, 'where'), $condition->__toArray());
+        }
     }
 
     /*********************************** interface IDataSource ************************************/
@@ -58,7 +67,7 @@ class NetteDatabase extends \Nette\Object implements IDataSource
      */
     public function getCount()
     {
-        return $this->selection->count('*');
+        return (int) $this->selection->count('*');
     }
 
     /**
@@ -70,11 +79,13 @@ class NetteDatabase extends \Nette\Object implements IDataSource
     }
 
     /**
-     * @param array $condition
+     * @param array $conditions
      */
-    public function filter(array $condition)
+    public function filter(array $conditions)
     {
-        $this->selection->where($this->removePlaceholders($condition));
+        foreach ($conditions as $condition) {
+            $this->makeWhere($condition);
+        }
     }
 
     /**
@@ -105,7 +116,7 @@ class NetteDatabase extends \Nette\Object implements IDataSource
     {
         $selection = clone $this->selection;
         foreach ($conditions as $condition) {
-            $selection->where($this->removePlaceholders($condition));
+            $this->makeWhere($condition, $selection);
         }
 
         $items = array();
@@ -122,6 +133,9 @@ class NetteDatabase extends \Nette\Object implements IDataSource
             }
         }
 
-        return array_values($items);
+        $items = array_values($items);
+        sort($items);
+
+        return $items;;
     }
 }

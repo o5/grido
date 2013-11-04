@@ -6,7 +6,7 @@
  * Copyright (c) 2011 Petr Bugyík (http://petr.bugyik.cz)
  *
  * For the full copyright and license information, please view
- * the file license.md that was distributed with this source code.
+ * the file LICENSE.md that was distributed with this source code.
  */
 
 namespace Grido\Components\Filters;
@@ -20,11 +20,11 @@ namespace Grido\Components\Filters;
  */
 class Date extends Text
 {
-    /** @var string for ->where('<column> LIKE %s', <value>) */
-    protected $condition = 'LIKE %s';
+    /** @var string */
+    protected $condition = '= ?';
 
-    /** @var string for ->where('<column> LIKE %s', '%'.<value>.'%') */
-    protected $formatValue = '%%value%';
+    /** @var string */
+    protected $formatValue;
 
     /**
      * @return \Nette\Forms\Controls\TextInput
@@ -32,8 +32,8 @@ class Date extends Text
     protected function getFormControl()
     {
         $control = parent::getFormControl();
-        $control->controlPrototype->class[] = 'date';
-        $control->controlPrototype->attrs['autocomplete'] = 'off';
+        $control->getControlPrototype()->class[] = 'date';
+        $control->getControlPrototype()->attrs['autocomplete'] = 'off';
 
         return $control;
     }

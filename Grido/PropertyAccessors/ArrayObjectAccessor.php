@@ -6,7 +6,7 @@
  * Copyright (c) 2011 Petr Bugyík (http://petr.bugyik.cz)
  *
  * For the full copyright and license information, please view
- * the file license.md that was distributed with this source code.
+ * the file LICENSE.md that was distributed with this source code.
  */
 
 namespace Grido\PropertyAccessors;
@@ -23,20 +23,23 @@ class ArrayObjectAccessor implements IPropertyAccessor
     /**
      * @param mixed $object
      * @param string $name
-     * @return bool
+     * @throws PropertyAccessorException
+     * @throws \Nette\MemberAccessException
      * @throws \InvalidArgumentException
+     * @return mixed
      */
-    public static function hasProperty($object, $name)
+    public static function getProperty($object, $name)
     {
-        if (is_object($object) && $object instanceof \Nette\Database\Table\ActiveRow) {
-            //https://github.com/nette/nette/pull/1100
-            return array_key_exists($name, $object->toArray());
-        } elseif (is_object($object) && $object instanceof \ArrayObject) {
-            return $object->offsetExists($name);
+        if (is_array($object)) {
+            if (!array_key_exists($name, $object)) {
+                throw new PropertyAccessorException("Property with name '$name' does not exists in datasource.");
+            }
+
+            return $object[$name];
+
         } elseif (is_object($object)) {
-            return property_exists($object, $name);
-        } elseif (is_array($object) || $object instanceof \ArrayAccess) {
-            return array_key_exists($name, $object);
+            return $object->$name;
+
         } else {
             throw new \InvalidArgumentException('Please implement your own property accessor.');
         }
@@ -45,26 +48,16 @@ class ArrayObjectAccessor implements IPropertyAccessor
     /**
      * @param mixed $object
      * @param string $name
-     * @return mixed
-     */
-    public static function getProperty($object, $name)
-    {
-        return isset($object->$name) || (is_object($object) && property_exists($object, $name))
-            ? $object->$name
-            : $object[$name];
-    }
-
-    /**
-     * @param mixed $object
-     * @param string $name
-     * @param string $value
+     * @param mixed $value
      */
     public static function setProperty($object, $name, $value)
     {
-        if (isset($object->$name) || (is_object($object) && property_exists($object, $name))) {
+        if (is_array($object)) {
             $object->$name = $value;
-        } else {
+        } elseif (is_object($object)) {
             $object[$name] = $value;
+        } else {
+            throw new \InvalidArgumentException('Please implement your own property accessor.');
         }
     }
 }

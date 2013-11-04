@@ -6,7 +6,7 @@
  * Copyright (c) 2011 Petr Bugyík (http://petr.bugyik.cz)
  *
  * For the full copyright and license information, please view
- * the file license.md that was distributed with this source code.
+ * the file LICENSE.md that was distributed with this source code.
  */
 
 namespace Grido\Components;
@@ -20,10 +20,10 @@ namespace Grido\Components;
  *
  * @property-read string $label
  * @property-read string $type
- * @property-read \Grido\Grid $grid
+ * @property-read Grido\Grid $grid
  * @property-read \Nette\Application\UI\Form $form
  */
-abstract class Base extends \Nette\Application\UI\PresenterComponent
+abstract class Component extends \Nette\Application\UI\PresenterComponent
 {
     /** @var string */
     protected $label;
@@ -31,14 +31,17 @@ abstract class Base extends \Nette\Application\UI\PresenterComponent
     /** @var string */
     protected $type;
 
-    /** @var \Grido\Grid */
+    /** @var Grido\Grid */
     protected $grid;
 
     /** @var \Nette\Application\UI\Form */
     protected $form;
 
+    /** @var Grido\PropertyAccessors\IPropertyAccessor */
+    protected $propertyAccessor;
+
     /**
-     * @return \Grido\Grid
+     * @return Grido\Grid
      */
     public function getGrid()
     {
@@ -51,15 +54,27 @@ abstract class Base extends \Nette\Application\UI\PresenterComponent
     public function getForm()
     {
         if ($this->form === NULL) {
-            $this->form = $this->grid['form'];
+            $this->form = $this->grid->getComponent('form');
         }
 
         return $this->form;
     }
 
     /**
-     * @internal
+     * @return Grido\PropertyAccessors\IPropertyAccessor
+     */
+    public function getPropertyAccessor()
+    {
+        if ($this->propertyAccessor === NULL) {
+            $this->propertyAccessor = $this->grid->getPropertyAccessor();
+        }
+
+        return $this->propertyAccessor;
+    }
+
+    /**
      * @return string
+     * @internal
      */
     public function getLabel()
     {
@@ -67,8 +82,8 @@ abstract class Base extends \Nette\Application\UI\PresenterComponent
     }
 
     /**
-     * @internal
      * @return string
+     * @internal
      */
     public function getType()
     {
@@ -76,13 +91,14 @@ abstract class Base extends \Nette\Application\UI\PresenterComponent
     }
 
     /**
-     * @param \Grido\Grid $grid
+     * @param Grido\Grid $grid
      * @param string $name
      * @return \Nette\ComponentModel\Container
      */
     protected function addComponentToGrid($grid, $name)
     {
         $this->grid = $grid;
+        $this->propertyAccessor = $grid->getPropertyAccessor();
 
         //check container exist
         $container = $this->grid->getComponent($this::ID, FALSE);

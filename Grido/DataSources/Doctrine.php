@@ -6,13 +6,13 @@
  * Copyright (c) 2011 Petr Bugyík (http://petr.bugyik.cz)
  *
  * For the full copyright and license information, please view
- * the file license.md that was distributed with this source code.
+ * the file LICENSE.md that was distributed with this source code.
  */
 
 namespace Grido\DataSources;
 
-use Nette\Utils\Strings,
-    Doctrine\ORM\Tools\Pagination\Paginator;
+use Doctrine\ORM\Tools\Pagination\Paginator,
+    Grido\Components\Filters\Condition;
 
 /**
  * Doctrine data source.
@@ -20,6 +20,7 @@ use Nette\Utils\Strings,
  * @package     Grido
  * @subpackage  DataSources
  * @author      Martin Jantosovic <martin.jantosovic@freya.sk>
+ * @author      Petr Bugyík
  *
  * @property-read Doctrine\ORM\QueryBuilder $qb
  * @property-read array $filterMapping
@@ -37,6 +38,8 @@ class Doctrine extends \Nette\Object implements IDataSource
 
     /** @var array Map column to the query builder */
     protected $sortMapping;
+
+    protected $rand;
 
     /**
      * If $sortMapping is not set and $filterMapping is set,
@@ -57,7 +60,7 @@ class Doctrine extends \Nette\Object implements IDataSource
     }
 
     /**
-     * @return Doctrine\ORM\Query
+     * @return \Doctrine\ORM\Query
      */
     public function getQuery()
     {
@@ -88,35 +91,56 @@ class Doctrine extends \Nette\Object implements IDataSource
         return $this->sortMapping;
     }
 
-    protected function formatFilterCondition(array $condition)
+    /**
+     * @param Condition $condition
+     * @param \Doctrine\ORM\QueryBuilder $qb
+     */
+    protected function makeWhere(Condition $condition, \Doctrine\ORM\QueryBuilder $qb = NULL)
     {
-        $matches = Strings::matchAll($condition[0], '/\[([\w_-]+)\]*/');
-        $column = NULL;
+        $qb = $qb === NULL
+            ? $this->qb
+            : $qb;
 
-        if ($matches) {
-            foreach ($matches as $match) {
-                $column = $match[1];
-                $mapping = isset($this->filterMapping[$column])
+        if ($condition->callback) {
+            return callback($condition->callback)->invokeArgs(array($condition->value, $qb));
+        }
+
+        $columns = $condition->column;
+        foreach ($columns as $column) {
+            if (!Condition::isOperator($column)) {
+                $columns[$column] = isset($this->filterMapping[$column])
                     ? $this->filterMapping[$column]
                     : $this->qb->getRootAlias() . '.' . $column;
-
-                $condition[0] = Strings::replace($condition[0], '/' . preg_quote($match[0], '/') . '/', $mapping);
-                $condition[0] = trim(str_replace(array('%s', '%i', '%f'), ':' . $column, $condition[0]));
             }
         }
 
-        if (!$column) {
-            $column = count($this->qb->getParameters()) + 1;
-            $condition[0] = trim(str_replace(array('%s', '%i', '%f'), '?' . $column, $condition[0]));
-        }
+        list($where) = $condition->__toArray(NULL, NULL, FALSE);
+        $where = str_replace(array_keys($columns), array_values($columns), $where);
 
-        return array(
-            $condition[0],
-            isset($condition[1])
-                ? $condition[1]
-                : NULL,
-            $column
-        );
+        $rand = $this->getRand();
+        $where = preg_replace_callback('/\?/', function() use ($rand) {
+            static $i = -1; $i++;
+            return ":$rand{$i}";
+        }, $where);
+
+        $qb->andWhere($where);
+
+        foreach ($condition->getValueForColumn() as $i => $val) {
+            $qb->setParameter("$rand{$i}", $val);
+        }
+    }
+
+    /**
+     * @return string
+     */
+    protected function getRand()
+    {
+        do {
+            $rand = \Nette\Utils\Strings::random(4, 'a-z');
+        } while (isset($this->rand[$rand]));
+
+        $this->rand[$rand] = $rand;
+        return $rand;
     }
 
     /*********************************** interface IDataSource ************************************/
@@ -166,21 +190,18 @@ class Doctrine extends \Nette\Object implements IDataSource
     }
 
     /**
-     * Set filter.
-     * @param array $condition
+     * Sets filter.
+     * @param array $conditions
      */
-    public function filter(array $condition)
+    public function filter(array $conditions)
     {
-        $condition = $this->formatFilterCondition($condition);
-        $this->qb->andWhere($condition[0]);
-
-        if (isset($condition[1]) && isset($condition[2])) {
-            $this->qb->setParameter($condition[2], $condition[1]);
+        foreach ($conditions as $condition) {
+            $this->makeWhere($condition);
         }
     }
 
     /**
-     * Set offset and limit.
+     * Sets offset and limit.
      * @param int $offset
      * @param int $limit
      */
@@ -191,7 +212,7 @@ class Doctrine extends \Nette\Object implements IDataSource
     }
 
     /**
-     * Set sorting.
+     * Sets sorting.
      * @param array $sorting
      */
     public function sort(array $sorting)
@@ -213,14 +234,8 @@ class Doctrine extends \Nette\Object implements IDataSource
     public function suggest($column, array $conditions)
     {
         $qb = clone $this->qb;
-
         foreach ($conditions as $condition) {
-            $condition = $this->formatFilterCondition($condition);
-            $qb->andWhere($condition[0]);
-
-            if ($condition[1]) {
-                $qb->setParameter($condition[2], $condition[1]);
-            }
+            $this->makeWhere($condition, $qb);
         }
 
         $items = array();
@@ -233,6 +248,9 @@ class Doctrine extends \Nette\Object implements IDataSource
             $items[$value] = $value;
         }
 
-        return array_values($items);
+        $items = array_values($items);
+        sort($items);
+
+        return $items;;
     }
 }

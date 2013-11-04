@@ -6,7 +6,7 @@
  * Copyright (c) 2011 Petr Bugyík (http://petr.bugyik.cz)
  *
  * For the full copyright and license information, please view
- * the file license.md that was distributed with this source code.
+ * the file LICENSE.md that was distributed with this source code.
  */
 
 namespace Grido\Components\Filters;
@@ -24,7 +24,7 @@ class Custom extends Filter
     protected $formControl;
 
     /**
-     * @param \Grido\Grid $grid
+     * @param Grido\Grid $grid
      * @param string $name
      * @param string $label
      * @param \Nette\Forms\IControl $formControl
@@ -38,8 +38,9 @@ class Custom extends Filter
 
     /**
      * @return \Nette\Forms\IControl
+     * @internal
      */
-    protected function getFormControl()
+    public function getFormControl()
     {
         return $this->formControl;
     }

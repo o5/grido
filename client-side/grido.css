@@ -4,26 +4,24 @@
  * Copyright (c) 2011 Petr Bugyík (http://petr.bugyik.cz)
  *
  * For the full copyright and license information, please view
- * the file license.md that was distributed with this source code.
+ * the file LICENSE.md that was distributed with this source code.
  */
 
 /******************** GRID ********************/
 
-.grido {
+.grido table, .grido .filter {
     background: #fff;
     border-radius: 4px;
     border-spacing: 0;
     border: 1px solid #CACACA;
     text-align: left;
-    border-collapse: inherit;
     width: 100%;
     box-shadow: 1px 1px 12px -1px rgba(0,0,0,.2);
 }
 
 .grido thead th,
 .grido tfoot td,
-.grido.filter.outer,
-.navbar-inner {
+.grido .filter.outer {
     background: #E9E9E9;
     background:-moz-linear-gradient(top, #FAFAFA 0%, #E9E9E9 100%);
     background:-webkit-gradient(linear, left top, left bottom, color-stop(0%,#FAFAFA), color-stop(100%,#E9E9E9));
@@ -62,18 +60,13 @@
 
 .grido th,
 .grido td
- {
-    padding:0 6px ;
-    border:solid #CACACA;
+{
+    border:1px solid #CACACA;
     border-width: 0 1px 1px 0;
     height: 30px;
 }
-/*
-.grido td,
-.grido th.checker{border-width: 0 0 1px 0;}
-.grido .head th {border-width: 0}
-*/
-.grido th.column {width: 8%}
+
+.grido th.column {width: 7%}
 
 .grido thead {font-size: 1.15em}
 .grido tfoot {font-size: 1.1em}
@@ -85,41 +78,60 @@
 .grido tr.filter {height: 20px}
 
 .grido tr.filter th {
-    padding: 2px 6px 0 5px;
+    padding: 2px 6px 2px 6px;
     border-radius: 0;
     height: 35px;
 }
 
-.grido.filter.outer {
+.grido .filter.outer {
     display: inline-block;
     width: 100%;
     margin-bottom: 20px;
+    min-height: 5em;
 }
 
-.grido.filter.outer .items {
-    width: 85%;
+.grido .filter.outer .items {
+    width: 88%;
     float: left;
-    min-height: 60px;
 }
 
-.grido.filter.outer .items span {
+.grido .filter.outer .items span {
     float: left;
     display: block;
-    width: 133px;
+    width: 12em;
+    height: 5em;
     padding: 7px;
 }
 
-.filter.outer select,
-.filter.outer input.text,
-.filter.inner select,
-.filter.inner input.text {width: 100%}
-
-.grido.filter.outer .buttons {
-    float: right;
-    margin: 15px 5px 0 0;
+.grido .filter.outer label {
+    margin-bottom: 2px;
 }
 
-/*.grido .btn-group {vertical-align: baseline}*/
+.grido .filter.outer select,
+.grido .filter.outer input.text,
+.grido .filter.inner select,
+.grido .filter.inner input.text {width: 100%}
+
+.grido .filter.outer .buttons {
+    float: right;
+    margin: 1.2em 1em 0;
+}
+
+/******************** SORTING ********************/
+
+.grido th.column span {
+    width: 0;
+    height: 0;
+    vertical-align: top;
+    content: "";
+    float: right;
+    margin-top: 8px;
+    border-right: 4px solid transparent;
+    border-left: 4px solid transparent;
+}
+
+.grido th.column.asc span {border-bottom: 4px solid #555}
+.grido th.column.desc span {border-top: 4px solid #555}
 
 /******************** OTHERS ********************/
 
@@ -136,25 +148,42 @@
 .grido td.checker {text-align: center}
 
 .grido th:last-child,
-.grido td:last-child { border-right: 0;}
+.grido td:last-child { border-right: 0}
 
 .grido tfoot tr {height: 35px}
 .grido tfoot td {border-bottom:0}
 .grido tfoot td:first-child {border-radius: 0 0 0 4px}
 .grido tfoot td:last-child {border-radius: 0 0 4px 4px}
 
-.grido tfoot {text-align: center; line-height: 23px}
+.grido tfoot {text-align: center; line-height: 23px!important}
 .grido tfoot .operations {float: left;text-align: left}
 .grido tfoot .count {float:right; text-align: left}
-.grido .grido .dropdown-menu {min-width: 50px}
 
 .grido .center {text-align: center}
+.grido .left {text-align: left}
+.grido .right {text-align: right}
+
+.grido .filter.outer label {font-size: 12px}
 
 /******************** TWITTER BOOTSTRAP RESET ********************/
 
-.grido.table thead th {vertical-align: middle}
-.grido.table th, .table td {vertical-align: middle}
-.grido.table tfoot td {text-align: inherit}
+.grido table {border-collapse: inherit}
+.grido table thead th {vertical-align: middle}
+.grido table th, .table td {vertical-align: middle}
+.grido table tfoot td {text-align: inherit}
+
+.grido tfoot tr td {line-height: 22px}
+
+.grido table td, .grido table th {border-top: 0!important}
+.grido thead th {
+    border-bottom: 1px solid #CACACA!important;
+    padding: 3px 6px!important;
+}
+.grido tbody tr td, .grido tfoot tr td {
+    vertical-align: middle;
+    height: 20px;
+    padding: 5px;
+}
 
 .grido input.text, .grido select {
     margin-bottom: 0;
@@ -166,32 +195,22 @@
 
 .grido .buttons input {
     width: auto;
-    padding: 4px 10px 4px;
     height: auto;
     margin-right: 4px;
 }
-.grido label {display: inline}
 
-.grido th.column span {
-    display: inline-block;
-    width: 0;
-    height: 0;
-    vertical-align: top;
-    content: "";
-    float: right;
-    margin-top: 8px;
-    border-right: 4px solid transparent;
-    border-left: 4px solid transparent;
+.grido .form-control {
+    height: auto;
+    width: auto;
 }
 
-.grido th.column div {width: auto}
+.grido tfoot .form-control {
+    display: inline;
+}
 
-.grido th.column.asc span {border-bottom: 4px solid #555}
-.grido th.column.desc span {border-top: 4px solid #555}
+.grido tr.active td {background-color: #d9edf7!important}
 
-.grido input[type="radio"],
-.grido input[type="checkbox"] {margin: 3px 0}
-
-.grido.filter.outer label {font-size: 12px}
-
-.grido .dropdown-menu {min-width: auto;}
+.btn-mini [class*=" icon-"]
+{
+    margin-top: 1px
+}

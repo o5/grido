@@ -6,7 +6,7 @@
  * Copyright (c) 2011 Petr Bugyík (http://petr.bugyik.cz)
  *
  * For the full copyright and license information, please view
- * the file license.md that was distributed with this source code.
+ * the file LICENSE.md that was distributed with this source code.
  */
 
 namespace Grido\Components;
@@ -22,7 +22,7 @@ use Grido\Grid;
  *
  * @property-read string $primaryKey
  */
-class Operation extends Base
+class Operation extends Component
 {
     const ID = 'operations';
 
@@ -33,11 +33,11 @@ class Operation extends Base
     protected $primaryKey;
 
     /**
-     * @param \Grido\Grid $grid
+     * @param Grido\Grid $grid
      * @param array $operations
      * @param callback $onSubmit - callback after operation submit
      */
-    public function __construct($grid, $operations, $onSubmit)
+    public function __construct($grid, array $operations, $onSubmit)
     {
         $this->grid = $grid;
         $grid->addComponent($this, self::ID);
@@ -66,7 +66,7 @@ class Operation extends Base
     public function setConfirm($operation, $message)
     {
         $this->grid->onRender[] = function(Grid $grid) use ($operation, $message){
-            $grid['form'][Operation::ID][Operation::ID]->controlPrototype->attrs["data-grido-$operation"] = $message;
+            $grid['form'][Operation::ID][Operation::ID]->controlPrototype->data["grido-$operation"] = $message;
         };
 
         return $this;
@@ -100,8 +100,8 @@ class Operation extends Base
     /**********************************************************************************************/
 
     /**
-     * @internal
      * @param \Nette\Forms\Controls\SubmitButton $button
+     * @internal
      */
     public function handleOperations(\Nette\Forms\Controls\SubmitButton $button)
     {
@@ -110,6 +110,11 @@ class Operation extends Base
 
         $values = $form[self::ID]->values;
         if (empty($values[self::ID])) {
+            $httpData = $form->getHttpData();
+            if (!empty($httpData[self::ID][self::ID]) && $operation = $httpData[self::ID][self::ID]) {
+                trigger_error("Operation with name '$operation' does not exist.", E_USER_NOTICE);
+            }
+
             $this->grid->reload();
         }
 
@@ -127,8 +132,8 @@ class Operation extends Base
     }
 
     /**
-     * @internal
      * @param \Nette\Forms\Container $container
+     * @internal
      */
     public function addCheckers(\Nette\Forms\Container $container)
     {
@@ -137,7 +142,10 @@ class Operation extends Base
         $propertyAccessor = $this->grid->getPropertyAccessor();
 
         foreach ($items as $item) {
-            $container->addCheckbox($propertyAccessor->getProperty($item, $primaryKey));
+            $primaryValue = $propertyAccessor->getProperty($item, $primaryKey);
+            if (!isset($container[$primaryValue])) {
+                $container->addCheckbox($primaryValue);
+            }
         }
     }
 }

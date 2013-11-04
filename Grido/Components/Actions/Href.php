@@ -6,7 +6,7 @@
  * Copyright (c) 2011 Petr Bugyík (http://petr.bugyik.cz)
  *
  * For the full copyright and license information, please view
- * the file license.md that was distributed with this source code.
+ * the file LICENSE.md that was distributed with this source code.
  */
 
 namespace Grido\Components\Actions;
@@ -22,9 +22,6 @@ namespace Grido\Components\Actions;
  */
 class Href extends Action
 {
-    /** @var array callback */
-    public $onClick;
-
     /** @var string first param for method $presenter->link() */
     protected $destination;
 
@@ -35,7 +32,7 @@ class Href extends Action
     protected $customHref;
 
     /**
-     * @param \Grido\Grid $grid
+     * @param Grido\Grid $grid
      * @param string $name
      * @param string $label
      * @param string $destination - first param for method $presenter->link()
@@ -63,24 +60,21 @@ class Href extends Action
     /**********************************************************************************************/
 
     /**
-     * @param $item
+     * @param mixed $row
      * @return \Nette\Utils\Html
+     * @internal
      */
-    public function getElement($item)
+    public function getElement($row)
     {
-        $element = parent::getElement($item);
-
+        $element = parent::getElement($row);
         $href = '';
-        $primaryKey = $this->getPrimaryKey();
-        $primaryValue = $this->grid->propertyAccessor->hasProperty($item, $primaryKey)
-            ? $this->grid->propertyAccessor->getProperty($item, $primaryKey)
-            : NULL;
 
         if ($this->customHref) {
-            $href = callback($this->customHref)->invokeArgs(array($item));
-        } elseif ($this->onClick) {
-            $href = $this->link('click!', $primaryValue);
-        } elseif ($primaryValue) {
+            $href = callback($this->customHref)->invokeArgs(array($row));
+        } else {
+            $primaryKey = $this->getPrimaryKey();
+            $primaryValue = $this->propertyAccessor->getProperty($row, $primaryKey);
+
             $this->arguments[$primaryKey] = $primaryValue;
             $href = $this->presenter->link($this->getDestination(), $this->arguments);
         }
@@ -91,26 +85,23 @@ class Href extends Action
     }
 
     /**
-     * @internal
      * @return string
+     * @internal
      */
-    protected function getDestination()
+    public function getDestination()
     {
         if ($this->destination === NULL) {
-            $this->destination = $this->name;
+            $this->destination = $this->getName();
         }
 
         return $this->destination;
     }
 
-    /**********************************************************************************************/
-
     /**
-     * @internal
-     * @param $id
+     * @return array
      */
-    public function handleClick($id)
+    public function getArguments()
     {
-        $this->onClick($id, $this);
+        return $this->arguments;
     }
 }

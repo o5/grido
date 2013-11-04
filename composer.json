@@ -7,8 +7,7 @@
     "license": ["BSD-3", "GPL-2.0", "GPL-3.0"],
     "authors": [{
         "name": "Petr Bugyík",
-        "homepage": "http://petr.bugyik.cz/",
-        "role": "Developer"
+        "homepage": "http://petr.bugyik.cz/"
     }],
     "support": {
         "issues": "https://github.com/o5/grido/issues/",
@@ -20,7 +19,13 @@
         }
     },
     "require": {
-        "php": ">=5.3.1",
-        "nette/nette" : "2.0.*"
+        "php": ">=5.3",
+        "nette/nette" : "@dev"
+    },
+    "require-dev": {
+        "nette/tester": "@dev",
+        "mockery/mockery": "@dev",
+        "dibi/dibi": "@dev",
+        "nella/doctrine": "@dev"
     }
 }

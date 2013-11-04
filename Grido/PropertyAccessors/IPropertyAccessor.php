@@ -6,7 +6,7 @@
  * Copyright (c) 2011 Petr Bugyík (http://petr.bugyik.cz)
  *
  * For the full copyright and license information, please view
- * the file license.md that was distributed with this source code.
+ * the file LICENSE.md that was distributed with this source code.
  */
 
 namespace Grido\PropertyAccessors;
@@ -18,13 +18,6 @@ namespace Grido\PropertyAccessors;
  */
 interface IPropertyAccessor
 {
-    /**
-     * @param mixed $object
-     * @param string $name
-     * @return bool
-     */
-    public static function hasProperty($object, $name);
-
     /**
      * @param mixed $object
      * @param string $name

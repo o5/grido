@@ -6,7 +6,7 @@
  * Copyright (c) 2011 Petr Bugyík (http://petr.bugyik.cz)
  *
  * For the full copyright and license information, please view
- * the file license.md that was distributed with this source code.
+ * the file LICENSE.md that was distributed with this source code.
  */
 
 namespace Grido\Components;
@@ -22,7 +22,7 @@ namespace Grido\Components;
  * @property-read array $steps
  * @property-read int $countEnd
  * @property-read int $countBegin
- * @property-write \Grido\Grid $grid
+ * @property-write Grido\Grid $grid
  */
 class Paginator extends \Nette\Utils\Paginator
 {
@@ -38,11 +38,11 @@ class Paginator extends \Nette\Utils\Paginator
     /** @var int */
     protected $countEnd;
 
-    /** @var \Grido\Grid */
+    /** @var Grido\Grid */
     protected $grid;
 
     /**
-     * @param \Grido\Grid $grid
+     * @param Grido\Grid $grid
      * @return Paginator
      */
     public function setGrid(\Grido\Grid $grid)
@@ -72,15 +72,15 @@ class Paginator extends \Nette\Utils\Paginator
     {
         if (!$this->steps) {
             $arr = range(
-                max($this->firstPage, $this->getPage() - 3),
-                min($this->lastPage, $this->getPage() + 3)
+                max($this->getFirstPage(), $this->getPage() - 3),
+                min($this->getLastPage(), $this->getPage() + 3)
             );
 
             $count = 4;
-            $quotient = ($this->pageCount - 1) / $count;
+            $quotient = ($this->getPageCount() - 1) / $count;
 
             for ($i = 0; $i <= $count; $i++) {
-                $arr[] = (int) (round($quotient * $i) + $this->firstPage);
+                $arr[] = (int) (round($quotient * $i) + $this->getFirstPage());
             }
 
             sort($arr);
