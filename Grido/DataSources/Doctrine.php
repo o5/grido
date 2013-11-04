@@ -106,16 +106,16 @@ class Doctrine extends \Nette\Object implements IDataSource
         }
 
         $columns = $condition->column;
-        foreach ($columns as $column) {
+        foreach ($columns as $key => $column) {
             if (!Condition::isOperator($column)) {
-                $columns[$column] = isset($this->filterMapping[$column])
+                $columns[$key] = isset($this->filterMapping[$column])
                     ? $this->filterMapping[$column]
                     : $this->qb->getRootAlias() . '.' . $column;
             }
         }
+        $condition->setColumn($columns);
 
         list($where) = $condition->__toArray(NULL, NULL, FALSE);
-        $where = str_replace(array_keys($columns), array_values($columns), $where);
 
         $rand = $this->getRand();
         $where = preg_replace_callback('/\?/', function() use ($rand) {
