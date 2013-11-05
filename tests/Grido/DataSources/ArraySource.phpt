@@ -64,6 +64,26 @@ class ArraySourceTest extends DataSourceTestCase
         Assert::same(19, Helper::$grid->count);
     }
 
+    function testSuggest()
+    {
+        Helper::grid(function(Grid $grid) {
+            $grid->setModel(json_decode(file_get_contents(__DIR__ . '/files/users.json'), 1));
+            $grid->addColumnText('firstname', 'Name')
+                ->setFilterText()
+                    ->setSuggestion(function($row) {
+                        return $row['firstname'];
+            });
+        })->run();
+
+        Helper::$presenter->forceAjaxMode = TRUE;
+        Helper::request();
+
+        ob_start();
+            Helper::$grid->getFilter('firstname')->handleSuggest('na');
+        $output = ob_get_clean();
+        Assert::same('["Dragotina","Juhana","Lana","Ronald","\u0110ana"]', $output);
+    }
+
     function testCompare()
     {
         $source = new \Grido\DataSources\ArraySource(array());

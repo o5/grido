@@ -227,30 +227,40 @@ class Doctrine extends \Nette\Object implements IDataSource
     }
 
     /**
-     * @param string $column
+     * @param mixed $column
      * @param array $conditions
+     * @param int $limit
      * @return array
      */
-    public function suggest($column, array $conditions)
+    public function suggest($column, array $conditions, $limit)
     {
         $qb = clone $this->qb;
+        $qb->setMaxResults($limit);
+
         foreach ($conditions as $condition) {
             $this->makeWhere($condition, $qb);
         }
 
         $items = array();
-        foreach ($qb->getQuery()->getScalarResult() as $row) {
-            $mapping = isset($this->filterMapping[$column])
-                ? str_replace('.', '_', $this->filterMapping[$column])
-                : $qb->getRootAlias() . '_' . $column;
+        $data = $qb->getQuery()->getScalarResult();
+        foreach ($data as $row) {
+            if (is_callable($column)) {
+                $value = (string) $column($row);
+                $items[$value] = $value;
 
-            $value = (string) $row[$mapping];
-            $items[$value] = $value;
+            } else {
+                $mapping = isset($this->filterMapping[$column])
+                    ? str_replace('.', '_', $this->filterMapping[$column])
+                    : $qb->getRootAlias() . '_' . $column;
+
+                $value = (string) $row[$mapping];
+                $items[$value] = $value;
+            }
         }
 
         $items = array_values($items);
         sort($items);
 
-        return $items;;
+        return $items;
     }
 }

@@ -177,20 +177,26 @@ class ArraySource extends \Nette\Object implements IDataSource
     }
 
     /**
-     * @param string $column
+     * @param mixed $column
      * @param array $conditions
+     * @param int $limit
      * @return array
      */
-    public function suggest($column, array $conditions)
+    public function suggest($column, array $conditions, $limit)
     {
         $data = $this->data;
         foreach ($conditions as $condition) {
             $data = $this->makeWhere($condition, $data);
         }
 
+        array_slice($data, 1, $limit);
+
         $items = array();
         foreach ($data as $row) {
-            $value = (string) $row[$column];
+            $value = is_callable($column)
+                ? (string) $column($row)
+                : (string) $row[$column];
+
             $items[$value] = $value;
         }
 

@@ -20,14 +20,17 @@ namespace Grido\Components\Filters;
  */
 class Text extends Filter
 {
-    /** @var mixed */
-    protected $suggestionColumn;
-
     /** @var string */
     protected $condition = 'LIKE ?';
 
     /** @var string */
     protected $formatValue = '%%value%';
+
+    /** @var mixed */
+    protected $suggestionColumn;
+
+    /** @var int */
+    protected $suggestionLimit = 50;
 
     /**
      * Allows suggestion.
@@ -43,7 +46,7 @@ class Text extends Filter
         $prototype->class[] = 'suggest';
 
         $filter = $this;
-        $this->grid->onRender[] = function(\Grido\Grid $grid) use ($prototype, $filter) {
+        $this->grid->onRender[] = function() use ($prototype, $filter) {
             $replacement = '-query-';
             $prototype->data['grido-suggest-replacement'] = $replacement;
             $prototype->data['grido-suggest-handler'] = $filter->link('suggest!', array(
@@ -51,6 +54,16 @@ class Text extends Filter
             );
         };
 
+        return $this;
+    }
+
+    /**
+     * @param int $limit
+     * @return \Grido\Components\Filters\Text
+     */
+    public function setSuggestionLimit($limit)
+    {
+        $this->suggestionLimit = (int) $limit;
         return $this;
     }
 
@@ -74,7 +87,7 @@ class Text extends Filter
         $conditions[] = $this->__getCondition($query);
 
         $column = $this->suggestionColumn ? $this->suggestionColumn : current($this->getColumn());
-        $items = $this->grid->model->suggest($column, $conditions);
+        $items = $this->grid->model->suggest($column, $conditions, $this->suggestionLimit);
 
         print \Nette\Utils\Json::encode($items);
         $this->getPresenter()->terminate();

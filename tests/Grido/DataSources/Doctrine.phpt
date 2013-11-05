@@ -77,6 +77,27 @@ class DoctrineTest extends DataSourceTestCase
         Helper::$grid->data;
         Assert::same(19, Helper::$grid->count);
     }
+
+    function testSuggest()
+    {
+        $that = $this;
+        Helper::grid(function(Grid $grid) use ($that) {
+            $grid->setModel($that->model);
+            $grid->addColumnText('firstname', 'Name')
+                ->setFilterText()
+                    ->setSuggestion(function($row) {
+                        return $row['a_firstname'];
+            });
+        })->run();
+
+        Helper::$presenter->forceAjaxMode = TRUE;
+        Helper::request();
+
+        ob_start();
+            Helper::$grid->getFilter('firstname')->handleSuggest('na');
+        $output = ob_get_clean();
+        Assert::same('["Dragotina","Juhana","Lana","Ronald","\u0110ana"]', $output);
+    }
 }
 
 run(__FILE__);

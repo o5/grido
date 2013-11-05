@@ -110,32 +110,30 @@ class NetteDatabase extends \Nette\Object implements IDataSource
     /**
      * @param mixed $column
      * @param array $conditions
+     * @param int $limit
      * @return array
      */
-    public function suggest($column, array $conditions)
+    public function suggest($column, array $conditions, $limit)
     {
         $selection = clone $this->selection;
+        $selection->limit($limit);
+
         foreach ($conditions as $condition) {
             $this->makeWhere($condition, $selection);
         }
 
         $items = array();
-        if (is_callable($column)) {
-            foreach ($selection as $item) {
-                $value = (string) $column($item);
-                $items[$value] = $value;
-            }
-        } else {
-            $data = $selection->fetchPairs($column, $column);
-            foreach ($data as $value) {
-                $value = (string) $value;
-                $items[$value] = $value;
-            }
+        foreach ($selection as $row) {
+            $value = is_callable($column)
+                ? (string) $column($row)
+                : (string) $row[$column];
+
+            $items[$value] = $value;
         }
 
         $items = array_values($items);
         sort($items);
 
-        return $items;;
+        return $items;
     }
 }

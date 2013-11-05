@@ -52,7 +52,8 @@ interface IDataSource
     /**
      * @param mixed $column
      * @param array $conditions
+     * @param int $limit
      * @return array
      */
-    function suggest($column, array $conditions);
+    function suggest($column, array $conditions, $limit);
 }

@@ -67,6 +67,26 @@ class NetteDatabaseTest extends DataSourceTestCase
         Helper::$grid->data;
         Assert::same(19, Helper::$grid->count);
     }
+
+    function testSuggest()
+    {
+        Helper::grid(function(Grid $grid, TestPresenter $presenter) {
+            $grid->setModel($presenter->context->ndb_sqlite->table('user'));
+            $grid->addColumnText('firstname', 'Name')
+                ->setFilterText()
+                    ->setSuggestion(function($row) {
+                        return $row['firstname'];
+            });
+        })->run();
+
+        Helper::$presenter->forceAjaxMode = TRUE;
+        Helper::request();
+
+        ob_start();
+            Helper::$grid->getFilter('firstname')->handleSuggest('na');
+        $output = ob_get_clean();
+        Assert::same('["Dragotina","Juhana","Lana","Ronald","\u0110ana"]', $output);
+    }
 }
 
 run(__FILE__);
