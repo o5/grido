@@ -55,6 +55,12 @@ class User extends Object
     public $telephonenumber;
 
     /**
+     * @var string
+     * @ORM\Column
+     */
+    public $centimeters;
+
+    /**
      * @var Country
      * @ORM\ManyToOne(targetEntity="Country")
      * @ORM\JoinColumn(name="country_code", referencedColumnName="code")

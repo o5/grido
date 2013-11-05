@@ -2,9 +2,13 @@
 
 <form action="/" method="get" id="frm-grid-form" class="ajax grido">    <div class="filter outer">
         <div class="items">
+            <span class="grid-filter-phone">
+                <label for="frmform-filters-phone">Phone</label>
+                <input type="text" class="text form-control" name="filters[phone]" id="frmform-filters-phone" value="" />
+            </span>
             <span class="grid-filter-name">
                 <label for="frmform-filters-name">Name</label>
-                <input type="text" class="text form-control" name="filters[name]" id="frmform-filters-name" value="a" />
+                <input type="text" class="text suggest form-control" autocomplete="off" data-grido-suggest-replacement="-query-" data-grido-suggest-handler="/?grid-filters-name-query=-query-&amp;action=default&amp;do=grid-filters-name-suggest&amp;presenter=Test" name="filters[name]" id="frmform-filters-name" value="a" />
             </span>
             <span class="grid-filter-country">
                 <label for="frmform-filters-country">Country</label>
@@ -13,6 +17,10 @@
             <span class="grid-filter-male">
                 <label for="frmform-filters-male">Only male</label>
                 <input type="checkbox" class="form-control" name="filters[male]" id="frmform-filters-male" checked="checked" />
+            </span>
+            <span class="grid-filter-tall">
+                <label for="frmform-filters-tall">Only tall</label>
+                <input type="checkbox" class="form-control" name="filters[tall]" id="frmform-filters-tall" />
             </span>
         </div>
         <div class="buttons">
@@ -32,7 +40,7 @@
                 <th class="column grid-header-gender">
                         Gender
                 </th>
-                <th class="column grid-header-telephonenumber">
+                <th class="column grid-header-phone">
                         Phone
                 </th>
                 <th class="column grid-header-country asc">
@@ -68,7 +76,7 @@
                     <td class="grid-cell-gender">
                             male
                     </td>
-                    <td class="grid-cell-telephonenumber">
+                    <td class="grid-cell-phone">
                             604-432-8640
                     </td>
                     <td class="grid-cell-country">
@@ -85,7 +93,7 @@
                     <td class="grid-cell-gender">
                             male
                     </td>
-                    <td class="grid-cell-telephonenumber">
+                    <td class="grid-cell-phone">
                             02752 18 49 11
                     </td>
                     <td class="grid-cell-country">
@@ -102,7 +110,7 @@
                     <td class="grid-cell-gender">
                             male
                     </td>
-                    <td class="grid-cell-telephonenumber">
+                    <td class="grid-cell-phone">
 
                     </td>
                     <td class="grid-cell-country">

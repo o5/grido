@@ -27,11 +27,16 @@ class ArraySourceTest extends DataSourceTestCase
                 ->setSortable();
             $grid->addColumnText('surname', 'Surname');
             $grid->addColumnText('gender', 'Gender');
-            $grid->addColumnText('telephonenumber', 'Phone');
+            $grid->addColumnText('phone', 'Phone')
+                ->setColumn('telephonenumber')
+                ->setFilterText();
 
             $grid->addFilterText('name', 'Name')
                 ->setColumn('surname')
-                ->setColumn('firstname', Condition::OPERATOR_AND);
+                ->setColumn('firstname', Condition::OPERATOR_AND)
+                ->setSuggestion(function(array $row) {
+                    return $row['firstname'];
+            });
 
             $grid->addColumnText('country', 'Country')
                 ->setSortable()
@@ -43,45 +48,15 @@ class ArraySourceTest extends DataSourceTestCase
                     TRUE => array('gender', '= ?', 'male')
                 ));
 
+            $grid->addFilterCheck('tall', 'Only tall')
+                ->setWhere(function($value, array $row) {
+                    Assert::true($value);
+                    return $row['centimeters'] >= 180;
+                });
+
             $grid->setExport();
 
         })->run();
-    }
-
-    function testSetWhere()
-    {
-        Helper::grid(function(Grid $grid) {
-            $grid->setModel(json_decode(file_get_contents(__DIR__ . '/files/users.json'), 1));
-            $grid->addFilterCheck('male', 'Only male')
-                ->setWhere(function($value, array $row) {
-                    Assert::true($value);
-                    return $row['gender'] == 'male';
-                });
-
-        })->run(array('grid-filter' => array('male' => TRUE)));
-
-        Helper::$grid->data;
-        Assert::same(19, Helper::$grid->count);
-    }
-
-    function testSuggest()
-    {
-        Helper::grid(function(Grid $grid) {
-            $grid->setModel(json_decode(file_get_contents(__DIR__ . '/files/users.json'), 1));
-            $grid->addColumnText('firstname', 'Name')
-                ->setFilterText()
-                    ->setSuggestion(function($row) {
-                        return $row['firstname'];
-            });
-        })->run();
-
-        Helper::$presenter->forceAjaxMode = TRUE;
-        Helper::request();
-
-        ob_start();
-            Helper::$grid->getFilter('firstname')->handleSuggest('na');
-        $output = ob_get_clean();
-        Assert::same('["Dragotina","Juhana","Lana","Ronald","\u0110ana"]', $output);
     }
 
     function testCompare()

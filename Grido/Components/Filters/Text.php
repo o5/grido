@@ -26,6 +26,9 @@ class Text extends Filter
     /** @var string */
     protected $formatValue = '%%value%';
 
+    /** @var bool */
+    protected $suggestion = FALSE;
+
     /** @var mixed */
     protected $suggestionColumn;
 
@@ -39,6 +42,7 @@ class Text extends Filter
      */
     public function setSuggestion($column = NULL)
     {
+        $this->suggestion = TRUE;
         $this->suggestionColumn = $column;
 
         $prototype = $this->getControl()->getControlPrototype();
@@ -75,13 +79,21 @@ class Text extends Filter
      */
     public function handleSuggest($query)
     {
-        if (!$this->getPresenter()->isAjax()) {
+        $name = $this->getName();
+
+        if (!$this->getPresenter()->isAjax() || !$this->suggestion) {
             $this->getPresenter()->terminate();
         }
 
+        if (!$this->suggestion) {
+            trigger_error("Suggestion for filter '$name' is not enabled.", E_USER_NOTICE);
+            $this->getPresenter()->terminate();
+            return; //for tests
+        }
+
         $actualFilter = $this->grid->getActualFilter();
-        if (isset($actualFilter[$this->getName()])) {
-            unset($actualFilter[$this->getName()]);
+        if (isset($actualFilter[$name])) {
+            unset($actualFilter[$name]);
         }
         $conditions = $this->grid->__getConditions($actualFilter);
         $conditions[] = $this->__getCondition($query);

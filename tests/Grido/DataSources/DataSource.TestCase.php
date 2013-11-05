@@ -44,11 +44,27 @@ abstract class DataSourceTestCase extends \Tester\TestCase
     {
         Helper::$presenter->forceAjaxMode = TRUE;
         $params = $this->params + array('grid-filters-country-query' => 'and', 'do' => 'grid-filters-country-suggest');
-
         ob_start();
             Helper::request($params);
         $output = ob_get_clean();
         Assert::same('["Finland","Poland"]', $output);
+
+        $params = array('grid-filters-name-query' => 't', 'do' => 'grid-filters-name-suggest');
+        ob_start();
+            Helper::request($params);
+        $output = ob_get_clean();
+        Assert::same('["Awet","Caitlin","Dragotina","Katherine","Satu","Trommler"]', $output);
+
+        Assert::error(function() {
+            Helper::request(array('grid-filters-phone-query' => 'yyy', 'do' => 'grid-filters-phone-suggest'));
+        }, E_USER_NOTICE, "Suggestion for filter 'phone' is not enabled.");
+    }
+
+    function testSetWhere()
+    {
+        Helper::request(array('grid-filter' => array('tall' => TRUE)));
+        Helper::$grid->getData(FALSE);
+        Assert::same(10, Helper::$grid->count);
     }
 
     function testExport()

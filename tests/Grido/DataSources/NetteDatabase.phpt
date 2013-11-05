@@ -27,11 +27,16 @@ class NetteDatabaseTest extends DataSourceTestCase
                 ->setSortable();
             $grid->addColumnText('surname', 'Surname');
             $grid->addColumnText('gender', 'Gender');
-            $grid->addColumnText('telephonenumber', 'Phone');
+            $grid->addColumnText('phone', 'Phone')
+                ->setColumn('telephonenumber')
+                ->setFilterText();
 
             $grid->addFilterText('name', 'Name')
                 ->setColumn('surname')
-                ->setColumn('firstname', Condition::OPERATOR_AND);
+                ->setColumn('firstname', Condition::OPERATOR_AND)
+                ->setSuggestion(function(\Nette\Database\Table\ActiveRow $row) {
+                    return $row['firstname'];
+            });
 
             $renderer =function($row) { return $row->country->title; };
             $grid->addColumnText('country', 'Country')
@@ -47,45 +52,15 @@ class NetteDatabaseTest extends DataSourceTestCase
                     TRUE => array('gender', '= ?', 'male')
                 ));
 
+            $grid->addFilterCheck('tall', 'Only tall')
+                ->setWhere(function($value, \Nette\Database\Table\Selection $fluent) {
+                    Assert::true($value);
+                    $fluent->where('[centimeters] >= ?', 180);
+                });
+
             $grid->setExport();
 
         })->run();
-    }
-
-    function testSetWhere()
-    {
-        Helper::grid(function(Grid $grid, TestPresenter $presenter) {
-            $grid->setModel($presenter->context->ndb_sqlite->table('user'));
-            $grid->addFilterCheck('male', 'Only male')
-                ->setWhere(function($value, \Nette\Database\Table\Selection $connection) {
-                    Assert::true($value);
-                    $connection->where('gender = ?' ,'male');
-                });
-
-        })->run(array('grid-filter' => array('male' => TRUE)));
-
-        Helper::$grid->data;
-        Assert::same(19, Helper::$grid->count);
-    }
-
-    function testSuggest()
-    {
-        Helper::grid(function(Grid $grid, TestPresenter $presenter) {
-            $grid->setModel($presenter->context->ndb_sqlite->table('user'));
-            $grid->addColumnText('firstname', 'Name')
-                ->setFilterText()
-                    ->setSuggestion(function($row) {
-                        return $row['firstname'];
-            });
-        })->run();
-
-        Helper::$presenter->forceAjaxMode = TRUE;
-        Helper::request();
-
-        ob_start();
-            Helper::$grid->getFilter('firstname')->handleSuggest('na');
-        $output = ob_get_clean();
-        Assert::same('["Dragotina","Juhana","Lana","Ronald","\u0110ana"]', $output);
     }
 }
 
