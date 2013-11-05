@@ -330,7 +330,7 @@ abstract class Column extends \Grido\Components\Component
     /******************************* Aliases for filters ******************************************/
 
     /**
-     * @return Grido\Components\Filters\Text
+     * @return \Grido\Components\Filters\Text
      */
     public function setFilterText()
     {
@@ -338,7 +338,7 @@ abstract class Column extends \Grido\Components\Component
     }
 
     /**
-     * @return Grido\Components\Filters\Date
+     * @return \Grido\Components\Filters\Date
      */
     public function setFilterDate()
     {
@@ -346,7 +346,7 @@ abstract class Column extends \Grido\Components\Component
     }
 
     /**
-     * @return Grido\Components\Filters\Check
+     * @return \Grido\Components\Filters\Check
      */
     public function setFilterCheck()
     {
@@ -355,7 +355,7 @@ abstract class Column extends \Grido\Components\Component
 
     /**
      * @param array $items
-     * @return Grido\Components\Filters\Select
+     * @return \Grido\Components\Filters\Select
      */
     public function setFilterSelect(array $items = NULL)
     {
@@ -363,7 +363,7 @@ abstract class Column extends \Grido\Components\Component
     }
 
     /**
-     * @return Grido\Components\Filters\Number
+     * @return \Grido\Components\Filters\Number
      */
     public function setFilterNumber()
     {
@@ -372,7 +372,7 @@ abstract class Column extends \Grido\Components\Component
 
     /**
      * @param \Nette\Forms\IControl $formControl
-     * @return Grido\Components\Filters\Custom
+     * @return \Grido\Components\Filters\Custom
      */
     public function setFilterCustom(\Nette\Forms\IControl $formControl)
     {
