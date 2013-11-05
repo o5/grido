@@ -113,6 +113,7 @@ class Doctrine extends \Nette\Object implements IDataSource
                     : $this->qb->getRootAlias() . '.' . $column;
             }
         }
+        $condition->setColumn($columns);
 
         $condition->setColumn($columns);
         list($where) = $condition->__toArray(NULL, NULL, FALSE);
