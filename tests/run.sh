@@ -13,25 +13,35 @@ fi
 
 # Default runner arguments
 jobsNum=30
+phpExec="php"
 
 # Command line arguments processing
-for i in `seq 1 $#`; do
+i=$#
+while [ $i -gt 0 ]; do
     if [ "$1" = "-j" ]; then
-        shift
+        shift && i=$(($i - 1))
         if [ -z "$1" ]; then
             echo "Missing argument for -j option." >&2
             exit 2
         fi
         jobsNum="$1"
 
+    elif [ "$1" = "-p" ]; then
+        shift && i=$(($i - 1))
+        if [ -z "$1" ]; then
+            echo "Missing argument for -p option." >&2
+            exit 2
+        fi
+        phpExec="$1"
+
     else
         set -- "$@" "$1"
     fi
-    shift
+    shift && i=$(($i - 1))
 done
 
 # Run tests with script's arguments
-php "$runnerScript" -j "$jobsNum" -p "php" "$@"
+php "$runnerScript" -j "$jobsNum" -p "$phpExec" "$@"
 error=$?
 
 # Print *.actual content if tests failed
