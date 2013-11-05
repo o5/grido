@@ -13,27 +13,23 @@ use Tester\Assert,
     Grido\Grid,
     Grido\Components\Filters\Condition;
 
-require_once __DIR__ . '/DataSource.TestCase.php';
+require_once __DIR__ . '/TestCase.php';
 require_once __DIR__ . '/files/doctrine/entities/Country.php';
 require_once __DIR__ . '/files/doctrine/entities/User.php';
 
 class DoctrineTest extends DataSourceTestCase
 {
-    /** @var Grido\DataSources\Doctrine */
-    public $model;
-
     function setUp()
     {
-        $that = $this;
-        Helper::grid(function(Grid $grid, TestPresenter $presenter) use ($that) {
+        Helper::grid(function(Grid $grid, TestPresenter $presenter) {
             $repository = $presenter->context->doctrine->entityManager->getRepository('Grido\Tests\Entities\User');
-            $that->model = new \Grido\DataSources\Doctrine(
+            $model = new \Grido\DataSources\Doctrine(
                 $repository->createQueryBuilder('a') // We need to create query builder with inner join.
                     ->addSelect('c')                 // This will produce less SQL queries with prefetch.
                     ->innerJoin('a.country', 'c'),
                 array('country' => 'c.title'));      // Map country column to the title of the Country entity
 
-            $grid->setModel($that->model);
+            $grid->setModel($model);
             $grid->setDefaultPerPage(3);
 
             $grid->addColumnText('firstname', 'Firstname')

@@ -13,23 +13,19 @@ use Tester\Assert,
     Grido\Grid,
     Grido\Components\Filters\Condition;
 
-require_once __DIR__ . '/DataSource.TestCase.php';
+require_once __DIR__ . '/TestCase.php';
 
 class DibiFluentTest extends DataSourceTestCase
 {
-    /** @var \DibiFluent */
-    public $fluent;
-
     function setUp()
     {
-        $that = $this;
-        Helper::grid(function(Grid $grid, TestPresenter $presenter) use ($that) {
-            $that->fluent = $presenter->context->dibi_sqlite
+        Helper::grid(function(Grid $grid, TestPresenter $presenter) {
+            $fluent = $presenter->context->dibi_sqlite
                 ->select('u.*, c.title AS country')
                 ->from('[user] u')
                 ->join('[country] c')->on('u.country_code = c.code');
 
-            $grid->setModel($that->fluent);
+            $grid->setModel($fluent);
             $grid->setDefaultPerPage(3);
 
             $grid->addColumnText('firstname', 'Firstname')

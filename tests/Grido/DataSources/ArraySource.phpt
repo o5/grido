@@ -13,7 +13,7 @@ use Tester\Assert,
     Grido\Grid,
     Grido\Components\Filters\Condition;
 
-require_once __DIR__ . '/DataSource.TestCase.php';
+require_once __DIR__ . '/TestCase.php';
 
 class ArraySourceTest extends DataSourceTestCase
 {
