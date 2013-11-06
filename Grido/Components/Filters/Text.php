@@ -81,7 +81,7 @@ class Text extends Filter
     {
         $name = $this->getName();
 
-        if (!$this->getPresenter()->isAjax() || !$this->suggestion) {
+        if (!$this->getPresenter()->isAjax() || !$this->suggestion || $query == '') {
             $this->getPresenter()->terminate();
         }
 
