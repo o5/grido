@@ -16,6 +16,9 @@
     border: 1px solid #CACACA;
     text-align: left;
     width: 100%;
+}
+
+.grido table, .grido .filter.outer {
     box-shadow: 1px 1px 12px -1px rgba(0,0,0,.2);
 }
 
@@ -31,17 +34,6 @@
     background:linear-gradient(top, #FAFAFA 0%,#E9E9E9 100%);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FAFAFA', endColorstr='#E9E9E9');
     -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#FAFAFA', endColorstr='#E9E9E9')";
-}
-.grido thead .column,
-.grido thead .actions {
-    background: #fafafa;
-    background: -moz-linear-gradient(top, #fafafa 0%, #f3f3f3 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fafafa), color-stop(100%,#f3f3f3));
-    background: -webkit-linear-gradient(top, #fafafa 0%,#f3f3f3 100%);
-    background: -o-linear-gradient(top, #fafafa 0%,#f3f3f3 100%);
-    background: -ms-linear-gradient(top, #fafafa 0%,#f3f3f3 100%);
-    background: linear-gradient(to bottom, #fafafa 0%,#f3f3f3 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fafafa', endColorstr='#f3f3f3',GradientType=0 );
 }
 
 .grido thead .filter th {
