@@ -24,8 +24,8 @@
 
     /* TWITTER BOOTSTRAP 2/3 */
     $buttons = $form->getComponent('buttons');
-    $buttons->getComponent('search')->getControlPrototype()->class[] = 'btn btn-default search';
-    $buttons->getComponent('reset')->getControlPrototype()->class[] = 'btn btn-default reset';
+    $buttons->getComponent('search')->getControlPrototype()->class[] = 'btn btn-default btn-sm search';
+    $buttons->getComponent('reset')->getControlPrototype()->class[] = 'btn btn-default btn-sm reset';
 
     $form['count']->controlPrototype->class[] = 'form-control';
     $operation ? $form['operations']['operations']->controlPrototype->class[] = 'form-control' : NULL}
