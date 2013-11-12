@@ -470,9 +470,9 @@ class Grid extends Components\Container
     public function getTablePrototype()
     {
         if ($this->tablePrototype === NULL) {
-            $this->tablePrototype = \Nette\Utils\Html::el('table')
-                ->id($this->getName())
-                ->class('table table-striped table-hover');
+            $this->tablePrototype = \Nette\Utils\Html::el('table');
+            $this->tablePrototype->id($this->getName())
+                ->class[] = 'table table-striped table-hover';
         }
 
         return $this->tablePrototype;

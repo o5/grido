@@ -356,6 +356,15 @@ class GridTest extends \Tester\TestCase
         Assert::same(Filter::RENDER_INNER, $grid->filterRenderType);
     }
 
+    function testGetTablePrototype()
+    {
+        $grid = new Grid;
+        $table = $grid->tablePrototype;
+
+        $table->class[] = 'test';
+        Assert::same('<table class="table table-striped table-hover test"></table>', (string) $table);
+    }
+
     /**********************************************************************************************/
 
     function testHandlePage()
