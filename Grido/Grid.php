@@ -753,8 +753,11 @@ class Grid extends Components\Container
         foreach ($this->sort as $column => $dir) {
             $component = $this->getColumn($column, FALSE);
             if (!$component) {
-                trigger_error("Column with name '$column' does not exist.", E_USER_NOTICE);
-                break;
+                if (!isset($this->defaultSort[$column])) {
+                    trigger_error("Column with name '$column' does not exist.", E_USER_NOTICE);
+                    break;
+                }
+
             } elseif (!$component->isSortable()) {
                 if (isset($this->defaultSort[$column])) {
                     $component->setSortable();
@@ -762,7 +765,9 @@ class Grid extends Components\Container
                     trigger_error("Column with name '$column' is not sortable.", E_USER_NOTICE);
                     break;
                 }
-            } elseif (!in_array($dir, array(Column::ORDER_ASC, Column::ORDER_DESC))) {
+            }
+
+            if (!in_array($dir, array(Column::ORDER_ASC, Column::ORDER_DESC))) {
                 if ($dir == '' && isset($this->defaultSort[$column])) {
                     unset($this->sort[$column]);
                     break;
@@ -772,7 +777,7 @@ class Grid extends Components\Container
                 break;
             }
 
-            $sort[$component->column] = $dir == Column::ORDER_ASC ? 'ASC' : 'DESC';
+            $sort[$component ? $component->column : $column] = $dir == Column::ORDER_ASC ? 'ASC' : 'DESC';
         }
 
         if ($sort) {

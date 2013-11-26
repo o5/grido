@@ -144,14 +144,6 @@ class GridTest extends \Tester\TestCase
             $grid->setDefaultSort(array('a' => 'up'));
         }, 'InvalidArgumentException', "Dir 'up' for column 'a' is not allowed.");
 
-        Assert::error(function() {
-            $grid = new Grid;
-            $grid->setModel(array());
-            $grid->addColumnText('column', 'Column');
-            $grid->setDefaultSort(array('a' => 'asc'));
-            $grid->getData();
-        }, E_USER_NOTICE, "Column with name 'a' does not exist.");
-
         $grid = new Grid;
         $data = array(
             array('A' => 'A1', 'B' => 'B3'),
@@ -172,6 +164,21 @@ class GridTest extends \Tester\TestCase
 
         $grid2->sort['B'] = Column::ORDER_DESC;
         Assert::same($data, $grid2->data);
+
+        $grid = new Grid;
+        $grid->setModel($data);
+        $grid->setDefaultSort(array('A' => 'desc'));
+
+        $A = array();
+        foreach ($data as $key => $row) {
+            $A[$key] = $row['A'];
+        }
+        array_multisort($A, SORT_DESC, $data);
+        Assert::same($data, $grid->data);
+
+        Assert::exception(function() use ($grid) {
+            $grid->setDefaultSort(array('A' => 'up'));
+        }, 'InvalidArgumentException', "Dir 'up' for column 'A' is not allowed.");
     }
 
     function testSetPerPageList()
