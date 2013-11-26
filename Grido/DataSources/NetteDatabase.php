@@ -124,9 +124,13 @@ class NetteDatabase extends \Nette\Object implements IDataSource
 
         $items = array();
         foreach ($selection as $row) {
-            $value = is_callable($column)
-                ? (string) $column($row)
-                : (string) $row[$column];
+            if (is_string($column)) {
+                $value = (string) $row[$column];
+            } elseif (is_callable($column)) {
+                $value = (string) $column($row);
+            } else {
+                throw new \InvalidArgumentException('Column of suggestion must be string or callback, ' . gettype($column) . ' given.');
+            }
 
             $items[$value] = $value;
         }

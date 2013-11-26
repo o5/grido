@@ -244,17 +244,19 @@ class Doctrine extends \Nette\Object implements IDataSource
         $items = array();
         $data = $qb->getQuery()->getScalarResult();
         foreach ($data as $row) {
-            if (is_callable($column)) {
-                $value = (string) $column($row);
-                $items[$value] = $value;
-
-            } else {
+            if (is_string($column)) {
                 $mapping = isset($this->filterMapping[$column])
                     ? str_replace('.', '_', $this->filterMapping[$column])
                     : $qb->getRootAlias() . '_' . $column;
 
                 $value = (string) $row[$mapping];
                 $items[$value] = $value;
+            } elseif (is_callable($column)) {
+                $value = (string) $column($row);
+                $items[$value] = $value;
+
+            } else {
+                throw new \InvalidArgumentException('Column of suggestion must be string or callback, ' . gettype($column) . ' given.');
             }
         }
 
