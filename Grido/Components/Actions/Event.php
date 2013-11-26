@@ -40,6 +40,17 @@ class Event extends Action
         }
     }
 
+    /**
+     * Sets on-click handler.
+     * @param callbacl $onClick
+     * @return \Grido\Components\Actions\Event
+     */
+    public function setOnClick($onClick)
+    {
+        $this->onClick = $onClick;
+        return $this;
+    }
+
     /**********************************************************************************************/
 
     /**
