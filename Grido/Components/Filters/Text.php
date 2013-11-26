@@ -35,6 +35,9 @@ class Text extends Filter
     /** @var int */
     protected $suggestionLimit = 50;
 
+    /** @var callback */
+    protected $suggestionCallback;
+
     /**
      * Allows suggestion.
      * @param mixed $column
@@ -62,12 +65,24 @@ class Text extends Filter
     }
 
     /**
+     * Sets a limit for suggestion select.
      * @param int $limit
      * @return \Grido\Components\Filters\Text
      */
     public function setSuggestionLimit($limit)
     {
         $this->suggestionLimit = (int) $limit;
+        return $this;
+    }
+
+    /**
+     * Sets custom data callback.
+     * @param callback $callback
+     * @return \Grido\Components\Filters\Text
+     */
+    public function setSuggestionCallback($callback)
+    {
+        $this->suggestionCallback = $callback;
         return $this;
     }
 
@@ -95,11 +110,21 @@ class Text extends Filter
         if (isset($actualFilter[$name])) {
             unset($actualFilter[$name]);
         }
-        $conditions = $this->grid->__getConditions($actualFilter);
-        $conditions[] = $this->__getCondition($query);
 
-        $column = $this->suggestionColumn ? $this->suggestionColumn : current($this->getColumn());
-        $items = $this->grid->model->suggest($column, $conditions, $this->suggestionLimit);
+        $conditions = $this->grid->__getConditions($actualFilter);
+
+        if ($this->suggestionCallback === NULL) {
+            $conditions[] = $this->__getCondition($query);
+
+            $column = $this->suggestionColumn ? $this->suggestionColumn : current($this->getColumn());
+            $items = $this->grid->model->suggest($column, $conditions, $this->suggestionLimit);
+
+        } else {
+            $items = callback($this->suggestionCallback)->invokeArgs(array($query, $actualFilter, $conditions));
+            if (!is_array($items)) {
+                throw new \Exception('Items must be an array.');
+            }
+        }
 
         print \Nette\Utils\Json::encode($items);
         $this->getPresenter()->terminate();

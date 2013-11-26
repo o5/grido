@@ -31,6 +31,18 @@ class FilterTextTest extends \Tester\TestCase
 
             Assert::same('off', $filter->control->controlPrototype->attrs['autocomplete']);
             Assert::same(array('text', 'suggest'), $filter->control->controlPrototype->class);
+
+            $grid->addFilterText('test', 'Test')
+                ->setSuggestion()
+                    ->setSuggestionCallback(function($query, $filter, $conditions) {
+                        Assert::same('QUERY', $query);
+                        Assert::same(array('name' => 'aa'), $filter);
+
+                        $cond = new \Grido\Components\Filters\Condition('name', 'LIKE ?', '%aa%');
+                        Assert::same($cond->__toArray(), $conditions[0]->__toArray());
+
+                        return array('test1', 'test2');
+                    });
         })->run();
 
         ob_start();
@@ -60,6 +72,12 @@ class FilterTextTest extends \Tester\TestCase
             Helper::$grid->getFilter('name')->handleSuggest('###');
         $output = ob_get_clean();
         Assert::same('[]', $output);
+
+        ob_start();
+            Helper::request(array('grid-filter' => array('name' => 'aa'), 'do' => 'grid-filters-test-suggest', 'grid-filters-test-query' => 'QUERY'));
+        $output = ob_get_clean();
+
+        Assert::same('["test1","test2"]', $output);
     }
 
     function testFormControl()
