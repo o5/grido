@@ -612,6 +612,7 @@ class Grid extends Components\Container
     {
         $values = $button->form->values[Filter::ID];
         foreach ($values as $name => $value) {
+            $value = (string) $value;
             if ($value != '' || isset($this->defaultFilter[$name])) {
                 $this->filter[$name] = $this->getFilter($name)->changeValue($value);
             } elseif (isset($this->filter[$name])) {
