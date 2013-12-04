@@ -663,6 +663,7 @@ class Grid extends Components\Container
     public function reload()
     {
         if ($this->presenter->isAjax()) {
+            $this->presenter->payload->grido = TRUE;
             $this->invalidateControl();
         } else {
             $this->redirect('this');
