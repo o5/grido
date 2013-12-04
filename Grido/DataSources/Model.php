@@ -45,7 +45,7 @@ class Model extends \Nette\Object
         } elseif ($model instanceof IDataSource) {
             $dataSource = $model;
         } else {
-            throw new \InvalidArgumentException('Model must be implemented \Grido\DataSources\IDataSource.');
+            throw new \InvalidArgumentException('Model must implement \Grido\DataSources\IDataSource.');
         }
 
         $this->dataSource = $dataSource;
