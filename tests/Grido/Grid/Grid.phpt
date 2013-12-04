@@ -45,11 +45,11 @@ class GridTest extends \Tester\TestCase
 
         Assert::exception(function() use ($grid) {
             $grid->setModel(mock('BAD'));
-        }, 'InvalidArgumentException', 'Model must be implemented \Grido\DataSources\IDataSource.');
+        }, 'InvalidArgumentException', 'Model must implement \Grido\DataSources\IDataSource.');
 
         Assert::exception(function() use ($grid) {
             $grid->setModel(mock('BAD'), TRUE);
-        }, 'InvalidArgumentException', 'Model must be implemented \Grido\DataSources\IDataSource.');
+        }, 'InvalidArgumentException', 'Model must implement \Grido\DataSources\IDataSource.');
     }
 
     function testSetPropertyAccessor()
