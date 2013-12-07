@@ -100,12 +100,6 @@ class Text extends Filter
             $this->getPresenter()->terminate();
         }
 
-        if (!$this->suggestion) {
-            trigger_error("Suggestion for filter '$name' is not enabled.", E_USER_NOTICE);
-            $this->getPresenter()->terminate();
-            return; //for tests
-        }
-
         $actualFilter = $this->grid->getActualFilter();
         if (isset($actualFilter[$name])) {
             unset($actualFilter[$name]);
@@ -126,8 +120,24 @@ class Text extends Filter
             }
         }
 
-        print \Nette\Utils\Json::encode($items);
-        $this->getPresenter()->terminate();
+        //sort items - first begining of item is same as query, then case sensitive and case insensitive
+        $startsWith = $caseSensitive = $caseInsenstive = array();
+        foreach($items as $item){
+            if(stripos($item, $query) === 0){
+                $startsWith[] = $item;
+            } elseif(strpos($item, $query) !== FALSE){
+                $caseSensitive[] = $item;
+            } else {
+                $caseInsenstive[] = $item;
+            }
+        }		
+        sort($startsWith);
+        sort($caseSensitive);
+        sort($caseInsenstive);
+		
+        $items = array_merge($startsWith, $caseSensitive, $caseInsenstive);
+		
+        $this->getPresenter()->sendResponse(new \Nette\Application\Responses\JsonResponse($items));
     }
 
     /**

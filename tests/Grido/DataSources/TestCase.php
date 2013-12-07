@@ -53,11 +53,7 @@ abstract class DataSourceTestCase extends \Tester\TestCase
         ob_start();
             Helper::request($params);
         $output = ob_get_clean();
-        Assert::same('["Awet","Caitlin","Dragotina","Katherine","Satu","Trommler"]', $output);
-
-        Assert::error(function() {
-            Helper::request(array('grid-filters-phone-query' => 'yyy', 'do' => 'grid-filters-phone-suggest'));
-        }, E_USER_NOTICE, "Suggestion for filter 'phone' is not enabled.");
+        Assert::same('["Trommler","Awet","Caitlin","Dragotina","Katherine","Satu"]', $output);
     }
 
     function testSetWhere()
