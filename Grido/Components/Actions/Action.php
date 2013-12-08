@@ -56,7 +56,7 @@ abstract class Action extends \Grido\Components\Component
         $this->addComponentToGrid($grid, $name);
 
         $this->type = get_class($this);
-        $this->label = $label;
+        $this->label = $this->translate($label);
     }
 
     /**
@@ -155,7 +155,7 @@ abstract class Action extends \Grido\Components\Component
         if ($this->elementPrototype === NULL) {
             $this->elementPrototype = Html::el('a')
                 ->setClass(array('grid-action-' . $this->getName()))
-                ->setText($this->translate($this->label));
+                ->setText($this->label);
         }
 
         if (isset($this->elementPrototype->class) && is_string($this->elementPrototype->class)) {
