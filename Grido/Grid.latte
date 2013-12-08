@@ -41,7 +41,7 @@
         }
         {if $icon = $action->getOption('icon')}
         {?
-            $element->setText(' ' . $control->translator->translate($action->getLabel()));
+            $element->setText(' ' . $action->getLabel());
             $element->insert(0, \Nette\Utils\Html::el('i')->setClass(array("glyphicon glyphicon-$icon icon-$icon")));
         }
         {/if}
