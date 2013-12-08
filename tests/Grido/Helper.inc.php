@@ -121,7 +121,16 @@ class TestPresenter extends \Nette\Application\UI\Presenter
 
     public function sendTemplate()
     {
-        //parent::sendTemplate(); @intentionally
+        //parent::sendTemplate(); intentionally
+    }
+
+    public function sendResponse(\Nette\Application\IResponse $response)
+    {
+        if($response instanceof \Nette\Application\Responses\JsonResponse){
+            $response->send($this->getHttpRequest(), $this->getHttpResponse());
+        } else {
+            parent::sendResponse($response);
+        }
     }
 
     public function isAjax()
