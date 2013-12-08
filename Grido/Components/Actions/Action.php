@@ -191,7 +191,13 @@ abstract class Action extends \Grido\Components\Component
 
         if ($confirm = $this->getOption('confirm')) {
             $confirm = is_callable($confirm) ? callback($confirm)->invokeArgs(array($row)) : $confirm;
-            $element->data['grido-confirm'] = $this->translate($confirm);
+            if (is_scalar($confirm)) {
+              $element->data['grido-confirm'] = $this->translate($confirm);
+            }
+            elseif (is_array($confirm)) {
+              $message = array_shift($confirm);
+              $element->data['grido-confirm'] = vsprintf($this->translate($message), $confirm);
+            }
         }
 
         return $element;
