@@ -65,7 +65,8 @@ class Operation extends Component
      */
     public function setConfirm($operation, $message)
     {
-        $this->grid->onRender[] = function(Grid $grid) use ($operation, $message){
+        $message = $this->translate($message);
+        $this->grid->onRender[] = function(Grid $grid) use ($operation, $message) {
             $grid['form'][Operation::ID][Operation::ID]->controlPrototype->data["grido-$operation"] = $message;
         };
 

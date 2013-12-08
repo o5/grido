@@ -190,8 +190,13 @@ abstract class Action extends \Grido\Components\Component
         $element = clone $this->getElementPrototype();
 
         if ($confirm = $this->getOption('confirm')) {
-            $confirm = is_callable($confirm) ? callback($confirm)->invokeArgs(array($row)) : $confirm;
-            $element->data['grido-confirm'] = $this->translate($confirm);
+            $confirm = is_callable($confirm)
+                ? callback($confirm)->invokeArgs(array($row))
+                : $confirm;
+
+            $element->data['grido-confirm'] = is_array($confirm)
+                ? vsprintf($this->translate(array_shift($confirm)), $confirm)
+                : $this->translate($confirm);;
         }
 
         return $element;
