@@ -17,6 +17,9 @@ namespace Grido\Components\Filters;
  * @package     Grido
  * @subpackage  Components\Filters
  * @author      Petr Bugyík
+ *
+ * @property int $suggestionLimit
+ * @property-write callback $suggestionCallback
  */
 class Text extends Filter
 {
@@ -88,6 +91,14 @@ class Text extends Filter
     }
 
     /**********************************************************************************************/
+
+    /**
+     * @return int
+     */
+    public function getSuggestionLimit()
+    {
+        return $this->suggestionLimit;
+    }
 
     /**
      * @param string $query - value from input
