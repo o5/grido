@@ -29,7 +29,16 @@ class FilterDateTest extends \Tester\TestCase
     {
         $grid = new Grid;
         $filter = $grid->addFilterDate('date', 'Date');
-        Assert::same(array('date = ?', 'TEST'), $filter->__getCondition('TEST')->__toArray());
+
+        Assert::same(array('date = ?', '2012-12-21'), $filter->__getCondition('21.12.2012')->__toArray());
+        Assert::same(array('0 = 1'), $filter->__getCondition('TEST BAD INPUT')->__toArray());
+
+        $filter
+            ->setDateFormatInput('d/m/Y')
+            ->setDateFormatOutput('d.m.Y');
+
+        Assert::same(array('date = ?', '21.12.2012'), $filter->__getCondition('21/12/2012')->__toArray());
+        Assert::same(array('0 = 1'), $filter->__getCondition('21.12.2012')->__toArray()); //test bad input
     }
 }
 
