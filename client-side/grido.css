@@ -87,7 +87,7 @@
     float: left;
 }
 
-.grido .filter.outer .items span {
+.grido .filter.outer .items > span {
     float: left;
     display: block;
     width: 12em;
