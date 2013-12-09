@@ -68,6 +68,12 @@ class DateRange extends Date
         return $control;
     }
 
+    /**
+     * @param string $value
+     * @return Condition
+     * @throws \Exception
+     * @internal
+     */
     public function __getCondition($value)
     {
         if ($this->where === NULL && $this->condition == self::DEFAULT_CONDITION) {
