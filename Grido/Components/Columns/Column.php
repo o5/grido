@@ -346,7 +346,7 @@ abstract class Column extends \Grido\Components\Component
     }
 
     /**
-     * @return \Grido\Components\Filters\Date
+     * @return \Grido\Components\Filters\DateRange
      */
     public function setFilterDateRange()
     {
