@@ -270,6 +270,12 @@ class ColumnTest extends \Tester\TestCase
         Assert::same($label, $fiter->label);
 
         $grid = new Grid;
+        $fiter = $grid->addColumnText($name, $label)->setFilterDateRange();
+        Assert::type('\Grido\Components\Filters\DateRange', $fiter);
+        Assert::same($name, $fiter->name);
+        Assert::same($label, $fiter->label);
+
+        $grid = new Grid;
         $fiter = $grid->addColumnText($name, $label)->setFilterCheck();
         Assert::type('\Grido\Components\Filters\Check', $fiter);
         Assert::same($name, $fiter->name);

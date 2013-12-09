@@ -259,6 +259,16 @@ abstract class Container extends \Nette\Application\UI\Control
     /**
      * @param string $name
      * @param string $label
+     * @return Filters\DateRange
+     */
+    public function addFilterDateRange($name, $label)
+    {
+        return new Filters\DateRange($this, $name, $label);
+    }
+
+    /**
+     * @param string $name
+     * @param string $label
      * @return Filters\Check
      */
     public function addFilterCheck($name, $label)

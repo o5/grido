@@ -166,6 +166,13 @@ class FilterTest extends \Tester\TestCase
         Assert::type('\Grido\Components\Filters\Text', $component);
         Assert::same($label, $component->label);
 
+        $name = 'daterange';
+        $grid->addFilterDateRange($name, $label);
+        $component = $grid->getFilter($name);
+        Assert::type('\Grido\Components\Filters\DateRange', $component);
+        Assert::type('\Grido\Components\Filters\Date', $component);
+        Assert::same($label, $component->label);
+
         $name = 'check';
         $grid->addFilterCheck($name, $label);
         $component = $grid->getFilter($name);
