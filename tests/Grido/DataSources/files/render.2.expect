@@ -8,11 +8,11 @@
             </span>
             <span class="grid-filter-name">
                 <label for="frmform-filters-name">Name</label>
-                <input type="text" class="text suggest form-control" autocomplete="off" data-grido-suggest-replacement="-query-" data-grido-suggest-handler="/?grid-filters-name-query=-query-&amp;action=default&amp;do=grid-filters-name-suggest&amp;presenter=Test" name="filters[name]" id="frmform-filters-name" value="a" />
+                <input type="text" class="text suggest form-control" autocomplete="off" data-grido-suggest-replacement="-query-" data-grido-suggest-limit="10" data-grido-suggest-handler="/?grid-filters-name-query=-query-&amp;action=default&amp;do=grid-filters-name-suggest&amp;presenter=Test" name="filters[name]" id="frmform-filters-name" value="a" />
             </span>
             <span class="grid-filter-country">
                 <label for="frmform-filters-country">Country</label>
-                <input type="text" class="text suggest form-control" autocomplete="off" data-grido-suggest-replacement="-query-" data-grido-suggest-handler="/?grid-filters-country-query=-query-&amp;action=default&amp;do=grid-filters-country-suggest&amp;presenter=Test" name="filters[country]" id="frmform-filters-country" value="au" />
+                <input type="text" class="text suggest form-control" autocomplete="off" data-grido-suggest-replacement="-query-" data-grido-suggest-limit="10" data-grido-suggest-handler="/?grid-filters-country-query=-query-&amp;action=default&amp;do=grid-filters-country-suggest&amp;presenter=Test" name="filters[country]" id="frmform-filters-country" value="au" />
             </span>
             <span class="grid-filter-male">
                 <label for="frmform-filters-male">Only male</label>
