@@ -86,7 +86,7 @@ class DateRange extends Date
                 : NULL;
 
             return $values
-                ? Condition::setupFromArray(array($this->getColumn(), $this->condition, $values))
+                ? Condition::setup($this->getColumn(), $this->condition, $values)
                 : Condition::setupEmpty();
         }
 
