@@ -6,10 +6,10 @@
         "./client-side/grido.css"
     ],
     "ignore": [
-        "./Grido/",
-        "./tests/",
-        "./README.md",
-        "./composer.json"
+        "Grido",
+        "tests",
+        "README.md",
+        "composer.json"
     ],
     "dependencies": {
         "jquery": ">= 1.7"
