@@ -8,7 +8,6 @@
     "ignore": [
         "Grido",
         "tests",
-        "client-side",
         "README.md",
         "composer.json",
         ".gitignore",
