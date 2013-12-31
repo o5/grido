@@ -2,14 +2,19 @@
     "name": "grido",
     "version": "0.0.1",
     "main": [
-        "./client-side/grido.js",
-        "./client-side/grido.css"
+        "client-side/grido.js",
+        "client-side/grido.css"
     ],
     "ignore": [
         "Grido",
         "tests",
+        "client-side",
         "README.md",
-        "composer.json"
+        "composer.json",
+        ".gitignore",
+        ".bower.json",
+        ".travis.yml",
+        "bower.json"
     ],
     "dependencies": {
         "jquery": ">= 1.7"
