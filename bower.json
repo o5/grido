@@ -1,6 +1,6 @@
 {
     "name": "grido",
-    "version": "0.0.1",
+    "version": "1.0.0",
     "main": [
         "client-side/grido.js",
         "client-side/grido.css"
@@ -11,9 +11,7 @@
         "README.md",
         "composer.json",
         ".gitignore",
-        ".bower.json",
-        ".travis.yml",
-        "bower.json"
+        ".travis.yml"
     ],
     "dependencies": {
         "jquery": ">= 1.7"
