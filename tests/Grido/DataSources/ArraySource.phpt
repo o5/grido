@@ -72,6 +72,9 @@ class ArraySourceTest extends DataSourceTestCase
         Assert::true($source->compare('Lucie', '=', 'Lucie'));
         Assert::false($source->compare('Lucie', '=', 'lucie'));
 
+        Assert::true($source->compare('Lucie', '<>', 'Petr'));
+        Assert::false($source->compare('Lucie', '<>', 'Lucie'));
+
         Assert::true($source->compare(NULL, 'IS NULL', NULL));
         Assert::false($source->compare('', 'IS NULL', NULL));
 
