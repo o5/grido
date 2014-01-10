@@ -72,14 +72,14 @@
 {/if}
 
 {block table}
-{!$control->getTablePrototype()->startTag()}
+{$control->getTablePrototype()->startTag()|noescape}
     <thead>
         <tr class="head">
             <th n:if="$operation" class="checker"{if $filters} rowspan="{if $filterRenderType == Grido\Components\Filters\Filter::RENDER_OUTER}1{else}2{/if}"{/if}>
                 <input type="checkbox" title="{_'Invert'}">
             </th>
             {foreach $columns as $column}
-                {!$column->getHeaderPrototype()->startTag()}
+                {$column->getHeaderPrototype()->startTag()|noescape}
                     {if $column->isSortable()}
                         <a n:if="!$column->getSort()" n:href="sort! [$column->getName() => Grido\Components\Columns\Column::ORDER_ASC]" class="ajax">{_$column->getLabel()}</a>
                         <a n:if="$column->getSort() == Grido\Components\Columns\Column::ORDER_ASC" n:href="sort! [$column->getName() => Grido\Components\Columns\Column::ORDER_DESC]" class="sort ajax">{_$column->getLabel()}</a>
@@ -88,7 +88,7 @@
                     {else}
                         {_$column->getLabel()}
                     {/if}
-                {!$column->getHeaderPrototype()->endTag()}
+                {$column->getHeaderPrototype()->endTag()|noescape}
             {/foreach}
             <th n:if="$showActionsColumn" class="actions center">
                 {_'Actions'}
@@ -97,11 +97,11 @@
         <tr n:if="$filterRenderType == Grido\Components\Filters\Filter::RENDER_INNER && $filters" class="filter inner">
             {foreach $columns as $column}
                 {if $column->hasFilter()}
-                    {!$control->getFilter($column->getName())->getWrapperPrototype()->startTag()}
+                    {$control->getFilter($column->getName())->getWrapperPrototype()->startTag()|noescape}
                     {formContainer filters}
                         {input $column->getName()}
                     {/formContainer}
-                    {!$control->getFilter($column->getName())->getWrapperPrototype()->endTag()}
+                    {$control->getFilter($column->getName())->getWrapperPrototype()->endTag()|noescape}
                 {elseif $column->headerPrototype->rowspan != 2}
                     <th>&nbsp;</th>
                 {/if}
@@ -167,19 +167,19 @@
                     ? 'selected'
                     : NULL;
             }
-            {!$tr->startTag()}
+            {$tr->startTag()|noescape}
                 <td n:if="$checkbox" class="checker">
                     {$checkbox->getControl()}
                 </td>
                 {foreach $columns as $column}
                     {?$td = $column->getCellPrototype($row)}
-                    {!$td->startTag()}
+                    {$td->startTag()|noescape}
                         {if is_string($column->getCustomRender())}
                             {include $column->getCustomRender() control => $control, presenter => $control->getPresenter(), item => $row}
                         {else}
-                            {!$column->render($row)}
+                            {$column->render($row)|noescape}
                         {/if}
-                    {!$td->endTag()}
+                    {$td->endTag()|noescape}
                 {/foreach}
                 <td n:if="$showActionsColumn" class="actions center">
                     {foreach $actions as $action}
@@ -189,11 +189,11 @@
                         &nbsp;
                     {/if}
                 </td>
-            {!$tr->endTag()}
+            {$tr->endTag()|noescape}
         {/foreach}
         <tr n:if="!$control->getCount()"><td colspan="{=$showActionsColumn ? $columnCount + 1 : $columnCount}" class="no-results">{_'No results.'}</td></tr>
     </tbody>
-{!$control->getTablePrototype()->endTag()}
+{$control->getTablePrototype()->endTag()|noescape}
 {/block}
 {/form}
 {/snippet}
