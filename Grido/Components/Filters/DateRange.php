@@ -22,13 +22,13 @@ namespace Grido\Components\Filters;
  */
 class DateRange extends Date
 {
-    const DEFAULT_CONDITION = 'BETWEEN ? AND ?';
-
     /** @var string */
-    protected $condition = self::DEFAULT_CONDITION;
+    protected $condition = 'BETWEEN ? AND ?';
 
-    /** @var string */
-    protected $formatValue;
+    /**
+     * @var string
+     */
+    protected $dateFormatOutput = 'Y-m-d';
 
     /**
      * @var string
@@ -76,7 +76,7 @@ class DateRange extends Date
      */
     public function __getCondition($value)
     {
-        if ($this->where === NULL && $this->condition == self::DEFAULT_CONDITION) {
+        if ($this->where === NULL && is_string($this->condition)) {
             list (, $from, $to) = \Nette\Utils\Strings::match($value, $this->mask);
             $from = \DateTime::createFromFormat($this->dateFormatInput, trim($from));
             $to = \DateTime::createFromFormat($this->dateFormatInput, trim($to));

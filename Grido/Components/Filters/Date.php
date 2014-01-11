@@ -23,11 +23,6 @@ namespace Grido\Components\Filters;
  */
 class Date extends Text
 {
-    const DEFAULT_CONDITION = '= ?';
-
-    /** @var string */
-    protected $condition = self::DEFAULT_CONDITION;
-
     /** @var string */
     protected $formatValue;
 
@@ -39,7 +34,7 @@ class Date extends Text
     /**
      * @var string
      */
-    protected $dateFormatOutput = 'Y-m-d';
+    protected $dateFormatOutput = 'Y-m-d%';
 
     /**
      * Sets date-input format.
@@ -101,7 +96,7 @@ class Date extends Text
      */
     public function __getCondition($value)
     {
-        if ($this->where === NULL && $this->condition == self::DEFAULT_CONDITION) {
+        if ($this->where === NULL && is_string($this->condition)) {
             return ($date = \DateTime::createFromFormat($this->dateFormatInput, $value))
                 ? Condition::setupFromArray(array($this->getColumn(), $this->condition, $date->format($this->dateFormatOutput)))
                 : Condition::setupEmpty();
