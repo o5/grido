@@ -526,6 +526,28 @@ class GridTest extends \Tester\TestCase
             $grid->filter['B'] = 'B2';
             $grid->data;
         }, E_USER_NOTICE, "Filter with name 'B' does not exist.");
+
+        //test session filter
+        Helper::grid(function(Grid $grid) {
+            $grid->setModel(array(array('A' => 'test')));
+            $grid->setRememberState();
+            $grid->addColumnText('A', 'A');
+            $grid->addFilterText('A', 'A');
+        });
+
+        $params = array(
+            'do' => 'grid-form-submit',
+            Grid::BUTTONS => array('search' => 'Search'),
+        );
+        $filter = array('A' => 'test');
+        Helper::request($params + array(Filter::ID => $filter));
+        Helper::$grid->render(); //save2session
+        Assert::same($filter, Helper::$grid->getRememberSession()->params['filter']);
+
+        $filter = array('A' => '');
+        Helper::request($params + array(Filter::ID => $filter));
+        Helper::$grid->render(); //save2session
+        Assert::same($filter, Helper::$grid->getRememberSession()->params['filter']);
     }
 
     function testHandleReset()

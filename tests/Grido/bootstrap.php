@@ -23,6 +23,8 @@ define('TEMP_DIR', __DIR__ . '/tmp/' . getmypid());
 @mkdir(dirname(TEMP_DIR)); // @ - directory may already exist
 Tester\Helpers::purge(TEMP_DIR);
 
+ini_set('session.save_path', TEMP_DIR);
+
 if (extension_loaded('xdebug')) {
     xdebug_disable();
     Tester\CodeCoverage\Collector::start(__DIR__ . '/coverage.dat');
