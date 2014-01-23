@@ -704,12 +704,13 @@ class Grid extends Components\Container
         $this->saveRememberState();
         $data = $this->getData();
 
-        $this->template->paginator = $this->paginator;
-        $this->template->data = $data;
-
         if ($this->onRender) {
             $this->onRender($this);
         }
+
+        $this->template->data = $data;
+        $this->template->form = $this['form'];
+        $this->template->paginator = $this->paginator;
 
         $this->template->render();
     }
