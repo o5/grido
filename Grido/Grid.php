@@ -709,8 +709,10 @@ class Grid extends Components\Container
         }
 
         $this->template->data = $data;
-        $this->template->form = $this['form'];
+        $this->template->form = $form = $this['form'];
         $this->template->paginator = $this->paginator;
+
+        $form['count']->setValue($this->getPerPage());
 
         $this->template->render();
     }
@@ -806,7 +808,6 @@ class Grid extends Components\Container
             $perPage = $this->defaultPerPage;
         }
 
-        $this['form']['count']->setValue($perPage);
         $this->model->limit($paginator->getOffset(), $paginator->getLength());
     }
 
