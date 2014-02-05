@@ -53,9 +53,9 @@ class ArrayObjectAccessor implements IPropertyAccessor
     public static function setProperty($object, $name, $value)
     {
         if (is_array($object)) {
-            $object->$name = $value;
-        } elseif (is_object($object)) {
             $object[$name] = $value;
+        } elseif (is_object($object)) {
+            $object->$name = $value;
         } else {
             throw new \InvalidArgumentException('Please implement your own property accessor.');
         }
