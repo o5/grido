@@ -173,7 +173,9 @@
                 {foreach $columns as $column}
                     {?$td = $column->getCellPrototype($row)}
                     {$td->startTag()|noescape}
-                        {if is_string($column->getCustomRender())}
+                        {if is_string($column->getCustomRender()) && $column->getCustomRenderVariables()}
+                            {include $column->getCustomRender() control => $control, presenter => $control->getPresenter(), item => $row, (expand) $column->getCustomRenderVariables()}
+                        {elseif is_string($column->getCustomRender())}
                             {include $column->getCustomRender() control => $control, presenter => $control->getPresenter(), item => $row}
                         {else}
                             {$column->render($row)|noescape}

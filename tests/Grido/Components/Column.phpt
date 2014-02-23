@@ -70,14 +70,14 @@ class ColumnTest extends \Tester\TestCase
 
         Helper::grid(function(Grid $grid){
             $grid->setModel(array(array('id' => 1, 'column' => 'TEST')));
-            $grid->addColumnText('column', 'Column')->setCustomRender(__DIR__ . '/files/Column.customRender.latte');
+            $grid->addColumnText('column', 'Column')->setCustomRender(__DIR__ . '/files/Column.customRender.latte', array('var' => 'TEST'));
         })->run();
 
         ob_start();
             Helper::$grid->render();
         $output = ob_get_clean();
         $node = \Tester\DomQuery::fromHtml($output)->find('.grid-cell-column');
-        Assert::same('CUSTOM_TEMPLATE-TEST', trim((string) $node[0]));
+        Assert::same('TEST-CUSTOM_TEMPLATE-TEST', trim((string) $node[0]));
     }
 
     function testSetCustomRenderExport()

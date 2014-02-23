@@ -26,6 +26,7 @@ use Grido\Components\Filters\Filter;
  * @property-write callback $cellCallback
  * @property-write string $defaultSorting
  * @property-write mixed $customRender
+ * @property-write array $customRenderVariables
  * @property-write mixed $customRenderExport
  * @property-write array $replacements
  * @property-write bool $sortable
@@ -57,6 +58,9 @@ abstract class Column extends \Grido\Components\Component
 
     /** @var mixed custom rendering */
     protected $customRender;
+
+    /** @var array custom rendering template variables */
+    protected $customRenderVariables = array();
 
     /** @var mixed custom export rendering */
     protected $customRenderExport;
@@ -122,11 +126,14 @@ abstract class Column extends \Grido\Components\Component
 
     /**
      * @param mixed $callback callback or string for name of template filename
+     * @param array|NULL $variables - template variables
      * @return Column
      */
-    public function setCustomRender($callback)
+    public function setCustomRender($callback, $variables = array())
     {
         $this->customRender = $callback;
+        $this->customRenderVariables = $variables;
+
         return $this;
     }
 
@@ -229,6 +236,15 @@ abstract class Column extends \Grido\Components\Component
     public function getCustomRender()
     {
         return $this->customRender;
+    }
+
+    /**
+     * @return array
+     * @internal
+     */
+    public function getCustomRenderVariables()
+    {
+        return $this->customRenderVariables;
     }
 
     /**********************************************************************************************/
