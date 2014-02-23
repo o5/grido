@@ -26,14 +26,10 @@ class Date extends Text
     /** @var string */
     protected $formatValue;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $dateFormatInput = 'd.m.Y';
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $dateFormatOutput = 'Y-m-d%';
 
     /**

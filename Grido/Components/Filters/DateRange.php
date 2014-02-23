@@ -11,6 +11,8 @@
 
 namespace Grido\Components\Filters;
 
+use Nette\Utils\Strings;
+
 /**
  * Date-range input filter.
  *
@@ -25,15 +27,26 @@ class DateRange extends Date
     /** @var string */
     protected $condition = 'BETWEEN ? AND ?';
 
-    /**
-     * @var string
-     */
-    protected $dateFormatOutput = 'Y-m-d';
+    /** @var string */
+    protected $mask = '/(.*)\s?-\s?(.*)/';
+
+    /** @var array */
+    protected $dateFormatOutput = array('Y-m-d', 'Y-m-d G:i:s');
 
     /**
-     * @var string
+     * @param string $formatFrom
+     * @param string $formatTo
+     * @return \Grido\Components\Filters\DateRange
      */
-    protected $mask = '/(.*)\s?-\s?(.*)/';
+    public function setDateFormatOutput($formatFrom, $formatTo = NULL)
+    {
+        $formatTo = $formatTo === NULL
+            ? $formatFrom
+            : $formatTo;
+
+        $this->dateFormatOutput = array($formatFrom, $formatTo);
+        return $this;
+    }
 
     /**
      * Sets mask by regular expression.
@@ -77,12 +90,19 @@ class DateRange extends Date
     public function __getCondition($value)
     {
         if ($this->where === NULL && is_string($this->condition)) {
+
             list (, $from, $to) = \Nette\Utils\Strings::match($value, $this->mask);
             $from = \DateTime::createFromFormat($this->dateFormatInput, trim($from));
             $to = \DateTime::createFromFormat($this->dateFormatInput, trim($to));
 
+            if ($to && !Strings::contains(strtoupper($this->dateFormatInput), 'G') && !Strings::contains(strtoupper($this->dateFormatInput), 'H')) {
+                Strings::contains($this->dateFormatOutput[1], 'G') || Strings::contains($this->dateFormatOutput[1], 'H')
+                    ? $to->setTime(23, 59, 59)
+                    : $to->setTime(11, 59, 59);
+            }
+
             $values = $from && $to
-                ? array($from->format($this->dateFormatOutput), $to->format($this->dateFormatOutput))
+                ? array($from->format($this->dateFormatOutput[0]), $to->format($this->dateFormatOutput[1]))
                 : NULL;
 
             return $values
