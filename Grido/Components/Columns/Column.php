@@ -126,7 +126,7 @@ abstract class Column extends \Grido\Components\Component
 
     /**
      * @param mixed $callback callback or string for name of template filename
-     * @param array|NULL $variables - template variables
+     * @param array $variables - template variables
      * @return Column
      */
     public function setCustomRender($callback, $variables = array())
