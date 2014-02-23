@@ -82,7 +82,7 @@ class DateRange extends Date
             $to = \DateTime::createFromFormat($this->dateFormatInput, trim($to));
 
             $values = $from && $to
-                ? array($from->format($this->dateFormatOutput), $to->format($this->dateFormatOutput))
+                ? array($from->format($this->dateFormatOutput.' 00:00:00'), $to->format($this->dateFormatOutput.' 23:59:59'))
                 : NULL;
 
             return $values
