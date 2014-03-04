@@ -263,12 +263,15 @@ class Grid extends Components\Container
 
     /**
      * Sets saving state to session.
-     * @param bool $states
+     * @param bool $state
      * @return Grid
      */
     public function setRememberState($state = TRUE)
     {
+        $this->getPresenter(); //component must be attached to presenter
+        $this->getRememberSession(TRUE); //start session if not
         $this->rememberState = (bool) $state;
+
         return $this;
     }
 
@@ -455,12 +458,21 @@ class Grid extends Components\Container
 
     /**
      * Returns remember session for set expiration, etc.
-     * @return \Nette\Http\Session
+     * @param bool $forceStart - if TRUE, session will be started if not
+     * @return \Nette\Http\SessionSection|NULL
      */
-    public function getRememberSession()
+    public function getRememberSession($forceStart = FALSE)
     {
         $presenter = $this->getPresenter();
-        return $presenter->getSession($presenter->getName() . '\\' . ucfirst($this->getName()));
+        $session = $presenter->getSession();
+
+        if (!$session->isStarted() && $forceStart) {
+            $session->start();
+        }
+
+        return $session->isStarted()
+            ? $session->getSection($presenter->getName() . '\\' . ucfirst($this->getName()))
+            : NULL;
     }
 
     /**
@@ -567,9 +579,9 @@ class Grid extends Components\Container
     {
         //loads state from session
         $session = $this->getRememberSession();
-        if ($this->getPresenter()->isSignalReceiver($this)) {
+        if ($session && $this->getPresenter()->isSignalReceiver($this)) {
             $session->remove();
-        } elseif (!$params && $session->params) {
+        } elseif ($session && !$params && $session->params) {
             $params = (array) $session->params;
         }
 
@@ -612,8 +624,8 @@ class Grid extends Components\Container
     {
         $values = $button->form->values[Filter::ID];
         $sessionFilter = $this->rememberState
-            ? isset($this->getRememberSession()->params['filter'])
-                ? $this->getRememberSession()->params['filter']
+            ? isset($this->getRememberSession(TRUE)->params['filter'])
+                ? $this->getRememberSession(TRUE)->params['filter']
                 : array()
             : array();
 
@@ -639,7 +651,11 @@ class Grid extends Components\Container
         $this->sort = array();
         $this->filter = array();
         $this->perPage = NULL;
-        $this->getRememberSession()->remove();
+
+        if ($session = $this->getRememberSession()) {
+            $session->remove();
+        }
+
         $button->form->setValues(array(Filter::ID => $this->defaultFilter), TRUE);
 
         $this->page = 1;
@@ -720,7 +736,7 @@ class Grid extends Components\Container
     protected function saveRememberState()
     {
         if ($this->rememberState) {
-            $session = $this->getRememberSession();
+            $session = $this->getRememberSession(TRUE);
             $session->params = $this->params;
         }
     }

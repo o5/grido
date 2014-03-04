@@ -260,9 +260,10 @@ class GridTest extends \Tester\TestCase
 
     function testSetRememberState()
     {
-        $grid = new Grid;
-        $grid->setRememberState(1);
-        Assert::true($grid->rememberState);
+        Helper::grid(function($grid) {
+            $grid->setRememberState(1);
+            Assert::true($grid->rememberState);
+        })->run();
     }
 
     function testSetRowCallback()
