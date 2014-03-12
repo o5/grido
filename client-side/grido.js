@@ -395,7 +395,7 @@
                     }
                 });
 
-                var hash = decodeURIComponent($.param(params));
+                var hash = this.coolUri($.param(params));
                 $.data(document, this.grido.name + '-state', hash);
                 window.location.hash = hash;
             }
@@ -420,6 +420,22 @@
         doRequest: function(url)
         {
             $.get(url);
+        },
+
+        /**
+         * Own decodeURIComponent() implementation.
+         * @param {String} encodedUri
+         */
+        coolUri: function(encodedUri)
+        {
+            var cool = encodedUri,
+                replace = {'%5B': '[', '%5D': ']', '%E2%86%91' : '↑', '%E2%86%93' : '↓'};
+
+            $.each(replace, function(key, val) {
+                cool = cool.replace(key, val);
+            });
+
+            return cool;
         }
     };
 
