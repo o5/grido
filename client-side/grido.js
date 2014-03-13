@@ -14,8 +14,9 @@
  * @param {jQuery} $ (version > 1.7)
  * @param {Window} window
  * @param {Document} document
+ * @param {Location} location
  */
-;(function($, window, document) {
+;(function($, window, document, location) {
     /*jshint laxbreak: true, expr: true */
     "use strict";
 
@@ -395,20 +396,21 @@
                     }
                 });
 
-                var hash = this.coolUri($.param(params));
+                var hash = $.browser.mozilla ? $.param(params) : this.coolUri($.param(params));
                 $.data(document, this.grido.name + '-state', hash);
-                window.location.hash = hash;
+                location.hash = hash;
             }
         },
 
         handleHashChangeEvent: function()
         {
             var state = $.data(document, this.grido.name + '-state') || '',
-                hash = window.location.hash.toString().replace('#', '');
+                hash = location.toString().split('#').splice(1).join('#');
 
             if (hash.indexOf(this.grido.name + '-') >= 0 && state !== hash) {
-                var url = window.location.toString();
+                var url = location.toString();
                 url = url.indexOf('?') >= 0 ? url.replace('#', '&') : url.replace('#', '?');
+
                 this.doRequest(url + '&do=' + this.grido.name + '-refresh');
             }
         },
@@ -474,4 +476,4 @@
 
     window.Grido = Grido;
 
-})(jQuery, window, document);
+})(jQuery, window, document, location);
