@@ -165,6 +165,7 @@
                 $tr->class[] = $checkbox && $checkbox->getValue()
                     ? 'selected'
                     : NULL;
+		(!is_array($row) && !$row instanceof Traversable) ?: $tr->addId('grid-row-'.$row[$control->getPrimaryKey()])
             }
             {$tr->startTag()|noescape}
                 <td n:if="$checkbox" class="checker">
