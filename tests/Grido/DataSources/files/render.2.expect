@@ -66,7 +66,7 @@
         </tr>
     </tfoot>
     <tbody>
-            <tr>
+            <tr class="grid-row-628">
                     <td class="grid-cell-firstname">
                             Luwam
                     </td>
@@ -83,7 +83,7 @@
                             Australia
                     </td>
             </tr>
-            <tr>
+            <tr class="grid-row-818">
                     <td class="grid-cell-firstname">
                             Ronald
                     </td>
@@ -100,7 +100,7 @@
                             Australia
                     </td>
             </tr>
-            <tr>
+            <tr class="grid-row-837">
                     <td class="grid-cell-firstname">
                             Dame
                     </td>
