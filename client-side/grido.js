@@ -22,7 +22,7 @@
 
     var Grido = Grido || {};
 
-    /*    GRID CLASS DEFINITION   */
+    /*    GRID DEFINITION   */
     /* ========================== */
 
     Grido.Grid = function($element, options)
@@ -152,7 +152,7 @@
         }
     };
 
-    /* OPERATION CLASS DEFINITION */
+    /* OPERATION DEFINITION */
     /* ========================== */
 
     Grido.Operation = function(Grido)
@@ -348,7 +348,7 @@
         }
     };
 
-    /*    AJAX CLASS DEFINITION   */
+    /*    AJAX DEFINITION   */
     /* ========================== */
 
     Grido.Ajax = function(Grido)
@@ -475,5 +475,6 @@
     };
 
     window.Grido = Grido;
+    return Grido;
 
 })(jQuery, window, document, location);
