@@ -180,6 +180,11 @@ abstract class Column extends \Grido\Components\Component
         $this->editable = TRUE;
         $this->editableCallback = $callback;
 
+        $prototype = $this->getCellPrototype();
+
+        $prototype->data['grido-editableControl-handler'] = $this->link('editableControl!');
+        $prototype->data['grido-editable-handler'] = $this->link('editable!', $callback);
+
         return $this;
     }
 
@@ -215,9 +220,6 @@ abstract class Column extends \Grido\Components\Component
             $td = clone $td;
             $td = callback($this->cellCallback)->invokeArgs(array($row, $td));
         }
-
-        $td->data['grido-editableControl-handler'] = $this->link('editableControl!');
-        $td->data['grido-editable-handler'] = $this->link('editable!');
 
         return $td;
     }
@@ -472,7 +474,7 @@ abstract class Column extends \Grido\Components\Component
      */
     public function handleEditable()
     {
-        \Nette\Diagnostics\FireLogger::log($this->editableCallback);
+        \Nette\Diagnostics\FireLogger::log($this->editable);
         if ($this->editableCallback != NULL) {
             \Nette\Diagnostics\FireLogger::log('save YES');
             callback($this->editableCallback)->invokeArgs(array('PK'));
