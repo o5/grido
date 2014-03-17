@@ -31,6 +31,10 @@ use Grido\Components\Filters\Filter;
  * @property-write array $replacements
  * @property-write bool $sortable
  * @property string $column
+ * @property bool $editable
+ * @property callback $editableCallback
+ * @property \Nette\Forms\IControl $editableControl
+ * @property type $name Description
  */
 abstract class Column extends \Grido\Components\Component
 {
@@ -70,6 +74,15 @@ abstract class Column extends \Grido\Components\Component
 
     /** @var array of arrays('pattern' => 'replacement') */
     protected $replacements = array();
+
+    /** @var bool */
+    protected $editable = FALSE;
+
+    /** @var callback function for custom handling with edited data */
+    protected $editableCallback = NULL;
+
+    /** @var \Nette\Forms\IControl Custom control for inline editing */
+    protected $editableControl = NULL;
 
     /**
      * @param Grido\Grid $grid
@@ -157,6 +170,31 @@ abstract class Column extends \Grido\Components\Component
         return $this;
     }
 
+    /**
+     * Set column as editable
+     * @param callback $callback
+     * @return Column
+     */
+    public function setEditable($callback = NULL)
+    {
+        $this->editable = TRUE;
+        $this->editableCallback = $callback;
+
+        return $this;
+    }
+
+    /**
+     * Set control for inline editation
+     * @param \Nette\Forms\IControl $control
+     * @return \Grido\Components\Columns\Column
+     */
+    public function setEditableControl($control) {
+        if ($this->isEditable()) {
+            $this->editableControl = $control;
+        }
+        return $this;
+    }
+
     /**********************************************************************************************/
 
     /**
@@ -177,6 +215,9 @@ abstract class Column extends \Grido\Components\Component
             $td = clone $td;
             $td = callback($this->cellCallback)->invokeArgs(array($row, $td));
         }
+
+        $td->data['grido-editableControl-handler'] = $this->link('editableControl!');
+        $td->data['grido-editable-handler'] = $this->link('editable!');
 
         return $td;
     }
@@ -247,6 +288,18 @@ abstract class Column extends \Grido\Components\Component
         return $this->customRenderVariables;
     }
 
+    /**
+     * Returns control for editation
+     * @returns \Nette\Forms\IControl
+     */
+    function getEditableControl() {
+        if ($this->editableControl == NULL) {
+            $this->editableControl = new \Nette\Forms\Controls\TextInput($this->label);
+        }
+        $this->getForm()->addComponent($this->editableControl, 'edit');
+        return $this->editableControl;
+    }
+
     /**********************************************************************************************/
 
     /**
@@ -265,6 +318,14 @@ abstract class Column extends \Grido\Components\Component
     public function hasFilter()
     {
         return $this->grid->hasFilters() && $this->grid->getComponent(Filter::ID)->getComponent($this->getName(), FALSE);
+    }
+
+    /**
+     * @return type
+     * @internal
+     */
+    public function isEditable() {
+        return $this->editable;
     }
 
     /**********************************************************************************************/
@@ -401,5 +462,34 @@ abstract class Column extends \Grido\Components\Component
     public function setFilterCustom(\Nette\Forms\IControl $formControl)
     {
         return $this->grid->addFilterCustom($this->getName(), $formControl);
+    }
+
+    /******************************* Handlers for inline edit ******************************************/
+
+    /**
+     * Handle action after editation form was submitted by AJAX
+     * @internal
+     */
+    public function handleEditable()
+    {
+        \Nette\Diagnostics\FireLogger::log($this->editableCallback);
+        if ($this->editableCallback != NULL) {
+            \Nette\Diagnostics\FireLogger::log('save YES');
+            callback($this->editableCallback)->invokeArgs(array('PK'));
+        } else {
+            \Nette\Diagnostics\FireLogger::log('save NO');
+            //MAKE DATASOURCE OPERATIONS
+        }
+    }
+
+    /**
+     * Handler for returning the HTML prototype of editable control
+     * @internal
+     */
+    public function handleEditableControl()
+    {
+        $controlPrototype = $this->getEditableControl()->getControl()->render();
+        $html = new \Nette\Application\Responses\TextResponse($controlPrototype);
+        $this->presenter->sendResponse($html);
     }
 }

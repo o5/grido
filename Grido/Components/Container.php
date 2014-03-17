@@ -352,4 +352,21 @@ abstract class Container extends \Nette\Application\UI\Control
     {
         return new Export($this, $label);
     }
+
+    /**
+     * Set all columns as editable, callback is optional for user implementation of method for saving modified data
+     * @param callback $callback optional
+     * @return \Grido\Components\Container
+     */
+    public function setEditableColumns($callback = NULL)
+    {
+        $this->onRender[] = function() use ($callback) {
+            $container = $this->getComponent(Column::ID, FALSE);
+
+            foreach ($container->components as $column) {
+                $column->setEditable($callback);
+            }
+        };
+        return $this;
+    }
 }
