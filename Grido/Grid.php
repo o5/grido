@@ -55,6 +55,9 @@ class Grid extends Components\Container
     /** @var array @persistent */
     public $filter = array();
 
+    /** @var array event on all grid's components registred */
+    public $onRegistred;
+
     /** @var array event on render */
     public $onRender;
 
@@ -594,6 +597,21 @@ class Grid extends Components\Container
         }
 
         parent::loadState($params);
+    }
+
+    /**
+     * Saves state informations for next request.
+     * @param array $params
+     * @param \Nette\Application\UI\PresenterComponentReflection $reflection (internal, used by Presenter)
+     * @internal
+     */
+    public function saveState(array &$params, $reflection = NULL)
+    {
+        if ($this->onRegistred) {
+            $this->onRegistred($this);
+        }
+
+        return parent::saveState($params, $reflection);
     }
 
     /**
