@@ -20,7 +20,7 @@ namespace Grido\Components\Columns;
  *
  * @property array $numberFormat
  */
-class Number extends Column
+class Number extends Editable\EditableColumn
 {
     /** @var array */
     protected $numberFormat = array(

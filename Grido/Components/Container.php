@@ -354,7 +354,8 @@ abstract class Container extends \Nette\Application\UI\Control
     }
 
     /**
-     * Set all columns as editable, callback is optional for user implementation of method for saving modified data
+     * Set all columns as editable if it is instance of EditableColumn, callback is optional for user implementation of
+     * method for saving modified data.
      * @param callback $callback optional
      * @return \Grido\Components\Container
      */
@@ -364,10 +365,11 @@ abstract class Container extends \Nette\Application\UI\Control
             $container = $this->getComponent(Column::ID, FALSE);
 
             foreach ($container->components as $column) {
-                $column->setEditable($callback);
+                if ($column instanceof Columns\Editable\EditableColumn) {
+                    $column->setEditable($callback);
+                }
             }
         };
-
         return $this;
     }
 }
