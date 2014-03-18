@@ -9,7 +9,7 @@
  * the file LICENSE.md that was distributed with this source code.
  */
 
-namespace Grido\Components\Columns\Editable;
+namespace Grido\Components\Columns;
 
 /**
  * Eitable Column grid.
@@ -22,7 +22,7 @@ namespace Grido\Components\Columns\Editable;
  * @property callback $editableCallback
  * @property \Nette\Forms\IControl $editableControl
  */
-class EditableColumn extends \Grido\Components\Columns\Column
+class Editable extends \Grido\Components\Columns\Column
 {
     /** @var bool */
     protected $editable = FALSE;

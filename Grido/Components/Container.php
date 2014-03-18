@@ -365,7 +365,7 @@ abstract class Container extends \Nette\Application\UI\Control
             $container = $this->getComponent(Column::ID, FALSE);
 
             foreach ($container->components as $column) {
-                if ($column instanceof Columns\Editable\EditableColumn) {
+                if ($column instanceof Columns\Editable) {
                     $column->setEditable($callback);
                 }
             }

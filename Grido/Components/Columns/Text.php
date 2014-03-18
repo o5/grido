@@ -18,7 +18,7 @@ namespace Grido\Components\Columns;
  * @subpackage  Components\Columns
  * @author      Petr Bugyík
  */
-class Text extends Editable\EditableColumn
+class Text extends Editable
 {
     /** @var Closure */
     protected $truncate;
