@@ -44,7 +44,7 @@
         </tr>
     </tfoot>
     <tbody>
-            <tr>
+            <tr class="grid-row-1">
                     <td class="grid-cell-firstname">
                             Trommler
                     </td>
@@ -58,7 +58,7 @@
                             1964-10-25
                     </td>
             </tr>
-            <tr>
+            <tr class="grid-row-20">
                     <td class="grid-cell-firstname">
                             Marij
                     </td>
@@ -125,7 +125,7 @@
         </tr>
     </tfoot>
     <tbody>
-            <tr>
+            <tr class="grid-row-1">
                     <td class="grid-cell-firstname">
                             Trommler
                     </td>
@@ -141,7 +141,7 @@
                 <td class="actions center">
 <a class="grid-action-edit btn btn-default btn-xs btn-mini" href="/?id=1&amp;action=edit&amp;presenter=Test">Edit</a>                </td>
             </tr>
-            <tr>
+            <tr class="grid-row-20">
                     <td class="grid-cell-firstname">
                             Marij
                     </td>
@@ -223,7 +223,7 @@
         </tr>
     </tfoot>
     <tbody>
-            <tr>
+            <tr class="grid-row-1">
                     <td class="grid-cell-firstname">
                             Trommler
                     </td>
@@ -240,7 +240,7 @@
                         &nbsp;
                 </td>
             </tr>
-            <tr>
+            <tr class="grid-row-20">
                     <td class="grid-cell-firstname">
                             Marij
                     </td>
@@ -323,7 +323,7 @@
         </tr>
     </tfoot>
     <tbody>
-            <tr>
+            <tr class="grid-row-1">
                     <td class="grid-cell-firstname">
                             Trommler
                     </td>
@@ -339,7 +339,7 @@
                 <td class="actions center">
 <a class="grid-action-edit btn btn-default btn-xs btn-mini" href="/?id=1&amp;action=edit&amp;presenter=Test">Edit</a>                </td>
             </tr>
-            <tr>
+            <tr class="grid-row-20">
                     <td class="grid-cell-firstname">
                             Marij
                     </td>

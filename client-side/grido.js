@@ -14,14 +14,15 @@
  * @param {jQuery} $ (version > 1.7)
  * @param {Window} window
  * @param {Document} document
+ * @param {Location} location
  */
-;(function($, window, document) {
+;(function($, window, document, location) {
     /*jshint laxbreak: true, expr: true */
     "use strict";
 
     var Grido = Grido || {};
 
-    /*    GRID CLASS DEFINITION   */
+    /*    GRID DEFINITION   */
     /* ========================== */
 
     Grido.Grid = function($element, options)
@@ -151,7 +152,7 @@
         }
     };
 
-    /* OPERATION CLASS DEFINITION */
+    /* OPERATION DEFINITION */
     /* ========================== */
 
     Grido.Operation = function(Grido)
@@ -347,7 +348,7 @@
         }
     };
 
-    /*    AJAX CLASS DEFINITION   */
+    /*    AJAX DEFINITION   */
     /* ========================== */
 
     Grido.Ajax = function(Grido)
@@ -395,20 +396,21 @@
                     }
                 });
 
-                var hash = decodeURIComponent($.param(params));
+                var hash = $.browser.mozilla ? $.param(params) : this.coolUri($.param(params));
                 $.data(document, this.grido.name + '-state', hash);
-                window.location.hash = hash;
+                location.hash = hash;
             }
         },
 
         handleHashChangeEvent: function()
         {
             var state = $.data(document, this.grido.name + '-state') || '',
-                hash = window.location.hash.toString().replace('#', '');
+                hash = location.toString().split('#').splice(1).join('#');
 
             if (hash.indexOf(this.grido.name + '-') >= 0 && state !== hash) {
-                var url = window.location.toString();
+                var url = location.toString();
                 url = url.indexOf('?') >= 0 ? url.replace('#', '&') : url.replace('#', '?');
+
                 this.doRequest(url + '&do=' + this.grido.name + '-refresh');
             }
         },
@@ -420,6 +422,22 @@
         doRequest: function(url)
         {
             $.get(url);
+        },
+
+        /**
+         * Own decodeURIComponent() implementation.
+         * @param {String} encodedUri
+         */
+        coolUri: function(encodedUri)
+        {
+            var cool = encodedUri,
+                replace = {'%5B': '[', '%5D': ']', '%E2%86%91' : '↑', '%E2%86%93' : '↓'};
+
+            $.each(replace, function(key, val) {
+                cool = cool.replace(key, val);
+            });
+
+            return cool;
         }
     };
 
@@ -457,5 +475,6 @@
     };
 
     window.Grido = Grido;
+    return Grido;
 
-})(jQuery, window, document);
+})(jQuery, window, document, location);

@@ -560,7 +560,15 @@ class Grid extends Components\Container
      */
     public function getRowPrototype($row)
     {
+        try {
+            $primaryValue = $this->getPropertyAccessor()->getProperty($row, $this->getPrimaryKey());
+        } catch (\Exception $e) {
+            $primaryValue = NULL;
+        }
+
         $tr = \Nette\Utils\Html::el('tr');
+        $primaryValue ? $tr->class[] = "grid-row-$primaryValue" : NULL;
+
         if ($this->rowCallback) {
             $tr = callback($this->rowCallback)->invokeArgs(array($row, $tr));
         }

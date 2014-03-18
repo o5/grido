@@ -70,7 +70,7 @@
         </tr>
     </tfoot>
     <tbody>
-            <tr class="Trommler">
+            <tr class="grid-row-1 Trommler">
                 <td class="checker">
                     <input type="checkbox" name="operations[1]" id="frmform-operations-1" />
                 </td>
@@ -89,7 +89,7 @@
                 <td class="actions center">
 <a class="xxx btn btn-default btn-xs btn-mini" href="/?id=1&amp;action=edit&amp;presenter=Test">Edit</a><a class="grid-action-delete yyy btn btn-default btn-xs btn-mini" href="/?grid-actions-delete-id=1&amp;action=default&amp;do=grid-actions-delete-click&amp;presenter=Test">Delete</a><button class="btn btn-default btn-xs btn-mini" href="/?grid-actions-print-id=1&amp;action=default&amp;do=grid-actions-print-click&amp;presenter=Test"></button>                </td>
             </tr>
-            <tr class="Marij">
+            <tr class="grid-row-20 Marij">
                 <td class="checker">
                     <input type="checkbox" name="operations[20]" id="frmform-operations-20" />
                 </td>
@@ -108,7 +108,7 @@
                 <td class="actions center">
 <a class="xxx btn btn-default btn-xs btn-mini" href="/?id=20&amp;action=edit&amp;presenter=Test">Edit</a><a class="grid-action-delete yyy btn btn-default btn-xs btn-mini" href="/?grid-actions-delete-id=20&amp;action=default&amp;do=grid-actions-delete-click&amp;presenter=Test">Delete</a><button class="btn btn-default btn-xs btn-mini" href="/?grid-actions-print-id=20&amp;action=default&amp;do=grid-actions-print-click&amp;presenter=Test"></button>                </td>
             </tr>
-            <tr class="Lyyli">
+            <tr class="grid-row-39 Lyyli">
                 <td class="checker">
                     <input type="checkbox" name="operations[39]" id="frmform-operations-39" />
                 </td>
@@ -127,7 +127,7 @@
                 <td class="actions center">
 <a class="xxx btn btn-default btn-xs btn-mini" href="/?id=39&amp;action=edit&amp;presenter=Test">Edit</a><a class="grid-action-delete yyy btn btn-default btn-xs btn-mini" href="/?grid-actions-delete-id=39&amp;action=default&amp;do=grid-actions-delete-click&amp;presenter=Test">Delete</a><button class="btn btn-default btn-xs btn-mini" href="/?grid-actions-print-id=39&amp;action=default&amp;do=grid-actions-print-click&amp;presenter=Test"></button>                </td>
             </tr>
-            <tr class="Dýrleif">
+            <tr class="grid-row-58 Dýrleif">
                 <td class="checker">
                     <input type="checkbox" name="operations[58]" id="frmform-operations-58" />
                 </td>

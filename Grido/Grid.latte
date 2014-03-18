@@ -174,9 +174,9 @@
                     {?$td = $column->getCellPrototype($row)}
                     {$td->startTag()|noescape}
                         {if is_string($column->getCustomRender()) && $column->getCustomRenderVariables()}
-                            {include $column->getCustomRender() control => $control, presenter => $control->getPresenter(), item => $row, (expand) $column->getCustomRenderVariables()}
+                            {include $column->getCustomRender() control => $control, presenter => $control->getPresenter(), item => $row, column => $column, (expand) $column->getCustomRenderVariables()}
                         {elseif is_string($column->getCustomRender())}
-                            {include $column->getCustomRender() control => $control, presenter => $control->getPresenter(), item => $row}
+                            {include $column->getCustomRender() control => $control, presenter => $control->getPresenter(), item => $row, column => $column}
                         {else}
                             {$column->render($row)|noescape}
                         {/if}
