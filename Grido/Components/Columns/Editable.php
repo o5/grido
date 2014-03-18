@@ -54,7 +54,7 @@ class Editable extends \Grido\Components\Columns\Column
     {
         $this->editable = TRUE;
         $this->editableCallback = $callback;
-
+        $this->getGrid()->setClientSideOptions(array('inlineEditable' => true));
         return $this;
     }
 
@@ -81,17 +81,7 @@ class Editable extends \Grido\Components\Columns\Column
      */
     public function getCellPrototype($row = NULL)
     {
-        $td = $this->cellPrototype;
-
-        if ($td === NULL) { //cache
-            $td = $this->cellPrototype = \Nette\Utils\Html::el('td')
-                ->setClass(array('grid-cell-' . $this->getName()));
-        }
-
-        if ($this->cellCallback && $row !== NULL) {
-            $td = clone $td;
-            $td = callback($this->cellCallback)->invokeArgs(array($row, $td));
-        }
+        $td = parent::getCellPrototype($row);
 
         if ($this->isEditable()) {
             $td->data['grido-editableControl-handler'] = $this->link('editableControl!');
@@ -102,9 +92,10 @@ class Editable extends \Grido\Components\Columns\Column
 
     /**
      * Returns control for editation
+     * @param string $oldValue value to be inserted in control
      * @returns \Nette\Forms\IControl
      */
-    function getEditableControl()
+    function getEditableControl($oldValue)
     {
         $this->getGrid()->saveState($this->params);
 
@@ -112,7 +103,9 @@ class Editable extends \Grido\Components\Columns\Column
             if ($this->editableControl == NULL) {
                 $this->editableControl = new \Nette\Forms\Controls\TextInput($this->label);
             }
-            $this->getForm()->addComponent($this->editableControl, 'edit');
+            $this->editableControl->setValue($oldValue);
+            $uniqueId = preg_replace("/[^a-zA-Z]*/", "", $this->getColumn()) . rand(0, 2147483647) . rand(0, 2147483647);
+            $this->getForm()->addComponent($this->editableControl, 'edit'.$uniqueId);
             return $this->editableControl;
         }
     }
@@ -156,10 +149,11 @@ class Editable extends \Grido\Components\Columns\Column
      * Handler for returning the HTML prototype of editable control
      * @internal
      */
-    public function handleEditableControl()
+    public function handleEditableControl($oldValue)
     {
+        \Nette\Diagnostics\FireLogger::log($oldValue);
         if ($this->isEditable()) {
-            $controlPrototype = $this->getEditableControl()->getControl()->render();
+            $controlPrototype = $this->getEditableControl($oldValue)->getControl()->render();
             $html = new \Nette\Application\Responses\TextResponse($controlPrototype);
             $this->presenter->sendResponse($html);
         }

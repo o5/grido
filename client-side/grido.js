@@ -50,6 +50,7 @@
             this.initOperation();
             this.initCheckNumeric();
             this.initAjax();
+            this.initInlineEditing();
             this.onInit();
 
             return this;
@@ -139,6 +140,98 @@
         initAjax: function()
         {
             this.options.ajax && new Grido.Ajax(this).init();
+        },
+
+        initInlineEditing: function()
+        {
+
+            // MUSI BYT ZAPLY NASTAVENÍ: inlineEditable:true, ajax:true
+            if (this.options.inlineEditable === true && this.options.ajax === true) {
+
+                var dataGridName = this.name;
+
+                $('td[class^="grid-cell-"]', this.$element)
+                    .off('dblclick.grido')
+                    .on('dblclick.grido', function(event) {
+                        if (event.metaKey || event.ctrlKey) {
+                            console.log('test');
+                            var col = $(this);
+                            col.isInlineEditable = function() {
+                                var gridoOptions = $(this).closest('table').data("gridoOptions");
+                                if (gridoOptions.inlineEditable === true) {
+                                    return true;
+                                }
+                                return false;
+                            };
+                            if (col.isInlineEditable()) {
+                                var row = $(this).parent();
+                                var oldValue = col.html().trim();
+                                var rowClass = row.attr('class');
+
+                                var regex = /[grid\-row\-]([0-9]+)/;
+                                var matches = rowClass.match(regex);
+                                var primaryKey = matches[1];
+
+                                var editHandler = col.data('grido-editablecontrol-handler');
+
+                                var handlerCompName = editHandler.replace('/[\.d]*/g', '');
+                                var regex = /[\?][do=]+(.*)/;
+                                var matches = handlerCompName.match(regex);
+                                handlerCompName = matches[1];
+                                console.log(handlerCompName);
+                                var dataForControl = {};
+                                var regex = /(.*)\-edit/;
+                                var matches = handlerCompName.match(regex);
+                                handlerCompName = matches[1];
+
+                                var d1 = handlerCompName+'-oldValue';
+                                dataForControl[d1] = oldValue;
+
+                                var editControl;
+                                $.ajax({
+                                        type: "GET",
+                                        url: editHandler,
+                                        data: dataForControl,
+                                        async: false
+                                })
+                                .success(function(data) {
+                                    editControl = data;
+                                });
+                                    // DONE TO HERE
+                                console.log(dataGridName);
+                                $(this).html(editControl);
+                                var editControlID = '#' + $(this).find('input').attr('id');
+
+                                $(editControlID).focus();
+                                $(editControlID).focusout(function() {
+                                    var newValue = $(editControlID).val();
+                                    $(this).parent().html(newValue);
+                                    // HANDLE SAVE
+                                    var d1 = dataGridName+'-primaryKey';
+                                    var d2 = dataGridName+'-oldValue';
+                                    var d3 = dataGridName+'-newValue';
+                                    var data = {};
+                                    data[d1]=primaryKey;
+                                    data[d2]=oldValue;
+                                    data[d3]=newValue;
+
+                                    $.ajax({
+                                        type: "GET",
+                                        url: "?do="+dataGridName+"-inlineEditing",
+                                        data: data
+                                    });
+                                });
+                                /* Stop propagace a odeslani celeho formulare */
+                                $('#inlineEditable').bind('keypress', function(e) {
+                                    if (e.keyCode === 13) {
+                                        $('#inlineEditable').focusout();
+                                        e.preventDefault();
+                                    }
+                                });
+                            }
+                        }
+                    });
+            }
         },
 
         onInit: function() {},
