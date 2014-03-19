@@ -134,19 +134,21 @@ class Editable extends \Grido\Components\Columns\Column
      */
     public function handleEditable($primaryKey, $oldValue, $newValue, $columnName)
     {
-        \Nette\Diagnostics\FireLogger::log($primaryKey,$oldValue,$newValue);
         $this->getGrid()->saveState($this->params);
 
         if ($this->isEditable()) {
             if ($this->editableCallback != NULL) {
-                \Nette\Diagnostics\FireLogger::log('YES');
-                callback($this->editableCallback);
+                callback($this->editableCallback)->invokeArgs(array(array(
+                    'primaryKeyValue' => $primaryKey,
+                    'oldValue' => $oldValue,
+                    'newValue' => $newValue,
+                    'columnName' => $columnName
+                )));
             } else {
-                \Nette\Diagnostics\FireLogger::log('NO');
                 \Nette\Diagnostics\FireLogger::log($this->getGrid()->getModel()->update($primaryKey, $columnName, $oldValue, $newValue));
             }
         } else {
-            //NOT EDITABLE
+            $this->presenter->terminate();
         }
     }
 

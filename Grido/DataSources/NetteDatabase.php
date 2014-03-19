@@ -153,7 +153,7 @@ class NetteDatabase extends \Nette\Object implements IDataSource
                     $colName => $newValue
                 )
         );
-        $success = $this->selection->wherePrimary($primaryKeyValue)->where($colName, $newValue);
+        $success = $this->selection->wherePrimary($primaryKeyValue)->where($colName, $newValue)->count();
         if ($success > 0) {
             return true;
         }
