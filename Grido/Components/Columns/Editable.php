@@ -158,7 +158,6 @@ class Editable extends \Grido\Components\Columns\Column
      */
     public function handleEditableControl($oldValue)
     {
-        \Nette\Diagnostics\FireLogger::log($oldValue);
         if ($this->isEditable()) {
             $controlPrototype = $this->getEditableControl($oldValue)->getControl()->render();
             $html = new \Nette\Application\Responses\TextResponse($controlPrototype);
