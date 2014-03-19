@@ -74,20 +74,24 @@ class Editable extends \Grido\Components\Columns\Column
 
     /******************************* Getters ******************************************************/
 
+
     /**
-     * Returns cell prototype (<td> html tag).
-     * @param mixed $row
+     * Returns header cell prototype (<th> html tag).
      * @return \Nette\Utils\Html
      */
-    public function getCellPrototype($row = NULL)
+    public function getHeaderPrototype()
     {
-        $td = parent::getCellPrototype($row);
+        $th = parent::getHeaderPrototype();
+
+        $th->data['test'] = 'test';
 
         if ($this->isEditable()) {
-            $td->data['grido-editableControl-handler'] = $this->link('editableControl!');
-            $td->data['grido-editable-handler'] = $this->link('editable!');
+            $th->data['grido-editableControl-handler'] = $this->link('editableControl!');
+            $th->data['grido-editable-handler'] = $this->link('editable!');
         }
-        return $td;
+
+        $this->headerPrototype = $th;
+        return $this->headerPrototype;
     }
 
     /**
@@ -128,8 +132,9 @@ class Editable extends \Grido\Components\Columns\Column
      * Handle action after editation form was submitted by AJAX
      * @internal
      */
-    public function handleEditable()
+    public function handleEditable($primaryKey, $oldValue, $newValue, $columnName)
     {
+        \Nette\Diagnostics\FireLogger::log($primaryKey,$oldValue,$newValue);
         $this->getGrid()->saveState($this->params);
 
         if ($this->isEditable()) {
@@ -138,7 +143,7 @@ class Editable extends \Grido\Components\Columns\Column
                 callback($this->editableCallback);
             } else {
                 \Nette\Diagnostics\FireLogger::log('NO');
-                //MAKE DATASOURCE OPERATIONS
+                \Nette\Diagnostics\FireLogger::log($this->getGrid()->getModel()->update($primaryKey, $columnName, $oldValue, $newValue));
             }
         } else {
             //NOT EDITABLE

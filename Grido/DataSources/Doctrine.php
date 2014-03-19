@@ -262,4 +262,28 @@ class Doctrine extends \Nette\Object implements IDataSource
 
         return array_values($items);
     }
+
+    /**
+     * Update values in datasource.
+     *
+     * @param type $primaryKeyValue
+     * @param string $colName
+     * @param type $oldValue
+     * @param type $newValue
+     */
+    public function update($primaryKeyValue, $colName, $oldValue, $newValue)
+    {
+        // Missing implementation
+        // NetteDatabaseLike implementation below
+//        $this->selection->wherePrimary($primaryKeyValue)->where($colName, $oldValue)->update(
+//                array(
+//                    $colName => $newValue
+//                )
+//        );
+//        $success = $this->selection->wherePrimary($primaryKeyValue)->where($colName, $newValue);
+//        if ($success > 0) {
+//            return true;
+//        }
+//        return false;
+    }
 }

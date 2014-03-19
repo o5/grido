@@ -147,19 +147,30 @@
 
             // MUSI BYT ZAPLY NASTAVENÍ: inlineEditable:true, ajax:true
             if (this.options.inlineEditable === true && this.options.ajax === true) {
-
-                var dataGridName = this.name;
-
-                $('td[class^="grid-cell-"]', this.$element)
+                $('td[class*="grid-cell-"]', this.$element)
                     .off('dblclick.grido')
                     .on('dblclick.grido', function(event) {
                         if (event.metaKey || event.ctrlKey) {
-                            console.log('test');
                             var col = $(this);
+
+                            var headerClass;
+                            var classList = col.attr('class').replace('cell','header').split(/\s+/);
+                            for (var i = 0; i < classList.length; i++) {
+                                if (classList[i].indexOf('-header-') !== -1) {
+                                  headerClass = classList[i];
+                                }
+                            }
+                            var colNameList = headerClass.split(/\-/);
+                            var colName = colNameList[colNameList.length - 1];
+
+                            var header = $('th[class~="'+headerClass+'"]');
+
                             col.isInlineEditable = function() {
                                 var gridoOptions = $(this).closest('table').data("gridoOptions");
                                 if (gridoOptions.inlineEditable === true) {
-                                    return true;
+                                    if (header.data('grido-editable-handler')) {
+                                        return true;
+                                    }
                                 }
                                 return false;
                             };
@@ -172,13 +183,13 @@
                                 var matches = rowClass.match(regex);
                                 var primaryKey = matches[1];
 
-                                var editHandler = col.data('grido-editablecontrol-handler');
+                                var editControlHandler = header.data('grido-editablecontrol-handler');
 
-                                var handlerCompName = editHandler.replace('/[\.d]*/g', '');
+                                var handlerCompName = editControlHandler.replace('/[\.d]*/g', '');
                                 var regex = /[\?][do=]+(.*)/;
                                 var matches = handlerCompName.match(regex);
                                 handlerCompName = matches[1];
-                                console.log(handlerCompName);
+
                                 var dataForControl = {};
                                 var regex = /(.*)\-edit/;
                                 var matches = handlerCompName.match(regex);
@@ -190,41 +201,54 @@
                                 var editControl;
                                 $.ajax({
                                         type: "GET",
-                                        url: editHandler,
+                                        url: editControlHandler,
                                         data: dataForControl,
                                         async: false
                                 })
                                 .success(function(data) {
                                     editControl = data;
                                 });
-                                    // DONE TO HERE
-                                console.log(dataGridName);
-                                $(this).html(editControl);
-                                var editControlID = '#' + $(this).find('input').attr('id');
 
-                                $(editControlID).focus();
-                                $(editControlID).focusout(function() {
-                                    var newValue = $(editControlID).val();
+                                $(this).html(editControl);
+
+                                var editControlObject = $(this).find('input');
+
+                                editControlObject.save = function() {
+                                    var newValue = editControlObject.val();
                                     $(this).parent().html(newValue);
+
                                     // HANDLE SAVE
-                                    var d1 = dataGridName+'-primaryKey';
-                                    var d2 = dataGridName+'-oldValue';
-                                    var d3 = dataGridName+'-newValue';
+                                    var d1 = handlerCompName+'-primaryKey';
+                                    var d2 = handlerCompName+'-oldValue';
+                                    var d3 = handlerCompName+'-newValue';
+                                    var d4 = handlerCompName+'-columnName';
                                     var data = {};
                                     data[d1]=primaryKey;
                                     data[d2]=oldValue;
                                     data[d3]=newValue;
+                                    data[d4]=colName;
+                                    console.log(colName);
+                                    var editHandler = header.data('grido-editable-handler');
 
                                     $.ajax({
                                         type: "GET",
-                                        url: "?do="+dataGridName+"-inlineEditing",
+                                        url: editHandler,
                                         data: data
                                     });
-                                });
-                                /* Stop propagace a odeslani celeho formulare */
-                                $('#inlineEditable').bind('keypress', function(e) {
+                                };
+                                editControlObject.storno = function() {
+                                    $(this).parent().html(oldValue);
+                                };
+                                if (editControlObject[0].type === 'text') {
+                                    editControlObject.focus();
+                                }
+                                editControlObject.bind('keypress', function(e) {
                                     if (e.keyCode === 13) {
-                                        $('#inlineEditable').focusout();
+                                        editControlObject.save();
+                                        e.preventDefault();
+                                    }
+                                    if (e.keyCode === 27) {
+                                        editControlObject.storno();
                                         e.preventDefault();
                                     }
                                 });
