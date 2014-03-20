@@ -19,12 +19,12 @@ require_once __DIR__ . '/../Helper.inc.php';
 
 class GridTest extends \Tester\TestCase
 {
-    function testOnRegistredEvent()
+    function testOnRegisteredEvent()
     {
         $called = FALSE;
 
         Helper::grid(function(Grid $grid) use (&$called) {
-            $grid->onRegistred[] = function(Grid $grid) use(&$called) {
+            $grid->onRegistered[] = function(Grid $grid) use(&$called) {
                 $called = TRUE;
                 Assert::true($grid->hasColumns());
             };

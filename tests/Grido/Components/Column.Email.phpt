@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Test: Mail column.
+ * Test: Email column.
  *
  * @author     Petr Bugyík
  * @package    Grido\Tests
@@ -16,7 +16,7 @@ test(function() {
     $grid = new Grid;
     $testRow = array('column' => 'spam@bugyik.cz');
 
-    $column = $grid->addColumnMail('column', 'Column');
+    $column = $grid->addColumnEMail('column', 'Column');
     Assert::same('<a href="mailto:spam&#64;bugyik.cz">spam@bugyik.cz</a>', (string) $column->render($testRow));
 
     $column->setReplacement(array('spam@bugyik.cz' => 'noreply@bugyik.cz'));

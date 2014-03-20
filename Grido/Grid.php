@@ -55,8 +55,8 @@ class Grid extends Components\Container
     /** @var array @persistent */
     public $filter = array();
 
-    /** @var array event on all grid's components registred */
-    public $onRegistred;
+    /** @var array event on all grid's components registered */
+    public $onRegistered;
 
     /** @var array event on render */
     public $onRender;
@@ -607,8 +607,8 @@ class Grid extends Components\Container
      */
     public function saveState(array &$params, $reflection = NULL)
     {
-        if ($this->onRegistred) {
-            $this->onRegistred($this);
+        if ($this->onRegistered) {
+            $this->onRegistered($this);
         }
 
         return parent::saveState($params, $reflection);
