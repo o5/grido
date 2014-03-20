@@ -148,12 +148,12 @@ class NetteDatabase extends \Nette\Object implements IDataSource
      */
     public function update($primaryKeyValue, $colName, $oldValue, $newValue)
     {
-        $this->selection->wherePrimary($primaryKeyValue)->where($colName, $oldValue)->update(
+        $this->getSelection()->wherePrimary($primaryKeyValue)->where($colName, $oldValue)->update(
                 array(
                     $colName => $newValue
                 )
         );
-        $success = $this->selection->wherePrimary($primaryKeyValue)->where($colName, $newValue)->count();
+        $success = $this->getSelection()->wherePrimary($primaryKeyValue)->where($colName, $newValue)->count();
         if ($success > 0) {
             return true;
         }

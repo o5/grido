@@ -211,7 +211,7 @@
 
                                 $(this).html(editControl);
 
-                                var editControlObject = $(this).find('input');
+                                var editControlObject = $(this).children();
 
                                 editControlObject.save = function() {
                                     var newValue = editControlObject.val();
