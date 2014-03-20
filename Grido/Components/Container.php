@@ -371,7 +371,7 @@ abstract class Container extends \Nette\Application\UI\Control
      */
     public function setEditableColumns($callback = NULL)
     {
-        $this->onRegistred[] = function() use ($callback) {
+        $this->onRegistered[] = function() use ($callback) {
             $container = $this->getComponent(Column::ID, FALSE);
 
             foreach ($container->components as $column) {
