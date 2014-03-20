@@ -234,6 +234,9 @@
                                         data: data
                                     })
                                     .success(function(data) {
+                                        if (oldValue === newValue) {
+                                            data.updated = 'true';
+                                        }
                                         if (data.updated === 'true') {
                                             var transp = 0;
                                             var multiplicator = 1;
