@@ -191,13 +191,23 @@ abstract class Container extends \Nette\Application\UI\Control
     }
 
     /**
+     * @deprecated
+     */
+    public function addColumnMail($name, $label)
+    {
+        trigger_error(__METHOD__ . '() is deprecated; use addColumnEmail() instead.', E_USER_DEPRECATED);
+
+        return $this->addColumnEmail($name, $label);
+    }
+
+    /**
      * @param string $name
      * @param string $label
      * @return Columns\Mail
      */
-    public function addColumnMail($name, $label)
+    public function addColumnEmail($name, $label)
     {
-        return new Columns\Mail($this, $name, $label);
+        return new Columns\Email($this, $name, $label);
     }
 
     /**

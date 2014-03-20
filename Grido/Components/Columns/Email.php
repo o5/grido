@@ -12,13 +12,13 @@
 namespace Grido\Components\Columns;
 
 /**
- * Mail column.
+ * Email column.
  *
  * @package     Grido
  * @subpackage  Components\Columns
  * @author      Petr Bugyík
  */
-class Mail extends Text
+class Email extends Text
 {
     /**
      * @param $value
