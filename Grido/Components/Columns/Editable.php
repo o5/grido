@@ -145,7 +145,13 @@ class Editable extends \Grido\Components\Columns\Column
                     'columnName' => $columnName
                 )));
             } else {
-                \Nette\Diagnostics\FireLogger::log($this->getGrid()->getModel()->update($primaryKey, $columnName, $oldValue, $newValue));
+                $success = $this->getGrid()->getModel()->update($primaryKey, $columnName, $oldValue, $newValue);
+                if ($success) {
+                    $jsonResponse = new \Nette\Application\Responses\JsonResponse(array('updated'=>'true'));
+                } else {
+                    $jsonResponse = new \Nette\Application\Responses\JsonResponse(array('updated'=>'false'));
+                }
+                $this->presenter->sendResponse($jsonResponse);
             }
         } else {
             $this->presenter->terminate();

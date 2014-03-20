@@ -144,8 +144,6 @@
 
         initInlineEditing: function()
         {
-
-            // MUSI BYT ZAPLY NASTAVENÍ: inlineEditable:true, ajax:true
             if (this.options.inlineEditable === true && this.options.ajax === true) {
                 $('td[class*="grid-cell-"]', this.$element)
                     .off('dblclick.grido')
@@ -227,13 +225,42 @@
                                     data[d2]=oldValue;
                                     data[d3]=newValue;
                                     data[d4]=colName;
-                                    console.log(colName);
+
                                     var editHandler = header.data('grido-editable-handler');
 
                                     $.ajax({
                                         type: "GET",
                                         url: editHandler,
                                         data: data
+                                    })
+                                    .success(function(data) {
+                                        if (data.updated === 'true') {
+                                            var transp = 0;
+                                            var multiplicator = 1;
+                                            var timer = setInterval(function() {
+                                                transp += (multiplicator * 0.01);
+                                                col.css('background', 'rgba(196,234,195,'+transp+')');
+                                                if (transp >=1) {
+                                                    multiplicator = -1;
+                                                }
+                                                if (transp <= 0) {
+                                                    clearInterval(timer);
+                                                }
+                                            }, 1 );
+                                        } else {
+                                            var transp = 0;
+                                            var multiplicator = 1;
+                                            var timer = setInterval(function() {
+                                                transp += (multiplicator * 0.01);
+                                                col.css('background', 'rgba(240,54,69,'+transp+')');
+                                                if (transp >=1) {
+                                                    multiplicator = -1;
+                                                }
+                                                if (transp <= 0) {
+                                                    clearInterval(timer);
+                                                }
+                                            }, 1 );
+                                        }
                                     });
                                 };
                                 editControlObject.storno = function() {
