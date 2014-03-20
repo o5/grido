@@ -212,9 +212,12 @@
                                 var editControlObject = $(this).children();
 
                                 editControlObject.save = function() {
+
                                     var newValue = editControlObject.val();
                                     $(this).parent().html(newValue);
-
+                                    if (oldValue === newValue) {
+                                        return;
+                                    }
                                     // HANDLE SAVE
                                     var d1 = handlerCompName+'-primaryKey';
                                     var d2 = handlerCompName+'-oldValue';
@@ -234,9 +237,6 @@
                                         data: data
                                     })
                                     .success(function(data) {
-                                        if (oldValue === newValue) {
-                                            data.updated = 'true';
-                                        }
                                         if (data.updated === 'true') {
                                             var transp = 0;
                                             var multiplicator = 1;
