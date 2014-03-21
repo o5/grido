@@ -43,13 +43,14 @@
          */
         init: function()
         {
+            this.ajax = new Grido.Ajax(this).init();
+            this.operation = new Grido.Operation(this).init();
+
             this.initFilters();
             this.initItemsPerPage();
             this.initActions();
             this.initPagePrompt();
-            this.initOperation();
             this.initCheckNumeric();
-            this.initAjax();
             this.initInlineEditing();
             this.onInit();
 
@@ -83,14 +84,19 @@
          */
         initActions: function()
         {
+            var _this = this;
             $('.actions a', this.$table)
+                .off('click.nette')
                 .off('click.grido')
                 .on('click.grido', function(event) {
                     var hasConfirm = $(this).data('grido-confirm');
                     if (hasConfirm && !confirm(hasConfirm)) {
                         event.preventDefault();
                         event.stopImmediatePropagation();
-                        return false;
+                    } else if (hasConfirm && $(this).hasClass('ajax') && _this.ajax) {
+                        _this.ajax.doRequest(this.href);
+                        event.preventDefault();
+                        event.stopImmediatePropagation();
                     }
                 });
         },
@@ -113,16 +119,6 @@
         },
 
         /**
-         * Init operation when exist.
-         */
-        initOperation: function()
-        {
-            if ($('th.checker', this.$table).length) {
-                this.operation = new Grido.Operation(this).init();
-            }
-        },
-
-        /**
          * Checking numeric input.
          */
         initCheckNumeric: function()
@@ -135,11 +131,6 @@
 
                     pattern.test(value) && $(this).val(value.replace(pattern, ''));
                 });
-        },
-
-        initAjax: function()
-        {
-            this.options.ajax && new Grido.Ajax(this).init();
         },
 
         initInlineEditing: function()
@@ -316,6 +307,10 @@
 
         init: function()
         {
+            if (!$('th.checker', this.grido.$table).length) {
+                return null;
+            }
+
             this.initSelectState();
             this.bindClickOnCheckbox();
             this.bindClickOnRow();
@@ -507,6 +502,10 @@
     {
         init: function()
         {
+            if (!this.grido.options.ajax) {
+                return null;
+            }
+
             this.registerSuccessEvent();
             this.registerHashChangeEvent();
 
