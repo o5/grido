@@ -82,14 +82,24 @@
          */
         initActions: function()
         {
+            $('a[class*="grid-action-"][data-grido-confirm]').off('click.nette');
+            
             $('.actions a', this.$table)
                 .off('click.grido')
                 .on('click.grido', function(event) {
                     var hasConfirm = $(this).data('grido-confirm');
+
                     if (hasConfirm && !confirm(hasConfirm)) {
                         event.preventDefault();
                         event.stopImmediatePropagation();
                         return false;
+                    } else if (hasConfirm && $(this).hasClass('ajax')) {
+                        $.nette.ajax({
+                            url: this.href
+                        });
+                        event.preventDefault();
+                        event.stopImmediatePropagation();
+                        return;
                     }
                 });
         },
