@@ -188,7 +188,7 @@ abstract class Column extends \Grido\Components\Component
      */
     public function getHeaderPrototype()
     {
-        if (!$this->headerPrototype) {
+        if ($this->headerPrototype === NULL) {
             $this->headerPrototype = \Nette\Utils\Html::el('th')
                 ->setClass(array('column', 'grid-header-' . $this->getName()));
         }

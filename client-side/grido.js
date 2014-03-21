@@ -144,7 +144,7 @@
 
         initInlineEditing: function()
         {
-            if (this.options.inlineEditable === true && this.options.ajax === true) {
+            if (this.options.editable === true && this.options.ajax === true) {
                 $('td[class*="grid-cell-"]', this.$element)
                     .off('dblclick.grido')
                     .on('dblclick.grido', function(event) {
@@ -165,7 +165,7 @@
 
                             col.isInlineEditable = function() {
                                 var gridoOptions = $(this).closest('table').data("gridoOptions");
-                                if (gridoOptions.inlineEditable === true) {
+                                if (gridoOptions.editable === true) {
                                     if (header.data('grido-editable-handler')) {
                                         return true;
                                     }
