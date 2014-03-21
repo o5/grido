@@ -15,19 +15,23 @@ namespace Grido\Components\Columns;
  * Eitable Column grid.
  *
  * @package     Grido
- * @subpackage  Components\Columns\Editable
+ * @subpackage  Components\Columns
  * @author      Jakub Kopřiva <kopriva.jakub@gmail.com>
  * @author      Petr Bugyík
  *
- * @property-write bool $editable
  * @property-write \Nette\Forms\IControl $editableControl
  */
-abstract class Editable extends \Grido\Components\Columns\Column
+abstract class Editable extends Column
 {
+    const CLIENT_SIDE_OPTIONS = 'editable';
+
     /** @var bool */
     protected $editable = FALSE;
 
-    /** @var callback function for custom handling with edited data */
+    /** @var bool */
+    protected $editableDisabled = FALSE;
+
+    /** @var callback function for custom handling with edited data; function($id, $value, $columnName) {} */
     protected $editableCallback;
 
     /** @var \Nette\Forms\IControl Custom control for inline editing */
@@ -35,14 +39,15 @@ abstract class Editable extends \Grido\Components\Columns\Column
 
     /**
      * Sets column as editable.
-     * @param callback $callback function($id, $values, $idCol) {}
+     * @param callback $callback function($id, $value, $columnName) {}
      * @return Editable
      */
     public function setEditable($callback = NULL)
     {
         $this->editable = TRUE;
-        $this->editableCallback = $callback;
-        $this->grid->setClientSideOptions(array('editable' => true));
+
+        $this->setEditableCallback($callback);
+        $this->setGridOptions();
 
         return $this;
     }
@@ -52,12 +57,52 @@ abstract class Editable extends \Grido\Components\Columns\Column
      * @param \Nette\Forms\IControl $control
      * @return Editable
      */
-    public function setEditableControl($control)
+    public function setEditableControl(\Nette\Forms\IControl $control)
     {
-        $this->editable ?: $this->setEditable();
+        $this->isEditable() ?: $this->setEditable();
         $this->editableControl = $control;
 
         return $this;
+    }
+
+    /**
+     * Sets editable callback.
+     * @param callback $callback
+     * @return Editable
+     */
+    public function setEditableCallback($callback)
+    {
+        $this->isEditable() ?: $this->setEditable();
+        $this->editableCallback = $callback;
+
+        return $this;
+    }
+
+    /**
+     * @return Editable
+     */
+    public function disableEditable()
+    {
+        $this->editableDisabled = TRUE;
+        return $this;
+    }
+
+    protected function setGridOptions()
+    {
+        $options = $this->grid->getClientSideOptions();
+        if (!isset($options[self::CLIENT_SIDE_OPTIONS])) { //only once
+            $this->grid->setClientSideOptions(array(self::CLIENT_SIDE_OPTIONS => TRUE));
+            $this->grid->onRender[] = function(\Grido\Grid $grid)
+            {
+                foreach ($grid->getComponent(Column::ID)->getComponents() as $column) {
+                    $columnName = $column->getColumn();
+                    $callbackNotSet = $column instanceof Editable && $column->isEditable() && $column->getEditableCallback() === NULL;
+                    if ($callbackNotSet && (!is_string($columnName) || strpos($columnName, '.'))) {
+                        throw new \InvalidArgumentException("Editable column '{$column->name}' has error: You must define an own editable callback.");
+                    }
+                }
+            };
+        }
     }
 
     /**********************************************************************************************/
@@ -70,7 +115,7 @@ abstract class Editable extends \Grido\Components\Columns\Column
     {
         $th = parent::getHeaderPrototype();
 
-        if ($this->editable) {
+        if ($this->isEditable()) {
             $th->data['grido-editable-handler'] = $this->link('editable!');
             $th->data['grido-editableControl-handler'] = $this->link('editableControl!');
         }
@@ -86,7 +131,10 @@ abstract class Editable extends \Grido\Components\Columns\Column
     public function getEditableControl($value)
     {
         if ($this->editableControl === NULL) {
-            $this->editableControl = new \Nette\Forms\Controls\TextInput;
+            $control = new \Nette\Forms\Controls\TextInput;
+            $control->controlPrototype->class[] = 'form-control';
+
+            $this->editableControl = $control;
         }
 
         $this->editableControl->setValue($value);
@@ -95,23 +143,49 @@ abstract class Editable extends \Grido\Components\Columns\Column
         return $this->editableControl;
     }
 
-    /******************************* Handlers for inline edit *************************************/
+    /**
+     * @return callback
+     * @internal
+     */
+    public function getEditableCallback()
+    {
+        return $this->editableCallback;
+    }
+
+    /**
+     * @return bool
+     * @internal
+     */
+    public function isEditable()
+    {
+        return $this->editable;
+    }
+
+    /**
+     * @return bool
+     * @internal
+     */
+    public function isEditableDisabled()
+    {
+        return $this->editableDisabled;
+    }
+
+    /**********************************************************************************************/
 
     /**
      * @internal
      */
-    public function handleEditable($primaryKey, $oldValue, $newValue, $columnName)
+    public function handleEditable($id, $value)
     {
         $this->grid->onRegistered($this->grid);
 
-        if (!$this->getPresenter()->isAjax() || !$this->editable) {
+        if (!$this->getPresenter()->isAjax() || !$this->isEditable()) {
             $this->getPresenter()->terminate();
         }
 
-        $values = array($columnName => $newValue);
         $success = $this->editableCallback
-            ? callback($this->editableCallback)->invokeArgs(array($primaryKey, $values, $this->grid->primaryKey))
-            : $this->grid->model->update($primaryKey, $values, $this->grid->primaryKey);
+            ? callback($this->editableCallback)->invokeArgs(array($id, $value, $this->getName()))
+            : $this->grid->model->update($id, array($this->getColumn() => $value), $this->grid->primaryKey);
 
         $response = new \Nette\Application\Responses\JsonResponse(array('updated' => $success));
         $this->presenter->sendResponse($response);
@@ -124,7 +198,7 @@ abstract class Editable extends \Grido\Components\Columns\Column
     {
         $this->grid->onRegistered($this->grid);
 
-        if (!$this->getPresenter()->isAjax() || !$this->editable) {
+        if (!$this->getPresenter()->isAjax() || !$this->isEditable()) {
             $this->getPresenter()->terminate();
         }
 

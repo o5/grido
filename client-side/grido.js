@@ -219,9 +219,9 @@
                                         return;
                                     }
                                     // HANDLE SAVE
-                                    var d1 = handlerCompName+'-primaryKey';
+                                    var d1 = handlerCompName+'-id';
                                     var d2 = handlerCompName+'-oldValue';
-                                    var d3 = handlerCompName+'-newValue';
+                                    var d3 = handlerCompName+'-value';
                                     var d4 = handlerCompName+'-columnName';
                                     var data = {};
                                     data[d1]=primaryKey;
