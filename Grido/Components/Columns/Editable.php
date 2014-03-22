@@ -44,12 +44,12 @@ abstract class Editable extends Column
      * @param \Nette\Forms\IControl $control
      * @return Editable
      */
-    public function setEditable($callback = NULL, $control = NULL)
+    public function setEditable($callback = NULL, \Nette\Forms\IControl $control = NULL)
     {
         $this->editable = TRUE;
 
         $this->setEditableCallback($callback);
-        $this->setEditableControl($control);
+        $control === NULL ?: $this->setEditableControl($control);
         $this->setGridOptions();
 
         return $this;
