@@ -171,8 +171,6 @@ abstract class Editable extends Column
             $this->editableControl->controlPrototype->class[] = 'form-control';
         }
 
-        $this->getForm()->addComponent($this->editableControl, 'edit' . $this->getName());
-
         return $this->editableControl;
     }
 
@@ -235,11 +233,10 @@ abstract class Editable extends Column
             $this->presenter->terminate();
         }
 
-        $control = $this->getEditableControl()
-            ->setValue($value)
-            ->getControl()->render();
+        $control = $this->getEditableControl()->setValue($value);
+        $this->getForm()->addComponent($control, 'edit' . $this->getName());
 
-        $response = new \Nette\Application\Responses\TextResponse($control);
+        $response = new \Nette\Application\Responses\TextResponse($control->getControl()->render());
         $this->presenter->sendResponse($response);
     }
 }
