@@ -24,8 +24,6 @@ namespace Grido\Components\Columns;
  */
 abstract class Editable extends Column
 {
-    const CLIENT_SIDE_OPTIONS = 'editable';
-
     /** @var bool */
     protected $editable = FALSE;
 
@@ -111,8 +109,8 @@ abstract class Editable extends Column
     protected function setGridOptions()
     {
         $options = $this->grid->getClientSideOptions();
-        if (!isset($options[self::CLIENT_SIDE_OPTIONS])) { //only once
-            $this->grid->setClientSideOptions(array(self::CLIENT_SIDE_OPTIONS => TRUE));
+        if (!isset($options['editable'])) { //only once
+            $this->grid->setClientSideOptions(array('editable' => TRUE));
             $this->grid->onRender[] = function(\Grido\Grid $grid)
             {
                 foreach ($grid->getComponent(Column::ID)->getComponents() as $column) {
@@ -164,17 +162,15 @@ abstract class Editable extends Column
 
     /**
      * Returns control for editation.
-     * @param string $value old value to be inserted in control
      * @returns \Nette\Forms\Controls\TextInput
      */
-    public function getEditableControl($value)
+    public function getEditableControl()
     {
         if ($this->editableControl === NULL) {
             $this->editableControl = new \Nette\Forms\Controls\TextInput;
             $this->editableControl->controlPrototype->class[] = 'form-control';
         }
 
-        $this->editableControl->setValue($value);
         $this->getForm()->addComponent($this->editableControl, 'edit' . $this->getName());
 
         return $this->editableControl;
@@ -231,7 +227,7 @@ abstract class Editable extends Column
     /**
      * @internal
      */
-    public function handleEditableControl($oldValue)
+    public function handleEditableControl($value)
     {
         $this->grid->onRegistered($this->grid);
 
@@ -239,7 +235,10 @@ abstract class Editable extends Column
             $this->presenter->terminate();
         }
 
-        $control = $this->getEditableControl($oldValue)->getControl()->render();
+        $control = $this->getEditableControl()
+            ->setValue($value)
+            ->getControl()->render();
+
         $response = new \Nette\Application\Responses\TextResponse($control);
         $this->presenter->sendResponse($response);
     }

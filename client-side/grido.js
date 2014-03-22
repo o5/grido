@@ -184,7 +184,7 @@
                                 var matches = handlerCompName.match(regex);
                                 handlerCompName = matches[1];
 
-                                var d1 = handlerCompName+'-oldValue';
+                                var d1 = handlerCompName+'-value';
                                 dataForControl[d1] = oldValue;
 
                                 var editControl;
