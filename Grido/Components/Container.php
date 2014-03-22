@@ -377,9 +377,8 @@ abstract class Container extends \Nette\Application\UI\Control
                 return;
             }
 
-            $container = $grid->getComponent(Column::ID);
-            foreach ($container->getComponents() as $column) {
-                if ($column instanceof Columns\Editable && !$column->isEditableDisabled()) {
+            foreach ($grid->getComponent(Column::ID)->getComponents() as $column) {
+                if ($column instanceof Columns\Editable && !$column->isEditable() && !$column->isEditableDisabled()) {
                     $column->setEditable($callback);
                 }
             }

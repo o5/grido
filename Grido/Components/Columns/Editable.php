@@ -12,14 +12,15 @@
 namespace Grido\Components\Columns;
 
 /**
- * Eitable Column grid.
+ * An inline editable column.
  *
  * @package     Grido
  * @subpackage  Components\Columns
  * @author      Jakub Kopřiva <kopriva.jakub@gmail.com>
  * @author      Petr Bugyík
  *
- * @property-write \Nette\Forms\IControl $editableControl
+ * @property \Nette\Forms\IControl $editableControl
+ * @property callback $editableCallback
  */
 abstract class Editable extends Column
 {
@@ -40,13 +41,15 @@ abstract class Editable extends Column
     /**
      * Sets column as editable.
      * @param callback $callback function($id, $value, $columnName) {}
+     * @param \Nette\Forms\IControl $control
      * @return Editable
      */
-    public function setEditable($callback = NULL)
+    public function setEditable($callback = NULL, $control = NULL)
     {
         $this->editable = TRUE;
 
         $this->setEditableCallback($callback);
+        $this->setEditableControl($control);
         $this->setGridOptions();
 
         return $this;
@@ -83,7 +86,9 @@ abstract class Editable extends Column
      */
     public function disableEditable()
     {
+        $this->editable = FALSE;
         $this->editableDisabled = TRUE;
+
         return $this;
     }
 
@@ -131,10 +136,8 @@ abstract class Editable extends Column
     public function getEditableControl($value)
     {
         if ($this->editableControl === NULL) {
-            $control = new \Nette\Forms\Controls\TextInput;
-            $control->controlPrototype->class[] = 'form-control';
-
-            $this->editableControl = $control;
+            $this->editableControl = new \Nette\Forms\Controls\TextInput;
+            $this->editableControl->controlPrototype->class[] = 'form-control';
         }
 
         $this->editableControl->setValue($value);
@@ -179,8 +182,8 @@ abstract class Editable extends Column
     {
         $this->grid->onRegistered($this->grid);
 
-        if (!$this->getPresenter()->isAjax() || !$this->isEditable()) {
-            $this->getPresenter()->terminate();
+        if (!$this->presenter->isAjax() || !$this->isEditable()) {
+            $this->presenter->terminate();
         }
 
         $success = $this->editableCallback
@@ -198,8 +201,8 @@ abstract class Editable extends Column
     {
         $this->grid->onRegistered($this->grid);
 
-        if (!$this->getPresenter()->isAjax() || !$this->isEditable()) {
-            $this->getPresenter()->terminate();
+        if (!$this->presenter->isAjax() || !$this->isEditable()) {
+            $this->presenter->terminate();
         }
 
         $control = $this->getEditableControl($oldValue)->getControl()->render();
