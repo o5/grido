@@ -165,7 +165,7 @@
                             };
                             if (col.isInlineEditable()) {
                                 var row = $(this).parent();
-                                var oldValue = col.html().trim();
+                                var oldValue = col.data('grido-editable-value');
                                 var rowClass = row.attr('class');
 
                                 var regex = /[grid\-row\-]([0-9]+)/;

@@ -32,11 +32,14 @@ abstract class Editable extends Column
     /** @var bool */
     protected $editableDisabled = FALSE;
 
+    /** @var \Nette\Forms\IControl Custom control for inline editing */
+    protected $editableControl;
+
     /** @var callback function for custom handling with edited data; function($id, $value, $columnName) {} */
     protected $editableCallback;
 
-    /** @var \Nette\Forms\IControl Custom control for inline editing */
-    protected $editableControl;
+    /** @var callback function for custom value; function($row) {} */
+    protected $editableValueCallback;
 
     /**
      * Sets column as editable.
@@ -47,10 +50,10 @@ abstract class Editable extends Column
     public function setEditable($callback = NULL, \Nette\Forms\IControl $control = NULL)
     {
         $this->editable = TRUE;
+        $this->setGridOptions();
 
         $this->setEditableCallback($callback);
         $control === NULL ?: $this->setEditableControl($control);
-        $this->setGridOptions();
 
         return $this;
     }
@@ -77,6 +80,19 @@ abstract class Editable extends Column
     {
         $this->isEditable() ?: $this->setEditable();
         $this->editableCallback = $callback;
+
+        return $this;
+    }
+
+    /**
+     * Sets editable value callback.
+     * @param callback $callback
+     * @return Editable
+     */
+    public function setEditableValueCallback($callback)
+    {
+        $this->isEditable() ?: $this->setEditable();
+        $this->editableValueCallback = $callback;
 
         return $this;
     }
@@ -126,6 +142,24 @@ abstract class Editable extends Column
         }
 
         return $th;
+    }
+
+    /**
+     * Returns cell prototype (<td> html tag).
+     * @param mixed $row
+     * @return \Nette\Utils\Html
+     */
+    public function getCellPrototype($row = NULL)
+    {
+        $td = parent::getCellPrototype($row);
+
+        if ($this->isEditable() && $row !== NULL) {
+            $td->data['grido-editable-value'] = $this->editableValueCallback === NULL
+                ? parent::getValue($row)
+                : callback($this->editableValueCallback)->invokeArgs(array($row));
+        }
+
+        return $td;
     }
 
     /**
