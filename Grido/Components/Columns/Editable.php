@@ -48,7 +48,7 @@ abstract class Editable extends Column
     public function setEditable($callback = NULL, \Nette\Forms\IControl $control = NULL)
     {
         $this->editable = TRUE;
-        $this->setGridOptions();
+        $this->setClientSideOptions();
 
         $callback === NULL ?: $this->setEditableCallback($callback);
         $control === NULL ?: $this->setEditableControl($control);
@@ -106,7 +106,7 @@ abstract class Editable extends Column
         return $this;
     }
 
-    protected function setGridOptions()
+    protected function setClientSideOptions()
     {
         $options = $this->grid->getClientSideOptions();
         if (!isset($options['editable'])) { //only once
