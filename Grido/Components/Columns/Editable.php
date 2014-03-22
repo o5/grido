@@ -33,7 +33,7 @@ abstract class Editable extends Column
     /** @var \Nette\Forms\IControl Custom control for inline editing */
     protected $editableControl;
 
-    /** @var callback function for custom handling with edited data; function($id, $value, $columnName) {} */
+    /** @var callback function for custom handling with edited data; function($id, $value, Grido\Components\Columns\Editable $column) {} */
     protected $editableCallback;
 
     /** @var callback function for custom value; function($row) {} */
@@ -41,7 +41,7 @@ abstract class Editable extends Column
 
     /**
      * Sets column as editable.
-     * @param callback $callback function($id, $value, $columnName) {}
+     * @param callback $callback function($id, $value, Grido\Components\Columns\Editable $column) {} {}
      * @param \Nette\Forms\IControl $control
      * @return Editable
      */
@@ -71,7 +71,7 @@ abstract class Editable extends Column
 
     /**
      * Sets editable callback.
-     * @param callback $callback
+     * @param callback $callback function($id, $value, Grido\Components\Columns\Editable $column) {}
      * @return Editable
      */
     public function setEditableCallback($callback)
@@ -217,7 +217,7 @@ abstract class Editable extends Column
         }
 
         $success = $this->editableCallback
-            ? callback($this->editableCallback)->invokeArgs(array($id, $value, $this->getName()))
+            ? callback($this->editableCallback)->invokeArgs(array($id, $value, $this))
             : $this->grid->model->update($id, array($this->getColumn() => $value), $this->grid->primaryKey);
 
         $response = new \Nette\Application\Responses\JsonResponse(array('updated' => $success));
