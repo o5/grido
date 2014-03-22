@@ -50,7 +50,7 @@ abstract class Editable extends Column
         $this->editable = TRUE;
         $this->setGridOptions();
 
-        $this->setEditableCallback($callback);
+        $callback === NULL ?: $this->setEditableCallback($callback);
         $control === NULL ?: $this->setEditableControl($control);
 
         return $this;
