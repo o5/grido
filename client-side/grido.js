@@ -488,6 +488,10 @@
         }
     };
 
+
+    /*  INLINE EDITOR DEFINITION  */
+    /* ========================== */
+
     Grido.InlineEditor = function($td)
     {
         this.td = $td;
@@ -497,6 +501,9 @@
 
     Grido.InlineEditor.prototype =
     {
+        /**
+         * Initial function
+         */
         init: function()
         {
             if (this.isInlineEditable(this.td)) {
@@ -512,6 +519,12 @@
                 this.initBindings(this.editControlObject);
             }
         },
+
+        /**
+         * InlineEditable chceck for column
+         * @param {jQuery} $td cell
+         * @return {bool} true if column is inline editable
+         */
         isInlineEditable: function($td)
         {
             var gridoOptions = $td.closest('table').data("gridoOptions");
@@ -522,6 +535,12 @@
             }
             return false;
         },
+
+        /**
+         * Returns column <th> object
+         * @param {jQuery} $td cell
+         * @return {jQuery} header cell of column
+         */
         getColumnHeader: function($td)
         {
             var headerClass;
@@ -533,6 +552,12 @@
             }
             return $('th[class~="'+headerClass+'"]');
         },
+
+        /**
+         * Returns value of primary key
+         * @param {jQuery} $tr row
+         * @return {String} Primary key value
+         */
         getPrimaryKeyValue: function($tr)
         {
             var rowClass = $tr.attr('class');
@@ -540,6 +565,12 @@
             var matches = rowClass.match(regex);
             return matches[1];
         },
+
+        /**
+         * Returns name of component for AJAX params calls
+         * @param {jQuery} $th header cell
+         * @return {String} component name for AJAX params calls
+         */
         getComponentHandlerName: function($th)
         {
             var editControlHandler = $th.data('grido-editablecontrol-handler');
@@ -552,10 +583,23 @@
             var matches = handlerCompName.match(regex);
             return matches[1];
         },
+
+        /**
+         * Returns url for AJAX call to Editable class
+         * @param {jQuery} $th header cell
+         * @return {String} Url from data atribute of header cell
+         */
         getEditControlHandlerUrl: function($th)
         {
             return $th.data('grido-editablecontrol-handler');
         },
+
+        /**
+         * Returns html of control.
+         * @param {String} $componentHandlerName component name for AJAX call
+         * @param {String} $controlHandlerUrl url for AJAX call
+         * @return {String} HTML of control
+         */
         getEditControl: function($componentHandlerName, $controlHandlerUrl)
         {
             var dataForControl = {};
@@ -575,20 +619,46 @@
 
             return editControl;
         },
+
+        /**
+         * Render html in cell.
+         * @param {jQuery} $td cell
+         * @param {String} $html HTML
+         */
         renderEditControl: function($td, $html)
         {
             $td.html($html);
         },
+
+        /**
+         * Returns Children of cell
+         * @param {jQuery} $td cell
+         * @return {jQuery} children of cell
+         */
         getEditControlObject: function($td)
         {
             return $td.children();
         },
+
+        /**
+         * Sets focus in text input if type="text"
+         * @param {jQuery} $editControlObject input
+         */
         setFocus: function($editControlObject)
         {
             if ($editControlObject[0].type === 'text') {
                 $editControlObject.focus();
             }
         },
+
+        /**
+         * AJAX call to Editable handler for saving data.
+         * @param {String} $oldValue value of cell before edit was done
+         * @param {String} $componentHandlerName name of component handler for AJAX params
+         * @param {String} $primaryKey value of primary key
+         * @param {jQuery} $th header cell of column
+         * @param {jQuery} $td edited cell
+         */
         saveData: function($oldValue, $componentHandlerName, $primaryKey, $th, $td)
         {
             var newValue = this.editControlObject.val();
@@ -623,10 +693,21 @@
             },{that: this});
 
         },
+
+
+        /**
+         * Revert changes in cell
+         * @param {jQuery} $td edited cell
+         */
         revertChanges: function($td)
         {
             $td.html(this.oldValue);
         },
+
+        /**
+         * Provide feedback to user, cell was succesfully changed.
+         * @param {jQuery} $td edited cell
+         */
         flashSuccess: function($td)
         {
             var transp = 0;
@@ -642,6 +723,11 @@
                 }
             }, 1 );
         },
+
+        /**
+         * Provide feedback to user, cell was not changed.
+         * @param {jQuery} $td edited cell
+         */
         flashError: function($td)
         {
             var transp = 0;
@@ -657,6 +743,11 @@
                 }
             }, 1 );
         },
+
+        /**
+         * Init key bindings to control
+         * @param {jQuery} $editedControlObject control
+         */
         initBindings: function($editControlObject)
         {
             $editControlObject.bind('keydown', {that: this}, function(e) {
