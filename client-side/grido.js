@@ -150,7 +150,7 @@
                                 }
                             }
                             var colNameList = headerClass.split(/\-/);
-                            var colName = colNameList[colNameList.length - 1];
+//                            var colName = colNameList[colNameList.length - 1];
 
                             var header = $('th[class~="'+headerClass+'"]');
 
@@ -211,14 +211,14 @@
                                     }
                                     // HANDLE SAVE
                                     var d1 = handlerCompName+'-id';
-                                    var d2 = handlerCompName+'-oldValue';
+//                                    var d2 = handlerCompName+'-oldValue';
                                     var d3 = handlerCompName+'-value';
-                                    var d4 = handlerCompName+'-columnName';
+//                                    var d4 = handlerCompName+'-columnName';
                                     var data = {};
                                     data[d1]=primaryKey;
-                                    data[d2]=oldValue;
+//                                    data[d2]=oldValue;
                                     data[d3]=newValue;
-                                    data[d4]=colName;
+//                                    data[d4]=colName;
 
                                     var editHandler = header.data('grido-editable-handler');
 
@@ -228,7 +228,9 @@
                                         data: data
                                     })
                                     .success(function(data) {
-                                        if (data.updated === 'true') {
+                                        console.log(data.updated);
+                                        if (data.updated === true) {
+                                            col.data('grido-editable-value', newValue);
                                             var transp = 0;
                                             var multiplicator = 1;
                                             var timer = setInterval(function() {
@@ -263,7 +265,7 @@
                                 if (editControlObject[0].type === 'text') {
                                     editControlObject.focus();
                                 }
-                                editControlObject.bind('keyup', function(e) {
+                                editControlObject.bind('keydown', function(e) {
                                     if (e.keyCode === 13) {
                                         editControlObject.save();
                                         e.preventDefault();
