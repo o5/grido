@@ -141,141 +141,7 @@
                     .on('dblclick.grido', function(event) {
                         if (event.metaKey || event.ctrlKey) {
                             var col = $(this);
-
-                            var headerClass;
-                            var classList = col.attr('class').replace('cell','header').split(/\s+/);
-                            for (var i = 0; i < classList.length; i++) {
-                                if (classList[i].indexOf('-header-') !== -1) {
-                                  headerClass = classList[i];
-                                }
-                            }
-                            var colNameList = headerClass.split(/\-/);
-//                            var colName = colNameList[colNameList.length - 1];
-
-                            var header = $('th[class~="'+headerClass+'"]');
-
-                            col.isInlineEditable = function() {
-                                var gridoOptions = $(this).closest('table').data("gridoOptions");
-                                if (gridoOptions.editable === true) {
-                                    if (header.data('grido-editable-handler')) {
-                                        return true;
-                                    }
-                                }
-                                return false;
-                            };
-                            if (col.isInlineEditable()) {
-                                var row = $(this).parent();
-                                var oldValue = col.data('grido-editable-value');
-                                var rowClass = row.attr('class');
-
-                                var regex = /[grid\-row\-]([0-9]+)/;
-                                var matches = rowClass.match(regex);
-                                var primaryKey = matches[1];
-
-                                var editControlHandler = header.data('grido-editablecontrol-handler');
-
-                                var handlerCompName = editControlHandler.replace('/[\.d]*/g', '');
-                                var regex = /[\?][do=]+(.*)/;
-                                var matches = handlerCompName.match(regex);
-                                handlerCompName = matches[1];
-
-                                var dataForControl = {};
-                                var regex = /(.*)\-edit/;
-                                var matches = handlerCompName.match(regex);
-                                handlerCompName = matches[1];
-
-                                var d1 = handlerCompName+'-value';
-                                dataForControl[d1] = oldValue;
-
-                                var editControl;
-                                $.ajax({
-                                        type: "GET",
-                                        url: editControlHandler,
-                                        data: dataForControl,
-                                        async: false
-                                })
-                                .success(function(data) {
-                                    editControl = data;
-                                });
-
-                                $(this).html(editControl);
-
-                                var editControlObject = $(this).children();
-
-                                editControlObject.save = function() {
-
-                                    var newValue = editControlObject.val();
-                                    $(this).parent().html(newValue);
-                                    if (oldValue === newValue) {
-                                        return;
-                                    }
-                                    // HANDLE SAVE
-                                    var d1 = handlerCompName+'-id';
-//                                    var d2 = handlerCompName+'-oldValue';
-                                    var d3 = handlerCompName+'-value';
-//                                    var d4 = handlerCompName+'-columnName';
-                                    var data = {};
-                                    data[d1]=primaryKey;
-//                                    data[d2]=oldValue;
-                                    data[d3]=newValue;
-//                                    data[d4]=colName;
-
-                                    var editHandler = header.data('grido-editable-handler');
-
-                                    $.ajax({
-                                        type: "GET",
-                                        url: editHandler,
-                                        data: data
-                                    })
-                                    .success(function(data) {
-                                        console.log(data.updated);
-                                        if (data.updated === true) {
-                                            col.data('grido-editable-value', newValue);
-                                            var transp = 0;
-                                            var multiplicator = 1;
-                                            var timer = setInterval(function() {
-                                                transp += (multiplicator * 0.01);
-                                                col.css('background', 'rgba(196,234,195,'+transp+')');
-                                                if (transp >=1) {
-                                                    multiplicator = -1;
-                                                }
-                                                if (transp <= 0) {
-                                                    clearInterval(timer);
-                                                }
-                                            }, 1 );
-                                        } else {
-                                            var transp = 0;
-                                            var multiplicator = 1;
-                                            var timer = setInterval(function() {
-                                                transp += (multiplicator * 0.01);
-                                                col.css('background', 'rgba(240,54,69,'+transp+')');
-                                                if (transp >=1) {
-                                                    multiplicator = -1;
-                                                }
-                                                if (transp <= 0) {
-                                                    clearInterval(timer);
-                                                }
-                                            }, 1 );
-                                        }
-                                    });
-                                };
-                                editControlObject.storno = function() {
-                                    $(this).parent().html(oldValue);
-                                };
-                                if (editControlObject[0].type === 'text') {
-                                    editControlObject.focus();
-                                }
-                                editControlObject.bind('keydown', function(e) {
-                                    if (e.keyCode === 13) {
-                                        editControlObject.save();
-                                        e.preventDefault();
-                                    }
-                                    if (e.keyCode === 27) {
-                                        editControlObject.storno();
-                                        e.preventDefault();
-                                    }
-                                });
-                            }
+                            this.InlineEditing = new Grido.InlineEditor(col);
                         }
                     });
             }
@@ -619,6 +485,193 @@
         datepicker : {
             mask: '99.99.9999',
             format: 'dd.mm.yyyy'
+        }
+    };
+
+    Grido.InlineEditor = function($td)
+    {
+        this.td = $td;
+        this.th = this.getColumnHeader(this.td);
+        this.init();
+    };
+
+    Grido.InlineEditor.prototype =
+    {
+        init: function()
+        {
+            if (this.isInlineEditable(this.td)) {
+                this.tr = this.td.parent();
+                this.oldValue = this.td.data('grido-editable-value');
+                this.primaryKey = this.getPrimaryKeyValue(this.tr);
+                this.componentHandlerName = this.getComponentHandlerName(this.th);
+                this.editControlHandlerUrl = this.getEditControlHandlerUrl(this.th);
+                this.editControlHtml = this.getEditControl(this.componentHandlerName, this.editControlHandlerUrl);
+                this.renderEditControl(this.td, this.editControlHtml);
+                this.editControlObject = this.getEditControlObject(this.td);
+                this.setFocus(this.editControlObject);
+                this.initBindings(this.editControlObject);
+            }
+        },
+        isInlineEditable: function($td)
+        {
+            var gridoOptions = $td.closest('table').data("gridoOptions");
+            if (gridoOptions.editable === true) {
+                if (this.th.data('grido-editable-handler')) {
+                    return true;
+                }
+            }
+            return false;
+        },
+        getColumnHeader: function($td)
+        {
+            var headerClass;
+            var classList = $td.attr('class').replace('cell','header').split(/\s+/);
+            for (var i = 0; i < classList.length; i++) {
+                if (classList[i].indexOf('-header-') !== -1) {
+                    headerClass = classList[i];
+                }
+            }
+            return $('th[class~="'+headerClass+'"]');
+        },
+        getPrimaryKeyValue: function($tr)
+        {
+            var rowClass = $tr.attr('class');
+            var regex = /[grid\-row\-]([0-9]+)/;
+            var matches = rowClass.match(regex);
+            return matches[1];
+        },
+        getComponentHandlerName: function($th)
+        {
+            var editControlHandler = $th.data('grido-editablecontrol-handler');
+            var handlerCompName = editControlHandler.replace('/[\.d]*/g', '');
+            var regex = /[\?][do=]+(.*)/;
+            var matches = handlerCompName.match(regex);
+            handlerCompName = matches[1];
+
+            var regex = /(.*)\-edit/;
+            var matches = handlerCompName.match(regex);
+            return matches[1];
+        },
+        getEditControlHandlerUrl: function($th)
+        {
+            return $th.data('grido-editablecontrol-handler');
+        },
+        getEditControl: function($componentHandlerName, $controlHandlerUrl)
+        {
+            var dataForControl = {};
+            var d1 = $componentHandlerName+'-value';
+            dataForControl[d1] = this.oldValue;
+
+            var editControl;
+            $.ajax({
+                type: "GET",
+                url: $controlHandlerUrl,
+                data: dataForControl,
+                async: false
+            })
+            .success(function(data) {
+                editControl = data;
+            });
+
+            return editControl;
+        },
+        renderEditControl: function($td, $html)
+        {
+            $td.html($html);
+        },
+        getEditControlObject: function($td)
+        {
+            return $td.children();
+        },
+        setFocus: function($editControlObject)
+        {
+            if ($editControlObject[0].type === 'text') {
+                $editControlObject.focus();
+            }
+        },
+        saveData: function($oldValue, $componentHandlerName, $primaryKey, $th, $td)
+        {
+            var newValue = this.editControlObject.val();
+            if ($oldValue === newValue) {
+                $td.html(newValue);
+                return;
+            }
+            var d1 = $componentHandlerName+'-id';
+            var d2 = $componentHandlerName+'-value';
+            var data = {};
+            data[d1]=$primaryKey;
+            data[d2]=newValue;
+
+            var editHandler = $th.data('grido-editable-handler');
+
+            var that = this;
+            $.ajax({
+                type: "GET",
+                url: editHandler,
+                data: data,
+                async: false
+            })
+            .success(function(data) {
+                if (data.updated === true) {
+                    $td.html(newValue);
+                    $td.data('grido-editable-value', newValue);
+                    that.oldValue = newValue;
+                    that.flashSuccess($td);
+                } else {
+                    that.flashError($td);
+                }
+            },{that: this});
+
+        },
+        revertChanges: function($td)
+        {
+            $td.html(this.oldValue);
+        },
+        flashSuccess: function($td)
+        {
+            var transp = 0;
+            var multiplicator = 1;
+            var timer = setInterval(function() {
+                transp += (multiplicator * 0.01);
+                $td.css('background', 'rgba(196,234,195,'+transp+')');
+                if (transp >=1) {
+                    multiplicator = -1;
+                }
+                if (transp <= 0) {
+                    clearInterval(timer);
+                }
+            }, 1 );
+        },
+        flashError: function($td)
+        {
+            var transp = 0;
+            var multiplicator = 1;
+            var timer = setInterval(function() {
+                transp += (multiplicator * 0.01);
+                $td.css('background', 'rgba(240,54,69,'+transp+')');
+                if (transp >=1) {
+                    multiplicator = -1;
+                }
+                if (transp <= 0) {
+                    clearInterval(timer);
+                }
+            }, 1 );
+        },
+        initBindings: function($editControlObject)
+        {
+            $editControlObject.bind('keydown', {that: this}, function(e) {
+                var that = e.data.that;
+                switch (e.keyCode) {
+                    case 13:
+                        that.saveData(that.oldValue, that.componentHandlerName, that.primaryKey, that.th, that.td);
+                        e.preventDefault();
+                        break;
+                    case 27:
+                        that.revertChanges(that.td);
+                        e.preventDefault();
+                        break;
+                }
+            });
         }
     };
 
