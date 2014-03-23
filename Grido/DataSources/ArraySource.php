@@ -217,27 +217,13 @@ class ArraySource extends \Nette\Object implements IDataSource
     }
 
     /**
-     * Update values in datasource.
-     *
-     * @param type $primaryKeyValue
-     * @param string $colName
-     * @param type $oldValue
-     * @param type $newValue
+     * @param mixed $id
+     * @param array $values
+     * @param string $idCol
+     * @return bool
      */
-    public function update($primaryKeyValue, $colName, $oldValue, $newValue)
+    public function update($id, array $values, $idCol)
     {
-        // Missing implementation
-        // NetteDatabaseLike implementation below
-//        $this->selection->wherePrimary($primaryKeyValue)->where($colName, $oldValue)->update(
-//                array(
-//                    $colName => $newValue
-//                )
-//        );
-//        $success = $this->selection->wherePrimary($primaryKeyValue)->where($colName, $newValue);
-//        if ($success > 0) {
-//            return true;
-//        }
-//        return false;
+        throw new \Nette\NotImplementedException;
     }
-
 }

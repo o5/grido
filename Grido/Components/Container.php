@@ -364,22 +364,26 @@ abstract class Container extends \Nette\Application\UI\Control
     }
 
     /**
-     * Set all columns as editable if it is instance of EditableColumn, callback is optional for user implementation of
-     * method for saving modified data.
-     * @param callback $callback optional
-     * @return \Grido\Components\Container
+     * Sets all columns as editable.
+     * Callback is optional for user implementation of method for saving modified data.
+     * @param callback $callback
+     * @return \Grido\Grid
      */
     public function setEditableColumns($callback = NULL)
     {
-        $this->onRegistered[] = function() use ($callback) {
-            $container = $this->getComponent(Column::ID, FALSE);
+        $this->onRegistered[] = function(\Grido\Grid $grid) use ($callback)
+        {
+            if (!$grid->hasColumns()) {
+                return;
+            }
 
-            foreach ($container->components as $column) {
-                if ($column instanceof Columns\Editable) {
+            foreach ($grid->getComponent(Column::ID)->getComponents() as $column) {
+                if ($column instanceof Columns\Editable && !$column->isEditable() && !$column->isEditableDisabled()) {
                     $column->setEditable($callback);
                 }
             }
         };
+
         return $this;
     }
 }

@@ -43,13 +43,14 @@
          */
         init: function()
         {
+            this.ajax = new Grido.Ajax(this).init();
+            this.operation = new Grido.Operation(this).init();
+
             this.initFilters();
             this.initItemsPerPage();
             this.initActions();
             this.initPagePrompt();
-            this.initOperation();
             this.initCheckNumeric();
-            this.initAjax();
             this.initInlineEditing();
             this.onInit();
 
@@ -83,14 +84,19 @@
          */
         initActions: function()
         {
+            var _this = this;
             $('.actions a', this.$table)
+                .off('click.nette')
                 .off('click.grido')
                 .on('click.grido', function(event) {
                     var hasConfirm = $(this).data('grido-confirm');
                     if (hasConfirm && !confirm(hasConfirm)) {
                         event.preventDefault();
                         event.stopImmediatePropagation();
-                        return false;
+                    } else if (hasConfirm && $(this).hasClass('ajax') && _this.ajax) {
+                        _this.ajax.doRequest(this.href);
+                        event.preventDefault();
+                        event.stopImmediatePropagation();
                     }
                 });
         },
@@ -113,16 +119,6 @@
         },
 
         /**
-         * Init operation when exist.
-         */
-        initOperation: function()
-        {
-            if ($('th.checker', this.$table).length) {
-                this.operation = new Grido.Operation(this).init();
-            }
-        },
-
-        /**
          * Checking numeric input.
          */
         initCheckNumeric: function()
@@ -137,14 +133,9 @@
                 });
         },
 
-        initAjax: function()
-        {
-            this.options.ajax && new Grido.Ajax(this).init();
-        },
-
         initInlineEditing: function()
         {
-            if (this.options.inlineEditable === true && this.options.ajax === true) {
+            if (this.options.editable === true && this.options.ajax === true) {
                 $('td[class*="grid-cell-"]', this.$element)
                     .off('dblclick.grido')
                     .on('dblclick.grido', function(event) {
@@ -165,7 +156,7 @@
 
                             col.isInlineEditable = function() {
                                 var gridoOptions = $(this).closest('table').data("gridoOptions");
-                                if (gridoOptions.inlineEditable === true) {
+                                if (gridoOptions.editable === true) {
                                     if (header.data('grido-editable-handler')) {
                                         return true;
                                     }
@@ -174,7 +165,7 @@
                             };
                             if (col.isInlineEditable()) {
                                 var row = $(this).parent();
-                                var oldValue = col.html().trim();
+                                var oldValue = col.data('grido-editable-value');
                                 var rowClass = row.attr('class');
 
                                 var regex = /[grid\-row\-]([0-9]+)/;
@@ -193,7 +184,7 @@
                                 var matches = handlerCompName.match(regex);
                                 handlerCompName = matches[1];
 
-                                var d1 = handlerCompName+'-oldValue';
+                                var d1 = handlerCompName+'-value';
                                 dataForControl[d1] = oldValue;
 
                                 var editControl;
@@ -219,9 +210,9 @@
                                         return;
                                     }
                                     // HANDLE SAVE
-                                    var d1 = handlerCompName+'-primaryKey';
+                                    var d1 = handlerCompName+'-id';
                                     var d2 = handlerCompName+'-oldValue';
-                                    var d3 = handlerCompName+'-newValue';
+                                    var d3 = handlerCompName+'-value';
                                     var d4 = handlerCompName+'-columnName';
                                     var data = {};
                                     data[d1]=primaryKey;
@@ -316,6 +307,10 @@
 
         init: function()
         {
+            if (!$('th.checker', this.grido.$table).length) {
+                return null;
+            }
+
             this.initSelectState();
             this.bindClickOnCheckbox();
             this.bindClickOnRow();
@@ -507,6 +502,10 @@
     {
         init: function()
         {
+            if (!this.grido.options.ajax) {
+                return null;
+            }
+
             this.registerSuccessEvent();
             this.registerHashChangeEvent();
 

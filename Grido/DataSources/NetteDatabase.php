@@ -139,24 +139,15 @@ class NetteDatabase extends \Nette\Object implements IDataSource
     }
 
     /**
-     * Update values in datasource.
-     *
-     * @param type $primaryKeyValue
-     * @param string $colName
-     * @param type $oldValue
-     * @param type $newValue
+     * @param mixed $id
+     * @param array $values
+     * @param string $idCol
+     * @return bool
      */
-    public function update($primaryKeyValue, $colName, $oldValue, $newValue)
+    public function update($id, array $values, $idCol)
     {
-        $success = $this->getSelection()->wherePrimary($primaryKeyValue)->where($colName, $oldValue)->update(
-                array(
-                    $colName => $newValue
-                )
-        );
-        if ($success > 0) {
-            return true;
-        }
-        return false;
+        return (bool) $this->getSelection()
+            ->where("$idCol = ?", $id)
+            ->update($values);
     }
-
 }

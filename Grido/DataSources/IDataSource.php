@@ -58,13 +58,10 @@ interface IDataSource
     function suggest($column, array $conditions, $limit);
 
     /**
-     * Update values in datasource.
-     *
-     * @param mixed $primaryKeyValue
-     * @param string $colName
-     * @param mixed $oldValue
-     * @param mixed $newValue
-     * @return bool was update successful
+     * @param mixed $id
+     * @param array $values
+     * @param string $idCol
+     * @return bool
      */
-    function update($primaryKeyValue, $colName, $oldValue, $newValue);
+    function update($id, array $values, $idCol);
 }

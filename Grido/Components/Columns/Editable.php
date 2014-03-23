@@ -12,68 +12,119 @@
 namespace Grido\Components\Columns;
 
 /**
- * Eitable Column grid.
+ * An inline editable column.
  *
  * @package     Grido
- * @subpackage  Components\Columns\Editable
- * @author      Jakub Kopřiva
+ * @subpackage  Components\Columns
+ * @author      Jakub Kopřiva <kopriva.jakub@gmail.com>
+ * @author      Petr Bugyík
  *
- * @property bool $editable
- * @property callback $editableCallback
  * @property \Nette\Forms\IControl $editableControl
+ * @property callback $editableCallback
  */
-class Editable extends \Grido\Components\Columns\Column
+abstract class Editable extends Column
 {
     /** @var bool */
     protected $editable = FALSE;
 
-    /** @var callback function for custom handling with edited data */
-    protected $editableCallback = NULL;
+    /** @var bool */
+    protected $editableDisabled = FALSE;
 
     /** @var \Nette\Forms\IControl Custom control for inline editing */
-    protected $editableControl = NULL;
+    protected $editableControl;
+
+    /** @var callback function for custom handling with edited data; function($id, $value, Grido\Components\Columns\Editable $column) {} */
+    protected $editableCallback;
+
+    /** @var callback function for custom value; function($row) {} */
+    protected $editableValueCallback;
 
     /**
-     * @param Grido\Grid $grid
-     * @param string $name
-     * @param string $label
+     * Sets column as editable.
+     * @param callback $callback function($id, $value, Grido\Components\Columns\Editable $column) {} {}
+     * @param \Nette\Forms\IControl $control
+     * @return Editable
      */
-    public function __construct($grid, $name, $label)
-    {
-        parent::__construct($grid, $name, $label);
-    }
-
-    /******************************* Setters ******************************************************/
-
-    /**
-     * Set column as editable
-     * @param callback $callback
-     * @return Column
-     */
-    public function setEditable($callback = NULL)
+    public function setEditable($callback = NULL, \Nette\Forms\IControl $control = NULL)
     {
         $this->editable = TRUE;
-        $this->editableCallback = $callback;
-        $this->getGrid()->setClientSideOptions(array('inlineEditable' => true));
+        $this->setClientSideOptions();
+
+        $callback === NULL ?: $this->setEditableCallback($callback);
+        $control === NULL ?: $this->setEditableControl($control);
+
         return $this;
     }
 
     /**
-     * Set control for inline editation
+     * Sets control for inline editation.
      * @param \Nette\Forms\IControl $control
-     * @return \Grido\Components\Columns\Column
+     * @return Editable
      */
-    public function setEditableControl($control)
+    public function setEditableControl(\Nette\Forms\IControl $control)
     {
-        if ($this->isEditable()) {
-            $this->editableControl = $control;
-        }
+        $this->isEditable() ?: $this->setEditable();
+        $this->editableControl = $control;
 
         return $this;
     }
 
-    /******************************* Getters ******************************************************/
+    /**
+     * Sets editable callback.
+     * @param callback $callback function($id, $value, Grido\Components\Columns\Editable $column) {}
+     * @return Editable
+     */
+    public function setEditableCallback($callback)
+    {
+        $this->isEditable() ?: $this->setEditable();
+        $this->editableCallback = $callback;
 
+        return $this;
+    }
+
+    /**
+     * Sets editable value callback.
+     * @param callback $callback
+     * @return Editable
+     */
+    public function setEditableValueCallback($callback)
+    {
+        $this->isEditable() ?: $this->setEditable();
+        $this->editableValueCallback = $callback;
+
+        return $this;
+    }
+
+    /**
+     * @return Editable
+     */
+    public function disableEditable()
+    {
+        $this->editable = FALSE;
+        $this->editableDisabled = TRUE;
+
+        return $this;
+    }
+
+    protected function setClientSideOptions()
+    {
+        $options = $this->grid->getClientSideOptions();
+        if (!isset($options['editable'])) { //only once
+            $this->grid->setClientSideOptions(array('editable' => TRUE));
+            $this->grid->onRender[] = function(\Grido\Grid $grid)
+            {
+                foreach ($grid->getComponent(Column::ID)->getComponents() as $column) {
+                    $columnName = $column->getColumn();
+                    $callbackNotSet = $column instanceof Editable && $column->isEditable() && $column->getEditableCallback() === NULL;
+                    if ($callbackNotSet && (!is_string($columnName) || strpos($columnName, '.'))) {
+                        throw new \InvalidArgumentException("Editable column '{$column->name}' has error: You must define an own editable callback.");
+                    }
+                }
+            };
+        }
+    }
+
+    /**********************************************************************************************/
 
     /**
      * Returns header cell prototype (<th> html tag).
@@ -83,92 +134,109 @@ class Editable extends \Grido\Components\Columns\Column
     {
         $th = parent::getHeaderPrototype();
 
-        $th->data['test'] = 'test';
-
         if ($this->isEditable()) {
-            $th->data['grido-editableControl-handler'] = $this->link('editableControl!');
             $th->data['grido-editable-handler'] = $this->link('editable!');
+            $th->data['grido-editableControl-handler'] = $this->link('editableControl!');
         }
 
-        $this->headerPrototype = $th;
-        return $this->headerPrototype;
+        return $th;
     }
 
     /**
-     * Returns control for editation
-     * @param string $oldValue value to be inserted in control
-     * @returns \Nette\Forms\IControl
+     * Returns cell prototype (<td> html tag).
+     * @param mixed $row
+     * @return \Nette\Utils\Html
      */
-    function getEditableControl($oldValue)
+    public function getCellPrototype($row = NULL)
     {
-        $this->getGrid()->saveState($this->params);
+        $td = parent::getCellPrototype($row);
 
-        if ($this->isEditable()) {
-            if ($this->editableControl == NULL) {
-                $this->editableControl = new \Nette\Forms\Controls\TextInput($this->label);
-            }
-            $this->editableControl->setValue($oldValue);
-            $uniqueId = preg_replace("/[^a-zA-Z]*/", "", $this->getColumn()) . rand(0, 2147483647) . rand(0, 2147483647);
-            $this->getForm()->addComponent($this->editableControl, 'edit'.$uniqueId);
-            return $this->editableControl;
+        if ($this->isEditable() && $row !== NULL) {
+            $td->data['grido-editable-value'] = $this->editableValueCallback === NULL
+                ? parent::getValue($row)
+                : callback($this->editableValueCallback)->invokeArgs(array($row));
         }
+
+        return $td;
     }
 
-    /******************************* Bool checkers ************************************************/
+    /**
+     * Returns control for editation.
+     * @returns \Nette\Forms\Controls\TextInput
+     */
+    public function getEditableControl()
+    {
+        if ($this->editableControl === NULL) {
+            $this->editableControl = new \Nette\Forms\Controls\TextInput;
+            $this->editableControl->controlPrototype->class[] = 'form-control';
+        }
+
+        return $this->editableControl;
+    }
+
+    /**
+     * @return callback
+     * @internal
+     */
+    public function getEditableCallback()
+    {
+        return $this->editableCallback;
+    }
 
     /**
      * @return bool
      * @internal
      */
-    public function isEditable() {
-        $this->getGrid()->saveState($this->params);
-
+    public function isEditable()
+    {
         return $this->editable;
     }
 
-    /******************************* Handlers for inline edit *************************************/
-
     /**
-     * Handle action after editation form was submitted by AJAX
+     * @return bool
      * @internal
      */
-    public function handleEditable($primaryKey, $oldValue, $newValue, $columnName)
+    public function isEditableDisabled()
     {
-        $this->getGrid()->saveState($this->params);
+        return $this->editableDisabled;
+    }
 
-        if ($this->isEditable()) {
-            if ($this->editableCallback != NULL) {
-                callback($this->editableCallback)->invokeArgs(array(array(
-                    'primaryKeyValue' => $primaryKey,
-                    'oldValue' => $oldValue,
-                    'newValue' => $newValue,
-                    'columnName' => $columnName
-                )));
-            } else {
-                $success = $this->getGrid()->getModel()->update($primaryKey, $columnName, $oldValue, $newValue);
-                if ($success) {
-                    $jsonResponse = new \Nette\Application\Responses\JsonResponse(array('updated'=>'true'));
-                } else {
-                    $jsonResponse = new \Nette\Application\Responses\JsonResponse(array('updated'=>'false'));
-                }
-                $this->presenter->sendResponse($jsonResponse);
-            }
-        } else {
+    /**********************************************************************************************/
+
+    /**
+     * @internal
+     */
+    public function handleEditable($id, $value)
+    {
+        $this->grid->onRegistered($this->grid);
+
+        if (!$this->presenter->isAjax() || !$this->isEditable()) {
             $this->presenter->terminate();
         }
+
+        $success = $this->editableCallback
+            ? callback($this->editableCallback)->invokeArgs(array($id, $value, $this))
+            : $this->grid->model->update($id, array($this->getColumn() => $value), $this->grid->primaryKey);
+
+        $response = new \Nette\Application\Responses\JsonResponse(array('updated' => $success));
+        $this->presenter->sendResponse($response);
     }
 
     /**
-     * Handler for returning the HTML prototype of editable control
      * @internal
      */
-    public function handleEditableControl($oldValue)
+    public function handleEditableControl($value)
     {
-        if ($this->isEditable()) {
-            $controlPrototype = $this->getEditableControl($oldValue)->getControl()->render();
-            $html = new \Nette\Application\Responses\TextResponse($controlPrototype);
-            $this->presenter->sendResponse($html);
-        }
-    }
+        $this->grid->onRegistered($this->grid);
 
+        if (!$this->presenter->isAjax() || !$this->isEditable()) {
+            $this->presenter->terminate();
+        }
+
+        $control = $this->getEditableControl()->setValue($value);
+        $this->getForm()->addComponent($control, 'edit' . $this->getName());
+
+        $response = new \Nette\Application\Responses\TextResponse($control->getControl()->render());
+        $this->presenter->sendResponse($response);
+    }
 }
