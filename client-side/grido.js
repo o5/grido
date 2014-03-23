@@ -272,7 +272,7 @@
                                 if (editControlObject[0].type === 'text') {
                                     editControlObject.focus();
                                 }
-                                editControlObject.bind('keypress', function(e) {
+                                editControlObject.bind('keyup', function(e) {
                                     if (e.keyCode === 13) {
                                         editControlObject.save();
                                         e.preventDefault();
