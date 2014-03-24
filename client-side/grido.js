@@ -641,7 +641,6 @@
                 async: false
             })
             .success(function(data) {
-                $td.removeClass('edit');
                 if (data.updated === true) {
                     $td.html(newValue);
                     $td.data('grido-editable-value', newValue);
@@ -719,11 +718,14 @@
                         }
 
                         that.saveData(that.oldValue, that.componentHandlerName, that.primaryKey, that.th, that.td);
+                        that.td.removeClass('edit');
                         event.preventDefault();
+
                         break;
 
                     case 27: //esc
                         that.revertChanges(that.td);
+                        that.td.removeClass('edit');
                         event.preventDefault();
 
                         break;
