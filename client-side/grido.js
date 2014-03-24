@@ -709,34 +709,24 @@
          */
         initBindings: function($control)
         {
-            $control.bind('keydown', {that: this}, function(event) {
-                var that = event.data.that;
+            var _this;
+            $control.on('keypress.grido', function(event) {
                 switch (event.keyCode) {
                     case 13: //enter
-                        if (typeof window.Nette === 'object') {
-
-                            var orig = this.form['onsubmit'];
-                            this.form['onsubmit'] = function () {return false;}; //WEBKIT WORKAROUND START
-
-                            var isValid = window.Nette.validateControl(this);
-
-                            this.form['onsubmit'] = orig; //WEBKIT WORKAROUND END
-
-                            if (!isValid) {
-                                event.preventDefault();
-                                break;
-                            }
+                        if (typeof window.Nette === 'object' && !window.Nette.validateControl(this)) {
+                            event.preventDefault();
+                            break;
                         }
 
-                        that.saveData(that.oldValue, that.componentHandlerName, that.primaryKey, that.th, that.td);
-                        that.td.removeClass('edit');
+                        _this.saveData(_this.oldValue, _this.componentHandlerName, _this.primaryKey, _this.th, _this.td);
+                        _this.td.removeClass('edit');
                         event.preventDefault();
 
                         break;
 
                     case 27: //esc
-                        that.revertChanges(that.td);
-                        that.td.removeClass('edit');
+                        _this.revertChanges(_this.td);
+                        _this.td.removeClass('edit');
                         event.preventDefault();
 
                         break;
