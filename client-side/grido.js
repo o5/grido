@@ -705,6 +705,17 @@
                 var that = e.data.that;
                 switch (e.keyCode) {
                     case 13:
+                        if (typeof Nette === 'object') {
+                            if (typeof Nette.validateControl === 'function') {
+                                if (Nette.validateControl(this)) {
+                                    that.saveData(that.oldValue, that.componentHandlerName, that.primaryKey, that.th, that.td);
+                                    e.preventDefault();
+                                    break;
+                                }
+                                e.preventDefault();
+                                break;
+                            }
+                        }
                         that.saveData(that.oldValue, that.componentHandlerName, that.primaryKey, that.th, that.td);
                         e.preventDefault();
                         break;
