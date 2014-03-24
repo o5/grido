@@ -470,7 +470,7 @@
                         _this.td = $(this);
                         _this.td.addClass('edit');
                         _this.th = _this.getColumnHeader(_this.td);
-                        _this.grido.operation.changeRow(_this.td.closest('tr'), false);
+                        _this.grido.operation && _this.grido.operation.changeRow(_this.td.closest('tr'), false);
 
                         if (_this.getEditHandlerUrl(_this.th)) {
                             _this.tr = _this.td.parent();
