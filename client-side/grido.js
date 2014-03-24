@@ -709,7 +709,7 @@
          */
         initBindings: function($control)
         {
-            var _this;
+            var _this = this;
             $control.on('keypress.grido', function(event) {
                 switch (event.keyCode) {
                     case 13: //enter
