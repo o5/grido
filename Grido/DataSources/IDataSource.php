@@ -56,12 +56,4 @@ interface IDataSource
      * @return array
      */
     function suggest($column, array $conditions, $limit);
-
-    /**
-     * @param mixed $id
-     * @param array $values
-     * @param string $idCol
-     * @return bool
-     */
-    function update($id, array $values, $idCol);
 }
