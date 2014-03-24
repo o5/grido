@@ -713,9 +713,19 @@
                 var that = event.data.that;
                 switch (event.keyCode) {
                     case 13: //enter
-                        if (typeof window.Nette === 'object' && !window.Nette.validateControl(this)) {
-                            event.preventDefault();
-                            break;
+                        if (typeof window.Nette === 'object') {
+
+                            var orig = this.form['onsubmit'];
+                            this.form['onsubmit'] = function () {return false;}; //WEBKIT WORKAROUND START
+
+                            var isValid = window.Nette.validateControl(this);
+
+                            this.form['onsubmit'] = orig; //WEBKIT WORKAROUND END
+
+                            if (!isValid) {
+                                event.preventDefault();
+                                break;
+                            }
                         }
 
                         that.saveData(that.oldValue, that.componentHandlerName, that.primaryKey, that.th, that.td);
