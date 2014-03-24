@@ -455,40 +455,6 @@
         }
     };
 
-    /*  GRIDO PLUGIN DEFINITION   */
-    /* ========================== */
-
-    var old = $.fn.grido;
-
-    $.fn.grido = function(options) {
-        return this.each(function() {
-            var $this = $(this);
-            if (!$this.data('grido')) {
-                $this.data('grido', new Grido.Grid($this, options).init());
-            }
-        });
-    };
-
-    /*      GRIDO NO CONFLICT     */
-    /* ========================== */
-
-    $.fn.grido.noConflict = function () {
-        $.fn.grido = old;
-        return this;
-    };
-
-    /*      GRIDO DEFAULTS        */
-    /* ========================== */
-
-    $.fn.grido.defaults = {
-        ajax: true,
-        datepicker : {
-            mask: '99.99.9999',
-            format: 'dd.mm.yyyy'
-        }
-    };
-
-
     /*  INLINE EDITOR DEFINITION  */
     /* ========================== */
 
@@ -766,6 +732,39 @@
                         break;
                 }
             });
+        }
+    };
+
+    /*  GRIDO PLUGIN DEFINITION   */
+    /* ========================== */
+
+    var old = $.fn.grido;
+
+    $.fn.grido = function(options) {
+        return this.each(function() {
+            var $this = $(this);
+            if (!$this.data('grido')) {
+                $this.data('grido', new Grido.Grid($this, options).init());
+            }
+        });
+    };
+
+    /*      GRIDO NO CONFLICT     */
+    /* ========================== */
+
+    $.fn.grido.noConflict = function () {
+        $.fn.grido = old;
+        return this;
+    };
+
+    /*      GRIDO DEFAULTS        */
+    /* ========================== */
+
+    $.fn.grido.defaults = {
+        ajax: true,
+        datepicker : {
+            mask: '99.99.9999',
+            format: 'dd.mm.yyyy'
         }
     };
 
