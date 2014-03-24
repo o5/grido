@@ -45,13 +45,13 @@
         {
             this.ajax = new Grido.Ajax(this).init();
             this.operation = new Grido.Operation(this).init();
+            this.editable = new Grido.Editable(this).init();
 
             this.initFilters();
             this.initItemsPerPage();
             this.initActions();
             this.initPagePrompt();
             this.initCheckNumeric();
-            this.initInlineEditing();
             this.onInit();
 
             return this;
@@ -131,20 +131,6 @@
 
                     pattern.test(value) && $(this).val(value.replace(pattern, ''));
                 });
-        },
-
-        initInlineEditing: function()
-        {
-            if (this.options.editable === true && this.options.ajax === true) {
-                $('td[class*="grid-cell-"]', this.$element)
-                    .off('dblclick.grido')
-                    .on('dblclick.grido', function(event) {
-                        if (event.metaKey || event.ctrlKey) {
-                            var col = $(this);
-                            this.InlineEditing = new Grido.InlineEditor(col);
-                        }
-                    });
-            }
         },
 
         onInit: function() {},
@@ -455,55 +441,50 @@
         }
     };
 
-    /*  INLINE EDITOR DEFINITION  */
+    /*  INLINE EDITABLE DEFINITION  */
     /* ========================== */
 
-    Grido.InlineEditor = function($td)
+    Grido.Editable = function(Grido)
     {
-        this.td = $td;
-        this.th = this.getColumnHeader(this.td);
-        this.init();
+        this.grido = Grido;
     };
 
-    Grido.InlineEditor.prototype =
+    Grido.Editable.prototype =
     {
-        /**
-         * Initial function
-         */
         init: function()
         {
-            if (this.isInlineEditable(this.td)) {
-                this.tr = this.td.parent();
-                this.oldValue = this.td.data('grido-editable-value');
-                this.primaryKey = this.getPrimaryKeyValue(this.tr);
-                this.componentHandlerName = this.getComponentHandlerName(this.th);
-                this.editControlHandlerUrl = this.getEditControlHandlerUrl(this.th);
-                this.editControlHtml = this.getEditControl(this.componentHandlerName, this.editControlHandlerUrl);
-                this.renderEditControl(this.td, this.editControlHtml);
-                this.editControlObject = this.getEditControlObject(this.td);
-                this.setFocus(this.editControlObject);
-                this.initBindings(this.editControlObject);
+            if (this.grido.options.ajax !== true && this.grido.options.editable !== true) {
+                return null;
             }
+
+            var _this = this;
+            $('td[class*="grid-cell-"]', this.grido.$element)
+                .off('dblclick.grido')
+                .on('dblclick.grido', function(event) {
+                    if (event.metaKey || event.ctrlKey) {
+                        _this.td = $(this);
+                        _this.th = _this.getColumnHeader(_this.td);
+
+                        if (_this.getEditHandlerUrl(_this.th)) {
+                            _this.tr = _this.td.parent();
+                            _this.oldValue = _this.getOldValue(_this.td);
+                            _this.primaryKey = _this.getPrimaryKeyValue(_this.tr);
+                            _this.componentHandlerName = _this.getComponentHandlerName(_this.th);
+                            _this.editControlHandlerUrl = _this.getEditControlHandlerUrl(_this.th);
+                            _this.editControlHtml = _this.getEditControl(_this.componentHandlerName, _this.editControlHandlerUrl);
+                            _this.renderEditControl(_this.td, _this.editControlHtml);
+                            _this.editControlObject = _this.getEditControlObject(_this.td);
+                            _this.setFocus(_this.editControlObject);
+                            _this.initBindings(_this.editControlObject);
+                        }
+                    }
+                });
+
+            return this;
         },
 
         /**
-         * InlineEditable chceck for column
-         * @param {jQuery} $td cell
-         * @return {bool} true if column is inline editable
-         */
-        isInlineEditable: function($td)
-        {
-            var gridoOptions = $td.closest('table').data("gridoOptions");
-            if (gridoOptions.editable === true) {
-                if (this.th.data('grido-editable-handler')) {
-                    return true;
-                }
-            }
-            return false;
-        },
-
-        /**
-         * Returns column <th> object
+         * Returns column <th> object.
          * @param {jQuery} $td cell
          * @return {jQuery} header cell of column
          */
@@ -516,48 +497,55 @@
                     headerClass = classList[i];
                 }
             }
-            return $('th[class~="'+headerClass+'"]');
+            return $('th[class~="' + headerClass + '"]');
         },
 
         /**
-         * Returns value of primary key
+         * Returns value of primary key.
          * @param {jQuery} $tr row
          * @return {String} Primary key value
          */
         getPrimaryKeyValue: function($tr)
         {
-            var rowClass = $tr.attr('class');
-            var regex = /[grid\-row\-]([0-9]+)/;
-            var matches = rowClass.match(regex);
-            return matches[1];
+            return $tr.attr('class').match(/[grid\-row\-]([0-9]+)/)[1];
         },
 
         /**
-         * Returns name of component for AJAX params calls
+         * Returns name of component for AJAX params calls.
          * @param {jQuery} $th header cell
          * @return {String} component name for AJAX params calls
          */
         getComponentHandlerName: function($th)
         {
-            var editControlHandler = $th.data('grido-editablecontrol-handler');
-            var handlerCompName = editControlHandler.replace('/[\.d]*/g', '');
-            var regex = /[\?][do=]+(.*)/;
-            var matches = handlerCompName.match(regex);
-            handlerCompName = matches[1];
+            var handler = this.getEditControlHandlerUrl($th).replace('/[\.d]*/g', '');
+            handler = handler.match(/[\?][do=]+(.*)/)[1];
 
-            var regex = /(.*)\-edit/;
-            var matches = handlerCompName.match(regex);
-            return matches[1];
+            return handler.match(/(.*)\-edit/)[1];
         },
 
         /**
-         * Returns url for AJAX call to Editable class
+         * Returns url for AJAX editable handler.
+         * @param {jQuery} $th header cell
+         * @return {String} Url from data atribute of header cell
+         */
+        getEditHandlerUrl: function($th)
+        {
+            return $th.data('grido-editable-handler');
+        },
+
+        /**
+         * Returns url for AJAX call to Editable class.
          * @param {jQuery} $th header cell
          * @return {String} Url from data atribute of header cell
          */
         getEditControlHandlerUrl: function($th)
         {
             return $th.data('grido-editablecontrol-handler');
+        },
+
+        getOldValue: function($td)
+        {
+            return $td.data('grido-editable-value');
         },
 
         /**
@@ -597,7 +585,7 @@
         },
 
         /**
-         * Returns Children of cell
+         * Returns Children of cell.
          * @param {jQuery} $td cell
          * @return {jQuery} children of cell
          */
@@ -607,7 +595,7 @@
         },
 
         /**
-         * Sets focus in text input if type="text"
+         * Sets focus in text input if type="text".
          * @param {jQuery} $editControlObject input
          */
         setFocus: function($editControlObject)
@@ -640,12 +628,10 @@
             data[d2]=newValue;
             data[d3]=this.oldValue;
 
-            var editHandler = $th.data('grido-editable-handler');
-
             var that = this;
             $.ajax({
                 type: "GET",
-                url: editHandler,
+                url: this.getEditHandlerUrl($th),
                 data: data,
                 async: false
             })
@@ -665,7 +651,7 @@
 
 
         /**
-         * Revert changes in cell
+         * Revert changes in cell.
          * @param {jQuery} $td edited cell
          */
         revertChanges: function($td)
@@ -714,7 +700,7 @@
         },
 
         /**
-         * Init key bindings to control
+         * Init key bindings to control.
          * @param {jQuery} $editedControlObject control
          */
         initBindings: function($editControlObject)
