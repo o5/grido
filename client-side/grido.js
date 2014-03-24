@@ -210,6 +210,11 @@
             $('tbody td:not(.checker,.actions a)', this.grido.$table)
                 .off('click.grido')
                 .on('click.grido', function(event) {
+                    if ($(this).hasClass('edit')) {
+                        event.preventDefault();
+                        return false;
+                    }
+
                     if (event.shiftKey) {
                         _this.disableSelection.call(_this);
                     }
@@ -463,7 +468,9 @@
                 .on('dblclick.grido', function(event) {
                     if (event.metaKey || event.ctrlKey) {
                         _this.td = $(this);
+                        _this.td.addClass('edit');
                         _this.th = _this.getColumnHeader(_this.td);
+                        _this.grido.operation.changeRow(_this.td.closest('tr'), false);
 
                         if (_this.getEditHandlerUrl(_this.th)) {
                             _this.tr = _this.td.parent();
@@ -634,6 +641,7 @@
                 async: false
             })
             .success(function(data) {
+                $td.removeClass('edit');
                 if (data.updated === true) {
                     $td.html(newValue);
                     $td.data('grido-editable-value', newValue);
