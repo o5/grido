@@ -696,32 +696,28 @@
         },
 
         /**
-         * Init key bindings to control.
-         * @param {jQuery} $editedControlObject control
+         * Init key bindings to an edited control.
+         * @param {jQuery} $control
          */
-        initBindings: function($editControlObject)
+        initBindings: function($control)
         {
-            $editControlObject.bind('keydown', {that: this}, function(e) {
-                var that = e.data.that;
-                switch (e.keyCode) {
-                    case 13:
-                        if (typeof Nette === 'object') {
-                            if (typeof Nette.validateControl === 'function') {
-                                if (Nette.validateControl(this)) {
-                                    that.saveData(that.oldValue, that.componentHandlerName, that.primaryKey, that.th, that.td);
-                                    e.preventDefault();
-                                    break;
-                                }
-                                e.preventDefault();
-                                break;
-                            }
+            $control.bind('keydown', {that: this}, function(event) {
+                var that = event.data.that;
+                switch (event.keyCode) {
+                    case 13: //enter
+                        if (typeof window.Nette === 'object' && !window.Nette.validateControl(this)) {
+                            event.preventDefault();
+                            break;
                         }
+
                         that.saveData(that.oldValue, that.componentHandlerName, that.primaryKey, that.th, that.td);
-                        e.preventDefault();
+                        event.preventDefault();
                         break;
-                    case 27:
+
+                    case 27: //esc
                         that.revertChanges(that.td);
-                        e.preventDefault();
+                        event.preventDefault();
+
                         break;
                 }
             });
