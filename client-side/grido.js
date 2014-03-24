@@ -691,6 +691,7 @@
                     that.flashSuccess($td);
                 } else {
                     that.flashError($td);
+                    that.revertChanges($td);
                 }
             },{that: this});
 

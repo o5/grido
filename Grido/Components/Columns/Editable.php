@@ -217,7 +217,7 @@ abstract class Editable extends Column
         $success = $this->editableCallback
             ? callback($this->editableCallback)->invokeArgs(array($id, $value, $prevValue, $this))
             : $this->grid->model->update($id, array($this->getColumn() => $value), $this->grid->primaryKey);
-
+        
         $response = new \Nette\Application\Responses\JsonResponse(array('updated' => $success));
         $this->presenter->sendResponse($response);
     }
