@@ -668,9 +668,11 @@
             }
             var d1 = $componentHandlerName+'-id';
             var d2 = $componentHandlerName+'-value';
+            var d3 = $componentHandlerName+'-prevValue';
             var data = {};
             data[d1]=$primaryKey;
             data[d2]=newValue;
+            data[d3]=this.oldValue;
 
             var editHandler = $th.data('grido-editable-handler');
 
