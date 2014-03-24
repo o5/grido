@@ -478,6 +478,7 @@
             var _this = this;
 
             _this.td = $td;
+            _this.td.addClass('edit');
             _this.th = _this.getColumnHeader(_this.td);
 
             if (_this.getEditHandlerUrl(_this.th)) {
