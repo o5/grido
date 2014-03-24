@@ -50,8 +50,8 @@ abstract class Editable extends Column
         $this->editable = TRUE;
         $this->setClientSideOptions();
 
-        $callback === NULL ?: $this->setEditableCallback($callback);
-        $control === NULL ?: $this->setEditableControl($control);
+        $callback && $this->setEditableCallback($callback);
+        $control && $this->setEditableControl($control);
 
         return $this;
     }
