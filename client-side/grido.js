@@ -713,7 +713,7 @@
          */
         initBindings: function($control)
         {
-            var _this;
+            var _this = this;
             $control.on('keypress.grido', function(event) {
                 switch (event.keyCode) {
                     case 13: //enter
@@ -727,7 +727,10 @@
                         event.preventDefault();
 
                         break;
-
+                }
+            });
+            $control.on('keydown.grido', function(event) {
+                switch(event.keyCode) {
                     case 27: //esc
                         _this.revertChanges(_this.td);
                         _this.td.removeClass('edit');
