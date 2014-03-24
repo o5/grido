@@ -213,9 +213,7 @@
                         _this.disableSelection.call(_this);
                     }
 
-                    //this trigger will not be work in jQuery > 1.8.3
-                    //http://bugs.jquery.com/ticket/13428
-                    $('[type=checkbox]', $(this).parent()).trigger('click', [{shiftKey: event.shiftKey}]);
+                    $('[type=checkbox]', $(this).parent()).click();
 
                     if (event.shiftKey) {
                         _this.enableSelection.call(_this);
@@ -395,7 +393,10 @@
                     }
                 });
 
-                var hash = $.browser.mozilla ? $.param(params) : this.coolUri($.param(params));
+                var hash = /mozilla/i.test(navigator.userAgent) && !/webkit/i.test(navigator.userAgent)
+                    ? $.param(params)
+                    : this.coolUri($.param(params));
+
                 $.data(document, this.grido.name + '-state', hash);
                 location.hash = hash;
             }
@@ -476,4 +477,4 @@
     window.Grido = Grido;
     return Grido;
 
-})(jQuery, window, document, location);
+})(jQuery, window, document, location, navigator);
