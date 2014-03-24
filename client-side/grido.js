@@ -550,28 +550,28 @@
 
         /**
          * Returns html of control.
-         * @param {String} $componentHandlerName component name for AJAX call
-         * @param {String} $controlHandlerUrl url for AJAX call
+         * @param {String} componentName component name for AJAX call
+         * @param {String} handleLink url for AJAX call
          * @return {String} HTML of control
          */
-        getEditControl: function($componentHandlerName, $controlHandlerUrl)
+        getEditControl: function(componentName, handleLink)
         {
-            var dataForControl = {};
-            var d1 = $componentHandlerName+'-value';
-            dataForControl[d1] = this.oldValue;
+            var control,
+                data = {};
 
-            var editControl;
+            data[componentName + '-value'] = this.oldValue;
+
             $.ajax({
                 type: "GET",
-                url: $controlHandlerUrl,
-                data: dataForControl,
+                url: handleLink,
+                data: data,
                 async: false
             })
             .success(function(data) {
-                editControl = data;
+                control = data;
             });
 
-            return editControl;
+            return control;
         },
 
         /**
@@ -607,26 +607,24 @@
 
         /**
          * AJAX call to Editable handler for saving data.
-         * @param {String} $oldValue value of cell before edit was done
-         * @param {String} $componentHandlerName name of component handler for AJAX params
-         * @param {String} $primaryKey value of primary key
+         * @param {String} oldValue value of cell before edit was done
+         * @param {String} componentName name of component handler for AJAX params
+         * @param {String} primaryKey value of primary key
          * @param {jQuery} $th header cell of column
          * @param {jQuery} $td edited cell
          */
-        saveData: function($oldValue, $componentHandlerName, $primaryKey, $th, $td)
+        saveData: function(oldValue, componentName, primaryKey, $th, $td)
         {
             var newValue = this.editControlObject.val();
-            if ($oldValue === newValue) {
+            if (oldValue === newValue) {
                 $td.html(newValue);
                 return;
             }
-            var d1 = $componentHandlerName+'-id';
-            var d2 = $componentHandlerName+'-value';
-            var d3 = $componentHandlerName+'-prevValue';
+
             var data = {};
-            data[d1]=$primaryKey;
-            data[d2]=newValue;
-            data[d3]=this.oldValue;
+            data[componentName+'-id'] = primaryKey;
+            data[componentName+'-value'] = newValue;
+            data[componentName+'-prevValue'] = this.oldValue;
 
             var that = this;
             $.ajax({
@@ -646,9 +644,7 @@
                     that.revertChanges($td);
                 }
             },{that: this});
-
         },
-
 
         /**
          * Revert changes in cell.
