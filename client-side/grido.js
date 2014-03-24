@@ -530,7 +530,7 @@
         getComponentHandlerName: function($th)
         {
             var handler = this.getEditControlHandlerUrl($th).replace('/[\.d]*/g', '');
-            handler = handler.match(/[\?][do=]+(.*)/)[1];
+            handler = handler.match(/[\??\&?][do=]+(.*)/)[1];
 
             return handler.match(/(.*)\-edit/)[1];
         },
