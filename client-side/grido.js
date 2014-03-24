@@ -684,6 +684,7 @@
                 }
                 if (transp <= 0) {
                     clearInterval(timer);
+                    $td.css('background', '');
                 }
             }, 1 );
         },
@@ -704,6 +705,7 @@
                 }
                 if (transp <= 0) {
                     clearInterval(timer);
+                    $td.css('background', '');
                 }
             }, 1 );
         },
