@@ -45,13 +45,13 @@
         {
             this.ajax = new Grido.Ajax(this).init();
             this.operation = new Grido.Operation(this).init();
-            this.editable = new Grido.Editable(this).init();
 
             this.initFilters();
             this.initItemsPerPage();
             this.initActions();
             this.initPagePrompt();
             this.initCheckNumeric();
+            this.initEditable();
             this.onInit();
 
             return this;
@@ -131,6 +131,18 @@
 
                     pattern.test(value) && $(this).val(value.replace(pattern, ''));
                 });
+        },
+
+        initEditable: function()
+        {
+            var _this = this;
+            $('td[class*="grid-cell-"]', this.$element)
+                .off('dblclick.grido')
+                .on('dblclick.grido', function(event) {
+                    if (event.metaKey || event.ctrlKey) {
+                        this.editable = new Grido.Editable(_this).init($(this));
+                    }
+            });
         },
 
         onInit: function() {},
@@ -457,37 +469,29 @@
 
     Grido.Editable.prototype =
     {
-        init: function()
+        init: function($td)
         {
             if (this.grido.options.ajax !== true && this.grido.options.editable !== true) {
                 return null;
             }
 
             var _this = this;
-            $('td[class*="grid-cell-"]', this.grido.$element)
-                .off('dblclick.grido')
-                .on('dblclick.grido', function(event) {
-                    if (event.metaKey || event.ctrlKey) {
-                        _this.td = $(this);
-                        _this.td.addClass('edit');
-                        _this.th = _this.getColumnHeader(_this.td);
-                        _this.grido.operation && _this.grido.operation.changeRow(_this.td.closest('tr'), false);
 
-                        if (_this.getEditHandlerUrl(_this.th)) {
-                            _this.tr = _this.td.parent();
-                            _this.oldValue = _this.getOldValue(_this.td);
-                            _this.primaryKey = _this.getPrimaryKeyValue(_this.tr);
-                            _this.componentHandlerName = _this.getComponentHandlerName(_this.th);
-                            _this.editControlHandlerUrl = _this.getEditControlHandlerUrl(_this.th);
-                            _this.editControlHtml = _this.getEditControl(_this.componentHandlerName, _this.editControlHandlerUrl);
-                            _this.renderEditControl(_this.td, _this.editControlHtml);
-                            _this.editControlObject = _this.getEditControlObject(_this.td);
-                            _this.setFocus(_this.editControlObject);
-                            _this.initBindings(_this.editControlObject);
-                        }
-                    }
-                });
+            _this.td = $td;
+            _this.th = _this.getColumnHeader(_this.td);
 
+            if (_this.getEditHandlerUrl(_this.th)) {
+                _this.tr = _this.td.parent();
+                _this.oldValue = _this.getOldValue(_this.td);
+                _this.primaryKey = _this.getPrimaryKeyValue(_this.tr);
+                _this.componentHandlerName = _this.getComponentHandlerName(_this.th);
+                _this.editControlHandlerUrl = _this.getEditControlHandlerUrl(_this.th);
+                _this.editControlHtml = _this.getEditControl(_this.componentHandlerName, _this.editControlHandlerUrl);
+                _this.renderEditControl(_this.td, _this.editControlHtml);
+                _this.editControlObject = _this.getEditControlObject(_this.td);
+                _this.setFocus(_this.editControlObject);
+                _this.initBindings(_this.editControlObject);
+            }
             return this;
         },
 
@@ -723,7 +727,10 @@
                         event.preventDefault();
 
                         break;
-
+                }
+            });
+            $control.on('keydown.grido', function(event) {
+                switch(event.keyCode) {
                     case 27: //esc
                         _this.revertChanges(_this.td);
                         _this.td.removeClass('edit');
