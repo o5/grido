@@ -714,31 +714,35 @@
         initBindings: function($control)
         {
             var _this = this;
-            $control.on('keypress.grido', function(event) {
-                switch (event.keyCode) {
-                    case 13: //enter
-                        if (typeof window.Nette === 'object' && !window.Nette.validateControl(this)) {
-                            event.preventDefault();
-                            break;
-                        }
-
-                        _this.saveData(_this.oldValue, _this.componentHandlerName, _this.primaryKey, _this.th, _this.td);
-                        _this.td.removeClass('edit');
+            var keypress = function(event)
+            {
+                if (event.keyCode === 13) { //enter
+                    if (typeof window.Nette === 'object' && !window.Nette.validateControl(this)) {
                         event.preventDefault();
+                        return false;
+                    }
 
-                        break;
-                }
-            });
-            $control.on('keydown.grido', function(event) {
-                switch(event.keyCode) {
-                    case 27: //esc
-                        _this.revertChanges(_this.td);
-                        _this.td.removeClass('edit');
-                        event.preventDefault();
+                    _this.saveData(_this.oldValue, _this.componentHandlerName, _this.primaryKey, _this.th, _this.td);
+                    _this.td.removeClass('edit');
 
-                        break;
+                    event.preventDefault();
+                    return false;
                 }
-            });
+            };
+
+            var keydown = function(event)
+            {
+                if (event.keyCode === 27) { //enter
+                    _this.revertChanges(_this.td);
+                    _this.td.removeClass('edit');
+
+                    event.preventDefault();
+                    return false;
+                }
+            };
+
+            $control.on('keypress.grido', keypress)
+                    .on('keydown.grido',  keydown);
         }
     };
 
