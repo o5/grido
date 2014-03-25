@@ -15,16 +15,19 @@
  * @param {Window} window
  * @param {Document} document
  * @param {Location} location
+ * @param {Navigator} navigator
  */
-;(function($, window, document, location) {
+;(function($, window, document, location, navigator) {
     /*jshint laxbreak: true, expr: true */
     "use strict";
 
     var Grido = Grido || {};
 
-    /*    GRID DEFINITION   */
-    /* ========================== */
-
+    /**
+     * Grid definition.
+     * @param {jQuery} $element
+     * @param {Object} options
+     */
     Grido.Grid = function($element, options)
     {
         this.$element = $element;
@@ -84,7 +87,7 @@
          */
         initActions: function()
         {
-            var _this = this;
+            var that = this;
             $('.actions a', this.$table)
                 .off('click.nette')
                 .off('click.grido')
@@ -93,8 +96,8 @@
                     if (hasConfirm && !confirm(hasConfirm)) {
                         event.preventDefault();
                         event.stopImmediatePropagation();
-                    } else if (hasConfirm && $(this).hasClass('ajax') && _this.ajax) {
-                        _this.ajax.doRequest(this.href);
+                    } else if (hasConfirm && $(this).hasClass('ajax') && that.ajax) {
+                        that.ajax.doRequest(this.href);
                         event.preventDefault();
                         event.stopImmediatePropagation();
                     }
@@ -106,14 +109,14 @@
          */
         initPagePrompt: function()
         {
-            var _this = this;
+            var that = this;
             $('.paginator .prompt', this.$table)
                 .off('click.grido')
                 .on('click.grido', function() {
                     var page = parseInt(prompt($(this).data('grido-prompt')), 10);
-                    if (page && page > 0 && page <= parseInt($('.paginator a.btn:last', _this.element).prev().text(), 10)) {
+                    if (page && page > 0 && page <= parseInt($('.paginator a.btn:last', that.element).prev().text(), 10)) {
                         var location = $(this).data('grido-link').replace('page=0', 'page=' + page);
-                        window.location = _this.options.ajax ? location.replace('?', '#') : location;
+                        window.location = that.options.ajax ? location.replace('?', '#') : location;
                     }
                 });
         },
@@ -127,7 +130,7 @@
                 .off('keyup.grido')
                 .on('keyup.grido', function() {
                     var value = $(this).val(),
-                        pattern = new RegExp(/[^<>=\\.\\,\-0-9]+/g); //TODO: improve my regex knowledge :)
+                        pattern = new RegExp(/[^<>=\\.\\,\-0-9]+/g);
 
                     pattern.test(value) && $(this).val(value.replace(pattern, ''));
                 });
@@ -156,9 +159,10 @@
         }
     };
 
-    /* OPERATION DEFINITION */
-    /* ========================== */
-
+    /**
+     * Operation definition.
+     * @param {Grido} Grido
+     */
     Grido.Operation = function(Grido)
     {
         this.grido = Grido;
@@ -198,27 +202,27 @@
          */
         bindClickOnCheckbox: function()
         {
-            var _this = this;
+            var that = this;
             $(this.selector, this.grido.$table)
                 .off('click.grido')
                 .on('click.grido', function(event, data) {
                     if(event.shiftKey || (data && data.shiftKey)) {
-                        var $boxes = $(_this.selector, _this.grido.$table),
+                        var $boxes = $(that.selector, that.grido.$table),
                             start = $boxes.index(this),
-                            end = $boxes.index(_this.$last);
+                            end = $boxes.index(that.$last);
 
                         $boxes.slice(Math.min(start, end), Math.max(start, end))
-                            .attr('checked', _this.$last.checked)
+                            .attr('checked', that.$last.checked)
                             .trigger('change');
                     }
 
-                    _this.$last = this;
+                    that.$last = this;
                 });
         },
 
         bindClickOnRow: function()
         {
-            var _this = this;
+            var that = this;
             $('tbody td:not(.checker,.actions a)', this.grido.$table)
                 .off('click.grido')
                 .on('click.grido', function(event) {
@@ -228,27 +232,27 @@
                     }
 
                     if (event.shiftKey) {
-                        _this.disableSelection.call(_this);
+                        that.disableSelection.call(that);
                     }
 
                     $('[type=checkbox]', $(this).parent()).click();
 
                     if (event.shiftKey) {
-                        _this.enableSelection.call(_this);
+                        that.enableSelection.call(that);
                     }
                 });
         },
 
         bindClickOnInvertor: function()
         {
-            var _this = this;
+            var that = this;
             $('th.checker [type=checkbox]', this.grido.$table)
                 .off('click.grido')
                 .on('click.grido', function() {
-                    $(_this.selector, _this.grido.$table).each(function() {
+                    $(that.selector, that.grido.$table).each(function() {
                         var val = $(this).prop('checked');
                         $(this).prop('checked', !val);
-                        _this.changeRow($(this).closest('tr'), !val);
+                        that.changeRow($(this).closest('tr'), !val);
                     });
 
                     return false;
@@ -257,21 +261,21 @@
 
         bindChangeOnCheckbox: function()
         {
-            var _this = this;
+            var that = this;
             $(this.selector, this.grido.$table)
                 .off('change.grido')
                 .on('change.grido', function() {
-                    $.proxy(_this.changeRow, _this)($(this).closest('tr'), $(this).prop('checked'));
+                    $.proxy(that.changeRow, that)($(this).closest('tr'), $(this).prop('checked'));
                 });
         },
 
         bindChangeOnSelect: function()
         {
-            var _this = this;
+            var that = this;
             $('.operations [name="operations[operations]"]', this.grido.$table)
                 .off('change.grido')
                 .on('change.grido', function() {
-                    $(this).val() && $('.operations [type=submit]', _this.grido.$table).click();
+                    $(this).val() && $('.operations [type=submit]', that.grido.$table).click();
                 });
         },
 
@@ -359,9 +363,10 @@
         }
     };
 
-    /*    AJAX DEFINITION   */
-    /* ========================== */
-
+    /**
+     * Ajax definition.
+     * @param {Grido} Grido
+     */
     Grido.Ajax = function(Grido)
     {
         this.grido = Grido;
@@ -383,9 +388,9 @@
 
         registerSuccessEvent: function()
         {
-            var _this = this;
+            var that = this;
             this.grido.$element.bind('success.ajax.grido', function(event, payload) {
-                $.proxy(_this.handleSuccessEvent, _this)(payload);
+                $.proxy(that.handleSuccessEvent, that)(payload);
                 event.stopImmediatePropagation();
             });
         },
@@ -400,13 +405,13 @@
          */
         handleSuccessEvent: function(payload)
         {
-            var _this = this,
+            var that = this,
                 params = {},
                 snippet = 'snippet-' + this.grido.name + '-grid';
 
             if (payload && payload.snippets && payload.snippets[snippet] && payload.state) { //is ajax update?
                 $.each(payload.state, function(key, val) {
-                    if ((val || val === 0) && key.indexOf('' + _this.grido.name + '-') >= 0) {
+                    if ((val || val === 0) && key.indexOf('' + that.grido.name + '-') >= 0) {
                         params[key] = val;
                     }
                 });
@@ -435,7 +440,7 @@
 
         /**
          * Load data from the server using a HTTP GET request.
-         * @param {string} url
+         * @param {String} url
          */
         doRequest: function(url)
         {
