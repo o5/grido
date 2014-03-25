@@ -138,12 +138,12 @@
 
         initEditable: function()
         {
-            var _this = this;
+            var that = this;
             $('td[class*="grid-cell-"]', this.$element)
                 .off('dblclick.grido')
                 .on('dblclick.grido', function(event) {
                     if (event.metaKey || event.ctrlKey) {
-                        this.editable = new Grido.Editable(_this).init($(this));
+                        this.editable = new Grido.Editable(that).init($(this));
                     }
             });
         },
@@ -464,9 +464,11 @@
         }
     };
 
-    /*  INLINE EDITABLE DEFINITION  */
-    /* ========================== */
-
+    /**
+     * Inline editable definition.
+     * @author Jakub Kopřiva <kopriva.jakub@gmail.com>
+     * @param {Grido} Grido
+     */
     Grido.Editable = function(Grido)
     {
         this.grido = Grido;
@@ -739,7 +741,7 @@
          */
         initBindings: function($control)
         {
-            var _this = this;
+            var that = this;
             var keypress = function(event)
             {
                 if (event.keyCode === 13) { //enter
@@ -748,8 +750,8 @@
                         return false;
                     }
 
-                    _this.saveData(_this.value, _this.componentName, _this.primaryKey, _this.th, _this.td);
-                    _this.td.removeClass('edit');
+                    that.saveData(that.value, that.componentName, that.primaryKey, that.th, that.td);
+                    that.td.removeClass('edit');
 
                     event.preventDefault();
                     return false;
@@ -759,8 +761,8 @@
             var keydown = function(event)
             {
                 if (event.keyCode === 27) { //esc
-                    _this.revertChanges(_this.td);
-                    _this.td.removeClass('edit');
+                    that.revertChanges(that.td);
+                    that.td.removeClass('edit');
 
                     event.preventDefault();
                     return false;
