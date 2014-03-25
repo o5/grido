@@ -116,6 +116,7 @@ class NetteDatabase extends \Nette\Object implements IDataSource
     public function suggest($column, array $conditions, $limit)
     {
         $selection = clone $this->selection;
+        is_string($column) && $selection->select("DISTINCT $column");
         $selection->limit($limit);
 
         foreach ($conditions as $condition) {

@@ -46,7 +46,8 @@ class DibiFluentTest extends DataSourceTestCase
             $grid->addColumnText('country', 'Country')
                 ->setSortable()
                 ->setFilterText()
-                    ->setSuggestion();
+                    ->setColumn('c.title')
+                    ->setSuggestion('title');
 
             $grid->addFilterCheck('male', 'Only male')
                 ->setCondition(array(
