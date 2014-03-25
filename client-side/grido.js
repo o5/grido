@@ -471,28 +471,27 @@
     {
         init: function($td)
         {
-            if (this.grido.options.ajax !== true && this.grido.options.editable !== true) {
+            if (this.grido.options.ajax !== true || this.grido.options.editable !== true) {
                 return null;
             }
 
-            var _this = this;
+            this.td = $td.addClass('edit');
+            this.th = this.getColumnHeader(this.td);
 
-            _this.td = $td;
-            _this.td.addClass('edit');
-            _this.th = _this.getColumnHeader(_this.td);
+            if (this.getEditHandlerUrl(this.th)) {
+                this.value = this.getValue(this.td);
+                this.oldValue = this.getOldValue(this.td);
+                this.primaryKey = this.getPrimaryKeyValue(this.td.parent());
 
-            if (_this.getEditHandlerUrl(_this.th)) {
-                _this.tr = _this.td.parent();
-                _this.oldValue = _this.getOldValue(_this.td);
-                _this.primaryKey = _this.getPrimaryKeyValue(_this.tr);
-                _this.componentHandlerName = _this.getComponentHandlerName(_this.th);
-                _this.editControlHandlerUrl = _this.getEditControlHandlerUrl(_this.th);
-                _this.editControlHtml = _this.getEditControl(_this.componentHandlerName, _this.editControlHandlerUrl);
-                _this.renderEditControl(_this.td, _this.editControlHtml);
-                _this.editControlObject = _this.getEditControlObject(_this.td);
-                _this.setFocus(_this.editControlObject);
-                _this.initBindings(_this.editControlObject);
+                this.componentName = this.getComponentName(this.th);
+                this.editControlHtml = this.getEditControl(this.componentName, this.getEditControlHandlerUrl(this.th));
+                this.renderEditControl(this.td, this.editControlHtml);
+
+                this.editControlObject = this.getEditControlObject(this.td);
+                this.setFocus(this.editControlObject);
+                this.initBindings(this.editControlObject);
             }
+
             return this;
         },
 
@@ -510,6 +509,7 @@
                     headerClass = classList[i];
                 }
             }
+
             return $('th[class~="' + headerClass + '"]');
         },
 
@@ -528,7 +528,7 @@
          * @param {jQuery} $th header cell
          * @return {String} component name for AJAX params calls
          */
-        getComponentHandlerName: function($th)
+        getComponentName: function($th)
         {
             var handler = this.getEditControlHandlerUrl($th).replace('/[\.d]*/g', '');
             handler = handler.match(/[\??\&?][do=]+(.*)/)[1];
@@ -556,9 +556,26 @@
             return $th.data('grido-editablecontrol-handler');
         },
 
-        getOldValue: function($td)
+        /**
+         * Returns raw value for editable control.
+         * @param {jQuery} $td
+         * @returns {String}
+         */
+        getValue: function($td)
         {
             return $td.data('grido-editable-value');
+        },
+
+        /**
+         * Returns value in the cell.
+         * @param {jQuery} $td
+         * @returns {jQuery}|{String}
+         */
+        getOldValue: function($td)
+        {
+            return $td.children().length > 0
+                ? $td.children()
+                : $td.text().trim();
         },
 
         /**
@@ -572,7 +589,7 @@
             var control,
                 data = {};
 
-            data[componentName + '-value'] = this.oldValue;
+            data[componentName + '-value'] = this.value;
 
             $.ajax({
                 type: "GET",
@@ -628,18 +645,19 @@
          */
         saveData: function(oldValue, componentName, primaryKey, $th, $td)
         {
-            var newValue = this.editControlObject.val();
-            if (oldValue === newValue) {
-                $td.html(newValue);
+            var data = {},
+                that = this,
+                newValue = this.editControlObject.val();
+
+            if (newValue === oldValue) {
+                $td.html(oldValue);
                 return;
             }
 
-            var data = {};
-            data[componentName+'-id'] = primaryKey;
-            data[componentName+'-value'] = newValue;
-            data[componentName+'-prevValue'] = this.oldValue;
+            data[componentName + '-id'] = primaryKey;
+            data[componentName + '-newValue'] = newValue;
+            data[componentName + '-oldValue'] = oldValue;
 
-            var that = this;
             $.ajax({
                 type: "GET",
                 url: this.getEditHandlerUrl($th),
@@ -656,7 +674,7 @@
                     that.flashError($td);
                     that.revertChanges($td);
                 }
-            },{that: this});
+            });
         },
 
         /**
@@ -725,7 +743,7 @@
                         return false;
                     }
 
-                    _this.saveData(_this.oldValue, _this.componentHandlerName, _this.primaryKey, _this.th, _this.td);
+                    _this.saveData(_this.value, _this.componentName, _this.primaryKey, _this.th, _this.td);
                     _this.td.removeClass('edit');
 
                     event.preventDefault();
@@ -735,7 +753,7 @@
 
             var keydown = function(event)
             {
-                if (event.keyCode === 27) { //enter
+                if (event.keyCode === 27) { //esc
                     _this.revertChanges(_this.td);
                     _this.td.removeClass('edit');
 
@@ -744,8 +762,11 @@
                 }
             };
 
-            $control.on('keypress.grido', keypress)
-                    .on('keydown.grido',  keydown);
+            $control
+                .off('keypress.grido')
+                 .on('keypress.grido', keypress)
+                .off('keydown.grido')
+                 .on('keydown.grido',  keydown);
         }
     };
 
