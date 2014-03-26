@@ -237,6 +237,14 @@ class Doctrine extends \Nette\Object implements IDataSource
         $qb = clone $this->qb;
         $qb->setMaxResults($limit);
 
+        if (is_string($column)) {
+            $mapping = isset($this->filterMapping[$column])
+                ? $this->filterMapping[$column]
+                : $qb->getRootAlias() . '.' . $column;
+
+            $qb->select($mapping)->distinct();
+        }
+
         foreach ($conditions as $condition) {
             $this->makeWhere($condition, $qb);
         }
@@ -245,11 +253,7 @@ class Doctrine extends \Nette\Object implements IDataSource
         $data = $qb->getQuery()->getScalarResult();
         foreach ($data as $row) {
             if (is_string($column)) {
-                $mapping = isset($this->filterMapping[$column])
-                    ? str_replace('.', '_', $this->filterMapping[$column])
-                    : $qb->getRootAlias() . '_' . $column;
-
-                $value = (string) $row[$mapping];
+                $value = (string) current($row);
                 $items[$value] = $value;
             } elseif (is_callable($column)) {
                 $value = (string) $column($row);
