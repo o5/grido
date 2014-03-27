@@ -740,7 +740,18 @@ class Grid extends Components\Container
     {
         $template = parent::createTemplate($class);
         $template->setFile(__DIR__ . '/Grid.latte');
+
         $template->registerHelper('translate', callback($this->getTranslator(), 'translate'));
+        $template->registerFilter(new \Nette\Latte\Engine);
+        $template->registerFilter(function($source)
+        {
+            $namespaces = array(
+                '\Grido\Grid', '\Grido\Components\Columns\Column', '\Grido\Components\Filters\Filter',
+                '\Grido\Components\Actions\Action', '\Grido\Components\Operation', '\Grido\Components\Export'
+            );
+
+            return '<?php use ' . implode(',', $namespaces) . ';?>' . $source;
+        });
 
         return $template;
     }
