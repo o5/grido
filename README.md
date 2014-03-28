@@ -1,4 +1,4 @@
-[Grido](http://o5.github.io/grido-sandbox/) [![Build Status](https://travis-ci.org/o5/grido.png?branch=master)](https://travis-ci.org/o5/grido) [![Latest Stable Version](https://poser.pugx.org/o5/grido/v/stable.png)](https://github.com/o5/grido/releases)  [![Total Downloads](https://poser.pugx.org/o5/grido/downloads.png)](https://packagist.org/packages/o5/grido) [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/o5/grido/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+[Grido](http://o5.github.io/grido-sandbox/) [![Build Status](https://travis-ci.org/o5/grido.png?branch=master)](https://travis-ci.org/o5/grido) [![Latest Stable Version](https://poser.pugx.org/o5/grido/v/stable.png)](https://github.com/o5/grido/releases)  [![Total Downloads](https://poser.pugx.org/o5/grido/downloads.png)](https://packagist.org/packages/o5/grido)
 =============
 DataGrid for [Nette Framework](http://nette.org/) (PHP 5.3).
 
