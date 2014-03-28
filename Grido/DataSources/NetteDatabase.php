@@ -11,6 +11,8 @@
 
 namespace Grido\DataSources;
 
+use Grido\Components\Filters\Condition;
+
 /**
  * Nette Database data source.
  *
@@ -44,10 +46,10 @@ class NetteDatabase extends \Nette\Object implements IDataSource
     }
 
     /**
-     * @param Grido\Components\Filters\Condition $condition
+     * @param Condition $condition
      * @param \Nette\Database\Table\Selection $selection
      */
-    protected function makeWhere(\Grido\Components\Filters\Condition $condition, \Nette\Database\Table\Selection $selection = NULL)
+    protected function makeWhere(Condition $condition, \Nette\Database\Table\Selection $selection = NULL)
     {
         $selection = $selection === NULL
             ? $this->selection
@@ -130,7 +132,8 @@ class NetteDatabase extends \Nette\Object implements IDataSource
             } elseif (is_callable($column)) {
                 $value = (string) $column($row);
             } else {
-                throw new \InvalidArgumentException('Column of suggestion must be string or callback, ' . gettype($column) . ' given.');
+                $type = gettype($column);
+                throw new \InvalidArgumentException("Column of suggestion must be string or callback, $type given.");
             }
 
             $items[$value] = $value;

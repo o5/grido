@@ -260,7 +260,8 @@ class Doctrine extends \Nette\Object implements IDataSource
                 $items[$value] = $value;
 
             } else {
-                throw new \InvalidArgumentException('Column of suggestion must be string or callback, ' . gettype($column) . ' given.');
+                $type = gettype($column);
+                throw new \InvalidArgumentException("Column of suggestion must be string or callback, $type given.");
             }
         }
 

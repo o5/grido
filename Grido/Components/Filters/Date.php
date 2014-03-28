@@ -92,9 +92,10 @@ class Date extends Text
      */
     public function __getCondition($value)
     {
-        if ($this->where === NULL && is_string($this->condition)) {
+        $condition = $this->condition;
+        if ($this->where === NULL && is_string($condition)) {
             return ($date = \DateTime::createFromFormat($this->dateFormatInput, $value))
-                ? Condition::setupFromArray(array($this->getColumn(), $this->condition, $date->format($this->dateFormatOutput)))
+                ? Condition::setupFromArray(array($this->getColumn(), $condition, $date->format($this->dateFormatOutput)))
                 : Condition::setupEmpty();
         }
 

@@ -156,7 +156,8 @@ class DibiFluent extends \Nette\Object implements IDataSource
             } elseif (is_callable($column)) {
                 $value = (string) $column($row);
             } else {
-                throw new \InvalidArgumentException('Column of suggestion must be string or callback, ' . gettype($column) . ' given.');
+                $type = gettype($column);
+                throw new \InvalidArgumentException("Column of suggestion must be string or callback, $type given.");
             }
 
             $items[$value] = $value;
