@@ -85,6 +85,14 @@ class EditableTest extends \Tester\TestCase
         Assert::same(NULL, $col->editableCallback);
         Assert::same($control, $col->editableControl);
     }
+
+    function handleEditable() {
+        // Not Implemented yet
+    }
+
+    function handleEditableControl() {
+        // Not Implemented yet
+    }
 }
 
 run(__FILE__);
