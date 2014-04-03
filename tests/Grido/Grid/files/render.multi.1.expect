@@ -22,7 +22,7 @@
         <tr>
             <td colspan="4">
                 <span class="paginator">
-                        <span class="btn btn-default btn-xs btn-mini disabled" href="/?grid-page=0&amp;action=default&amp;do=grid-page&amp;presenter=Test"><i class="glyphicon glyphicon-arrow-left icon-arrow-left"></i> Previous</span>
+                        <span class="btn btn-default btn-xs btn-mini disabled" href="/?grid-page=0&amp;action=default&amp;do=grid-page&amp;presenter=Test"><i class="glyphicon glyphicon-arrow-left icon-arrow-left fa fa-arrow-left"></i> Previous</span>
                             <span class="btn btn-default btn-xs btn-mini disabled">1</span>
                             <a class="btn btn-default btn-xs btn-mini ajax" href="/?grid-page=2&amp;action=default&amp;do=grid-page&amp;presenter=Test">2</a>
                             <a class="btn btn-default btn-xs btn-mini ajax" href="/?grid-page=3&amp;action=default&amp;do=grid-page&amp;presenter=Test">3</a>
@@ -35,7 +35,7 @@
                             <a class="btn btn-default btn-xs btn-mini ajax" href="/?grid-page=19&amp;action=default&amp;do=grid-page&amp;presenter=Test">19</a>
                         <a class="prompt" data-grido-prompt="Enter page:" data-grido-link="/?grid-page=0&amp;action=default&amp;do=grid-page&amp;presenter=Test">...</a>
                             <a class="btn btn-default btn-xs btn-mini ajax" href="/?grid-page=25&amp;action=default&amp;do=grid-page&amp;presenter=Test">25</a>
-                        <a class="btn btn-default btn-xs btn-mini ajax" href="/?grid-page=2&amp;action=default&amp;do=grid-page&amp;presenter=Test">Next <i class="glyphicon glyphicon-arrow-right icon-arrow-right"></i></a>
+                        <a class="btn btn-default btn-xs btn-mini ajax" href="/?grid-page=2&amp;action=default&amp;do=grid-page&amp;presenter=Test">Next <i class="glyphicon glyphicon-arrow-right icon-arrow-right fa fa-arrow-right"></i></a>
                 </span>
                 <span class="count">
                     Items 1 - 2 of 50
@@ -103,7 +103,7 @@
         <tr>
             <td colspan="5">
                 <span class="paginator">
-                        <span class="btn btn-default btn-xs btn-mini disabled" href="/?grid-page=0&amp;action=default&amp;do=grid-page&amp;presenter=Test"><i class="glyphicon glyphicon-arrow-left icon-arrow-left"></i> Previous</span>
+                        <span class="btn btn-default btn-xs btn-mini disabled" href="/?grid-page=0&amp;action=default&amp;do=grid-page&amp;presenter=Test"><i class="glyphicon glyphicon-arrow-left icon-arrow-left fa fa-arrow-left"></i> Previous</span>
                             <span class="btn btn-default btn-xs btn-mini disabled">1</span>
                             <a class="btn btn-default btn-xs btn-mini ajax" href="/?grid-page=2&amp;action=default&amp;do=grid-page&amp;presenter=Test">2</a>
                             <a class="btn btn-default btn-xs btn-mini ajax" href="/?grid-page=3&amp;action=default&amp;do=grid-page&amp;presenter=Test">3</a>
@@ -116,7 +116,7 @@
                             <a class="btn btn-default btn-xs btn-mini ajax" href="/?grid-page=19&amp;action=default&amp;do=grid-page&amp;presenter=Test">19</a>
                         <a class="prompt" data-grido-prompt="Enter page:" data-grido-link="/?grid-page=0&amp;action=default&amp;do=grid-page&amp;presenter=Test">...</a>
                             <a class="btn btn-default btn-xs btn-mini ajax" href="/?grid-page=25&amp;action=default&amp;do=grid-page&amp;presenter=Test">25</a>
-                        <a class="btn btn-default btn-xs btn-mini ajax" href="/?grid-page=2&amp;action=default&amp;do=grid-page&amp;presenter=Test">Next <i class="glyphicon glyphicon-arrow-right icon-arrow-right"></i></a>
+                        <a class="btn btn-default btn-xs btn-mini ajax" href="/?grid-page=2&amp;action=default&amp;do=grid-page&amp;presenter=Test">Next <i class="glyphicon glyphicon-arrow-right icon-arrow-right fa fa-arrow-right"></i></a>
                 </span>
                 <span class="count">
                     Items 1 - 2 of 50
@@ -201,7 +201,7 @@
         <tr>
             <td colspan="5">
                 <span class="paginator">
-                        <span class="btn btn-default btn-xs btn-mini disabled" href="/?grid-page=0&amp;action=default&amp;do=grid-page&amp;presenter=Test"><i class="glyphicon glyphicon-arrow-left icon-arrow-left"></i> Previous</span>
+                        <span class="btn btn-default btn-xs btn-mini disabled" href="/?grid-page=0&amp;action=default&amp;do=grid-page&amp;presenter=Test"><i class="glyphicon glyphicon-arrow-left icon-arrow-left fa fa-arrow-left"></i> Previous</span>
                             <span class="btn btn-default btn-xs btn-mini disabled">1</span>
                             <a class="btn btn-default btn-xs btn-mini ajax" href="/?grid-page=2&amp;action=default&amp;do=grid-page&amp;presenter=Test">2</a>
                             <a class="btn btn-default btn-xs btn-mini ajax" href="/?grid-page=3&amp;action=default&amp;do=grid-page&amp;presenter=Test">3</a>
@@ -214,7 +214,7 @@
                             <a class="btn btn-default btn-xs btn-mini ajax" href="/?grid-page=19&amp;action=default&amp;do=grid-page&amp;presenter=Test">19</a>
                         <a class="prompt" data-grido-prompt="Enter page:" data-grido-link="/?grid-page=0&amp;action=default&amp;do=grid-page&amp;presenter=Test">...</a>
                             <a class="btn btn-default btn-xs btn-mini ajax" href="/?grid-page=25&amp;action=default&amp;do=grid-page&amp;presenter=Test">25</a>
-                        <a class="btn btn-default btn-xs btn-mini ajax" href="/?grid-page=2&amp;action=default&amp;do=grid-page&amp;presenter=Test">Next <i class="glyphicon glyphicon-arrow-right icon-arrow-right"></i></a>
+                        <a class="btn btn-default btn-xs btn-mini ajax" href="/?grid-page=2&amp;action=default&amp;do=grid-page&amp;presenter=Test">Next <i class="glyphicon glyphicon-arrow-right icon-arrow-right fa fa-arrow-right"></i></a>
                 </span>
                 <span class="count">
                     Items 1 - 2 of 50
@@ -301,7 +301,7 @@
         <tr>
             <td colspan="5">
                 <span class="paginator">
-                        <span class="btn btn-default btn-xs btn-mini disabled" href="/?grid-page=0&amp;action=default&amp;do=grid-page&amp;presenter=Test"><i class="glyphicon glyphicon-arrow-left icon-arrow-left"></i> Previous</span>
+                        <span class="btn btn-default btn-xs btn-mini disabled" href="/?grid-page=0&amp;action=default&amp;do=grid-page&amp;presenter=Test"><i class="glyphicon glyphicon-arrow-left icon-arrow-left fa fa-arrow-left"></i> Previous</span>
                             <span class="btn btn-default btn-xs btn-mini disabled">1</span>
                             <a class="btn btn-default btn-xs btn-mini ajax" href="/?grid-page=2&amp;action=default&amp;do=grid-page&amp;presenter=Test">2</a>
                             <a class="btn btn-default btn-xs btn-mini ajax" href="/?grid-page=3&amp;action=default&amp;do=grid-page&amp;presenter=Test">3</a>
@@ -314,7 +314,7 @@
                             <a class="btn btn-default btn-xs btn-mini ajax" href="/?grid-page=19&amp;action=default&amp;do=grid-page&amp;presenter=Test">19</a>
                         <a class="prompt" data-grido-prompt="Enter page:" data-grido-link="/?grid-page=0&amp;action=default&amp;do=grid-page&amp;presenter=Test">...</a>
                             <a class="btn btn-default btn-xs btn-mini ajax" href="/?grid-page=25&amp;action=default&amp;do=grid-page&amp;presenter=Test">25</a>
-                        <a class="btn btn-default btn-xs btn-mini ajax" href="/?grid-page=2&amp;action=default&amp;do=grid-page&amp;presenter=Test">Next <i class="glyphicon glyphicon-arrow-right icon-arrow-right"></i></a>
+                        <a class="btn btn-default btn-xs btn-mini ajax" href="/?grid-page=2&amp;action=default&amp;do=grid-page&amp;presenter=Test">Next <i class="glyphicon glyphicon-arrow-right icon-arrow-right fa fa-arrow-right"></i></a>
                 </span>
                 <span class="count">
                     Items 1 - 2 of 50

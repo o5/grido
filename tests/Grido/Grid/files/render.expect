@@ -49,7 +49,7 @@
                     <input type="submit" class="hide" name="buttons[operations]" id="frmform-buttons-operations" value="OK" />
                 </span>
                 <span class="paginator">
-                        <span class="btn btn-default btn-xs btn-mini disabled" href="/?grid-page=0&amp;action=default&amp;do=grid-page&amp;presenter=Test"><i class="glyphicon glyphicon-arrow-left icon-arrow-left"></i> Previous</span>
+                        <span class="btn btn-default btn-xs btn-mini disabled" href="/?grid-page=0&amp;action=default&amp;do=grid-page&amp;presenter=Test"><i class="glyphicon glyphicon-arrow-left icon-arrow-left fa fa-arrow-left"></i> Previous</span>
                             <span class="btn btn-default btn-xs btn-mini disabled">1</span>
                             <a class="btn btn-default btn-xs btn-mini ajax" href="/?grid-page=2&amp;action=default&amp;do=grid-page&amp;presenter=Test">2</a>
                             <a class="btn btn-default btn-xs btn-mini ajax" href="/?grid-page=3&amp;action=default&amp;do=grid-page&amp;presenter=Test">3</a>
@@ -60,11 +60,11 @@
                             <a class="btn btn-default btn-xs btn-mini ajax" href="/?grid-page=10&amp;action=default&amp;do=grid-page&amp;presenter=Test">10</a>
                         <a class="prompt" data-grido-prompt="Enter page:" data-grido-link="/?grid-page=0&amp;action=default&amp;do=grid-page&amp;presenter=Test">...</a>
                             <a class="btn btn-default btn-xs btn-mini ajax" href="/?grid-page=13&amp;action=default&amp;do=grid-page&amp;presenter=Test">13</a>
-                        <a class="btn btn-default btn-xs btn-mini ajax" href="/?grid-page=2&amp;action=default&amp;do=grid-page&amp;presenter=Test">Next <i class="glyphicon glyphicon-arrow-right icon-arrow-right"></i></a>
+                        <a class="btn btn-default btn-xs btn-mini ajax" href="/?grid-page=2&amp;action=default&amp;do=grid-page&amp;presenter=Test">Next <i class="glyphicon glyphicon-arrow-right icon-arrow-right fa fa-arrow-right"></i></a>
                 </span>
                 <span class="count">
                     Items 1 - 4 of 50
-<select title="Items per page" class="form-control" name="count" id="frmform-count"><option value="4" selected="selected">4</option><option value="10">10</option><option value="20">20</option><option value="30">30</option><option value="50">50</option><option value="100">100</option></select><input class="hide" type="submit" name="buttons[perPage]" id="frmform-buttons-perPage" value="Items per page" />                    <a class="btn btn-default btn-xs btn-mini" href="/?action=default&amp;do=grid-export-export&amp;presenter=Test" title="Export all items"><i class="glyphicon glyphicon-download icon-download"></i></a>
+<select title="Items per page" class="form-control" name="count" id="frmform-count"><option value="4" selected="selected">4</option><option value="10">10</option><option value="20">20</option><option value="30">30</option><option value="50">50</option><option value="100">100</option></select><input class="hide" type="submit" name="buttons[perPage]" id="frmform-buttons-perPage" value="Items per page" />                    <a class="btn btn-default btn-xs btn-mini" href="/?action=default&amp;do=grid-export-export&amp;presenter=Test" title="Export all items"><i class="glyphicon glyphicon-download icon-download fa fa-download"></i></a>
                 </span>
             </td>
         </tr>
