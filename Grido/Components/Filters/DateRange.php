@@ -95,7 +95,7 @@ class DateRange extends Date
             $from = \DateTime::createFromFormat($this->dateFormatInput, trim($from));
             $to = \DateTime::createFromFormat($this->dateFormatInput, trim($to));
 
-            if ($to && !Strings::contains(strtoupper($this->dateFormatInput), 'G') && !Strings::contains(strtoupper($this->dateFormatInput), 'H')) {
+            if ($to && !Strings::match($this->dateFormatInput, '/G|H/i')) { //input format haven't got hour option
                 Strings::contains($this->dateFormatOutput[1], 'G') || Strings::contains($this->dateFormatOutput[1], 'H')
                     ? $to->setTime(23, 59, 59)
                     : $to->setTime(11, 59, 59);

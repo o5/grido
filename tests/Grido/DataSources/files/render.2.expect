@@ -53,14 +53,14 @@
         <tr>
             <td colspan="5">
                 <span class="paginator">
-                        <a class="btn btn-default btn-xs btn-mini ajax" href="/?grid-sort%5Bcountry%5D=%E2%86%91&amp;grid-filter%5Bname%5D=a&amp;grid-filter%5Bmale%5D=1&amp;grid-filter%5Bcountry%5D=au&amp;action=default&amp;do=grid-page&amp;presenter=Test"><i class="glyphicon glyphicon-arrow-left icon-arrow-left"></i> Previous</a>
+                        <a class="btn btn-default btn-xs btn-mini ajax" href="/?grid-sort%5Bcountry%5D=%E2%86%91&amp;grid-filter%5Bname%5D=a&amp;grid-filter%5Bmale%5D=1&amp;grid-filter%5Bcountry%5D=au&amp;action=default&amp;do=grid-page&amp;presenter=Test"><i class="glyphicon glyphicon-arrow-left fa fa-arrow-left icon-arrow-left"></i> Previous</a>
                             <a class="btn btn-default btn-xs btn-mini ajax" href="/?grid-sort%5Bcountry%5D=%E2%86%91&amp;grid-filter%5Bname%5D=a&amp;grid-filter%5Bmale%5D=1&amp;grid-filter%5Bcountry%5D=au&amp;action=default&amp;do=grid-page&amp;presenter=Test">1</a>
                             <span class="btn btn-default btn-xs btn-mini disabled">2</span>
-                        <span class="btn btn-default btn-xs btn-mini disabled" href="/?grid-page=3&amp;grid-sort%5Bcountry%5D=%E2%86%91&amp;grid-filter%5Bname%5D=a&amp;grid-filter%5Bmale%5D=1&amp;grid-filter%5Bcountry%5D=au&amp;action=default&amp;do=grid-page&amp;presenter=Test">Next <i class="glyphicon glyphicon-arrow-right icon-arrow-right"></i></span>
+                        <span class="btn btn-default btn-xs btn-mini disabled" href="/?grid-page=3&amp;grid-sort%5Bcountry%5D=%E2%86%91&amp;grid-filter%5Bname%5D=a&amp;grid-filter%5Bmale%5D=1&amp;grid-filter%5Bcountry%5D=au&amp;action=default&amp;do=grid-page&amp;presenter=Test">Next <i class="glyphicon glyphicon-arrow-right fa fa-arrow-right icon-arrow-right"></i></span>
                 </span>
                 <span class="count">
                     Items 4 - 6 of 6
-<select title="Items per page" class="form-control" name="count" id="frmform-count"><option value="3" selected="selected">3</option><option value="10">10</option><option value="20">20</option><option value="30">30</option><option value="50">50</option><option value="100">100</option></select><input class="hide" type="submit" name="buttons[perPage]" id="frmform-buttons-perPage" value="Items per page" />                    <a class="btn btn-default btn-xs btn-mini" href="/?action=default&amp;do=grid-export-export&amp;presenter=Test" title="Export all items"><i class="glyphicon glyphicon-download icon-download"></i></a>
+<select title="Items per page" class="form-control" name="count" id="frmform-count"><option value="3" selected="selected">3</option><option value="10">10</option><option value="20">20</option><option value="30">30</option><option value="50">50</option><option value="100">100</option></select><input class="hide" type="submit" name="buttons[perPage]" id="frmform-buttons-perPage" value="Items per page" />                    <a class="btn btn-default btn-xs btn-mini" href="/?action=default&amp;do=grid-export-export&amp;presenter=Test" title="Export all items"><i class="glyphicon glyphicon-download fa fa-download icon-download"></i></a>
                 </span>
             </td>
         </tr>

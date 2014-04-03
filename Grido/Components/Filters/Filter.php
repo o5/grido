@@ -237,9 +237,8 @@ abstract class Filter extends \Grido\Components\Component
             $condition = Condition::setupFromArray($condition);
 
         }  elseif ($condition !== NULL && !$condition instanceof Condition) {
-            throw new \InvalidArgumentException(
-                'Condition must be array or Grido\Components\Filters\Condition. Type "' . gettype($condition) . '" given.'
-            );
+            $type = gettype($condition);
+            throw new \InvalidArgumentException("Condition must be array or Condition object. $type given.");
         }
 
         return $condition;
