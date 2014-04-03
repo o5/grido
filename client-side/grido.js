@@ -91,14 +91,21 @@
                 .off('click.nette')
                 .off('click.grido')
                 .on('click.grido', function(event) {
-                    var hasConfirm = $(this).data('grido-confirm');
-                    if (hasConfirm && !confirm(hasConfirm)) {
-                        event.preventDefault();
-                        event.stopImmediatePropagation();
-                    } else if (hasConfirm && $(this).hasClass('ajax') && that.ajax) {
-                        that.ajax.doRequest(this.href);
-                        event.preventDefault();
-                        event.stopImmediatePropagation();
+                    var isAjax = $(this).hasClass('ajax') && that.ajax,
+                        hasConfirm = $(this).data('grido-confirm'),
+                        stop = function(event) {
+                            event.preventDefault();
+                            event.stopImmediatePropagation();
+                        };
+
+                    if (hasConfirm && confirm(hasConfirm)) {
+                        isAjax && (that.ajax.doRequest(this.href) || stop(event));
+
+                    } else if (hasConfirm) {
+                        stop(event);
+
+                    } else if (isAjax) {
+                        that.ajax.doRequest(this.href) || stop(event);
                     }
                 });
         },
