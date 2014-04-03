@@ -119,10 +119,9 @@ abstract class Editable extends Column
                     if ($callbackNotSet && (!is_string($columnName) || strpos($columnName, '.'))) {
                         throw new \Exception("Editable column '{$column->name}' has error: You must define an own editable callback.");
                     }
-                }
-
-                if (!method_exists($grid->model->dataSource, 'update')) {
-                    throw new \Exception('You must define an own editable callback.');
+                    if ($callbackNotSet && !method_exists($grid->model->dataSource, 'update')) {
+                        throw new \Exception("Editable column '{$column->name}' has error: You must define an own editable callback.");
+                    }
                 }
             };
         }
