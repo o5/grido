@@ -86,12 +86,74 @@ class EditableTest extends \Tester\TestCase
         Assert::same($control, $col->editableControl);
     }
 
-    function handleEditable() {
-        // Not Implemented yet
+    function testHandleEditable() {
+
+        $oldValue = 'Trommler';
+        $newValue = 'Test';
+
+        ob_start();
+        Helper::grid(function(Grid $grid) {
+            $grid->setModel($grid->presenter->context->ndb_sqlite->table('user'));
+            $grid->presenter->forceAjaxMode = TRUE;
+            $grid->addColumnText('firstname', 'Firstname')
+                    ->setEditable();
+            $grid->addColumnText('surname', 'Surname');
+            $grid->addColumnText('gender', 'Gender');
+        });
+
+        Helper::request(array(
+            'do' => 'grid-columns-firstname-editable',
+            'grid-columns-firstname-id' => 1,
+            'grid-columns-firstname-newValue' => $newValue,
+            'grid-columns-firstname-oldValue' => $oldValue
+        ));
+        ob_clean();
+
+        $fn = Helper::$grid->data->select('*')->where('id',1)->fetch()->firstname;
+        Assert::same($fn, $newValue);
+
+        ob_start();
+        Helper::grid(function(Grid $grid) {
+            $grid->setModel($grid->presenter->context->ndb_sqlite->table('user'));
+            $grid->presenter->forceAjaxMode = TRUE;
+            $grid->addColumnText('firstname', 'Firstname')
+                    ->setEditable();
+            $grid->addColumnText('surname', 'Surname');
+            $grid->addColumnText('gender', 'Gender');
+        });
+
+        Helper::request(array(
+            'do' => 'grid-columns-firstname-editable',
+            'grid-columns-firstname-id' => 1,
+            'grid-columns-firstname-newValue' => $oldValue,
+            'grid-columns-firstname-oldValue' => $newValue
+        ));
+        ob_clean();
+
+        $fn = Helper::$grid->data->select('*')->where('id',1)->fetch()->firstname;
+        Assert::same($fn, $oldValue);
     }
 
-    function handleEditableControl() {
-        // Not Implemented yet
+    function testHandleEditableControl() {
+        ob_start();
+        Helper::grid(function(Grid $grid) {
+            $grid->setModel($grid->presenter->context->ndb_sqlite->table('user'));
+            $grid->presenter->forceAjaxMode = TRUE;
+            $grid->addColumnText('firstname', 'Firstname')
+                ->setEditable();
+        });
+
+        Helper::request(array(
+            'do' => 'grid-columns-firstname-editableControl',
+            'grid-columns-firstname-value' => 'Test',
+        ));
+
+        $response = ob_get_clean();
+        dump($response);
+
+        // This test just wont work...
+
+        Assert::same('<input type="text" name="editinterpret" class="form-control" id="frm-nazevDataGridu-form-editinterpret" required data-nette-rules=\'[{"op":":filled","msg":"This field is required."}]\' value="Test">', $response);
     }
 }
 
