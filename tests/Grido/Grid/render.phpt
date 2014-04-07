@@ -38,7 +38,7 @@ test(function()
             ->setSortable()
             ->setFilterText();
 
-        $grid->addColumnDate('birthday', 'Birthday')
+        $grid->addColumnDate('birthday', \Nette\Utils\Html::el('i')->class('icon-birthday'))
             ->setSortable()
             ->setFilterDate();
 

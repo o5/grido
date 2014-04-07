@@ -247,6 +247,17 @@ abstract class Column extends \Grido\Components\Component
         return $this->customRenderVariables;
     }
 
+    /**
+     * @return mixed
+     * @internal
+     */
+    public function getLabel()
+    {
+        return is_string($this->label)
+            ? $this->translate($this->label)
+            : $this->label;
+    }
+
     /**********************************************************************************************/
 
     /**
