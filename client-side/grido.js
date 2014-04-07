@@ -673,10 +673,10 @@
             data[componentName + '-oldValue'] = oldValue;
 
             $.ajax({
-                type: "GET",
+                type: "POST",
                 url: this.getEditHandlerUrl($th),
                 data: data,
-                async: false
+                async: true
             })
             .success(function(data) {
                 if (data.updated === true) {
