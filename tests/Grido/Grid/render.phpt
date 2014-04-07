@@ -27,7 +27,6 @@ test(function()
         };
 
         $grid->addColumnText('firstname', 'Firstname')
-            ->setSortable()
             ->setFilterText();
 
         $grid->addColumnText('surname', 'Surname')
