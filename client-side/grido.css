@@ -206,3 +206,16 @@
 {
     margin-top: 1px
 }
+
+.btn-sm .fa,
+.btn-xs .fa,
+small .fa,
+.btn-group-sm .fa,
+.btn-group-xs .fa,
+.input-group-sm .fa,
+.input-group-xs .fa
+{
+    font-size: 14px;
+    top: 1px;
+    position: relative;
+}
