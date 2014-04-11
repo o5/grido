@@ -8,8 +8,7 @@
                 <input type="checkbox" title="Invert" />
             </th>
                 <th class="column grid-header-firstname">
-                        <a class="ajax" href="/?grid-sort%5Bfirstname%5D=%E2%86%91&amp;action=default&amp;do=grid-sort&amp;presenter=Test">Firstname</a>
-                        <span></span>
+                        Firstname
                 </th>
                 <th class="column grid-header-surname">
                         <a class="ajax" href="/?grid-sort%5Bsurname%5D=%E2%86%91&amp;action=default&amp;do=grid-sort&amp;presenter=Test">Surname</a>
@@ -20,7 +19,7 @@
                         <span></span>
                 </th>
                 <th class="column grid-header-birthday">
-                        <a class="ajax" href="/?grid-sort%5Bbirthday%5D=%E2%86%91&amp;action=default&amp;do=grid-sort&amp;presenter=Test">Birthday</a>
+                        <a class="ajax" href="/?grid-sort%5Bbirthday%5D=%E2%86%91&amp;action=default&amp;do=grid-sort&amp;presenter=Test"><i class="icon-birthday"></i></a>
                         <span></span>
                 </th>
             <th class="actions center">

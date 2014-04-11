@@ -27,7 +27,6 @@ test(function()
         };
 
         $grid->addColumnText('firstname', 'Firstname')
-            ->setSortable()
             ->setFilterText();
 
         $grid->addColumnText('surname', 'Surname')
@@ -38,7 +37,7 @@ test(function()
             ->setSortable()
             ->setFilterText();
 
-        $grid->addColumnDate('birthday', 'Birthday')
+        $grid->addColumnDate('birthday', \Nette\Utils\Html::el('i')->class('icon-birthday'))
             ->setSortable()
             ->setFilterDate();
 

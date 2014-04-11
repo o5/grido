@@ -80,12 +80,12 @@
             {foreach $columns as $column}
                 {$column->getHeaderPrototype()->startTag()|noescape}
                     {if $column->isSortable()}
-                        <a n:if="!$column->getSort()" n:href="sort! [$column->getName() => Column::ORDER_ASC]" class="ajax">{_$column->getLabel()}</a>
-                        <a n:if="$column->getSort() == Column::ORDER_ASC" n:href="sort! [$column->getName() => Column::ORDER_DESC]" class="sort ajax">{_$column->getLabel()}</a>
-                        <a n:if="$column->getSort() == Column::ORDER_DESC" n:href="sort! [$column->getName() => Column::ORDER_ASC]" class="sort ajax">{_$column->getLabel()}</a>
+                        <a n:if="!$column->getSort()" n:href="sort! [$column->getName() => Column::ORDER_ASC]" class="ajax">{$column->getLabel()|noescape}</a>
+                        <a n:if="$column->getSort() == Column::ORDER_ASC" n:href="sort! [$column->getName() => Column::ORDER_DESC]" class="sort ajax">{$column->getLabel()|noescape}</a>
+                        <a n:if="$column->getSort() == Column::ORDER_DESC" n:href="sort! [$column->getName() => Column::ORDER_ASC]" class="sort ajax">{$column->getLabel()|noescape}</a>
                         <span></span>
                     {else}
-                        {_$column->getLabel()}
+                        {$column->getLabel()|noescape}
                     {/if}
                 {$column->getHeaderPrototype()->endTag()|noescape}
             {/foreach}
