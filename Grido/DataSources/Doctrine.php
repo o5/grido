@@ -38,6 +38,12 @@ class Doctrine extends \Nette\Object implements IDataSource
 
     /** @var array Map column to the query builder */
     protected $sortMapping;
+	
+    /** @var boolean use OutputWalker in Doctrine Paginator */
+    protected $useOutputWalkers = NULL;
+	
+    /** @var boolean fetch join collection in Doctrine Paginator */
+    protected $fetchJoinCollection = TRUE;
 
     protected $rand;
 
@@ -59,6 +65,18 @@ class Doctrine extends \Nette\Object implements IDataSource
         }
     }
 
+    public function setUseOutputWalkers($useOutputWalkers)
+    {
+        $this->useOutputWalkers = $useOutputWalkers;
+        return $this;
+    }
+
+    public function setFetchJoinCollection($fetchJoinCollection)
+    {
+        $this->fetchJoinCollection = $fetchJoinCollection;
+        return $this;
+    }
+	
     /**
      * @return \Doctrine\ORM\Query
      */
@@ -150,7 +168,8 @@ class Doctrine extends \Nette\Object implements IDataSource
      */
     public function getCount()
     {
-        $paginator = new Paginator($this->getQuery());
+        $paginator = new Paginator($this->getQuery(), $this->fetchJoinCollection);
+        $paginator->setUseOutputWalkers($this->useOutputWalkers);
         return $paginator->count();
     }
 
