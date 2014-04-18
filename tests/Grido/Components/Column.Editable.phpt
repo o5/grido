@@ -83,14 +83,21 @@ class EditableTest extends \Tester\TestCase
         Assert::same(NULL, $column->editableCallback);
         Assert::same($control, $column->editableControl);
 
-        //TODO
-        //setEditableValueCallback
+        // EDITABLE AND AN OWN VALUE CALLBACK VIA METHOD
+        $valueCallback = callback($this, 'test');
+        $grid = new Grid();
+        $column = $grid->addColumnText('column', 'Column')->setEditable();
+        $column->setEditableValueCallback($valueCallback);
+        Assert::same(TRUE, $column->editable);
+        Assert::same(FALSE, $column->editableDisabled);
+        Assert::same($valueCallback, $column->editableValueCallback);
     }
 
     function testHandleEditable()
     {
         $oldValue = 'Trommler';
         $newValue = 'Test';
+        $id = 1;
 
         //copy current db
         $database = __DIR__  .  '/../DataSources/files/users.s3db';
@@ -111,7 +118,36 @@ class EditableTest extends \Tester\TestCase
         ob_start();
             Helper::request(array(
                 'do' => 'grid-columns-firstname-editable',
-                'grid-columns-firstname-id' => 1,
+                'grid-columns-firstname-id' => $id,
+                'grid-columns-firstname-newValue' => $newValue,
+                'grid-columns-firstname-oldValue' => $oldValue
+            ));
+        ob_clean();
+
+        //TEST INSIDE EDITABLE CALLBACK
+        Helper::grid(function(Grid $grid) use ($editableSuffix, $newValue, $oldValue, $id) {
+
+            $dsn = $grid->presenter->context->ndb_sqlite->getDsn() . $editableSuffix;
+            $connection = new \Nette\Database\Connection($dsn);
+
+            $grid->setModel($connection->table('user'));
+            $grid->presenter->forceAjaxMode = TRUE;
+            $grid->addColumnText('firstname', 'Firstname')->setEditable(
+                function($_id, $_newValue, $_oldValue, $_column) use ($newValue, $oldValue, $id) {
+                    Assert::same($_id, $id);
+                    Assert::same($_newValue, $newValue);
+                    Assert::same($_oldValue, $oldValue);
+                    Assert::type('Grido\Components\Columns\Editable',$_column);
+                    return true;
+                });
+            $grid->addColumnText('surname', 'Surname');
+            $grid->addColumnText('gender', 'Gender');
+        });
+
+        ob_start();
+            Helper::request(array(
+                'do' => 'grid-columns-firstname-editable',
+                'grid-columns-firstname-id' => $id,
                 'grid-columns-firstname-newValue' => $newValue,
                 'grid-columns-firstname-oldValue' => $oldValue
             ));
@@ -119,9 +155,6 @@ class EditableTest extends \Tester\TestCase
 
         //cleaup
         unlink($database . $editableSuffix);
-
-        //TODO
-        //test inside editableCallback
     }
 
     function testHandleEditableControl()

@@ -19,8 +19,11 @@ namespace Grido\Components\Columns;
  * @author      Jakub Kopřiva <kopriva.jakub@gmail.com>
  * @author      Petr Bugyík
  *
+ * @property bool $editable
+ * @property bool $editableDisabled
  * @property \Nette\Forms\IControl $editableControl
  * @property callback $editableCallback
+ * @property callback $editableValueCallback
  */
 abstract class Editable extends Column
 {
@@ -33,7 +36,7 @@ abstract class Editable extends Column
     /** @var \Nette\Forms\IControl Custom control for inline editing */
     protected $editableControl;
 
-    /** @var callback function for custom handling with edited data; function($id, $value, Grido\Components\Columns\Editable $column) {} */
+    /** @var callback function for custom handling with edited data; function($id, $newValue, $oldValue, Grido\Components\Columns\Editable $column) {} */
     protected $editableCallback;
 
     /** @var callback function for custom value; function($row) {} */
@@ -181,6 +184,15 @@ abstract class Editable extends Column
     public function getEditableCallback()
     {
         return $this->editableCallback;
+    }
+
+    /**
+     * @return callback
+     * @internal
+     */
+    public function getEditableValueCallback()
+    {
+        return $this->editableValueCallback;
     }
 
     /**
