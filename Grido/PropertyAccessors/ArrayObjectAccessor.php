@@ -38,6 +38,17 @@ class ArrayObjectAccessor implements IPropertyAccessor
             return $object[$name];
 
         } elseif (is_object($object)) {
+            if (\Nette\Utils\Strings::contains($name, '.')) {
+                $parts = explode('.', $name);
+                foreach ($parts as $item) {
+                    if (is_object($object)) {
+                        $object = $object->$item;
+                    }
+                }
+
+                return $object;
+            }
+
             return $object->$name;
 
         } else {

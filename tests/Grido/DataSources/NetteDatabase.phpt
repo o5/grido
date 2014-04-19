@@ -38,14 +38,11 @@ class NetteDatabaseTest extends DataSourceTestCase
                     return $row['firstname'];
             });
 
-            $renderer =function($row) { return $row->country->title; };
             $grid->addColumnText('country', 'Country')
                 ->setSortable()
-                ->setColumn('country.title') //for ordering/filtering
-                ->setCustomRender($renderer)
-                ->setCustomRenderExport($renderer)
+                ->setColumn('country.title')
                 ->setFilterText()
-                    ->setSuggestion($renderer);
+                    ->setSuggestion(function($row) { return $row->country->title; });
 
             $grid->addFilterCheck('male', 'Only male')
                 ->setCondition(array(
