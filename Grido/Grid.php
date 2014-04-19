@@ -729,10 +729,9 @@ class Grid extends Components\Container
     {
         $template = parent::createTemplate($class);
         $template->setFile(__DIR__ . '/Grid.latte');
-
         $template->registerHelper('translate', callback($this->getTranslator(), 'translate'));
-        $template->registerFilter(new \Nette\Latte\Engine);
-        $template->registerFilter(function($source)
+
+        $namespaceFilter = function($source)
         {
             $namespaces = array(
                 '\Grido\Grid', '\Grido\Components\Columns\Column', '\Grido\Components\Filters\Filter',
@@ -740,7 +739,15 @@ class Grid extends Components\Container
             );
 
             return '<?php use ' . implode(',', $namespaces) . ';?>' . $source;
-        });
+        };
+
+        //TODO
+        if (\Nette\Framework::VERSION_ID >= 20200) {
+            $template->addFilter(NULL, $namespaceFilter);
+        } else {
+            $template->registerFilter(new \Nette\Latte\Engine);
+            $template->registerFilter($namespaceFilter);
+        }
 
         return $template;
     }
