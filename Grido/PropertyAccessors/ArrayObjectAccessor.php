@@ -18,8 +18,8 @@ namespace Grido\PropertyAccessors;
  * @subpackage  PropertyAccessors
  * @author      Josef Kříž <pepakriz@gmail.com>
  */
-class ArrayObjectAccessor implements IPropertyAccessor
-{
+class ArrayObjectAccessor implements IPropertyAccessor {
+
     /**
      * @param mixed $object
      * @param string $name
@@ -28,18 +28,26 @@ class ArrayObjectAccessor implements IPropertyAccessor
      * @throws \InvalidArgumentException
      * @return mixed
      */
-    public static function getProperty($object, $name)
-    {
+    public static function getProperty($object, $name) {
         if (is_array($object)) {
             if (!array_key_exists($name, $object)) {
                 throw new PropertyAccessorException("Property with name '$name' does not exists in datasource.");
             }
 
             return $object[$name];
-
         } elseif (is_object($object)) {
+            if (\Nette\Utils\Strings::contains($name, '.')) {
+                $arNames = preg_split('|\.|', $name);
+                $obj = $object;
+                foreach ($arNames as $item) {
+                    if (is_object($obj)) {
+                        $obj = $obj->$item;
+                    }
+                }
+                return $obj;
+            }
+            
             return $object->$name;
-
         } else {
             throw new \InvalidArgumentException('Please implement your own property accessor.');
         }
@@ -50,8 +58,7 @@ class ArrayObjectAccessor implements IPropertyAccessor
      * @param string $name
      * @param mixed $value
      */
-    public static function setProperty($object, $name, $value)
-    {
+    public static function setProperty($object, $name, $value) {
         if (is_array($object)) {
             $object[$name] = $value;
         } elseif (is_object($object)) {
@@ -60,4 +67,5 @@ class ArrayObjectAccessor implements IPropertyAccessor
             throw new \InvalidArgumentException('Please implement your own property accessor.');
         }
     }
+
 }
