@@ -39,6 +39,13 @@ class Doctrine extends \Nette\Object implements IDataSource
     /** @var array Map column to the query builder */
     protected $sortMapping;
 
+    /** @var bool use OutputWalker in Doctrine Paginator */
+    protected $useOutputWalkers;
+
+    /** @var bool fetch join collection in Doctrine Paginator */
+    protected $fetchJoinCollection = TRUE;
+
+    /** @var array */
     protected $rand;
 
     /**
@@ -57,6 +64,26 @@ class Doctrine extends \Nette\Object implements IDataSource
         if (!$this->sortMapping && $this->filterMapping) {
             $this->sortMapping = $this->filterMapping;
         }
+    }
+
+    /**
+     * @param bool $useOutputWalkers
+     * @return \Grido\DataSources\Doctrine
+     */
+    public function setUseOutputWalkers($useOutputWalkers)
+    {
+        $this->useOutputWalkers = $useOutputWalkers;
+        return $this;
+    }
+
+    /**
+     * @param bool $fetchJoinCollection
+     * @return \Grido\DataSources\Doctrine
+     */
+    public function setFetchJoinCollection($fetchJoinCollection)
+    {
+        $this->fetchJoinCollection = $fetchJoinCollection;
+        return $this;
     }
 
     /**
@@ -150,7 +177,9 @@ class Doctrine extends \Nette\Object implements IDataSource
      */
     public function getCount()
     {
-        $paginator = new Paginator($this->getQuery());
+        $paginator = new Paginator($this->getQuery(), $this->fetchJoinCollection);
+        $paginator->setUseOutputWalkers($this->useOutputWalkers);
+
         return $paginator->count();
     }
 
@@ -208,7 +237,7 @@ class Doctrine extends \Nette\Object implements IDataSource
     public function limit($offset, $limit)
     {
         $this->qb->setFirstResult($offset)
-            ->setMaxResults($limit);
+                ->setMaxResults($limit);
     }
 
     /**
