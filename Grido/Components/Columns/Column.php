@@ -38,8 +38,8 @@ abstract class Column extends \Grido\Components\Component
 
     const VALUE_IDENTIFIER = '%value';
 
-    const ORDER_ASC  = '↑';
-    const ORDER_DESC = '↓';
+    const ORDER_ASC  = 'asc';
+    const ORDER_DESC = 'desc';
 
     /** @var string */
     protected $sort;
