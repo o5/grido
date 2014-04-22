@@ -19,8 +19,6 @@ namespace Grido\Components\Columns;
  * @author      Jakub Kopřiva <kopriva.jakub@gmail.com>
  * @author      Petr Bugyík
  *
- * @property bool $editable
- * @property bool $editableDisabled
  * @property \Nette\Forms\IControl $editableControl
  * @property callback $editableCallback
  * @property callback $editableValueCallback
@@ -36,10 +34,10 @@ abstract class Editable extends Column
     /** @var \Nette\Forms\IControl Custom control for inline editing */
     protected $editableControl;
 
-    /** @var callback function for custom handling with edited data; function($id, $newValue, $oldValue, Grido\Components\Columns\Editable $column) {} */
+    /** @var callback for custom handling with edited data; function($id, $newValue, $oldValue, Editable $column) {} */
     protected $editableCallback;
 
-    /** @var callback function for custom value; function($row) {} */
+    /** @var callback for custom value; function($row) {} */
     protected $editableValueCallback;
 
     /**
@@ -117,10 +115,18 @@ abstract class Editable extends Column
             $this->grid->onRender[] = function(\Grido\Grid $grid)
             {
                 foreach ($grid->getComponent(Column::ID)->getComponents() as $column) {
+                    if (!$column instanceof Editable) {
+                        continue;
+                    }
+
                     $columnName = $column->getColumn();
-                    $callbackNotSet = $column instanceof Editable && $column->isEditable() && $column->getEditableCallback() === NULL;
-                    if (($callbackNotSet && (!is_string($columnName) || strpos($columnName, '.'))) || ($callbackNotSet && !method_exists($grid->model->dataSource, 'update'))) {
-                        throw new \Exception("Editable column '{$column->name}' has error: You must define an own editable callback.");
+                    $callbackNotSet = $column->isEditable() && $column->editableCallback === NULL;
+                    if (($callbackNotSet && (!is_string($columnName) || strpos($columnName, '.'))) ||
+                        ($callbackNotSet && !method_exists($grid->model->dataSource, 'update')))
+                    {
+                        throw new \Exception(
+                            "Editable column '{$column->name}' has error: You must define an own editable callback."
+                        );
                     }
                 }
             };

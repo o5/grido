@@ -162,7 +162,7 @@ class EditableTest extends \Tester\TestCase
         Helper::grid(function(Grid $grid) {
             $grid->setModel(array());
             $grid->presenter->forceAjaxMode = TRUE;
-            $grid->addColumnText('firstname', 'Firstname')->setEditable(NULL, new TextInput('firstname', 'Firstname'));
+            $grid->addColumnText('firstname', 'Firstname')->setEditable(NULL, new TextInput('Firstname'));
         });
 
         ob_start();
@@ -171,7 +171,7 @@ class EditableTest extends \Tester\TestCase
                 'grid-columns-firstname-value' => 'Test',
             ));
         $output = ob_get_clean();
-        Assert::same('<input type="text" size="Firstname" name="editfirstname" id="frmform-editfirstname" value="Test" />', $output);
+        Assert::same('<input type="text" name="editfirstname" id="frmform-editfirstname" value="Test" />', $output);
     }
 }
 
@@ -194,7 +194,6 @@ class Html extends \Nette\Utils\Html
 
     public function render($indent = NULL)
     {
-        //THERE IS THE MAGIC = print() !!!
         print $this->control->render();
     }
 }
