@@ -22,7 +22,6 @@ class GridTest extends \Tester\TestCase
     function testOnRegisteredEvent()
     {
         $called = FALSE;
-
         Helper::grid(function(Grid $grid) use (&$called) {
             $grid->onRegistered[] = function(Grid $grid) use(&$called) {
                 $called = TRUE;
@@ -623,22 +622,6 @@ class GridTest extends \Tester\TestCase
         Helper::request(array('count' => $perPage, 'grid-page' => 2, 'do' => 'grid-form-submit', Grid::BUTTONS => array('perPage' => 'Items per page')));
         Assert::same($perPage, Helper::$grid->perPage);
         Assert::same(1, Helper::$grid->page);
-    }
-
-    function testSetEditable()
-    {
-        $grid = new Grid();
-        $grid->setModel(array());
-        $grid->addColumnText('text', 'Text');
-        $grid->addColumnNumber('number', 'Number');
-        $grid->addColumnDate('date', 'Date');
-        $grid->addColumnHref('href', 'Href');
-        $grid->addColumnEmail('email', 'Email');
-        $grid->setEditableColumns();
-
-        foreach ($grid->getComponent(Column::ID)->getComponents() as $column) {
-            Assert::type('\Grido\Components\Columns\Editable', $column);
-        }
     }
 }
 

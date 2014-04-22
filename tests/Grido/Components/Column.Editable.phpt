@@ -91,6 +91,21 @@ class EditableTest extends \Tester\TestCase
         Assert::same(TRUE, $column->editable);
         Assert::same(FALSE, $column->editableDisabled);
         Assert::same($valueCallback, $column->editableValueCallback);
+
+        Helper::grid(function(Grid $grid) {
+            $grid->setModel(array());
+            $grid->addColumnText('text', 'Text');
+            $grid->addColumnNumber('number', 'Number');
+            $grid->addColumnDate('date', 'Date');
+            $grid->addColumnHref('href', 'Href');
+            $grid->addColumnEmail('email', 'Email');
+            $grid->setEditableColumns();
+        })->run();
+
+        foreach (Helper::$grid->getComponent(\Grido\Components\Columns\Column::ID)->getComponents() as $column) {
+            Assert::type('\Grido\Components\Columns\Editable', $column);
+            Assert::true($column->isEditable());
+        }
     }
 
     function testHandleEditable()
