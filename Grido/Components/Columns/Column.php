@@ -31,7 +31,6 @@ use Grido\Components\Filters\Filter;
  * @property-write array $replacements
  * @property-write bool $sortable
  * @property string $column
- * @property type $name Description
  */
 abstract class Column extends \Grido\Components\Component
 {
@@ -188,7 +187,7 @@ abstract class Column extends \Grido\Components\Component
      */
     public function getHeaderPrototype()
     {
-        if ($this->headerPrototype === NULL) {
+        if (!$this->headerPrototype) {
             $this->headerPrototype = \Nette\Utils\Html::el('th')
                 ->setClass(array('column', 'grid-header-' . $this->getName()));
         }
