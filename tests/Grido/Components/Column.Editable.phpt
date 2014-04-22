@@ -162,7 +162,7 @@ class EditableTest extends \Tester\TestCase
         Helper::grid(function(Grid $grid) {
             $grid->setModel(array());
             $grid->presenter->forceAjaxMode = TRUE;
-            $grid->addColumnText('firstname', 'Firstname')->setEditable(NULL, new TextInput('Firstname'));
+            $grid->addColumnText('firstname', 'Firstname')->setEditable(NULL, new TextInput);
         });
 
         ob_start();
