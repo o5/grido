@@ -196,6 +196,12 @@
     width: auto;
 }
 
+.grido tbody .form-control {
+    width: 100%;
+    height: 23px;
+    padding: 0 0 0 3px;
+}
+
 .grido tfoot .form-control {
     display: inline;
 }
