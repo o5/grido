@@ -12,14 +12,14 @@
     $form->getElementPrototype()->class[] = 'ajax grido';
 
     $operation = $control->hasOperation();
-    $actions = $control->hasActions() ? $control->getComponent(Action::ID)->getComponents() : array();
+    $actions = $control->hasActions() ? $control->getComponent(\Grido\Components\Actions\Action::ID)->getComponents() : array();
 
-    $filters = $control->hasFilters() ? $form->getComponent(Filter::ID)->getComponents() : array();
+    $filters = $control->hasFilters() ? $form->getComponent(\Grido\Components\Filters\Filter::ID)->getComponents() : array();
     $filterRenderType = $control->getFilterRenderType();
 
-    $columns = $control->getComponent(Column::ID)->getComponents();
+    $columns = $control->getComponent(\Grido\Components\Columns\Column::ID)->getComponents();
     $columnCount = count($columns) + ($operation ? 1 : 0);
-    $showActionsColumn = $actions || ($filters && $filterRenderType == Filter::RENDER_INNER);
+    $showActionsColumn = $actions || ($filters && $filterRenderType == \Grido\Components\Filters\Filter::RENDER_INNER);
 
     /* TWITTER BOOTSTRAP 2/3 */
     $buttons = $form->getComponent('buttons');
@@ -51,7 +51,7 @@
 </ul>
 {/if}
 {form form}
-{if $filterRenderType == Filter::RENDER_OUTER}
+{if $filterRenderType == \Grido\Components\Filters\Filter::RENDER_OUTER}
     <div n:block="outerFilter" class="filter outer">
         <div class="items">
             <span n:foreach="$filters as $filter" class="grid-filter-{$filter->getName()}">
@@ -74,15 +74,15 @@
 {$control->getTablePrototype()->startTag()|noescape}
     <thead>
         <tr class="head">
-            <th n:if="$operation" class="checker"{if $filters} rowspan="{if $filterRenderType == Filter::RENDER_OUTER}1{else}2{/if}"{/if}>
+            <th n:if="$operation" class="checker"{if $filters} rowspan="{if $filterRenderType == \Grido\Components\Filters\Filter::RENDER_OUTER}1{else}2{/if}"{/if}>
                 <input type="checkbox" title="{_'Invert'}">
             </th>
             {foreach $columns as $column}
                 {$column->getHeaderPrototype()->startTag()|noescape}
                     {if $column->isSortable()}
-                        <a n:if="!$column->getSort()" n:href="sort! [$column->getName() => Column::ORDER_ASC]" class="ajax">{$column->getLabel()|noescape}</a>
-                        <a n:if="$column->getSort() == Column::ORDER_ASC" n:href="sort! [$column->getName() => Column::ORDER_DESC]" class="sort ajax">{$column->getLabel()|noescape}</a>
-                        <a n:if="$column->getSort() == Column::ORDER_DESC" n:href="sort! [$column->getName() => Column::ORDER_ASC]" class="sort ajax">{$column->getLabel()|noescape}</a>
+                        <a n:if="!$column->getSort()" n:href="sort! [$column->getName() => \Grido\Components\Columns\Column::ORDER_ASC]" class="ajax">{$column->getLabel()|noescape}</a>
+                        <a n:if="$column->getSort() == \Grido\Components\Columns\Column::ORDER_ASC" n:href="sort! [$column->getName() => \Grido\Components\Columns\Column::ORDER_DESC]" class="sort ajax">{$column->getLabel()|noescape}</a>
+                        <a n:if="$column->getSort() == \Grido\Components\Columns\Column::ORDER_DESC" n:href="sort! [$column->getName() => \Grido\Components\Columns\Column::ORDER_ASC]" class="sort ajax">{$column->getLabel()|noescape}</a>
                         <span></span>
                     {else}
                         {$column->getLabel()|noescape}
@@ -93,7 +93,7 @@
                 {_'Actions'}
             </th>
         </tr>
-        <tr n:if="$filterRenderType == Filter::RENDER_INNER && $filters" class="filter inner">
+        <tr n:if="$filterRenderType == \Grido\Components\Filters\Filter::RENDER_INNER && $filters" class="filter inner">
             {foreach $columns as $column}
                 {if $column->hasFilter()}
                     {$control->getFilter($column->getName())->getWrapperPrototype()->startTag()|noescape}
@@ -118,9 +118,9 @@
         <tr>
             <td colspan="{=$showActionsColumn ? $columnCount + 1 : $columnCount}">
                 <span n:if="$operation" n:block="operations" class="operations"  title="{_'Select some row'}">
-                    {$form[Operation::ID][Operation::ID]->control}
-                    {?$form[Grid::BUTTONS][Operation::ID]->controlPrototype->class[] = 'hide'}
-                    {$form[Grid::BUTTONS][Operation::ID]->control}
+                    {$form[\Grido\Components\Operation::ID][\Grido\Components\Operation::ID]->control}
+                    {?$form[\Grido\Grid::BUTTONS][\Grido\Components\Operation::ID]->controlPrototype->class[] = 'hide'}
+                    {$form[\Grido\Grid::BUTTONS][\Grido\Components\Operation::ID]->control}
                 </span>
                 <span n:if="$paginator->steps && $paginator->pageCount > 1" n:block="paginator" class="paginator">
                     {if $control->page == 1}
@@ -150,7 +150,7 @@
                     {formContainer buttons}
                         {input perPage, class => 'hide'}
                     {/formContainer}
-                    <a n:if="$control->hasExport()" class="btn btn-default btn-xs btn-mini" href="{=$control->getComponent(Export::ID)->link('export!')}" title="{_'Export all items'}"><i class="glyphicon glyphicon-download fa fa-download icon-download"></i></a>
+                    <a n:if="$control->hasExport()" class="btn btn-default btn-xs btn-mini" href="{=$control->getComponent(\Grido\Components\Export::ID)->link('export!')}" title="{_'Export all items'}"><i class="glyphicon glyphicon-download fa fa-download icon-download"></i></a>
                 </span>
             </td>
         </tr>
@@ -159,7 +159,7 @@
         {var $propertyAccessor = $control->getPropertyAccessor()}
         {foreach $data as $row}
             {? $checkbox = $operation
-                    ? $form[Operation::ID][$propertyAccessor->getProperty($row, $control->getComponent(Operation::ID)->getPrimaryKey())]
+                    ? $form[\Grido\Components\Operation::ID][$propertyAccessor->getProperty($row, $control->getComponent(\Grido\Components\Operation::ID)->getPrimaryKey())]
                     : NULL;
                 $tr = $control->getRowPrototype($row);
                 $tr->class[] = $checkbox && $checkbox->getValue()
