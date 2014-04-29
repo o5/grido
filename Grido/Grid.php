@@ -43,6 +43,8 @@ class Grid extends Components\Container
     /***** DEFAULTS ****/
     const BUTTONS = 'buttons';
 
+    const CLIENT_SIDE_OPTIONS = 'grido-options';
+
     /** @var int @persistent */
     public $page = 1;
 
@@ -297,7 +299,7 @@ class Grid extends Components\Container
      */
     public function setClientSideOptions(array $options)
     {
-        $this->getTablePrototype()->data['grido-options'] = json_encode($options);
+        $this->getTablePrototype()->data[self::CLIENT_SIDE_OPTIONS] = json_encode($options);
         return $this;
     }
 
@@ -577,6 +579,15 @@ class Grid extends Components\Container
         }
 
         return $tr;
+    }
+
+    /**
+     * Returns client-side options.
+     * @return array
+     */
+    public function getClientSideOptions()
+    {
+        return (array) json_decode($this->getTablePrototype()->data[self::CLIENT_SIDE_OPTIONS]);
     }
 
     /**********************************************************************************************/

@@ -33,7 +33,7 @@ abstract class Container extends \Nette\Application\UI\Control
      * Returns column component.
      * @param string $name
      * @param bool $need
-     * @return Column
+     * @return Columns\Editable
      */
     public function getColumn($name, $need = TRUE)
     {
@@ -361,5 +361,29 @@ abstract class Container extends \Nette\Application\UI\Control
     public function setExport($label = NULL)
     {
         return new Export($this, $label);
+    }
+
+    /**
+     * Sets all columns as editable.
+     * Callback is optional for user implementation of method for saving modified data.
+     * @param callback $callback
+     * @return \Grido\Grid
+     */
+    public function setEditableColumns($callback = NULL)
+    {
+        $this->onRegistered[] = function(\Grido\Grid $grid) use ($callback)
+        {
+            if (!$grid->hasColumns()) {
+                return;
+            }
+
+            foreach ($grid->getComponent(Column::ID)->getComponents() as $column) {
+                if ($column instanceof Columns\Editable && !$column->isEditable() && !$column->isEditableDisabled()) {
+                    $column->setEditable($callback);
+                }
+            }
+        };
+
+        return $this;
     }
 }

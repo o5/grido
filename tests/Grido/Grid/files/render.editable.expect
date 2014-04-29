@@ -1,0 +1,153 @@
+<div id="snippet-grid-grid">
+
+<form action="/" method="get" id="frm-grid-form" class="ajax grido">
+<table id="grid" class="table table-striped table-hover" data-grido-options='{"editable":true}'>
+    <thead>
+        <tr class="head">
+            <th class="checker" rowspan="2">
+                <input type="checkbox" title="Invert" />
+            </th>
+                <th class="column grid-header-firstname" data-grido-editable-handler="/?action=default&amp;do=grid-columns-firstname-editable&amp;presenter=Test" data-grido-editableControl-handler="/?action=default&amp;do=grid-columns-firstname-editableControl&amp;presenter=Test">
+                        <a class="ajax" href="/?grid-sort%5Bfirstname%5D=asc&amp;action=default&amp;do=grid-sort&amp;presenter=Test">Firstname</a>
+                        <span></span>
+                </th>
+                <th class="column grid-header-surname">
+                        <a class="ajax" href="/?grid-sort%5Bsurname%5D=asc&amp;action=default&amp;do=grid-sort&amp;presenter=Test">Surname</a>
+                        <span></span>
+                </th>
+                <th class="column grid-header-gender">
+                        <a class="ajax" href="/?grid-sort%5Bgender%5D=asc&amp;action=default&amp;do=grid-sort&amp;presenter=Test">Gender</a>
+                        <span></span>
+                </th>
+                <th class="column grid-header-birthday" data-grido-editable-handler="/?action=default&amp;do=grid-columns-birthday-editable&amp;presenter=Test" data-grido-editableControl-handler="/?action=default&amp;do=grid-columns-birthday-editableControl&amp;presenter=Test">
+                        <a class="ajax" href="/?grid-sort%5Bbirthday%5D=asc&amp;action=default&amp;do=grid-sort&amp;presenter=Test">Birthday</a>
+                        <span></span>
+                </th>
+            <th class="actions center">
+                Actions
+            </th>
+        </tr>
+        <tr class="filter inner">
+                    <th class="grid-filter-firstname">
+<input type="text" class="text form-control" name="filters[firstname]" id="frmform-filters-firstname" value="" />                    </th>
+                    <th class="grid-filter-surname">
+<input type="text" class="text form-control" name="filters[surname]" id="frmform-filters-surname" value="" />                    </th>
+                    <th class="grid-filter-gender">
+<input type="text" class="text form-control" name="filters[gender]" id="frmform-filters-gender" value="" />                    </th>
+                    <th class="grid-filter-birthday">
+<input type="text" class="text date form-control" autocomplete="off" name="filters[birthday]" id="frmform-filters-birthday" value="" />                    </th>
+
+            <th class="buttons">
+<input type="submit" class="btn btn-default btn-sm search" name="buttons[search]" id="frmform-buttons-search" value="Search" /><input type="submit" class="btn btn-default btn-sm reset" name="buttons[reset]" id="frmform-buttons-reset" value="Reset" />            </th>
+        </tr>
+    </thead>
+    <tfoot>
+        <tr>
+            <td colspan="6">
+                <span class="operations"  title="Select some row">
+                    <select class="form-control" name="operations[operations]" id="frmform-operations-operations"><option value="">Selected...</option><option value="print">Print</option></select>
+                    <input type="submit" class="hide" name="buttons[operations]" id="frmform-buttons-operations" value="OK" />
+                </span>
+                <span class="paginator">
+                        <span class="btn btn-default btn-xs btn-mini disabled" href="/?grid-page=0&amp;action=default&amp;do=grid-page&amp;presenter=Test"><i class="glyphicon glyphicon-arrow-left fa fa-arrow-left icon-arrow-left"></i> Previous</span>
+                            <span class="btn btn-default btn-xs btn-mini disabled">1</span>
+                            <a class="btn btn-default btn-xs btn-mini ajax" href="/?grid-page=2&amp;action=default&amp;do=grid-page&amp;presenter=Test">2</a>
+                            <a class="btn btn-default btn-xs btn-mini ajax" href="/?grid-page=3&amp;action=default&amp;do=grid-page&amp;presenter=Test">3</a>
+                            <a class="btn btn-default btn-xs btn-mini ajax" href="/?grid-page=4&amp;action=default&amp;do=grid-page&amp;presenter=Test">4</a>
+                        <a class="prompt" data-grido-prompt="Enter page:" data-grido-link="/?grid-page=0&amp;action=default&amp;do=grid-page&amp;presenter=Test">...</a>
+                            <a class="btn btn-default btn-xs btn-mini ajax" href="/?grid-page=7&amp;action=default&amp;do=grid-page&amp;presenter=Test">7</a>
+                        <a class="prompt" data-grido-prompt="Enter page:" data-grido-link="/?grid-page=0&amp;action=default&amp;do=grid-page&amp;presenter=Test">...</a>
+                            <a class="btn btn-default btn-xs btn-mini ajax" href="/?grid-page=10&amp;action=default&amp;do=grid-page&amp;presenter=Test">10</a>
+                        <a class="prompt" data-grido-prompt="Enter page:" data-grido-link="/?grid-page=0&amp;action=default&amp;do=grid-page&amp;presenter=Test">...</a>
+                            <a class="btn btn-default btn-xs btn-mini ajax" href="/?grid-page=13&amp;action=default&amp;do=grid-page&amp;presenter=Test">13</a>
+                        <a class="btn btn-default btn-xs btn-mini ajax" href="/?grid-page=2&amp;action=default&amp;do=grid-page&amp;presenter=Test">Next <i class="glyphicon glyphicon-arrow-right fa fa-arrow-right icon-arrow-right"></i></a>
+                </span>
+                <span class="count">
+                    Items 1 - 4 of 50
+<select title="Items per page" class="form-control" name="count" id="frmform-count"><option value="4" selected="selected">4</option><option value="10">10</option><option value="20">20</option><option value="30">30</option><option value="50">50</option><option value="100">100</option></select><input class="hide" type="submit" name="buttons[perPage]" id="frmform-buttons-perPage" value="Items per page" />                    <a class="btn btn-default btn-xs btn-mini" href="/?action=default&amp;do=grid-export-export&amp;presenter=Test" title="Export all items"><i class="glyphicon glyphicon-download fa fa-download icon-download"></i></a>
+                </span>
+            </td>
+        </tr>
+    </tfoot>
+    <tbody>
+            <tr class="grid-row-1 Trommler">
+                <td class="checker">
+                    <input type="checkbox" name="operations[1]" id="frmform-operations-1" />
+                </td>
+                    <td class="grid-cell-firstname" data-grido-editable-value="Trommler">
+                            Trommler
+                    </td>
+                    <td class="grid-cell-surname">
+                            Trommler
+                    </td>
+                    <td class="grid-cell-gender">
+                            Martina
+                    </td>
+                    <td class="grid-cell-birthday" data-grido-editable-value="1964-10-25">
+                            25.10.1964
+                    </td>
+                <td class="actions center">
+<a class="xxx btn btn-default btn-xs btn-mini" href="/?id=1&amp;action=edit&amp;presenter=Test">Edit</a><a class="grid-action-delete yyy btn btn-default btn-xs btn-mini" href="/?grid-actions-delete-id=1&amp;action=default&amp;do=grid-actions-delete-click&amp;presenter=Test">Delete</a><button class="btn btn-default btn-xs btn-mini" href="/?grid-actions-print-id=1&amp;action=default&amp;do=grid-actions-print-click&amp;presenter=Test"></button>                </td>
+            </tr>
+            <tr class="grid-row-20 Marij">
+                <td class="checker">
+                    <input type="checkbox" name="operations[20]" id="frmform-operations-20" />
+                </td>
+                    <td class="grid-cell-firstname" data-grido-editable-value="Marij">
+                            Marij
+                    </td>
+                    <td class="grid-cell-surname">
+                            Rašpolić
+                    </td>
+                    <td class="grid-cell-gender">
+                            male
+                    </td>
+                    <td class="grid-cell-birthday" data-grido-editable-value="1972-12-16">
+                            16.12.1972
+                    </td>
+                <td class="actions center">
+<a class="xxx btn btn-default btn-xs btn-mini" href="/?id=20&amp;action=edit&amp;presenter=Test">Edit</a><a class="grid-action-delete yyy btn btn-default btn-xs btn-mini" href="/?grid-actions-delete-id=20&amp;action=default&amp;do=grid-actions-delete-click&amp;presenter=Test">Delete</a><button class="btn btn-default btn-xs btn-mini" href="/?grid-actions-print-id=20&amp;action=default&amp;do=grid-actions-print-click&amp;presenter=Test"></button>                </td>
+            </tr>
+            <tr class="grid-row-39 Lyyli">
+                <td class="checker">
+                    <input type="checkbox" name="operations[39]" id="frmform-operations-39" />
+                </td>
+                    <td class="grid-cell-firstname" data-grido-editable-value="Lyyli">
+                            Lyyli
+                    </td>
+                    <td class="grid-cell-surname">
+                            Vaara
+                    </td>
+                    <td class="grid-cell-gender">
+                            female
+                    </td>
+                    <td class="grid-cell-birthday" data-grido-editable-value="1963-5-5">
+                            05.05.1963
+                    </td>
+                <td class="actions center">
+<a class="xxx btn btn-default btn-xs btn-mini" href="/?id=39&amp;action=edit&amp;presenter=Test">Edit</a><a class="grid-action-delete yyy btn btn-default btn-xs btn-mini" href="/?grid-actions-delete-id=39&amp;action=default&amp;do=grid-actions-delete-click&amp;presenter=Test">Delete</a><button class="btn btn-default btn-xs btn-mini" href="/?grid-actions-print-id=39&amp;action=default&amp;do=grid-actions-print-click&amp;presenter=Test"></button>                </td>
+            </tr>
+            <tr class="grid-row-58 Dýrleif">
+                <td class="checker">
+                    <input type="checkbox" name="operations[58]" id="frmform-operations-58" />
+                </td>
+                    <td class="grid-cell-firstname" data-grido-editable-value="Dýrleif">
+                            Dýrleif
+                    </td>
+                    <td class="grid-cell-surname">
+                            Björnsdóttir
+                    </td>
+                    <td class="grid-cell-gender">
+                            female
+                    </td>
+                    <td class="grid-cell-birthday" data-grido-editable-value="1972-11-24">
+                            24.11.1972
+                    </td>
+                <td class="actions center">
+<a class="xxx btn btn-default btn-xs btn-mini" href="/?id=58&amp;action=edit&amp;presenter=Test">Edit</a><a class="grid-action-delete yyy btn btn-default btn-xs btn-mini" href="/?grid-actions-delete-id=58&amp;action=default&amp;do=grid-actions-delete-click&amp;presenter=Test">Delete</a><button class="btn btn-default btn-xs btn-mini" href="/?grid-actions-print-id=58&amp;action=default&amp;do=grid-actions-print-click&amp;presenter=Test"></button>                </td>
+            </tr>
+    </tbody>
+</table>
+<div><input type="hidden" name="action" value="default" /><input type="hidden" name="do" value="grid-form-submit" /><input type="hidden" name="presenter" value="Test" /></div>
+</form>
+</div>
