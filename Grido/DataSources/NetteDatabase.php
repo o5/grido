@@ -62,6 +62,20 @@ class NetteDatabase extends \Nette\Object implements IDataSource
         }
     }
 
+    /**
+     * Default callback for inline editation.
+     * @param mixed $id
+     * @param array $values
+     * @param string $idCol
+     * @return bool
+     */
+    public function update($id, array $values, $idCol)
+    {
+        return (bool) $this->getSelection()
+            ->where("$idCol = ?", $id)
+            ->update($values);
+    }
+
     /*********************************** interface IDataSource ************************************/
 
     /**
@@ -140,18 +154,5 @@ class NetteDatabase extends \Nette\Object implements IDataSource
         }
 
         return array_values($items);
-    }
-
-    /**
-     * @param mixed $id
-     * @param array $values
-     * @param string $idCol
-     * @return bool
-     */
-    public function update($id, array $values, $idCol)
-    {
-        return (bool) $this->getSelection()
-            ->where("$idCol = ?", $id)
-            ->update($values);
     }
 }
