@@ -667,6 +667,20 @@ class Grid extends Components\Container
             : array();
 
         foreach ($values as $name => $value) {
+            // do not save a prompt value of selectbox
+            if ($value === NULL
+                && (
+                    isset($sessionFilter[$name])
+                    || (
+                        isset($this->defaultFilter[$name])
+                        && $this->defaultFilter[$name] === NULL
+                    )
+                )
+            ) {
+               unset($this->filter[$name]);
+               continue;
+            }
+
             $value = (string) $value; //maybe this could be removed
             if ($value != '' || isset($this->defaultFilter[$name]) || isset($sessionFilter[$name])) {
                 $this->filter[$name] = $this->getFilter($name)->changeValue($value);
