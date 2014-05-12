@@ -12,7 +12,8 @@
 namespace Grido\DataSources;
 
 use Doctrine\ORM\Tools\Pagination\Paginator,
-    Grido\Components\Filters\Condition;
+    Grido\Components\Filters\Condition,
+    Nette\Utils\Strings;
 
 /**
  * Doctrine data source.
@@ -137,7 +138,7 @@ class Doctrine extends \Nette\Object implements IDataSource
             if (!Condition::isOperator($column)) {
                 $columns[$key] = isset($this->filterMapping[$column])
                     ? $this->filterMapping[$column]
-                    : $this->qb->getRootAlias() . '.' . $column;
+                    : Strings::contains($column, ".") ? $column : $this->qb->getRootAlias() . '.' . $column;
             }
         }
 
