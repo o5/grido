@@ -34,6 +34,7 @@ abstract class Filter extends \Grido\Components\Component
 
     const RENDER_INNER = 'inner';
     const RENDER_OUTER = 'outer';
+    const RENDER_NONE = 'none';
 
     /** @var mixed */
     protected $optional;

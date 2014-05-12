@@ -225,8 +225,8 @@ class Grid extends Components\Container
     public function setFilterRenderType($type)
     {
         $type = strtolower($type);
-        if (!in_array($type, array(Filter::RENDER_INNER, Filter::RENDER_OUTER))) {
-            throw new \InvalidArgumentException('Type must be Filter::RENDER_INNER or Filter::RENDER_OUTER.');
+        if (!in_array($type, array(Filter::RENDER_INNER, Filter::RENDER_OUTER, Filter::RENDER_NONE))) {
+            throw new \InvalidArgumentException('Type must be Filter::RENDER_INNER or Filter::RENDER_OUTER or Filter::RENDER_NONE.');
         }
 
         $this->filterRenderType = $type;
