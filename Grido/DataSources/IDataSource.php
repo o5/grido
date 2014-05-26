@@ -12,7 +12,7 @@
 namespace Grido\DataSources;
 
 /**
- * Defined method that must be implemented data source.
+ * The interface defines methods that must be implemented by each data source.
  *
  * @package     Grido
  * @subpackage  DataSources
