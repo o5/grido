@@ -106,6 +106,7 @@ class Operation extends Component
      */
     public function handleOperations(\Nette\Forms\Controls\SubmitButton $button)
     {
+        $this->grid->onRegistered && $this->grid->onRegistered($this->grid);
         $form = $button->getForm();
         $this->addCheckers($form[self::ID]);
 

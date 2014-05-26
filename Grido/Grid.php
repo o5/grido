@@ -618,10 +618,7 @@ class Grid extends Components\Container
      */
     public function saveState(array &$params, $reflection = NULL)
     {
-        if ($this->onRegistered) {
-            $this->onRegistered($this);
-        }
-
+        $this->onRegistered && $this->onRegistered($this);
         return parent::saveState($params, $reflection);
     }
 

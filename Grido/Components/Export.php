@@ -75,6 +75,7 @@ class Export extends Component implements \Nette\Application\IResponse
      */
     public function handleExport()
     {
+        $this->grid->onRegistered && $this->grid->onRegistered($this->grid);
         $this->grid->presenter->sendResponse($this);
     }
 
