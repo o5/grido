@@ -23,13 +23,13 @@ class OperationTest extends \Tester\TestCase
         Helper::grid(function(Grid $grid) {
             $grid->setModel(array());
             $grid->addColumnText('column', 'Column');
-            $grid->setOperation(array('edit' => 'Edit', 'del' => 'Del'), function() {})
-                ->setConfirm('del', 'Are you sure?');
+            $grid->setOperation(array('edit' => 'Edit', 'delete' => 'Delete'), function() {})
+                ->setConfirm('delete', 'Are you sure?');
             $grid->render();
         })->run();
 
         $formControl = Helper::$grid['form'][Operation::ID][Operation::ID];
-        Assert::same($formControl->controlPrototype->data['grido-del'], 'Are you sure?');
+        Assert::same($formControl->controlPrototype->data['grido-confirm-delete'], 'Are you sure?');
     }
 
     /**********************************************************************************************/

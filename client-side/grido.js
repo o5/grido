@@ -341,7 +341,7 @@
 
         onSubmit: function()
         {
-            var hasConfirm = this.getSelect().data('grido-' + this.getSelect().val());
+            var hasConfirm = this.getSelect().attr('data-grido-confirm-' + this.getSelect().val());
             if (hasConfirm) {
                 if (confirm(hasConfirm.replace(/%i/g, $(this.selector + ':checked', this.grido.$table).length))) {
                     return true;
