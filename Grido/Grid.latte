@@ -106,7 +106,7 @@
                 {/if}
             {/foreach}
 
-            <th n:if="$filters" class="buttons">
+            <th n:if="$filters" class="buttons" n:block="action">
                 {formContainer buttons}
                     {input search}
                     {input reset}
