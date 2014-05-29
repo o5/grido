@@ -136,11 +136,11 @@ class Doctrine extends \Nette\Object implements IDataSource
         $columns = $condition->column;
         foreach ($columns as $key => $column) {
             if (!Condition::isOperator($column)) {
-                $columns[$key] = isset($this->filterMapping[$column])
+                $columns[$key] = (isset($this->filterMapping[$column])
                     ? $this->filterMapping[$column]
-                    : Strings::contains($column, ".") ? $column : $this->qb->getRootAlias() . '.' . $column;
+                    : (Strings::contains($column, ".") ? $column : $this->qb->getRootAlias() . '.' . $column));
+                }
             }
-        }
 
         $condition->setColumn($columns);
         list($where) = $condition->__toArray(NULL, NULL, FALSE);
@@ -298,3 +298,4 @@ class Doctrine extends \Nette\Object implements IDataSource
         return array_values($items);
     }
 }
+
