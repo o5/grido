@@ -680,7 +680,11 @@
             })
             .success(function(data) {
                 if (data.updated === true) {
-                    $td.html(newValue);
+                    if (data.newValue){
+                        $td.html(data.newValue);
+                    }else {
+                        $td.html(newValue);
+                    }
                     $td.data('grido-editable-value', newValue);
                     that.oldValue = newValue;
                     that.flashSuccess($td);
