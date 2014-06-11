@@ -203,7 +203,7 @@ abstract class Container extends \Nette\Application\UI\Control
     /**
      * @param string $name
      * @param string $label
-     * @return Columns\Mail
+     * @return Columns\Email
      */
     public function addColumnEmail($name, $label)
     {
