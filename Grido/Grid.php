@@ -771,7 +771,10 @@ class Grid extends Components\Container
     {
         if ($this->rememberState) {
             $session = $this->getRememberSession(TRUE);
-            $session->params = $this->params;
+            $params = array_keys($this->getReflection()->getPersistentParams());
+            foreach($params as $param) {
+                $session->params[$param] = $this->$param;
+            }
         }
     }
 
