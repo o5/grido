@@ -75,7 +75,7 @@
     <thead>
         <tr class="head">
             <th n:if="$operation" class="checker"{if $filters} rowspan="{if $filterRenderType == \Grido\Components\Filters\Filter::RENDER_OUTER}1{else}2{/if}"{/if}>
-                <input type="checkbox" title="{_'Invert'}">
+                <input type="checkbox" title="{_'Grido.Invert'}">
             </th>
             {foreach $columns as $column}
                 {$column->getHeaderPrototype()->startTag()|noescape}
@@ -90,7 +90,7 @@
                 {$column->getHeaderPrototype()->endTag()|noescape}
             {/foreach}
             <th n:if="$showActionsColumn" class="actions center">
-                {_'Actions'}
+                {_'Grido.Actions'}
             </th>
         </tr>
         <tr n:if="$filterRenderType == \Grido\Components\Filters\Filter::RENDER_INNER && $filters" class="filter inner">
@@ -117,16 +117,16 @@
     <tfoot>
         <tr>
             <td colspan="{=$showActionsColumn ? $columnCount + 1 : $columnCount}">
-                <span n:if="$operation" n:block="operations" class="operations"  title="{_'Select some row'}">
+                <span n:if="$operation" n:block="operations" class="operations"  title="{_'Grido.SelectSomeRow'}">
                     {$form[\Grido\Components\Operation::ID][\Grido\Components\Operation::ID]->control}
                     {?$form[\Grido\Grid::BUTTONS][\Grido\Components\Operation::ID]->controlPrototype->class[] = 'hide'}
                     {$form[\Grido\Grid::BUTTONS][\Grido\Components\Operation::ID]->control}
                 </span>
                 <span n:if="$paginator->steps && $paginator->pageCount > 1" n:block="paginator" class="paginator">
                     {if $control->page == 1}
-                        <span class="btn btn-default btn-xs btn-mini disabled" n:href="page! page => $paginator->getPage() - 1"><i class="glyphicon glyphicon-arrow-left fa fa-arrow-left icon-arrow-left"></i> {_'Previous'}</span>
+                        <span class="btn btn-default btn-xs btn-mini disabled" n:href="page! page => $paginator->getPage() - 1"><i class="glyphicon glyphicon-arrow-left fa fa-arrow-left icon-arrow-left"></i> {_'Grido.Previous'}</span>
                     {else}
-                        <a class="btn btn-default btn-xs btn-mini ajax" n:href="page! page => $paginator->getPage() - 1"><i class="glyphicon glyphicon-arrow-left fa fa-arrow-left icon-arrow-left"></i> {_'Previous'}</a>
+                        <a class="btn btn-default btn-xs btn-mini ajax" n:href="page! page => $paginator->getPage() - 1"><i class="glyphicon glyphicon-arrow-left fa fa-arrow-left icon-arrow-left"></i> {_'Grido.Previous'}</a>
                     {/if}
                     {var $steps = $paginator->getSteps()}
                     {foreach $steps as $step}
@@ -135,22 +135,22 @@
                         {else}
                             <a class="btn btn-default btn-xs btn-mini ajax" n:href="page! page => $step">{$step}</a>
                         {/if}
-                        <a n:if="$iterator->nextValue > $step + 1" class="prompt" data-grido-prompt="{_'Enter page:'}" data-grido-link="{link page! page => 0}">...</a>
+                        <a n:if="$iterator->nextValue > $step + 1" class="prompt" data-grido-prompt="{_'Grido.EnterPage'}" data-grido-link="{link page! page => 0}">...</a>
                         {var $prevStep = $step}
                     {/foreach}
                     {if $control->page == $paginator->getPageCount()}
-                        <span class="btn btn-default btn-xs btn-mini disabled" n:href="page! page => $paginator->getPage() + 1">{_'Next'} <i class="glyphicon glyphicon-arrow-right fa fa-arrow-right icon-arrow-right"></i></span>
+                        <span class="btn btn-default btn-xs btn-mini disabled" n:href="page! page => $paginator->getPage() + 1">{_'Grido.Next'} <i class="glyphicon glyphicon-arrow-right fa fa-arrow-right icon-arrow-right"></i></span>
                     {else}
-                        <a class="btn btn-default btn-xs btn-mini ajax" n:href="page! page => $paginator->getPage() + 1">{_'Next'} <i class="glyphicon glyphicon-arrow-right fa fa-arrow-right icon-arrow-right"></i></a>
+                        <a class="btn btn-default btn-xs btn-mini ajax" n:href="page! page => $paginator->getPage() + 1">{_'Grido.Next'} <i class="glyphicon glyphicon-arrow-right fa fa-arrow-right icon-arrow-right"></i></a>
                     {/if}
                 </span>
                 <span n:block="count" class="count">
-                    {= sprintf($template->translate('Items %d - %d of %d'), $paginator->getCountBegin(), $paginator->getCountEnd(), $control->getCount())}
+                    {= sprintf($template->translate('Grido.Items'), $paginator->getCountBegin(), $paginator->getCountEnd(), $control->getCount())}
                     {input count}
                     {formContainer buttons}
                         {input perPage, class => 'hide'}
                     {/formContainer}
-                    <a n:if="$control->hasExport()" class="btn btn-default btn-xs btn-mini" href="{=$control->getComponent(\Grido\Components\Export::ID)->link('export!')}" title="{_'Export all items'}"><i class="glyphicon glyphicon-download fa fa-download icon-download"></i></a>
+                    <a n:if="$control->hasExport()" class="btn btn-default btn-xs btn-mini" href="{=$control->getComponent(\Grido\Components\Export::ID)->link('export!')}" title="{_'Grido.ExportAllItems'}"><i class="glyphicon glyphicon-download fa fa-download icon-download"></i></a>
                 </span>
             </td>
         </tr>
@@ -192,7 +192,7 @@
                 </td>
             {$tr->endTag()|noescape}
         {/foreach}
-        <tr n:if="!$control->getCount()"><td colspan="{=$showActionsColumn ? $columnCount + 1 : $columnCount}" class="no-results">{_'No results.'}</td></tr>
+        <tr n:if="!$control->getCount()"><td colspan="{=$showActionsColumn ? $columnCount + 1 : $columnCount}" class="no-results">{_'Grido.NoResults'}</td></tr>
     </tbody>
 {$control->getTablePrototype()->endTag()|noescape}
 {/block}
