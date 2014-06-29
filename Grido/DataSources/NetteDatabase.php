@@ -155,17 +155,4 @@ class NetteDatabase extends \Nette\Object implements IDataSource
 
         return array_values($items);
     }
-
-    /**
-     * @param mixed $id
-     * @param array $values
-     * @param string $idCol
-     * @return bool
-     */
-    public function update($id, array $values, $idCol)
-    {
-        return (bool) $this->getSelection()
-            ->where("$idCol = ?", $id)
-            ->update($values);
-    }
 }
