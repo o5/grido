@@ -19,8 +19,6 @@ namespace Grido\Components\Columns;
  * @author      Jakub Kopřiva <kopriva.jakub@gmail.com>
  * @author      Petr Bugyík
  *
- * @property bool $editable
- * @property bool $editableDisabled
  * @property \Nette\Forms\IControl $editableControl
  * @property callback $editableCallback
  * @property callback $editableValueCallback
@@ -36,15 +34,15 @@ abstract class Editable extends Column
     /** @var \Nette\Forms\IControl Custom control for inline editing */
     protected $editableControl;
 
-    /** @var callback function for custom handling with edited data; function($id, $newValue, $oldValue, Grido\Components\Columns\Editable $column) {} */
+    /** @var callback for custom handling with edited data; function($id, $newValue, $oldValue, Editable $column) {} */
     protected $editableCallback;
 
-    /** @var callback function for custom value; function($row) {} */
+    /** @var callback for custom value; function($row, Columns\Editable $column) {} */
     protected $editableValueCallback;
 
     /**
      * Sets column as editable.
-     * @param callback $callback function($id, $newValue, $oldValue, Grido\Components\Columns\Editable $column) {} {}
+     * @param callback $callback function($id, $newValue, $oldValue, Columns\Editable $column) {} {}
      * @param \Nette\Forms\IControl $control
      * @return Editable
      */
@@ -74,7 +72,7 @@ abstract class Editable extends Column
 
     /**
      * Sets editable callback.
-     * @param callback $callback function($id, $newValue, $oldValue, Grido\Components\Columns\Editable $column) {}
+     * @param callback $callback function($id, $newValue, $oldValue, Columns\Editable $column) {}
      * @return Editable
      */
     public function setEditableCallback($callback)
@@ -87,7 +85,7 @@ abstract class Editable extends Column
 
     /**
      * Sets editable value callback.
-     * @param callback $callback
+     * @param callback $callback for custom value; function($row, Columns\Editable $column) {}
      * @return Editable
      */
     public function setEditableValueCallback($callback)
@@ -117,10 +115,16 @@ abstract class Editable extends Column
             $this->grid->onRender[] = function(\Grido\Grid $grid)
             {
                 foreach ($grid->getComponent(Column::ID)->getComponents() as $column) {
+                    if (!$column instanceof Editable) {
+                        continue;
+                    }
+
                     $columnName = $column->getColumn();
-                    $callbackNotSet = $column instanceof Editable && $column->isEditable() && $column->getEditableCallback() === NULL;
-                    if (($callbackNotSet && (!is_string($columnName) || strpos($columnName, '.'))) || ($callbackNotSet && !method_exists($grid->model->dataSource, 'update'))) {
-                        throw new \Exception("Editable column '{$column->name}' has error: You must define an own editable callback.");
+                    $callbackNotSet = $column->isEditable() && $column->editableCallback === NULL;
+                    if (($callbackNotSet && (!is_string($columnName) || strpos($columnName, '.'))) ||
+                        ($callbackNotSet && !method_exists($grid->model->dataSource, 'update')))
+                    {
+                        throw new \Exception("Column '{$column->name}' has error: You must define an own editable callback.");
                     }
                 }
             };
@@ -157,7 +161,7 @@ abstract class Editable extends Column
         if ($this->isEditable() && $row !== NULL) {
             $td->data['grido-editable-value'] = $this->editableValueCallback === NULL
                 ? parent::getValue($row)
-                : callback($this->editableValueCallback)->invokeArgs(array($row));
+                : callback($this->editableValueCallback)->invokeArgs(array($row, $this));
         }
 
         return $td;

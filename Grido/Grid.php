@@ -43,6 +43,8 @@ class Grid extends Components\Container
     /***** DEFAULTS ****/
     const BUTTONS = 'buttons';
 
+    const CLIENT_SIDE_OPTIONS = 'grido-options';
+
     /** @var int @persistent */
     public $page = 1;
 
@@ -297,7 +299,7 @@ class Grid extends Components\Container
      */
     public function setClientSideOptions(array $options)
     {
-        $this->getTablePrototype()->data['grido-options'] = json_encode($options);
+        $this->getTablePrototype()->data[self::CLIENT_SIDE_OPTIONS] = json_encode($options);
         return $this;
     }
 
@@ -579,6 +581,15 @@ class Grid extends Components\Container
         return $tr;
     }
 
+    /**
+     * Returns client-side options.
+     * @return array
+     */
+    public function getClientSideOptions()
+    {
+        return (array) json_decode($this->getTablePrototype()->data[self::CLIENT_SIDE_OPTIONS]);
+    }
+
     /**********************************************************************************************/
 
      /**
@@ -607,10 +618,7 @@ class Grid extends Components\Container
      */
     public function saveState(array &$params, $reflection = NULL)
     {
-        if ($this->onRegistered) {
-            $this->onRegistered($this);
-        }
-
+        $this->onRegistered && $this->onRegistered($this);
         return parent::saveState($params, $reflection);
     }
 
@@ -731,24 +739,6 @@ class Grid extends Components\Container
         $template->setFile(__DIR__ . '/Grid.latte');
         $template->registerHelper('translate', callback($this->getTranslator(), 'translate'));
 
-        $namespaceFilter = function($source)
-        {
-            $namespaces = array(
-                '\Grido\Grid', '\Grido\Components\Columns\Column', '\Grido\Components\Filters\Filter',
-                '\Grido\Components\Actions\Action', '\Grido\Components\Operation', '\Grido\Components\Export'
-            );
-
-            return '<?php use ' . implode(',', $namespaces) . ';?>' . $source;
-        };
-
-        //TODO
-        if (\Nette\Framework::VERSION_ID >= 20200) {
-            $template->addFilter(NULL, $namespaceFilter);
-        } else {
-            $template->registerFilter(new \Nette\Latte\Engine);
-            $template->registerFilter($namespaceFilter);
-        }
-
         return $template;
     }
 
@@ -781,7 +771,10 @@ class Grid extends Components\Container
     {
         if ($this->rememberState) {
             $session = $this->getRememberSession(TRUE);
-            $session->params = $this->params;
+            $params = array_keys($this->getReflection()->getPersistentParams());
+            foreach($params as $param) {
+                $session->params[$param] = $this->$param;
+            }
         }
     }
 

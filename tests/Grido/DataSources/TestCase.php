@@ -37,6 +37,7 @@ abstract class DataSourceTestCase extends \Tester\TestCase
 
         //@todo - resolve this wtf? different sorting (dibi and nette db) vs (doctrine and array source)
         $type = in_array(get_called_class(), array('Grido\Tests\ArraySourceTest', 'Grido\Tests\DoctrineTest')) ? 2 : 1;
+        $type = PHP_VERSION_ID >= 50511 ? 2 : $type;
         Assert::matchFile(__DIR__ . "/files/render.$type.expect", $output);
     }
 
@@ -74,6 +75,7 @@ abstract class DataSourceTestCase extends \Tester\TestCase
 
         //@todo - resolve this wtf? different sorting (dibi, nette db, doctrine) vs (array source)
         $type = in_array(get_called_class(), array('Grido\Tests\ArraySourceTest')) ? '.array' : '';
+        $type = PHP_VERSION_ID >= 50511 ? '.array' : $type;
         Assert::same(file_get_contents(__DIR__ . "/files/export$type.expect"), $output);
     }
 }

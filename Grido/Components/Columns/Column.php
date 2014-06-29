@@ -38,8 +38,8 @@ abstract class Column extends \Grido\Components\Component
 
     const VALUE_IDENTIFIER = '%value';
 
-    const ORDER_ASC  = '↑';
-    const ORDER_DESC = '↓';
+    const ORDER_ASC  = 'asc';
+    const ORDER_DESC = 'desc';
 
     /** @var string */
     protected $sort;
@@ -187,7 +187,7 @@ abstract class Column extends \Grido\Components\Component
      */
     public function getHeaderPrototype()
     {
-        if (!$this->headerPrototype) {
+        if ($this->headerPrototype === NULL) {
             $this->headerPrototype = \Nette\Utils\Html::el('th')
                 ->setClass(array('column', 'grid-header-' . $this->getName()));
         }

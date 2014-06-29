@@ -33,7 +33,7 @@ abstract class Container extends \Nette\Application\UI\Control
      * Returns column component.
      * @param string $name
      * @param bool $need
-     * @return Column
+     * @return Columns\Editable
      */
     public function getColumn($name, $need = TRUE)
     {
@@ -203,7 +203,7 @@ abstract class Container extends \Nette\Application\UI\Control
     /**
      * @param string $name
      * @param string $label
-     * @return Columns\Mail
+     * @return Columns\Email
      */
     public function addColumnEmail($name, $label)
     {

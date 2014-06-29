@@ -22,7 +22,6 @@ class GridTest extends \Tester\TestCase
     function testOnRegisteredEvent()
     {
         $called = FALSE;
-
         Helper::grid(function(Grid $grid) use (&$called) {
             $grid->onRegistered[] = function(Grid $grid) use(&$called) {
                 $called = TRUE;

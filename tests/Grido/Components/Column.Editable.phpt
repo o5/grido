@@ -91,6 +91,21 @@ class EditableTest extends \Tester\TestCase
         Assert::same(TRUE, $column->editable);
         Assert::same(FALSE, $column->editableDisabled);
         Assert::same($valueCallback, $column->editableValueCallback);
+
+        Helper::grid(function(Grid $grid) {
+            $grid->setModel(array());
+            $grid->addColumnText('text', 'Text');
+            $grid->addColumnNumber('number', 'Number');
+            $grid->addColumnDate('date', 'Date');
+            $grid->addColumnHref('href', 'Href');
+            $grid->addColumnEmail('email', 'Email');
+            $grid->setEditableColumns();
+        })->run();
+
+        foreach (Helper::$grid->getComponent(\Grido\Components\Columns\Column::ID)->getComponents() as $column) {
+            Assert::type('\Grido\Components\Columns\Editable', $column);
+            Assert::true($column->isEditable());
+        }
     }
 
     function testHandleEditable()
@@ -162,7 +177,7 @@ class EditableTest extends \Tester\TestCase
         Helper::grid(function(Grid $grid) {
             $grid->setModel(array());
             $grid->presenter->forceAjaxMode = TRUE;
-            $grid->addColumnText('firstname', 'Firstname')->setEditable(NULL, new TextInput('firstname', 'Firstname'));
+            $grid->addColumnText('firstname', 'Firstname')->setEditable(NULL, new TextInput);
         });
 
         ob_start();
@@ -171,7 +186,7 @@ class EditableTest extends \Tester\TestCase
                 'grid-columns-firstname-value' => 'Test',
             ));
         $output = ob_get_clean();
-        Assert::same('<input type="text" size="Firstname" name="editfirstname" id="frmform-editfirstname" value="Test" />', $output);
+        Assert::same('<input type="text" name="editfirstname" id="frmform-editfirstname" value="Test" />', $output);
     }
 }
 
@@ -194,7 +209,6 @@ class Html extends \Nette\Utils\Html
 
     public function render($indent = NULL)
     {
-        //THERE IS THE MAGIC = print() !!!
         print $this->control->render();
     }
 }

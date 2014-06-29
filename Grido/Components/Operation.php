@@ -67,7 +67,7 @@ class Operation extends Component
     {
         $message = $this->translate($message);
         $this->grid->onRender[] = function(Grid $grid) use ($operation, $message) {
-            $grid['form'][Operation::ID][Operation::ID]->controlPrototype->data["grido-$operation"] = $message;
+            $grid['form'][Operation::ID][Operation::ID]->controlPrototype->data["grido-confirm-$operation"] = $message;
         };
 
         return $this;
@@ -106,6 +106,7 @@ class Operation extends Component
      */
     public function handleOperations(\Nette\Forms\Controls\SubmitButton $button)
     {
+        $this->grid->onRegistered && $this->grid->onRegistered($this->grid);
         $form = $button->getForm();
         $this->addCheckers($form[self::ID]);
 

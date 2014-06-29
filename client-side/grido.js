@@ -100,13 +100,13 @@
                         };
 
                     if (hasConfirm && confirm(hasConfirm)) {
-                        isAjax && (that.ajax.doRequest(this.href) || stop(event));
+                        isAjax && (that.ajax.doRequest(this.href, this, event) || stop(event));
 
                     } else if (hasConfirm) {
                         stop(event);
 
                     } else if (isAjax) {
-                        that.ajax.doRequest(this.href) || stop(event);
+                        that.ajax.doRequest(this.href, this, event) || stop(event);
                     }
                 });
         },
@@ -341,7 +341,7 @@
 
         onSubmit: function()
         {
-            var hasConfirm = this.getSelect().data('grido-' + this.getSelect().val());
+            var hasConfirm = this.getSelect().attr('data-grido-confirm-' + this.getSelect().val());
             if (hasConfirm) {
                 if (confirm(hasConfirm.replace(/%i/g, $(this.selector + ':checked', this.grido.$table).length))) {
                     return true;
