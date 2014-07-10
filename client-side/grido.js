@@ -234,8 +234,7 @@
                 .off('click.grido')
                 .on('click.grido', function(event) {
                     if ($(this).hasClass('edit')) {
-                        event.preventDefault();
-                        return false;
+                        return;
                     }
 
                     if (event.shiftKey) {
