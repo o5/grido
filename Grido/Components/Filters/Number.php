@@ -29,7 +29,7 @@ class Number extends Text
     protected function getFormControl()
     {
         $control = parent::getFormControl();
-        $hint = 'You can use <, <=, >, >=, <>. e.g. ">= %d"';
+        $hint = 'Grido.HintNumber';
         $control->getControlPrototype()->title = sprintf($this->translate($hint), rand(1, 9));
         $control->getControlPrototype()->class[] = 'number';
 

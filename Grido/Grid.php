@@ -111,6 +111,11 @@ class Grid extends Components\Container
     /** @var PropertyAccessors\IPropertyAccessor */
     protected $propertyAccessor;
 
+    public function __construct(\Nette\ComponentModel\IContainer $parent = NULL, $name = NULL) {
+	parent::__construct($parent, $name);
+	$this->translator = new Translations\FileTranslator('en');
+    }
+    
     /**
      * Sets a model that implements the interface Grido\DataSources\IDataSource or data-source object.
      * @param mixed $model
@@ -871,15 +876,15 @@ class Grid extends Components\Container
         $form->setMethod($form::GET);
 
         $buttons = $form->addContainer(self::BUTTONS);
-        $buttons->addSubmit('search', 'Search')
+        $buttons->addSubmit('search', 'Grido.Search')
             ->onClick[] = $this->handleFilter;
-        $buttons->addSubmit('reset', 'Reset')
+        $buttons->addSubmit('reset', 'Grido.Reset')
             ->onClick[] = $this->handleReset;
         $buttons->addSubmit('perPage', 'Items per page')
             ->onClick[] = $this->handlePerPage;
 
         $form->addSelect('count', 'Count', $this->getItemsForCountSelect())
-            ->controlPrototype->attrs['title'] = $this->getTranslator()->translate('Items per page');
+            ->controlPrototype->attrs['title'] = $this->getTranslator()->translate('Grido.ItemsPerPage');
     }
 
     /**
