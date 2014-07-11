@@ -155,4 +155,16 @@ class NetteDatabase extends \Nette\Object implements IDataSource
 
         return array_values($items);
     }
+
+    /**
+     * 
+     * @param mixed $id value of private key
+     * @param string $idCol name of column with private key
+     * @return \Nette\Database\Table\Selection selection
+     * @internal
+     */
+    public function getRow($idCol, $id) {
+	return $this->getSelection()
+            ->where("$idCol = ?", $id);
+    }
 }
