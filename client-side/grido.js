@@ -241,7 +241,7 @@
                         that.disableSelection.call(that);
                     }
 
-                    $('[type=checkbox]', $(this).parent()).click();
+                    $('th.checker [type=checkbox]', $(this).parent()).click();
 
                     if (event.shiftKey) {
                         that.enableSelection.call(that);
