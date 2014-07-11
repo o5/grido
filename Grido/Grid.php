@@ -111,6 +111,11 @@ class Grid extends Components\Container
     /** @var PropertyAccessors\IPropertyAccessor */
     protected $propertyAccessor;
 
+    public function __construct(\Nette\ComponentModel\IContainer $parent = NULL, $name = NULL) {
+	parent::__construct($parent, $name);
+	$this->translator = new Translations\FileTranslator('en');
+    }
+    
     /**
      * Sets a model that implements the interface Grido\DataSources\IDataSource or data-source object.
      * @param mixed $model
