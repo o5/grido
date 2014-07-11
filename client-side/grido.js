@@ -234,15 +234,14 @@
                 .off('click.grido')
                 .on('click.grido', function(event) {
                     if ($(this).hasClass('edit')) {
-                        event.preventDefault();
-                        return false;
+                        return;
                     }
 
                     if (event.shiftKey) {
                         that.disableSelection.call(that);
                     }
 
-                    $('[type=checkbox]', $(this).parent()).click();
+                    $('th.checker [type=checkbox]', $(this).parent()).click();
 
                     if (event.shiftKey) {
                         that.enableSelection.call(that);
