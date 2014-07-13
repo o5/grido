@@ -47,7 +47,7 @@ class Operation extends Component
 
         $grid['form']->addContainer(self::ID)
             ->addSelect(self::ID, 'Selected', $operations)
-            ->setPrompt('Selected...');
+            ->setPrompt('Grido.Selected');
 
         $that = $this;
         $grid->onRender[] = function(Grid $grid) use ($that) {
