@@ -27,12 +27,9 @@ class FileTranslator extends \Nette\Object implements \Nette\Localization\ITrans
      * @param string $lang
      * @param array $translations
      */
-    public function __construct($lang = NULL, array $translations = array())
+    public function __construct($lang = 'en', array $translations = array())
     {
-        if ($lang) {
-            $translations = $translations + $this->getTranslationsFromFile($lang);
-        }
-
+        $translations = $translations + $this->getTranslationsFromFile($lang);
         $this->translations = $translations;
     }
 
