@@ -664,8 +664,7 @@ class Grid extends Components\Container
             : array();
 
         foreach ($values as $name => $value) {
-            $value = (string) $value; //maybe this could be removed
-            if ($value != '' || isset($this->defaultFilter[$name]) || isset($sessionFilter[$name])) {
+            if (is_numeric($value) || !empty($value) || isset($this->defaultFilter[$name]) || isset($sessionFilter[$name])) {
                 $this->filter[$name] = $this->getFilter($name)->changeValue($value);
             } elseif (isset($this->filter[$name])) {
                 unset($this->filter[$name]);
