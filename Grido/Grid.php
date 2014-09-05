@@ -875,7 +875,7 @@ class Grid extends Components\Container
             ->onClick[] = $this->handleFilter;
         $buttons->addSubmit('reset', 'Grido.Reset')
             ->onClick[] = $this->handleReset;
-        $buttons->addSubmit('perPage', 'Items per page')
+        $buttons->addSubmit('perPage', 'Grido.ItemsPerPage')
             ->onClick[] = $this->handlePerPage;
 
         $form->addSelect('count', 'Count', $this->getItemsForCountSelect())
