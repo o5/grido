@@ -90,6 +90,11 @@ class Date extends Editable
      */
     public function renderExport($row)
     {
+
+        if (is_callable($this->customRenderExport)) {
+            return callback($this->customRenderExport)->invokeArgs(array($row));
+        }
+            
         $value = $this->getValue($row);
         return $this->formatValue($value);
     }
