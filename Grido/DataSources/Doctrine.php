@@ -11,7 +11,8 @@
 
 namespace Grido\DataSources;
 
-use Doctrine\ORM\Tools\Pagination\Paginator,
+use Doctrine\ORM\Query,
+    Doctrine\ORM\Tools\Pagination\Paginator,
     Grido\Components\Filters\Condition,
     Nette\Utils\Strings;
 
@@ -46,6 +47,9 @@ class Doctrine extends \Nette\Object implements IDataSource
     /** @var bool fetch join collection in Doctrine Paginator */
     protected $fetchJoinCollection = TRUE;
 
+    /** @var integer Query hydration mode */
+    protected $hydrationMode;
+
     /** @var array */
     protected $rand;
 
@@ -55,12 +59,13 @@ class Doctrine extends \Nette\Object implements IDataSource
      * @param \Doctrine\ORM\QueryBuilder $qb
      * @param array $filterMapping Maps columns to the DQL columns
      * @param array $sortMapping Maps columns to the DQL columns
+     * @param int $hydrationMode Query hydration mode
      */
-    public function __construct(\Doctrine\ORM\QueryBuilder $qb, $filterMapping = NULL, $sortMapping = NULL)
+    public function __construct(\Doctrine\ORM\QueryBuilder $qb, $filterMapping = NULL, $sortMapping = NULL, $hydrationMode = Query::HYDRATE_OBJECT)
     {
         $this->qb = $qb;
         $this->filterMapping = $filterMapping;
-        $this->sortMapping = $sortMapping;
+        $this->hydrationMode = $hydrationMode;
 
         if (!$this->sortMapping && $this->filterMapping) {
             $this->sortMapping = $this->filterMapping;
@@ -88,11 +93,19 @@ class Doctrine extends \Nette\Object implements IDataSource
     }
 
     /**
+     * @param int $hydrationMode Query hydration mode
+     */
+    public function setHydrationMode($hydrationMode)
+    {
+        $this->hydrationMode = $hydrationMode;
+    }
+
+    /**
      * @return \Doctrine\ORM\Query
      */
     public function getQuery()
     {
-        return $this->qb->getQuery();
+        return $this->qb->getQuery()->setHydrationMode($this->hydrationMode);
     }
 
     /**
@@ -194,29 +207,10 @@ class Doctrine extends \Nette\Object implements IDataSource
     {
         // Paginator is better if the query uses ManyToMany associations
         $usePaginator = $this->qb->getMaxResults() !== NULL || $this->qb->getFirstResult() !== NULL;
-        $data = array();
 
-        if ($usePaginator) {
-            $paginator = new Paginator($this->getQuery());
-
-            // Convert paginator to the array
-            foreach ($paginator as $result) {
-                // Return only entity itself
-                $data[] = is_array($result)
-                    ? $result[0]
-                    : $result;
-            }
-        } else {
-
-            foreach ($this->qb->getQuery()->getResult() as $result) {
-                // Return only entity itself
-                $data[] = is_array($result)
-                    ? $result[0]
-                    : $result;
-            }
-        }
-
-        return $data;
+        return $usePaginator
+            ? iterator_to_array(new Paginator($this->getQuery()))
+            : $this->getQuery()->getArrayResult();
     }
 
     /**
