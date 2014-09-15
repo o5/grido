@@ -11,7 +11,8 @@
 
 namespace Grido\Components;
 
-use Grido\Grid;
+use Grido\Grid,
+    Grido\Helpers;
 
 /**
  * Operation with one or more rows.
@@ -146,7 +147,7 @@ class Operation extends Component
         foreach ($items as $item) {
             $primaryValue = $propertyAccessor->getProperty($item, $primaryKey);
             if (!isset($container[$primaryValue])) {
-                $container->addCheckbox($primaryValue);
+                $container->addCheckbox(Helpers::formatColumnName($primaryValue));
             }
         }
     }

@@ -11,6 +11,8 @@
 
 namespace Grido\Components\Filters;
 
+use Grido\Helpers;
+
 /**
  * Data filtering.
  *
@@ -63,6 +65,7 @@ abstract class Filter extends \Grido\Components\Component
      */
     public function __construct($grid, $name, $label)
     {
+        $name = Helpers::formatColumnName($name);
         $this->addComponentToGrid($grid, $name);
 
         $this->label = $label;
