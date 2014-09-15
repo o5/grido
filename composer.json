@@ -27,5 +27,8 @@
         "mockery/mockery": "@dev",
         "dibi/dibi": "@dev",
         "kdyby/doctrine": "@dev"
+    },
+    "suggest": {
+        "symfony/property-access": "Allows to use Grido\\PropertyAccessors\\SymfonyPropertyAccessor"
     }
 }
