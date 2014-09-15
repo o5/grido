@@ -23,7 +23,7 @@ interface IPropertyAccessor
      * @param string $name
      * @return mixed
      */
-    public static function getProperty($object, $name);
+    public function getProperty($object, $name);
 
     /**
      * @param mixed $object
@@ -31,5 +31,5 @@ interface IPropertyAccessor
      * @param string $value
      * @return void
      */
-    public static function setProperty($object, $name, $value);
+    public function setProperty($object, $name, $value);
 }
