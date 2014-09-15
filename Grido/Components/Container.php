@@ -13,7 +13,8 @@ namespace Grido\Components;
 
 use Grido\Components\Columns\Column,
     Grido\Components\Filters\Filter,
-    Grido\Components\Actions\Action;
+    Grido\Components\Actions\Action,
+    Grido\Helpers;
 
 
 /**
@@ -38,7 +39,7 @@ abstract class Container extends \Nette\Application\UI\Control
     public function getColumn($name, $need = TRUE)
     {
         return $this->hasColumns()
-            ? $this->getComponent(Column::ID)->getComponent($name, $need)
+            ? $this->getComponent(Column::ID)->getComponent(Helpers::formatColumnName($name), $need)
             : NULL;
     }
 
@@ -51,7 +52,7 @@ abstract class Container extends \Nette\Application\UI\Control
     public function getFilter($name, $need = TRUE)
     {
         return $this->hasFilters()
-            ? $this->getComponent(Filter::ID)->getComponent($name, $need)
+            ? $this->getComponent(Filter::ID)->getComponent(Helpers::formatColumnName($name), $need)
             : NULL;
     }
 

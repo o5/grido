@@ -11,7 +11,8 @@
 
 namespace Grido\Components\Columns;
 
-use Grido\Components\Filters\Filter;
+use Grido\Components\Filters\Filter,
+    Grido\Helpers;
 
 /**
  * Column grid.
@@ -78,7 +79,7 @@ abstract class Column extends \Grido\Components\Component
      */
     public function __construct($grid, $name, $label)
     {
-        $this->addComponentToGrid($grid, $name);
+        $this->addComponentToGrid($grid, Helpers::formatColumnName($name));
 
         $this->type = get_class($this);
         $this->label = $label;
@@ -319,7 +320,7 @@ abstract class Column extends \Grido\Components\Component
     {
         $column = $this->getColumn();
         if (is_string($column)) {
-            return $this->propertyAccessor->getProperty($row, $column);
+            return $this->propertyAccessor->getProperty($row, Helpers::unformatColumnName($column));
 
         } elseif (is_callable($column)) {
             return callback($column)->invokeArgs(array($row));

@@ -159,7 +159,7 @@
         {var $propertyAccessor = $control->getPropertyAccessor()}
         {foreach $data as $row}
             {? $checkbox = $operation
-                    ? $form[\Grido\Components\Operation::ID][$propertyAccessor->getProperty($row, $control->getComponent(\Grido\Components\Operation::ID)->getPrimaryKey())]
+                    ? $form[\Grido\Components\Operation::ID][\Grido\Helpers::formatColumnName($propertyAccessor->getProperty($row, $control->getComponent(\Grido\Components\Operation::ID)->getPrimaryKey()))]
                     : NULL;
                 $tr = $control->getRowPrototype($row);
                 $tr->class[] = $checkbox && $checkbox->getValue()
