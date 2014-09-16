@@ -656,14 +656,14 @@
          * @param {jQuery} $th header cell of column
          * @param {jQuery} $td edited cell
          */
-        saveData: function(oldValue, componentName, primaryKey, $th, $td)
+        saveData: function(oldValue, componentName, primaryKey, $th, $td, oldHtml)
         {
             var data = {},
                 that = this,
                 newValue = this.editControlObject.val();
 
             if (newValue === oldValue) {
-                $td.html(oldValue);
+                $td.html(oldHtml);
                 return;
             }
 
@@ -760,7 +760,8 @@
                         return false;
                     }
 
-                    that.saveData(that.value, that.componentName, that.primaryKey, that.th, that.td);
+                    var oldHtml = that.oldValue;
+                    that.saveData(that.value, that.componentName, that.primaryKey, that.th, that.td, oldHtml);
                     that.td.removeClass('edit');
 
                     event.preventDefault();
