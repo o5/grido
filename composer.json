@@ -26,6 +26,6 @@
         "nette/tester": "@dev",
         "mockery/mockery": "@dev",
         "dibi/dibi": "@dev",
-        "nella/doctrine": "@dev"
+        "kdyby/doctrine": "@dev"
     }
 }
