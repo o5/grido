@@ -31,16 +31,22 @@ class ColumnTest extends \Tester\TestCase
     function testSetReplacement()
     {
         $grid = new Grid;
-        $column = $grid->addColumnText('column', 'Column')->setReplacement(array('value' => 'new_value'));
+        $column = $grid->addColumnText('column', 'Column')->setReplacement(array('value' => 'new_value', 'replace' => '%value it!'));
         Assert::same('new_value', $column->render(array('column' => 'value')));
-        Assert::same('normal', $column->render(array('column' => 'normal')));
+        Assert::same('unknown', $column->render(array('column' => 'unknown')));
+        Assert::same('replace it!', $column->render(array('column' => 'replace'))); //Column::VALUE_IDENTIFIER
 
         $value = new \stdClass;
         Assert::same($value, $column->render(array('column' => $value)));
 
-        $column = $grid->addColumnText('date', 'Date')->setReplacement(array(NULL => 'NEVER', '' => 'NEVER'));
-        Assert::same('NEVER', $column->render(array('date' => '')));
-        Assert::same('NEVER', $column->render(array('date' => NULL)));
+        $column->setReplacement(array('value' => 'new_value', NULL => 'IS NULL'));
+        Assert::same('IS NULL', $column->render(array('column' => NULL)));
+
+        $column->setReplacement(array('value' => 'new_value', '' => 'IS EMPTY'));
+        Assert::same('IS NULL', $column->render(array('column' => '')));
+
+        $column->setReplacement(array(TRUE => 'Yes', FALSE => 'No'));
+        Assert::same('No', $column->render(array('column' => FALSE)));
     }
 
     function testSetColumn()

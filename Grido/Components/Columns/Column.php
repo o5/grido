@@ -330,14 +330,16 @@ abstract class Column extends \Grido\Components\Component
         }
     }
 
-    /***
+    /**
      * @param mixed $value
      * @return mixed
      */
     protected function applyReplacement($value)
     {
-        return (is_string($value) || $value == '' || $value === NULL) && isset($this->replacements[$value])
-            ? str_replace(static::VALUE_IDENTIFIER, $value, $this->replacements[$value])
+        return (is_scalar($value) || $value === NULL) && isset($this->replacements[$value])
+            ? is_string($value)
+                ? str_replace(static::VALUE_IDENTIFIER, $value, $this->replacements[$value])
+                : $this->replacements[$value]
             : $value;
     }
 
@@ -347,12 +349,11 @@ abstract class Column extends \Grido\Components\Component
      */
     protected function formatValue($value)
     {
-        if (is_null($value) || is_scalar($value) || (is_object($value) && method_exists($value, '__toString'))) {
-            $value = \Nette\Templating\Helpers::escapeHtml($value);
-            $value = $this->applyReplacement($value);
-        }
+        $value = is_string($value)
+            ? \Nette\Templating\Helpers::escapeHtml($value)
+            : $value;
 
-        return $value;
+        return $this->applyReplacement($value);
     }
 
     /******************************* Aliases for filters ******************************************/

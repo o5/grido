@@ -68,7 +68,7 @@ class Date extends Editable
      */
     protected function formatValue($value)
     {
-        if ($value === NULL) {
+        if ($value === NULL || is_bool($value)) {
             return $this->applyReplacement($value);
         } elseif (is_scalar($value)) {
             $value = \Nette\Templating\Helpers::escapeHtml($value);

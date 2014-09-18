@@ -26,8 +26,11 @@ test(function() {
     Assert::same('01.01.1970', $column->render(array('column' => '<script>alert("XSS")</script>')));
     Assert::same('01.01.1970', $column->renderExport(array('column' => '<script>alert("XSS")</script>')));
 
-    $input = '2012-12-12';
-    $output = '12.12.2012';
+    $column->setReplacement(array(FALSE => 'IS FALSE'));
+    Assert::same('IS FALSE', $column->render(array('column' => FALSE)));
+
+    $input = '2012-12-20';
+    $output = '20.12.2012';
     Assert::same($output, $column->render(array('column' => $input)));
     Assert::same($output, $column->render(array('column' => new DateTime($input))));
     Assert::same($output, $column->render(array('column' => strtotime($input))));
@@ -36,14 +39,14 @@ test(function() {
     Assert::same($output, $column->renderExport(array('column' => strtotime($input))));
 
     $column->setDateFormat(Date::FORMAT_TEXT);
-    $output = '12 Dec 2012';
+    $output = '20 Dec 2012';
     Assert::same($output, $column->render(array('column' => $input)));
     Assert::same($output, $column->render(array('column' => new DateTime($input))));
     Assert::same($output, $column->renderExport(array('column' => $input)));
     Assert::same($output, $column->renderExport(array('column' => new DateTime($input))));
 
     $column->setDateFormat(Date::FORMAT_DATETIME);
-    $output = '12.12.2012 00:00:00';
+    $output = '20.12.2012 00:00:00';
     Assert::same($output, $column->render(array('column' => $input)));
     Assert::same($output, $column->render(array('column' => new DateTime($input))));
     Assert::same($output, $column->renderExport(array('column' => $input)));
