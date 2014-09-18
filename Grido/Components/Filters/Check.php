@@ -65,7 +65,7 @@ class Check extends Filter
      */
     public function changeValue($value)
     {
-        return $value === TRUE
+        return (bool) $value === TRUE
             ? self::TRUE
             : $value;
     }

@@ -35,6 +35,7 @@ class FilterCheckTest extends \Tester\TestCase
         $grid = new Grid;
         $filter = $grid->addFilterCheck('check', 'Check');
         Assert::same(\Grido\Components\Filters\Check::TRUE, $filter->changeValue(TRUE));
+        Assert::same(\Grido\Components\Filters\Check::TRUE, $filter->changeValue(1));
         Assert::same(FALSE, $filter->changeValue(FALSE));
     }
 }
