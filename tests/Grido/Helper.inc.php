@@ -85,7 +85,9 @@ class Helper
 
         $configurator = new \Nette\Config\Configurator;
         $configurator->addConfig(__DIR__ . '/config.neon');
-        \Nella\Doctrine\Config\Extension::register($configurator);
+        \Kdyby\Events\DI\EventsExtension::register($configurator);
+        \Kdyby\Annotations\DI\AnnotationsExtension::register($configurator);
+        \Kdyby\Doctrine\DI\OrmExtension::register($configurator);
 
         $container = $configurator
             ->setTempDirectory(TEMP_DIR)
@@ -97,6 +99,7 @@ class Helper
         $application->router[] = new \Nette\Application\Routers\SimpleRouter;
 
         $presenter = new TestPresenter($container);
+        $container->callInjects($presenter);
         $presenter->invalidLinkMode = $presenter::INVALID_LINK_WARNING;
         $presenter->autoCanonicalize = FALSE;
 

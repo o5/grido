@@ -204,6 +204,13 @@ class ColumnTest extends \Tester\TestCase
         Assert::type('\Grido\Components\Columns\Column', $component);
         Assert::same($label, $component->label);
 
+        $name = 'foo.bar';
+        $grid->addColumnText($name, $label);
+        $component = $grid->getColumn($name);
+        Assert::type('\Grido\Components\Columns\Text', $component);
+        Assert::type('\Grido\Components\Columns\Column', $component);
+        Assert::same($label, $component->label);
+
         $name = 'email';
         $grid->addColumnEmail($name, $label);
         $component = $grid->getColumn($name);

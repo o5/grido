@@ -280,10 +280,11 @@ class GridTest extends \Tester\TestCase
 
     function testSetTemplateFile()
     {
-        $grid = new Grid;
-        $template = __FILE__;
-        $grid->setTemplateFile($template);
-        Assert::same($template, $grid->template->getFile());
+        Helper::grid(function(Grid $grid) {
+            $template = __FILE__;
+            $grid->setTemplateFile($template);
+            Assert::same($template, $grid->template->getFile());
+        });
     }
 
     function testSetRememberState()
@@ -477,7 +478,7 @@ class GridTest extends \Tester\TestCase
             $grid->addFilterText('filterB', 'FilterB');
         });
 
-        $params = array('grid-page' => 2, 'do' => 'grid-form-submit', Grid::BUTTONS => array('search' => 'Search'));
+        $params = array('grid-page' => 2, 'do' => 'grid-form-submit', Grid::BUTTONS => array('search' => 'Search'), 'count' => 10);
 
         $filter = array('filter' => 'test') + $defaultFilter;
         Helper::request($params + array(Filter::ID => $filter));
@@ -519,6 +520,7 @@ class GridTest extends \Tester\TestCase
             'grid-page' => 2,
             Filter::ID => array('B' => 'B2'),
             Grid::BUTTONS => array('search' => 'Search'),
+            'count' => 10,
         ));
 
         Assert::same(1, Helper::$grid->page); //test reset page after filtering
@@ -542,6 +544,7 @@ class GridTest extends \Tester\TestCase
             'grid-page' => 1,
             Filter::ID => array('A' => '', 'B' => ''),
             Grid::BUTTONS => array('search' => 'Search'),
+            'count' => 10,
         ));
 
         Assert::same($data, Helper::$grid->getData(FALSE));
@@ -567,6 +570,7 @@ class GridTest extends \Tester\TestCase
         $params = array(
             'do' => 'grid-form-submit',
             Grid::BUTTONS => array('search' => 'Search'),
+            'count' => 10,
         );
         $filter = array('A' => 'test');
         Helper::request($params + array(Filter::ID => $filter));
@@ -604,7 +608,7 @@ class GridTest extends \Tester\TestCase
             $grid->loadState($params);
         });
 
-        Helper::request(array('do' => 'grid-form-submit', Grid::BUTTONS => array('reset' => 'Reset')));
+        Helper::request(array('do' => 'grid-form-submit', Grid::BUTTONS => array('reset' => 'Reset'), 'count' => 2));
         Assert::same(array(), Helper::$grid->sort);
         Assert::same(array(), Helper::$grid->filter);
         Assert::null(Helper::$grid->perPage);

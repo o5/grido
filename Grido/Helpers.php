@@ -9,27 +9,31 @@
  * the file LICENSE.md that was distributed with this source code.
  */
 
-namespace Grido\PropertyAccessors;
+namespace Grido;
 
 /**
+ * Helpers.
+ *
  * @package     Grido
- * @subpackage  PropertyAccessors
  * @author      Josef Kříž <pepakriz@gmail.com>
  */
-interface IPropertyAccessor
+class Helpers
 {
     /**
-     * @param mixed $object
      * @param string $name
-     * @return mixed
+     * @return string
      */
-    public function getProperty($object, $name);
+    public static function formatColumnName($name)
+    {
+        return str_replace('.', '__', $name);
+    }
 
     /**
-     * @param mixed $object
      * @param string $name
-     * @param string $value
-     * @return void
+     * @return string
      */
-    public function setProperty($object, $name, $value);
+    public static function unformatColumnName($name)
+    {
+        return str_replace('__', '.', $name);
+    }
 }

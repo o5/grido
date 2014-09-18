@@ -28,7 +28,7 @@ class ArrayObjectAccessor implements IPropertyAccessor
      * @throws \InvalidArgumentException
      * @return mixed
      */
-    public static function getProperty($object, $name)
+    public function getProperty($object, $name)
     {
         if (is_array($object)) {
             if (!array_key_exists($name, $object)) {
@@ -61,7 +61,7 @@ class ArrayObjectAccessor implements IPropertyAccessor
      * @param string $name
      * @param mixed $value
      */
-    public static function setProperty($object, $name, $value)
+    public function setProperty($object, $name, $value)
     {
         if (is_array($object)) {
             $object[$name] = $value;

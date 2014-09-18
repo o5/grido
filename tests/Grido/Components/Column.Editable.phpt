@@ -122,8 +122,9 @@ class EditableTest extends \Tester\TestCase
         Helper::grid(function(Grid $grid) use ($editableSuffix) {
             $dsn = $grid->presenter->context->ndb_sqlite->getDsn() . $editableSuffix;
             $connection = new \Nette\Database\Connection($dsn);
+            $netteDatabaseContext = new \Nette\Database\Context($connection);
 
-            $grid->setModel($connection->table('user'));
+            $grid->setModel($netteDatabaseContext->table('user'));
             $grid->presenter->forceAjaxMode = TRUE;
             $grid->addColumnText('firstname', 'Firstname')->setEditable();
             $grid->addColumnText('surname', 'Surname');
@@ -144,8 +145,9 @@ class EditableTest extends \Tester\TestCase
 
             $dsn = $grid->presenter->context->ndb_sqlite->getDsn() . $editableSuffix;
             $connection = new \Nette\Database\Connection($dsn);
+            $netteDatabaseContext = new \Nette\Database\Context($connection);
 
-            $grid->setModel($connection->table('user'));
+            $grid->setModel($netteDatabaseContext->table('user'));
             $grid->presenter->forceAjaxMode = TRUE;
             $grid->addColumnText('firstname', 'Firstname')->setEditable(
                 function($_id, $_newValue, $_oldValue, $_column) use ($newValue, $oldValue, $id) {
@@ -186,7 +188,7 @@ class EditableTest extends \Tester\TestCase
                 'grid-columns-firstname-value' => 'Test',
             ));
         $output = ob_get_clean();
-        Assert::same('<input type="text" name="editfirstname" id="frmform-editfirstname" value="Test" />', $output);
+        Assert::same('<input type="text" name="editfirstname" id="frm-grid-form-editfirstname" value="Test">', $output);
     }
 }
 
