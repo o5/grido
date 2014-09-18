@@ -12,7 +12,12 @@
 namespace Grido\PropertyAccessors;
 
 /**
- * @author Josef Kříž <pepakriz@gmail.com>
+ * Symfony property accessor.
+ *
+ * @package     Grido
+ * @subpackage  PropertyAccessors
+ * @author      Josef Kříž <pepakriz@gmail.com>
+ * @link        http://symfony.com/doc/current/components/property_access/introduction.html
  */
 class SymfonyPropertyAccessor implements IPropertyAccessor
 {
@@ -54,8 +59,8 @@ class SymfonyPropertyAccessor implements IPropertyAccessor
      */
     private function getPropertyAccessor()
     {
-        if ($this->propertyAccessor === null) {
-            $this->propertyAccessor = new \Symfony\Component\PropertyAccess\PropertyAccessor(true, true);
+        if ($this->propertyAccessor === NULL) {
+            $this->propertyAccessor = new \Symfony\Component\PropertyAccess\PropertyAccessor(TRUE, TRUE);
         }
 
         return $this->propertyAccessor;

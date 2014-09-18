@@ -122,9 +122,9 @@ class EditableTest extends \Tester\TestCase
         Helper::grid(function(Grid $grid) use ($editableSuffix) {
             $dsn = $grid->presenter->context->ndb_sqlite->getDsn() . $editableSuffix;
             $connection = new \Nette\Database\Connection($dsn);
-            $netteDatabaseContext = new \Nette\Database\Context($connection);
+            $database = new \Nette\Database\Context($connection);
 
-            $grid->setModel($netteDatabaseContext->table('user'));
+            $grid->setModel($database->table('user'));
             $grid->presenter->forceAjaxMode = TRUE;
             $grid->addColumnText('firstname', 'Firstname')->setEditable();
             $grid->addColumnText('surname', 'Surname');
@@ -142,12 +142,11 @@ class EditableTest extends \Tester\TestCase
 
         //TEST INSIDE EDITABLE CALLBACK
         Helper::grid(function(Grid $grid) use ($editableSuffix, $newValue, $oldValue, $id) {
-
             $dsn = $grid->presenter->context->ndb_sqlite->getDsn() . $editableSuffix;
             $connection = new \Nette\Database\Connection($dsn);
-            $netteDatabaseContext = new \Nette\Database\Context($connection);
+            $database = new \Nette\Database\Context($connection);
 
-            $grid->setModel($netteDatabaseContext->table('user'));
+            $grid->setModel($database->table('user'));
             $grid->presenter->forceAjaxMode = TRUE;
             $grid->addColumnText('firstname', 'Firstname')->setEditable(
                 function($_id, $_newValue, $_oldValue, $_column) use ($newValue, $oldValue, $id) {
