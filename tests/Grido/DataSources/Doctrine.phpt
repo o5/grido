@@ -22,7 +22,8 @@ class DoctrineTest extends DataSourceTestCase
     function setUp()
     {
         Helper::grid(function(Grid $grid, TestPresenter $presenter) {
-            $repository = $presenter->context->doctrine->entityManager->getRepository('Grido\Tests\Entities\User');
+            $entityManager = $presenter->context->getByType('Doctrine\ORM\EntityManager');
+            $repository = $entityManager->getRepository('Grido\Tests\Entities\User');
             $model = new \Grido\DataSources\Doctrine(
                 $repository->createQueryBuilder('a') // We need to create query builder with inner join.
                     ->addSelect('c')                 // This will produce less SQL queries with prefetch.

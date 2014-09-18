@@ -20,7 +20,8 @@ class NetteDatabaseTest extends DataSourceTestCase
     function setUp()
     {
         Helper::grid(function(Grid $grid, TestPresenter $presenter) {
-            $grid->setModel($presenter->context->ndb_sqlite->table('user'));
+            $netteDatabaseContext = $presenter->context->getByType('Nette\Database\Context');
+            $grid->setModel($netteDatabaseContext->table('user'));
             $grid->setDefaultPerPage(3);
 
             $grid->addColumnText('firstname', 'Firstname')
