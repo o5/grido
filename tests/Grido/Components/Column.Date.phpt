@@ -48,4 +48,11 @@ test(function() {
     Assert::same($output, $column->render(array('column' => new DateTime($input))));
     Assert::same($output, $column->renderExport(array('column' => $input)));
     Assert::same($output, $column->renderExport(array('column' => new DateTime($input))));
+
+    $test = array('column' => 'TEST');
+    $column->setCustomRenderExport(function($row) use ($test) {
+        Assert::same($row, $test);
+        return 'CUSTOM_RENDER_EXPORT-' . $test['column'];
+    });
+    Assert::same('CUSTOM_RENDER_EXPORT-TEST', $column->renderExport($test));
 });

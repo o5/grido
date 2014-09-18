@@ -83,10 +83,12 @@ class ColumnTest extends \Tester\TestCase
     function testSetCustomRenderExport()
     {
         $grid = new Grid;
-        $column = $grid->addColumnText('column', 'Column')->setCustomRenderExport(function($row) {
+        $test = array('column' => 'TEST');
+        $column = $grid->addColumnText('column', 'Column')->setCustomRenderExport(function($row) use ($test) {
+            Assert::same($row, $test);
             return 'CUSTOM_RENDER_EXPORT-' . $row['column'];
         });
-        Assert::same('CUSTOM_RENDER_EXPORT-TEST', $column->renderExport(array('column' => 'TEST')));
+        Assert::same('CUSTOM_RENDER_EXPORT-TEST', $column->renderExport($test));
     }
 
     function testSetTruncate()
