@@ -248,6 +248,7 @@ class Grid extends Components\Container
      * Sets grid primary key.
      * Defaults is "id".
      * @param string $key
+     * @return Grid
      */
     public function setPrimaryKey($key)
     {

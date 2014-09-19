@@ -20,7 +20,7 @@ namespace Grido\Components\Columns;
  */
 class Text extends Editable
 {
-    /** @var Closure */
+    /** @var \Closure */
     protected $truncate;
 
     /**

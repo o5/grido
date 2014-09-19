@@ -35,7 +35,7 @@ class Number extends Editable
     const NUMBER_FORMAT_THOUSANDS_SEPARATOR = 2;
 
     /**
-     * @param Grido\Grid $grid
+     * @param \Grido\Grid $grid
      * @param string $name
      * @param string $label
      * @param int $decimals number of decimal points

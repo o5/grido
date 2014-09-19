@@ -47,7 +47,7 @@ abstract class Action extends \Grido\Components\Component
     protected $options;
 
     /**
-     * @param Grido\Grid $grid
+     * @param \Grido\Grid $grid
      * @param string $name
      * @param string $label
      */
@@ -128,7 +128,7 @@ abstract class Action extends \Grido\Components\Component
 
     /**
      * Sets user-specific option.
-     * @param stribg $key
+     * @param string $key
      * @param mixed $value
      * @return Action
      */

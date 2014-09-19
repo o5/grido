@@ -217,7 +217,7 @@ class Condition extends \Nette\Object
     }
 
     /**
-     * @param callabke $callback
+     * @param callable $callback
      * @param string $value
      * @return Condition
      */

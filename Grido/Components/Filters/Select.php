@@ -21,7 +21,7 @@ namespace Grido\Components\Filters;
 class Select extends Filter
 {
     /**
-     * @param Grido\Grid $grid
+     * @param \Grido\Grid $grid
      * @param string $name
      * @param string $label
      * @param array $items for select
