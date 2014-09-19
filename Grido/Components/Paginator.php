@@ -22,7 +22,7 @@ namespace Grido\Components;
  * @property-read array $steps
  * @property-read int $countEnd
  * @property-read int $countBegin
- * @property-write Grido\Grid $grid
+ * @property-write \Grido\Grid $grid
  */
 class Paginator extends \Nette\Utils\Paginator
 {
@@ -38,11 +38,11 @@ class Paginator extends \Nette\Utils\Paginator
     /** @var int */
     protected $countEnd;
 
-    /** @var Grido\Grid */
+    /** @var \Grido\Grid */
     protected $grid;
 
     /**
-     * @param Grido\Grid $grid
+     * @param \Grido\Grid $grid
      * @return Paginator
      */
     public function setGrid(\Grido\Grid $grid)

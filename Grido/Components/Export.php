@@ -26,7 +26,7 @@ class Export extends Component implements \Nette\Application\IResponse
     const DELIMITER = "\t";
 
     /**
-     * @param Grido\Grid $grid
+     * @param \Grido\Grid $grid
      * @param string $label
      */
     public function __construct(\Grido\Grid $grid, $label = NULL)
@@ -83,6 +83,8 @@ class Export extends Component implements \Nette\Application\IResponse
 
     /**
      * Sends response to output.
+     * @param \Nette\Http\IRequest $httpRequest
+     * @param \Nette\Http\IResponse $httpResponse
      * @return void
      */
     public function send(\Nette\Http\IRequest $httpRequest, \Nette\Http\IResponse $httpResponse)

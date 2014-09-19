@@ -59,7 +59,7 @@ abstract class Filter extends \Grido\Components\Component
     protected $control;
 
     /**
-     * @param Grido\Grid $grid
+     * @param \Grido\Grid $grid
      * @param string $name
      * @param string $label
      */

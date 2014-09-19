@@ -32,7 +32,7 @@ class Href extends Action
     protected $customHref;
 
     /**
-     * @param Grido\Grid $grid
+     * @param \Grido\Grid $grid
      * @param string $name
      * @param string $label
      * @param string $destination - first param for method $presenter->link()

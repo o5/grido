@@ -34,7 +34,7 @@ class Operation extends Component
     protected $primaryKey;
 
     /**
-     * @param Grido\Grid $grid
+     * @param \Grido\Grid $grid
      * @param array $operations
      * @param callback $onSubmit - callback after operation submit
      */

@@ -133,23 +133,23 @@ class Text extends Filter
             }
         }
 
-        //sort items - first begining of item is same as query, then case sensitive and case insensitive
-        $startsWith = $caseSensitive = $caseInsenstive = array();
+        //sort items - first beginning of item is same as query, then case sensitive and case insensitive
+        $startsWith = $caseSensitive = $caseInsensitive = array();
         foreach($items as $item){
             if (stripos($item, $query) === 0) {
                 $startsWith[] = $item;
             } elseif (strpos($item, $query) !== FALSE) {
                 $caseSensitive[] = $item;
             } else {
-                $caseInsenstive[] = $item;
+                $caseInsensitive[] = $item;
             }
         }
 
         sort($startsWith);
         sort($caseSensitive);
-        sort($caseInsenstive);
+        sort($caseInsensitive);
 
-        $items = array_merge($startsWith, $caseSensitive, $caseInsenstive);
+        $items = array_merge($startsWith, $caseSensitive, $caseInsensitive);
         $this->getPresenter()->sendResponse(new \Nette\Application\Responses\JsonResponse($items));
     }
 

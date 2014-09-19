@@ -24,7 +24,7 @@ class Custom extends Filter
     protected $formControl;
 
     /**
-     * @param Grido\Grid $grid
+     * @param \Grido\Grid $grid
      * @param string $name
      * @param string $label
      * @param \Nette\Forms\IControl $formControl

@@ -90,7 +90,8 @@ class ArraySource extends \Nette\Object implements IDataSource
      */
     public function compare($actual, $condition, $expected)
     {
-        $expected = current((array) $expected);
+        $expected = (array) $expected;
+        $expected = current($expected);
         $cond = str_replace(' ?', '', $condition);
 
         if ($cond === 'LIKE') {

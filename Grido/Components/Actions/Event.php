@@ -26,7 +26,7 @@ class Event extends Action
     public $onClick = array();
 
     /**
-     * @param Grido\Grid $grid
+     * @param \Grido\Grid $grid
      * @param string $name
      * @param string $label
      * @param callback $onClick
@@ -42,7 +42,7 @@ class Event extends Action
 
     /**
      * Sets on-click handler.
-     * @param callbacl $onClick
+     * @param callback $onClick
      * @return \Grido\Components\Actions\Event
      */
     public function setOnClick($onClick)

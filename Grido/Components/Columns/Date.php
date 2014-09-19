@@ -30,7 +30,7 @@ class Date extends Editable
     protected $dateFormat = self::FORMAT_DATE;
 
     /**
-     * @param Grido\Grid $grid
+     * @param \Grido\Grid $grid
      * @param string $name
      * @param string $label
      * @param string $dateFormat

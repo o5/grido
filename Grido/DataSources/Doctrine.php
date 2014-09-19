@@ -23,7 +23,7 @@ use Doctrine\ORM\Tools\Pagination\Paginator,
  * @author      Martin Jantosovic <martin.jantosovic@freya.sk>
  * @author      Petr Bugyík
  *
- * @property-read Doctrine\ORM\QueryBuilder $qb
+ * @property-read \Doctrine\ORM\QueryBuilder $qb
  * @property-read array $filterMapping
  * @property-read array $sortMapping
  * @property-read int $count
@@ -31,7 +31,7 @@ use Doctrine\ORM\Tools\Pagination\Paginator,
  */
 class Doctrine extends \Nette\Object implements IDataSource
 {
-    /** @var Doctrine\ORM\QueryBuilder */
+    /** @var \Doctrine\ORM\QueryBuilder */
     protected $qb;
 
     /** @var array Map column to the query builder */
@@ -52,7 +52,7 @@ class Doctrine extends \Nette\Object implements IDataSource
     /**
      * If $sortMapping is not set and $filterMapping is set,
      * $filterMapping will be used also as $sortMapping.
-     * @param Doctrine\ORM\QueryBuilder $qb
+     * @param \Doctrine\ORM\QueryBuilder $qb
      * @param array $filterMapping Maps columns to the DQL columns
      * @param array $sortMapping Maps columns to the DQL columns
      */
