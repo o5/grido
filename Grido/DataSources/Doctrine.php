@@ -284,15 +284,14 @@ class Doctrine extends \Nette\Object implements IDataSource
         foreach ($data as $row) {
             if (is_string($column)) {
                 $value = (string) current($row);
-                $items[$value] = $value;
             } elseif (is_callable($column)) {
                 $value = (string) $column($row);
-                $items[$value] = $value;
-
             } else {
                 $type = gettype($column);
                 throw new \InvalidArgumentException("Column of suggestion must be string or callback, $type given.");
             }
+
+            $items[$value] = \Nette\Templating\Helpers::escapeHtml($value);
         }
 
         return array_values($items);

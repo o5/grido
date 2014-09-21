@@ -160,7 +160,7 @@ class DibiFluent extends \Nette\Object implements IDataSource
                 throw new \InvalidArgumentException("Column of suggestion must be string or callback, $type given.");
             }
 
-            $items[$value] = $value;
+            $items[$value] = \Nette\Templating\Helpers::escapeHtml($value);
         }
 
         return array_values($items);

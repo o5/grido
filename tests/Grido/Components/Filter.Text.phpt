@@ -25,6 +25,7 @@ class FilterTextTest extends \Tester\TestCase
                 array('name' => 'AAxxx'),
                 array('name' => 'BBtest'),
                 array('name' => 'BBxxx'),
+                array('name' => 'CC <script>alert("XSS")</script>'),
             ));
             $grid->addColumnText('name', 'Name');
             $filter = $grid->addFilterText('name', 'Name')->setSuggestion();
@@ -72,6 +73,11 @@ class FilterTextTest extends \Tester\TestCase
             Helper::$grid->getFilter('name')->handleSuggest('###');
         $output = ob_get_clean();
         Assert::same('[]', $output);
+
+        ob_start();
+            Helper::$grid->getFilter('name')->handleSuggest('cc');
+        $output = ob_get_clean();
+        Assert::same('["CC &lt;script&gt;alert(&quot;XSS&quot;)&lt;/script&gt;"]', $output);
 
         ob_start();
             Helper::request(array('grid-filter' => array('name' => 'aa'), 'do' => 'grid-filters-test-suggest', 'grid-filters-test-query' => 'QUERY'));
