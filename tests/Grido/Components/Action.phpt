@@ -115,6 +115,21 @@ class ActionTest extends \Tester\TestCase
             Helper::$grid->getAction('delete')->render($testRow);
         $output = ob_get_clean();
         Assert::same('<a class="grid-action-delete" data-grido-confirm="Are you sure you want to delete Lucie?" href="/?id=2&amp;action=delete&amp;presenter=Test">Delete</a>', $output);
+
+        $testRow = array('id' => 2, 'firstname' => 'Lucie');
+        Helper::grid(function(Grid $grid) use ($testRow) {
+            $grid->translator = new \Grido\Translations\FileTranslator('cs', array('Are you sure you want to delete user %s?' => 'Opravdu chceš smazat uživatele %s?'));
+            $grid->addActionHref('delete', 'Delete')
+                ->setConfirm(function($row) use ($testRow) {
+                    Assert::same($testRow, $row);
+                    return array("Are you sure you want to delete user %s?", $row['firstname']);
+                });
+        })->run();
+
+        ob_start();
+            Helper::$grid->getAction('delete')->render($testRow);
+        $output = ob_get_clean();
+        Assert::same('<a class="grid-action-delete" data-grido-confirm="Opravdu chceš smazat uživatele Lucie?" href="/?id=2&amp;action=delete&amp;presenter=Test">Delete</a>', $output);
     }
 
     function testSetIcon()
