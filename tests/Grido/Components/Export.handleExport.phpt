@@ -55,7 +55,6 @@ test(function() {
     ob_start();
         Helper::request(array('do' => 'grid-export-export'))->send(mock('\Nette\Http\IRequest'), new Response);
     $output = ob_get_clean();
-    file_put_contents(__DIR__ . '/files/outpu', $output);
     Assert::same(file_get_contents(__DIR__ . '/files/Export.handleExport.expect'), $output);
 
     Assert::same(array(
