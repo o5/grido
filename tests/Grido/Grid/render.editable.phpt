@@ -18,10 +18,15 @@ require_once __DIR__ . '/../Helper.inc.php';
 
 test(function()
 {
-    Helper::grid(function(Grid $grid) {
-        $grid->model = json_decode(file_get_contents(__DIR__ . '/../DataSources/files/users.json'), 1);
+    Helper::grid(function(Grid $grid, TestPresenter $presenter) {
+        $data = $presenter->context->dibi_sqlite
+            ->select('u.*, c.title AS country')
+            ->from('[user] u')
+            ->join('[country] c')->on('u.country_code = c.code')
+            ->fetchAll();
+        $grid->setModel($data);
         $grid->defaultPerPage = 4;
-        $grid->rowCallback = function(array $row, \Nette\Utils\Html $tr) {
+        $grid->rowCallback = function(\DibiRow $row, \Nette\Utils\Html $tr) {
             $tr->class[] = $row['firstname'];
             return $tr;
         };

@@ -19,8 +19,13 @@ class ArraySourceTest extends DataSourceTestCase
 {
     function setUp()
     {
-        Helper::grid(function(Grid $grid) {
-            $grid->setModel(json_decode(file_get_contents(__DIR__ . '/files/users.json'), 1));
+        Helper::grid(function(Grid $grid, TestPresenter $presenter) {
+            $data = $presenter->context->dibi_sqlite
+                ->select('u.*, c.title AS country')
+                ->from('[user] u')
+                ->join('[country] c')->on('u.country_code = c.code')
+                ->fetchAll();
+            $grid->setModel($data);
             $grid->setDefaultPerPage(3);
 
             $grid->addColumnText('firstname', 'Firstname')
@@ -34,7 +39,7 @@ class ArraySourceTest extends DataSourceTestCase
             $grid->addFilterText('name', 'Name')
                 ->setColumn('surname')
                 ->setColumn('firstname', Condition::OPERATOR_AND)
-                ->setSuggestion(function(array $row) {
+                ->setSuggestion(function($row) {
                     return $row['firstname'];
             });
 
@@ -49,7 +54,7 @@ class ArraySourceTest extends DataSourceTestCase
                 ));
 
             $grid->addFilterCheck('tall', 'Only tall')
-                ->setWhere(function($value, array $row) {
+                ->setWhere(function($value, $row) {
                     Assert::true($value);
                     return $row['centimeters'] >= 180;
                 });

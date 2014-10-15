@@ -19,8 +19,13 @@ require_once __DIR__ . '/../Helper.inc.php';
 
 test(function() {
 
-    $baseGrid = function($grid) {
-        $grid->model = json_decode(file_get_contents(__DIR__ . '/../DataSources/files/users.json'), 1);
+    $baseGrid = function($grid, TestPresenter $presenter) {
+        $data = $presenter->context->dibi_sqlite
+            ->select('u.*, c.title AS country')
+            ->from('[user] u')
+            ->join('[country] c')->on('u.country_code = c.code')
+            ->fetchAll();
+        $grid->setModel($data);
         $grid->defaultPerPage = 2;
         $grid->addColumnText('firstname', 'Firstname');
         $grid->addColumnText('surname', 'Surname');
@@ -41,9 +46,9 @@ test(function() {
 
     /*****************************************************************************************/
 
-    Helper::grid(function($grid) use ($baseGrid) {
+    Helper::grid(function($grid, TestPresenter $presenter) use ($baseGrid) {
         $grid->filterRenderType = Filter::RENDER_INNER;
-        $baseGrid($grid);
+        $baseGrid($grid, $presenter);
     })->run();
 
     ob_start();
@@ -52,9 +57,9 @@ test(function() {
 
     /*****************************************************************************************/
 
-    Helper::grid(function($grid) use ($baseGrid, $addAction) {
+    Helper::grid(function($grid, TestPresenter $presenter) use ($baseGrid, $addAction) {
         $grid->filterRenderType = Filter::RENDER_INNER;
-        $baseGrid($grid);
+        $baseGrid($grid, $presenter);
         $addAction($grid);
     })->run();
 
@@ -64,9 +69,9 @@ test(function() {
 
     /*****************************************************************************************/
 
-    Helper::grid(function($grid) use ($baseGrid, $addFilters) {
+    Helper::grid(function($grid, TestPresenter $presenter) use ($baseGrid, $addFilters) {
         $grid->filterRenderType = Filter::RENDER_INNER;
-        $baseGrid($grid);
+        $baseGrid($grid, $presenter);
         $addFilters($grid);
     })->run();
 
@@ -76,9 +81,9 @@ test(function() {
 
     /*****************************************************************************************/
 
-    Helper::grid(function($grid) use ($baseGrid, $addAction, $addFilters) {
+    Helper::grid(function($grid, TestPresenter $presenter) use ($baseGrid, $addAction, $addFilters) {
         $grid->filterRenderType = Filter::RENDER_INNER;
-        $baseGrid($grid);
+        $baseGrid($grid, $presenter);
         $addAction($grid);
         $addFilters($grid);
     })->run();
@@ -89,9 +94,9 @@ test(function() {
 
     /*****************************************************************************************/
 
-    Helper::grid(function($grid) use ($baseGrid) {
+    Helper::grid(function($grid, TestPresenter $presenter) use ($baseGrid) {
         $grid->filterRenderType = Filter::RENDER_OUTER;
-        $baseGrid($grid);
+        $baseGrid($grid, $presenter);
     })->run();
 
     ob_start();
@@ -100,9 +105,9 @@ test(function() {
 
     /*****************************************************************************************/
 
-    Helper::grid(function($grid) use ($baseGrid, $addAction) {
+    Helper::grid(function($grid, TestPresenter $presenter) use ($baseGrid, $addAction) {
         $grid->filterRenderType = Filter::RENDER_OUTER;
-        $baseGrid($grid);
+        $baseGrid($grid, $presenter);
         $addAction($grid);
     })->run();
 
@@ -112,9 +117,9 @@ test(function() {
 
     /*****************************************************************************************/
 
-    Helper::grid(function($grid) use ($baseGrid, $addFilters) {
+    Helper::grid(function($grid, TestPresenter $presenter) use ($baseGrid, $addFilters) {
         $grid->filterRenderType = Filter::RENDER_OUTER;
-        $baseGrid($grid);
+        $baseGrid($grid, $presenter);
         $addFilters($grid);
     })->run();
 
@@ -124,9 +129,9 @@ test(function() {
 
     /*****************************************************************************************/
 
-    Helper::grid(function($grid) use ($baseGrid, $addAction, $addFilters) {
+    Helper::grid(function($grid, TestPresenter $presenter) use ($baseGrid, $addAction, $addFilters) {
         $grid->filterRenderType = Filter::RENDER_OUTER;
-        $baseGrid($grid);
+        $baseGrid($grid, $presenter);
         $addAction($grid);
         $addFilters($grid);
     })->run();

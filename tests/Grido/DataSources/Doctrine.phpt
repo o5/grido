@@ -51,7 +51,9 @@ class DoctrineTest extends DataSourceTestCase
             $grid->addColumnText('country', 'Country')
                 ->setSortable()
                 ->setFilterText()
-                    ->setSuggestion();
+                    ->setSuggestion(function($item) {
+                        return $item['c_title'];
+                    });
 
             $grid->addFilterCheck('male', 'Only male')
                 ->setCondition(array(
