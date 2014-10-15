@@ -46,7 +46,7 @@
                         <a class="btn btn-default btn-xs btn-mini ajax" href="/?grid-page=2&amp;action=default&amp;do=grid-page&amp;presenter=Test">Next <i class="glyphicon glyphicon-arrow-right fa fa-arrow-right icon-arrow-right"></i></a>
                 </span>
                 <span class="count">
-                    Items 1 - 2 z 50
+                    Items 1 - 2 of 50
                     <select name="count" title="Items per page" class="form-control" id="frm-grid-form-count"><option value="2" selected>2</option><option value="10">10</option><option value="20">20</option><option value="30">30</option><option value="50">50</option><option value="100">100</option></select>
                         <input type="submit" name="buttons[perPage]" id="frm-grid-form-buttons-perPage" value="Items per page" class="hide">
                 </span>
@@ -139,7 +139,7 @@ and newline &quot;test&quot;;
                         <a class="btn btn-default btn-xs btn-mini ajax" href="/?grid-page=2&amp;action=default&amp;do=grid-page&amp;presenter=Test">Next <i class="glyphicon glyphicon-arrow-right fa fa-arrow-right icon-arrow-right"></i></a>
                 </span>
                 <span class="count">
-                    Items 1 - 2 z 50
+                    Items 1 - 2 of 50
                     <select name="count" title="Items per page" class="form-control" id="frm-grid-form-count"><option value="2" selected>2</option><option value="10">10</option><option value="20">20</option><option value="30">30</option><option value="50">50</option><option value="100">100</option></select>
                         <input type="submit" name="buttons[perPage]" id="frm-grid-form-buttons-perPage" value="Items per page" class="hide">
                 </span>
@@ -250,7 +250,7 @@ and newline &quot;test&quot;;
                         <a class="btn btn-default btn-xs btn-mini ajax" href="/?grid-page=2&amp;action=default&amp;do=grid-page&amp;presenter=Test">Next <i class="glyphicon glyphicon-arrow-right fa fa-arrow-right icon-arrow-right"></i></a>
                 </span>
                 <span class="count">
-                    Items 1 - 2 z 50
+                    Items 1 - 2 of 50
                     <select name="count" title="Items per page" class="form-control" id="frm-grid-form-count"><option value="2" selected>2</option><option value="10">10</option><option value="20">20</option><option value="30">30</option><option value="50">50</option><option value="100">100</option></select>
                         <input type="submit" name="buttons[perPage]" id="frm-grid-form-buttons-perPage" value="Items per page" class="hide">
                 </span>
@@ -360,7 +360,7 @@ and newline &quot;test&quot;;
                         <a class="btn btn-default btn-xs btn-mini ajax" href="/?grid-page=2&amp;action=default&amp;do=grid-page&amp;presenter=Test">Next <i class="glyphicon glyphicon-arrow-right fa fa-arrow-right icon-arrow-right"></i></a>
                 </span>
                 <span class="count">
-                    Items 1 - 2 z 50
+                    Items 1 - 2 of 50
                     <select name="count" title="Items per page" class="form-control" id="frm-grid-form-count"><option value="2" selected>2</option><option value="10">10</option><option value="20">20</option><option value="30">30</option><option value="50">50</option><option value="100">100</option></select>
                         <input type="submit" name="buttons[perPage]" id="frm-grid-form-buttons-perPage" value="Items per page" class="hide">
                 </span>

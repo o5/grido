@@ -13,7 +13,7 @@ return array(
     'Grido.HintNumber' => 'You can use <, <=, >, >=, <>. e.g. ">= %d"',
     'Grido.SelectSomeRow' => 'Select some row',
     'Grido.Invert' => 'Invert',
-    'Grido.Items' => 'Items %d - %d z %d',
+    'Grido.Items' => 'Items %d - %d of %d',
     'Grido.Previous' => 'Previous',
     'Grido.Next' => 'Next',
     'Grido.Actions' => 'Actions',

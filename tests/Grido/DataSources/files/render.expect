@@ -62,7 +62,7 @@
                         <span class="btn btn-default btn-xs btn-mini disabled" href="/?grid-page=3&amp;grid-sort%5Bcountry%5D=asc&amp;grid-filter%5Bname%5D=a&amp;grid-filter%5Bmale%5D=1&amp;grid-filter%5Bcountry%5D=au&amp;action=default&amp;do=grid-page&amp;presenter=Test">Next <i class="glyphicon glyphicon-arrow-right fa fa-arrow-right icon-arrow-right"></i></span>
                 </span>
                 <span class="count">
-                    Items 4 - 6 z 6
+                    Items 4 - 6 of 6
                     <select name="count" title="Items per page" class="form-control" id="frm-grid-form-count"><option value="3" selected>3</option><option value="10">10</option><option value="20">20</option><option value="30">30</option><option value="50">50</option><option value="100">100</option></select>
                         <input type="submit" name="buttons[perPage]" id="frm-grid-form-buttons-perPage" value="Items per page" class="hide">
                     <a class="btn btn-default btn-xs btn-mini" href="/?action=default&amp;do=grid-export-export&amp;presenter=Test" title="Export all items"><i class="glyphicon glyphicon-download fa fa-download icon-download"></i></a>
