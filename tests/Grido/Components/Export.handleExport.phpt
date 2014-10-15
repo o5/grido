@@ -55,11 +55,12 @@ test(function() {
     ob_start();
         Helper::request(array('do' => 'grid-export-export'))->send(mock('\Nette\Http\IRequest'), new Response);
     $output = ob_get_clean();
+    file_put_contents(__DIR__ . '/files/outpu', $output);
     Assert::same(file_get_contents(__DIR__ . '/files/Export.handleExport.expect'), $output);
 
     Assert::same(array(
 	'Content-Encoding' => 'UTF-16LE',
-	'Content-Length' => 68,
+	'Content-Length' => 70,
 	'Content-Type' => 'text/csv; charset=UTF-16LE',
 	'Content-Disposition' => 'attachment; filename="Grid.csv"; filename*=utf-8\'\'Grid.csv',
     ), Response::$headers);

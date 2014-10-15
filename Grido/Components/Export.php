@@ -22,9 +22,6 @@ class Export extends Component implements \Nette\Application\IResponse
 {
     const ID = 'export';
 
-    const NEW_LINE = "\n";
-    const DELIMITER = "\t";
-
     /**
      * @param \Grido\Grid $grid
      * @param string $label
@@ -44,30 +41,30 @@ class Export extends Component implements \Nette\Application\IResponse
      * @param \Nette\ComponentModel\RecursiveComponentIterator $columns
      * @return string
      */
-    protected function generateCsv($data, $columns)
+    protected function generateCsv($data, \Nette\ComponentModel\RecursiveComponentIterator $columns)
     {
         $head = array();
         foreach ($columns as $column) {
             $head[] = $column->getLabel();
         }
 
-        $addNewLine = FALSE;
-        $source = implode(static::DELIMITER, $head) . static::NEW_LINE;
+        $resource = fopen('php://temp/maxmemory:' . (5 * 1024 * 1024), 'r+'); // 5MB of memory allocated
+        fputcsv($resource, $head);
+
         foreach ($data as $item) {
-            $source .= $addNewLine ? static::NEW_LINE : NULL;
-
-            $addDelimiter = FALSE;
+            $items = array();
             foreach ($columns as $column) {
-                $source .= $addDelimiter ? static::DELIMITER : NULL;
-                $source .= $column->renderExport($item);
-
-                $addDelimiter = TRUE;
+                $items[] = $column->renderExport($item);
             }
 
-            $addNewLine = TRUE;
+            fputcsv($resource, $items);
         }
 
-        return $source;
+        rewind($resource);
+        $output = stream_get_contents($resource);
+        fclose($resource);
+
+        return $output;
     }
 
     /**
