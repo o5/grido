@@ -18,24 +18,17 @@ namespace Grido\Components\Columns;
  * @subpackage  Components\Columns
  * @author      Petr Bugyík
  */
-class Email extends Text
+class Email extends Link
 {
-    /**
-     * @param $value
-     * @return \Nette\Utils\Html
-     */
-    protected function formatValue($value)
+    protected function formatHref($value)
     {
-        $truncate = $this->truncate;
-        $this->truncate = NULL;
-        $value = parent::formatValue($value);
+        return "mailto:" . $value;
+    }
 
-        $anchor = \Nette\Utils\Html::el('a')->href("mailto:$value")->setText($value);
-
-        if ($truncate) {
-            $anchor->setText($truncate($value))
-                ->setTitle($value);
-        }
+    protected function getAnchor($value)
+    {
+        $anchor = parent::getAnchor($value);
+        unset($anchor->attrs['target']);
 
         return $anchor;
     }

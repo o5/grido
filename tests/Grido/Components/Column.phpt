@@ -226,10 +226,10 @@ class ColumnTest extends \Tester\TestCase
         Assert::type('\Grido\Components\Columns\Text', $component);
         Assert::same($label, $component->label);
 
-        $name = 'href';
-        $grid->addColumnHref($name, $label);
+        $name = 'link';
+        $grid->addColumnLink($name, $label);
         $component = $grid->getColumn($name);
-        Assert::type('\Grido\Components\Columns\Href', $component);
+        Assert::type('\Grido\Components\Columns\Link', $component);
         Assert::type('\Grido\Components\Columns\Text', $component);
         Assert::same($label, $component->label);
 

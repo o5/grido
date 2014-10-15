@@ -212,13 +212,23 @@ abstract class Container extends \Nette\Application\UI\Control
     }
 
     /**
-     * @param string $name
-     * @param string $label
-     * @return Columns\Href
+     * @deprecated
      */
     public function addColumnHref($name, $label)
     {
-        return new Columns\Href($this, $name, $label);
+        trigger_error(__METHOD__ . '() is deprecated; use addColumnLink() instead.', E_USER_DEPRECATED);
+
+        return new Columns\Link($this, $name, $label);
+    }
+
+    /**
+     * @param string $name
+     * @param string $label
+     * @return Columns\Link
+     */
+    public function addColumnLink($name, $label)
+    {
+        return new Columns\Link($this, $name, $label);
     }
 
     /**

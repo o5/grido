@@ -97,7 +97,7 @@ class EditableTest extends \Tester\TestCase
             $grid->addColumnText('text', 'Text');
             $grid->addColumnNumber('number', 'Number');
             $grid->addColumnDate('date', 'Date');
-            $grid->addColumnHref('href', 'Href');
+            $grid->addColumnLink('link', 'Link');
             $grid->addColumnEmail('email', 'Email');
             $grid->setEditableColumns();
         })->run();
