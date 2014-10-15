@@ -20,11 +20,19 @@ namespace Grido\Components\Columns;
  */
 class Email extends Link
 {
+    /**
+     * @param string $value
+     * @return string
+     */
     protected function formatHref($value)
     {
         return "mailto:" . $value;
     }
 
+    /**
+     * @param mixed $value
+     * @return \Nette\Utils\Html
+     */
     protected function getAnchor($value)
     {
         $anchor = parent::getAnchor($value);

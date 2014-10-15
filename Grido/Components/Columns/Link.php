@@ -53,7 +53,7 @@ class Link extends Text
 
     /**
      * @param mixed $value
-     * @return Html
+     * @return \Nette\Utils\Html
      */
     protected function getAnchor($value)
     {
