@@ -149,7 +149,7 @@
             $('td[class*="grid-cell-"]', this.$element)
                 .off('dblclick.grido')
                 .on('dblclick.grido', function(event) {
-                    if (event.metaKey || event.ctrlKey) {
+                    if (helpers.isCtrl(event)) {
                         this.editable = new Grido.Editable(that).init($(this));
                     }
             });
@@ -755,20 +755,15 @@
             var keypress = function(event)
             {
                 if (event.keyCode === 13) { //enter
-                    if (typeof window.Nette === 'object' && !window.Nette.validateControl(this)) {
-                        event.preventDefault();
-                        return false;
+                    if (this.tagName === 'TEXTAREA') {
+                        return;
                     }
 
-                    var oldHtml = that.oldValue;
-                    that.saveData(that.value, that.componentName, that.primaryKey, that.th, that.td, oldHtml);
-                    that.td.removeClass('edit');
-
+                    saveData(this);
                     event.preventDefault();
                     return false;
                 }
             };
-
             var keydown = function(event)
             {
                 if (event.keyCode === 27) { //esc
@@ -777,6 +772,20 @@
 
                     event.preventDefault();
                     return false;
+                } else if (helpers.isCtrl(event) && event.keyCode === 13) { //CTRL/CMD + ENTER
+                    saveData(this);
+
+                    event.preventDefault();
+                    return false;
+                }
+            };
+            var saveData = function(element)
+            {
+                if (typeof window.Nette === 'object' && !window.Nette.validateControl(element)) {
+                    return false; //validation fail
+                } else {
+                    that.saveData(that.value, that.componentName, that.primaryKey, that.th, that.td, that.oldValue);
+                    that.td.removeClass('edit');
                 }
             };
 
@@ -785,6 +794,17 @@
                  .on('keypress.grido', keypress)
                 .off('keydown.grido')
                  .on('keydown.grido',  keydown);
+        }
+    };
+
+    /*        GRIDO HELPERS       */
+    /* ========================== */
+
+    var helpers =
+    {
+        isCtrl: function(event)
+        {
+            return (event.ctrlKey || event.metaKey) && !event.altKey;
         }
     };
 
