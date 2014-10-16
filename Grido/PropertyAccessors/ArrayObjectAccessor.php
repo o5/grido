@@ -20,6 +20,7 @@ namespace Grido\PropertyAccessors;
  */
 class ArrayObjectAccessor implements IPropertyAccessor
 {
+
     /**
      * @param mixed $object
      * @param string $name
@@ -71,4 +72,5 @@ class ArrayObjectAccessor implements IPropertyAccessor
             throw new \InvalidArgumentException('Please implement your own property accessor.');
         }
     }
+
 }

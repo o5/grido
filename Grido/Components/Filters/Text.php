@@ -23,6 +23,7 @@ namespace Grido\Components\Filters;
  */
 class Text extends Filter
 {
+
     /** @var string */
     protected $condition = 'LIKE ?';
 
@@ -56,13 +57,13 @@ class Text extends Filter
         $prototype->class[] = 'suggest';
 
         $filter = $this;
-        $this->grid->onRender[] = function() use ($prototype, $filter) {
+        $this->grid->onRender[] = function () use ($prototype, $filter) {
             $replacement = '-query-';
             $prototype->data['grido-suggest-replacement'] = $replacement;
             $prototype->data['grido-suggest-limit'] = $filter->suggestionLimit;
             $prototype->data['grido-suggest-handler'] = $filter->link('suggest!', array(
-                'query' => $replacement)
-            );
+                'query' => $replacement
+            ));
         };
 
         return $this;
@@ -135,7 +136,7 @@ class Text extends Filter
 
         //sort items - first beginning of item is same as query, then case sensitive and case insensitive
         $startsWith = $caseSensitive = $caseInsensitive = array();
-        foreach($items as $item){
+        foreach ($items as $item) {
             if (stripos($item, $query) === 0) {
                 $startsWith[] = $item;
             } elseif (strpos($item, $query) !== FALSE) {
@@ -163,4 +164,5 @@ class Text extends Filter
 
         return $control;
     }
+
 }

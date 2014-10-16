@@ -20,6 +20,7 @@ namespace Grido\Components\Filters;
  */
 class Select extends Filter
 {
+
     /**
      * @param \Grido\Grid $grid
      * @param string $name
@@ -42,4 +43,5 @@ class Select extends Filter
     {
         return new \Nette\Forms\Controls\SelectBox($this->label);
     }
+
 }

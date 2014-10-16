@@ -22,6 +22,7 @@ namespace Grido\DataSources;
  */
 class Model extends \Nette\Object
 {
+
     /** @var array */
     public $callback = array();
 
@@ -65,4 +66,5 @@ class Model extends \Nette\Object
             ? callback($this->callback[$method])->invokeArgs(array($this->dataSource, $args))
             : call_user_func_array(array($this->dataSource, $method), $args);
     }
+
 }

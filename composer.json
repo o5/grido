@@ -26,7 +26,8 @@
         "nette/tester": "@dev",
         "mockery/mockery": "@dev",
         "dibi/dibi": "@dev",
-        "kdyby/doctrine": "@dev"
+        "kdyby/doctrine": "@dev",
+        "squizlabs/php_codesniffer": "~1.5.0"
     },
     "suggest": {
         "symfony/property-access": "Allows to use Grido\\PropertyAccessors\\SymfonyPropertyAccessor"

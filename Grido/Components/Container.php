@@ -11,11 +11,10 @@
 
 namespace Grido\Components;
 
-use Grido\Components\Columns\Column,
-    Grido\Components\Filters\Filter,
-    Grido\Components\Actions\Action,
-    Grido\Helpers;
-
+use Grido\Components\Actions\Action;
+use Grido\Components\Columns\Column;
+use Grido\Components\Filters\Filter;
+use Grido\Helpers;
 
 /**
  * Container of grid components.
@@ -27,8 +26,21 @@ use Grido\Components\Columns\Column,
  */
 abstract class Container extends \Nette\Application\UI\Control
 {
-    /** @var bool cache */
-    protected $hasColumns, $hasFilters, $hasActions, $hasOperation, $hasExport;
+
+    /** @var bool */
+    protected $hasColumns;
+
+    /** @var bool */
+    protected $hasFilters;
+
+    /** @var bool */
+    protected $hasActions;
+
+    /** @var bool */
+    protected $hasOperation;
+
+    /** @var bool */
+    protected $hasExport;
 
     /**
      * Returns column component.
@@ -138,7 +150,7 @@ abstract class Container extends \Nette\Application\UI\Control
 
         if ($hasActions === NULL || $useCache === FALSE) {
             $container = $this->getComponent(Action::ID, FALSE);
-            $hasActions= $container && count($container->getComponents()) > 0;
+            $hasActions = $container && count($container->getComponents()) > 0;
             $this->hasActions = $useCache ? $hasActions : NULL;
         }
 
@@ -382,8 +394,7 @@ abstract class Container extends \Nette\Application\UI\Control
      */
     public function setEditableColumns($callback = NULL)
     {
-        $this->onRegistered[] = function(\Grido\Grid $grid) use ($callback)
-        {
+        $this->onRegistered[] = function (\Grido\Grid $grid) use ($callback) {
             if (!$grid->hasColumns()) {
                 return;
             }
@@ -397,4 +408,5 @@ abstract class Container extends \Nette\Application\UI\Control
 
         return $this;
     }
+
 }

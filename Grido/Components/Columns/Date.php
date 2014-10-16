@@ -97,4 +97,5 @@ class Date extends Editable
         $value = $this->getValue($row);
         return $this->formatValue($value);
     }
+
 }

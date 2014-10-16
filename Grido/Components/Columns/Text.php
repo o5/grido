@@ -20,6 +20,7 @@ namespace Grido\Components\Columns;
  */
 class Text extends Editable
 {
+
     /** @var \Closure */
     protected $truncate;
 
@@ -30,7 +31,7 @@ class Text extends Editable
      */
     public function setTruncate($maxLen, $append = "\xE2\x80\xA6")
     {
-        $this->truncate = function($string) use ($maxLen, $append) {
+        $this->truncate = function ($string) use ($maxLen, $append) {
             return \Nette\Utils\Strings::truncate($string, $maxLen, $append);
         };
 
@@ -52,4 +53,5 @@ class Text extends Editable
 
         return $value;
     }
+
 }

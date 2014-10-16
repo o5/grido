@@ -25,6 +25,7 @@ namespace Grido\Components;
  */
 abstract class Component extends \Nette\Application\UI\PresenterComponent
 {
+
     /** @var string */
     protected $label;
 
@@ -118,4 +119,5 @@ abstract class Component extends \Nette\Application\UI\PresenterComponent
     {
         return call_user_func_array(array($this->grid->getTranslator(), "translate"), func_get_args());
     }
+
 }

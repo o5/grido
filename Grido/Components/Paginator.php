@@ -26,6 +26,7 @@ namespace Grido\Components;
  */
 class Paginator extends \Nette\Utils\Paginator
 {
+
     /** @var int */
     protected $page;
 
@@ -115,4 +116,5 @@ class Paginator extends \Nette\Utils\Paginator
 
         return $this->countEnd;
     }
+
 }

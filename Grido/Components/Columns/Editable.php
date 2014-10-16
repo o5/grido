@@ -25,6 +25,7 @@ namespace Grido\Components\Columns;
  */
 abstract class Editable extends Column
 {
+
     /** @var bool */
     protected $editable = FALSE;
 
@@ -112,8 +113,7 @@ abstract class Editable extends Column
         $options = $this->grid->getClientSideOptions();
         if (!isset($options['editable'])) { //only once
             $this->grid->setClientSideOptions(array('editable' => TRUE));
-            $this->grid->onRender[] = function(\Grido\Grid $grid)
-            {
+            $this->grid->onRender[] = function (\Grido\Grid $grid) {
                 foreach ($grid->getComponent(Column::ID)->getComponents() as $column) {
                     if (!$column instanceof Editable) {
                         continue;
@@ -122,8 +122,8 @@ abstract class Editable extends Column
                     $columnName = $column->getColumn();
                     $callbackNotSet = $column->isEditable() && $column->editableCallback === NULL;
                     if (($callbackNotSet && (!is_string($columnName) || strpos($columnName, '.'))) ||
-                        ($callbackNotSet && !method_exists($grid->model->dataSource, 'update')))
-                    {
+                        ($callbackNotSet && !method_exists($grid->model->dataSource, 'update'))
+                    ) {
                         throw new \Exception("Column '{$column->name}' has error: You must define an own editable callback.");
                     }
                 }
@@ -233,12 +233,12 @@ abstract class Editable extends Column
         $success = $this->editableCallback
             ? callback($this->editableCallback)->invokeArgs(array($id, $newValue, $oldValue, $this))
             : $this->grid->model->update($id, array($this->getColumn() => $newValue), $this->grid->primaryKey);
-	
-	// New lines follow
-	$data = $this->grid->model->getRow($this->grid->primaryKey, $id)->fetch();	
-	$html = $this->render($data);
-	
-	// Also change JSON Response
+
+        // New lines follow
+        $data = $this->grid->model->getRow($this->grid->primaryKey, $id)->fetch();
+        $html = $this->render($data);
+
+        // Also change JSON Response
         $response = new \Nette\Application\Responses\JsonResponse(array('updated' => $success, 'html' => $html));
         $this->presenter->sendResponse($response);
     }
@@ -260,4 +260,5 @@ abstract class Editable extends Column
         $response = new \Nette\Application\Responses\TextResponse($control->getControl()->render());
         $this->presenter->sendResponse($response);
     }
+
 }

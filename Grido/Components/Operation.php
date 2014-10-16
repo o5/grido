@@ -11,8 +11,8 @@
 
 namespace Grido\Components;
 
-use Grido\Grid,
-    Grido\Helpers;
+use Grido\Grid;
+use Grido\Helpers;
 
 /**
  * Operation with one or more rows.
@@ -25,6 +25,7 @@ use Grido\Grid,
  */
 class Operation extends Component
 {
+
     const ID = 'operations';
 
     /** @var array callback on operation submit */
@@ -51,7 +52,7 @@ class Operation extends Component
             ->setPrompt('Grido.Selected');
 
         $that = $this;
-        $grid->onRender[] = function(Grid $grid) use ($that) {
+        $grid->onRender[] = function (Grid $grid) use ($that) {
             $that->addCheckers($grid['form'][Operation::ID]);
         };
 
@@ -67,7 +68,7 @@ class Operation extends Component
     public function setConfirm($operation, $message)
     {
         $message = $this->translate($message);
-        $this->grid->onRender[] = function(Grid $grid) use ($operation, $message) {
+        $this->grid->onRender[] = function (Grid $grid) use ($operation, $message) {
             $grid['form'][Operation::ID][Operation::ID]->controlPrototype->data["grido-confirm-$operation"] = $message;
         };
 
@@ -151,4 +152,5 @@ class Operation extends Component
             }
         }
     }
+
 }

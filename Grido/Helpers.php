@@ -19,6 +19,7 @@ namespace Grido;
  */
 class Helpers
 {
+
     /**
      * @param string $name
      * @return string
@@ -36,4 +37,5 @@ class Helpers
     {
         return str_replace('__', '.', $name);
     }
+
 }

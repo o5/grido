@@ -22,6 +22,7 @@ namespace Grido\Components\Actions;
  */
 class Event extends Action
 {
+
     /** @var array callback */
     public $onClick = array();
 
@@ -78,4 +79,5 @@ class Event extends Action
     {
         $this->onClick($id, $this);
     }
+
 }

@@ -11,8 +11,8 @@
 
 namespace Grido\Components\Columns;
 
-use Grido\Components\Filters\Filter,
-    Grido\Helpers;
+use Grido\Components\Filters\Filter;
+use Grido\Helpers;
 
 /**
  * Column grid.
@@ -35,11 +35,12 @@ use Grido\Components\Filters\Filter,
  */
 abstract class Column extends \Grido\Components\Component
 {
+
     const ID = 'columns';
 
     const VALUE_IDENTIFIER = '%value';
 
-    const ORDER_ASC  = 'asc';
+    const ORDER_ASC = 'asc';
     const ORDER_DESC = 'desc';
 
     /** @var string */
@@ -139,7 +140,7 @@ abstract class Column extends \Grido\Components\Component
     }
 
     /**
-     * @param mixed $callback|
+     * @param mixed $callback |
      * @return Column
      */
     public function setCustomRenderExport($callback)
@@ -415,4 +416,5 @@ abstract class Column extends \Grido\Components\Component
     {
         return $this->grid->addFilterCustom($this->getName(), $formControl);
     }
+
 }

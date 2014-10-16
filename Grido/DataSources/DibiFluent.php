@@ -26,6 +26,7 @@ namespace Grido\DataSources;
  */
 class DibiFluent extends \Nette\Object implements IDataSource
 {
+
     /** @var \DibiFluent */
     protected $fluent;
 
@@ -165,4 +166,5 @@ class DibiFluent extends \Nette\Object implements IDataSource
 
         return array_values($items);
     }
+
 }

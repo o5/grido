@@ -20,6 +20,7 @@ namespace Grido\Components\Columns;
  */
 class Link extends Text
 {
+
     /**
      * @param mixed $value
      * @return \Nette\Utils\Html
@@ -77,4 +78,5 @@ class Link extends Text
 
         return $anchor;
     }
+
 }

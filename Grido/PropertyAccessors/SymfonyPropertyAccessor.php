@@ -21,6 +21,7 @@ namespace Grido\PropertyAccessors;
  */
 class SymfonyPropertyAccessor implements IPropertyAccessor
 {
+
     /** @var \Symfony\Component\PropertyAccess\PropertyAccessor */
     private $propertyAccessor;
 
@@ -65,4 +66,5 @@ class SymfonyPropertyAccessor implements IPropertyAccessor
 
         return $this->propertyAccessor;
     }
+
 }

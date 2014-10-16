@@ -18,6 +18,7 @@ namespace Grido\PropertyAccessors;
  */
 interface IPropertyAccessor
 {
+
     /**
      * @param mixed $object
      * @param string $name
@@ -32,4 +33,5 @@ interface IPropertyAccessor
      * @return void
      */
     public function setProperty($object, $name, $value);
+
 }

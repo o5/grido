@@ -23,6 +23,7 @@ namespace Grido\Components\Filters;
  */
 class Date extends Text
 {
+
     /** @var string */
     protected $formatValue;
 
@@ -101,4 +102,5 @@ class Date extends Text
 
         return parent::__getCondition($value);
     }
+
 }

@@ -30,6 +30,7 @@ use Grido\Helpers;
  */
 abstract class Filter extends \Grido\Components\Component
 {
+
     const ID = 'filters';
 
     const VALUE_IDENTIFIER = '%value';
@@ -221,7 +222,7 @@ abstract class Filter extends \Grido\Components\Component
         if ($this->where !== NULL) {
             $condition = Condition::setupFromCallback($this->where, $value);
 
-        } else if (is_string($condition)) {
+        } elseif (is_string($condition)) {
             $condition = Condition::setup($this->getColumn(), $condition, $this->formatValue($value));
 
         } elseif ($condition instanceof Condition) {
@@ -239,7 +240,7 @@ abstract class Filter extends \Grido\Components\Component
         if (is_array($condition)) { //for user-defined condition by array or callback
             $condition = Condition::setupFromArray($condition);
 
-        }  elseif ($condition !== NULL && !$condition instanceof Condition) {
+        } elseif ($condition !== NULL && !$condition instanceof Condition) {
             $type = gettype($condition);
             throw new \InvalidArgumentException("Condition must be array or Condition object. $type given.");
         }
@@ -273,4 +274,5 @@ abstract class Filter extends \Grido\Components\Component
     {
         return $value;
     }
+
 }

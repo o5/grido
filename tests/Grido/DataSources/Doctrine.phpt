@@ -9,9 +9,9 @@
 
 namespace Grido\Tests;
 
-use Tester\Assert,
-    Grido\Grid,
-    Grido\Components\Filters\Condition;
+use Tester\Assert;
+use Grido\Grid;
+use Grido\Components\Filters\Condition;
 
 require_once __DIR__ . '/TestCase.php';
 require_once __DIR__ . '/files/doctrine/entities/Country.php';

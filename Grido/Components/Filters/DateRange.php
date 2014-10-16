@@ -24,6 +24,7 @@ use Nette\Utils\Strings;
  */
 class DateRange extends Date
 {
+
     /** @var string */
     protected $condition = 'BETWEEN ? AND ?';
 
@@ -112,4 +113,5 @@ class DateRange extends Date
 
         return parent::__getCondition($value);
     }
+
 }
