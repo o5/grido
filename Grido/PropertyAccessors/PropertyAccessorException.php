@@ -16,4 +16,7 @@ namespace Grido\PropertyAccessors;
  * @subpackage  PropertyAccessors
  * @author      Petr Bugyík
  */
-class PropertyAccessorException extends \Exception {}
+class PropertyAccessorException extends \Exception
+{
+
+}

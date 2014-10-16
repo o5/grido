@@ -22,6 +22,7 @@ namespace Grido\Components\Actions;
  */
 class Href extends Action
 {
+
     /** @var string first param for method $presenter->link() */
     protected $destination;
 
@@ -104,4 +105,5 @@ class Href extends Action
     {
         return $this->arguments;
     }
+
 }

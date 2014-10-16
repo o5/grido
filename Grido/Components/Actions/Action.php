@@ -29,6 +29,7 @@ use Nette\Utils\Html;
  */
 abstract class Action extends \Grido\Components\Component
 {
+
     const ID = 'actions';
 
     /** @var Html <a> html tag */
@@ -196,7 +197,7 @@ abstract class Action extends \Grido\Components\Component
 
             $element->data['grido-confirm'] = is_array($confirm)
                 ? vsprintf($this->translate(array_shift($confirm)), $confirm)
-                : $this->translate($confirm);;
+                : $this->translate($confirm);
         }
 
         return $element;
@@ -246,4 +247,5 @@ abstract class Action extends \Grido\Components\Component
 
         echo $element->render();
     }
+
 }

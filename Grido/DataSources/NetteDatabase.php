@@ -26,6 +26,7 @@ use Grido\Components\Filters\Condition;
  */
 class NetteDatabase extends \Nette\Object implements IDataSource
 {
+
     /** @var \Nette\Database\Table\Selection */
     protected $selection;
 
@@ -163,8 +164,10 @@ class NetteDatabase extends \Nette\Object implements IDataSource
      * @return \Nette\Database\Table\Selection selection
      * @internal
      */
-    public function getRow($idCol, $id) {
-	return $this->getSelection()
+    public function getRow($idCol, $id)
+    {
+        return $this->getSelection()
             ->where("$idCol = ?", $id);
     }
+
 }

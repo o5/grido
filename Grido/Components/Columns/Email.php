@@ -20,6 +20,7 @@ namespace Grido\Components\Columns;
  */
 class Email extends Link
 {
+
     /**
      * @param string $value
      * @return string
@@ -40,4 +41,5 @@ class Email extends Link
 
         return $anchor;
     }
+
 }

@@ -20,34 +20,35 @@ namespace Grido\DataSources;
  */
 interface IDataSource
 {
+
     /**
      * @return int
      */
-    function getCount();
+    public function getCount();
 
     /**
      * @return array
      */
-    function getData();
+    public function getData();
 
     /**
      * @param array $condition
      * @return void
      */
-    function filter(array $condition);
+    public function filter(array $condition);
 
     /**
      * @param int $offset
      * @param int $limit
      * @return void
      */
-    function limit($offset, $limit);
+    public function limit($offset, $limit);
 
     /**
      * @param array $sorting
      * @return void
      */
-    function sort(array $sorting);
+    public function sort(array $sorting);
 
     /**
      * @param mixed $column
@@ -55,5 +56,6 @@ interface IDataSource
      * @param int $limit
      * @return array
      */
-    function suggest($column, array $conditions, $limit);
+    public function suggest($column, array $conditions, $limit);
+
 }

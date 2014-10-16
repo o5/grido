@@ -20,6 +20,7 @@ namespace Grido\Components\Filters;
  */
 class Custom extends Filter
 {
+
     /** @var \Nette\Forms\IControl */
     protected $formControl;
 
@@ -44,4 +45,5 @@ class Custom extends Filter
     {
         return $this->formControl;
     }
+
 }

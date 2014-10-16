@@ -270,4 +270,5 @@ class Condition extends \Nette\Object
             ? array_values(array_merge(array(implode('', $condition)), $this->getValueForColumn()))
             : $this->condition;
     }
+
 }

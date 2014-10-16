@@ -69,4 +69,5 @@ class Check extends Filter
             ? self::TRUE
             : $value;
     }
+
 }

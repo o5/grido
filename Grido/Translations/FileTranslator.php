@@ -20,6 +20,7 @@ namespace Grido\Translations;
  */
 class FileTranslator extends \Nette\Object implements \Nette\Localization\ITranslator
 {
+
     /** @var array */
     protected $translations = array();
 
@@ -49,7 +50,7 @@ class FileTranslator extends \Nette\Object implements \Nette\Localization\ITrans
      */
     protected function getTranslationsFromFile($lang)
     {
-        if (!$translations = @include(__DIR__ . "/$lang.php")) {
+        if (!$translations = @include (__DIR__ . "/$lang.php")) {
             throw new \Exception("Translations for language '$lang' not found.");
         }
 
@@ -69,4 +70,5 @@ class FileTranslator extends \Nette\Object implements \Nette\Localization\ITrans
             ? $this->translations[$message]
             : $message;
     }
+
 }

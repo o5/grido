@@ -11,9 +11,9 @@
 
 namespace Grido\DataSources;
 
-use Doctrine\ORM\Tools\Pagination\Paginator,
-    Grido\Components\Filters\Condition,
-    Nette\Utils\Strings;
+use Doctrine\ORM\Tools\Pagination\Paginator;
+use Grido\Components\Filters\Condition;
+use Nette\Utils\Strings;
 
 /**
  * Doctrine data source.
@@ -31,6 +31,7 @@ use Doctrine\ORM\Tools\Pagination\Paginator,
  */
 class Doctrine extends \Nette\Object implements IDataSource
 {
+
     /** @var \Doctrine\ORM\QueryBuilder */
     protected $qb;
 
@@ -139,15 +140,16 @@ class Doctrine extends \Nette\Object implements IDataSource
                 $columns[$key] = (isset($this->filterMapping[$column])
                     ? $this->filterMapping[$column]
                     : (Strings::contains($column, ".") ? $column : $this->qb->getRootAlias() . '.' . $column));
-                }
             }
+        }
 
         $condition->setColumn($columns);
         list($where) = $condition->__toArray(NULL, NULL, FALSE);
 
         $rand = $this->getRand();
-        $where = preg_replace_callback('/\?/', function() use ($rand) {
-            static $i = -1; $i++;
+        $where = preg_replace_callback('/\?/', function () use ($rand) {
+            static $i = -1;
+            $i++;
             return ":$rand{$i}";
         }, $where);
 
@@ -238,7 +240,7 @@ class Doctrine extends \Nette\Object implements IDataSource
     public function limit($offset, $limit)
     {
         $this->qb->setFirstResult($offset)
-                ->setMaxResults($limit);
+            ->setMaxResults($limit);
     }
 
     /**
@@ -296,5 +298,5 @@ class Doctrine extends \Nette\Object implements IDataSource
 
         return array_values($items);
     }
-}
 
+}
