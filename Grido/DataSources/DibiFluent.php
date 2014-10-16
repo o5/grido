@@ -165,4 +165,15 @@ class DibiFluent extends \Nette\Object implements IDataSource
 
         return array_values($items);
     }
+
+    /**
+     * @param mixed $id value of private key
+     * @param string $idCol name of column with private key
+     * @return \DibiFluent
+     */
+    public function getRow($idCol, $id)
+    {
+        return $this->getFluent()
+            ->where("$idCol = ?", $id);
+    }
 }
