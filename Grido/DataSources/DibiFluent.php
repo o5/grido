@@ -174,6 +174,6 @@ class DibiFluent extends \Nette\Object implements IDataSource
     public function getRow($idCol, $id)
     {
         return $this->getFluent()
-            ->where("$idCol = ?", $id);
+            ->where("%n = ?",$idCol, $id);
     }
 }
