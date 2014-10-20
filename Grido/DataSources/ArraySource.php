@@ -65,9 +65,7 @@ class ArraySource extends \Nette\Object implements IDataSource
                     $results[] = (int) $that->compare(
                         $row[$column],
                         $condition->condition[$i],
-                        isset($condition->value[$i])
-                            ? $condition->value[$i]
-                            : NULL
+                        isset($condition->value[$i]) ? $condition->value[$i] : NULL
                     );
 
                     $i++;
@@ -98,10 +96,10 @@ class ArraySource extends \Nette\Object implements IDataSource
             $pattern = str_replace('%', '(.|\s)*', preg_quote($expected));
             return (bool) preg_match("/^{$pattern}$/i", $actual);
 
-        } else if ($cond === '=') {
+        } elseif ($cond === '=') {
             return $actual == $expected;
 
-        } else if ($cond === '<>') {
+        } elseif ($cond === '<>') {
             return $actual != $expected;
 
         } elseif ($cond === 'IS NULL') {
@@ -157,6 +155,7 @@ class ArraySource extends \Nette\Object implements IDataSource
 
     /**
      * @param array $sorting
+     * @throws \Exception
      */
     public function sort(array $sorting)
     {
@@ -178,8 +177,8 @@ class ArraySource extends \Nette\Object implements IDataSource
             }
 
             $this->data = array();
-            foreach($data as $i) {
-                foreach($i as $item) {
+            foreach ($data as $i) {
+                foreach ($i as $item) {
                     $this->data[] = $item;
                 }
             }
@@ -191,6 +190,7 @@ class ArraySource extends \Nette\Object implements IDataSource
      * @param array $conditions
      * @param int $limit
      * @return array
+     * @throws \InvalidArgumentException
      */
     public function suggest($column, array $conditions, $limit)
     {

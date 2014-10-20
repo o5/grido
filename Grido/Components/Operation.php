@@ -11,8 +11,8 @@
 
 namespace Grido\Components;
 
-use Grido\Grid,
-    Grido\Helpers;
+use Grido\Grid;
+use Grido\Helpers;
 
 /**
  * Operation with one or more rows.

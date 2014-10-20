@@ -128,6 +128,7 @@ class NetteDatabase extends \Nette\Object implements IDataSource
      * @param array $conditions
      * @param int $limit
      * @return array
+     * @throws \InvalidArgumentException
      */
     public function suggest($column, array $conditions, $limit)
     {
@@ -163,8 +164,9 @@ class NetteDatabase extends \Nette\Object implements IDataSource
      * @return \Nette\Database\Table\Selection selection
      * @internal
      */
-    public function getRow($idCol, $id) {
-	return $this->getSelection()
+    public function getRow($idCol, $id)
+    {
+        return $this->getSelection()
             ->where("$idCol = ?", $id);
     }
 }

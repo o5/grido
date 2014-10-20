@@ -122,9 +122,10 @@ abstract class Editable extends Column
                     $columnName = $column->getColumn();
                     $callbackNotSet = $column->isEditable() && $column->editableCallback === NULL;
                     if (($callbackNotSet && (!is_string($columnName) || strpos($columnName, '.'))) ||
-                        ($callbackNotSet && !method_exists($grid->model->dataSource, 'update')))
-                    {
-                        throw new \Exception("Column '{$column->name}' has error: You must define an own editable callback.");
+                        ($callbackNotSet && !method_exists($grid->model->dataSource, 'update'))
+                    ) {
+                        $msg = "Column '{$column->name}' has error: You must define an own editable callback.";
+                        throw new \Exception($msg);
                     }
                 }
             };
@@ -233,12 +234,12 @@ abstract class Editable extends Column
         $success = $this->editableCallback
             ? callback($this->editableCallback)->invokeArgs(array($id, $newValue, $oldValue, $this))
             : $this->grid->model->update($id, array($this->getColumn() => $newValue), $this->grid->primaryKey);
-	
-	// New lines follow
-	$data = $this->grid->model->getRow($this->grid->primaryKey, $id)->fetch();	
-	$html = $this->render($data);
-	
-	// Also change JSON Response
+
+        // New lines follow
+        $data = $this->grid->model->getRow($this->grid->primaryKey, $id)->fetch();
+        $html = $this->render($data);
+
+        // Also change JSON Response
         $response = new \Nette\Application\Responses\JsonResponse(array('updated' => $success, 'html' => $html));
         $this->presenter->sendResponse($response);
     }

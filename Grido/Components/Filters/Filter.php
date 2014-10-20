@@ -87,6 +87,7 @@ abstract class Filter extends \Grido\Components\Component
      * @param string $column
      * @param string $operator
      * @return Filter
+     * @throws \InvalidArgumentException
      */
     public function setColumn($column, $operator = Condition::OPERATOR_OR)
     {
@@ -207,7 +208,7 @@ abstract class Filter extends \Grido\Components\Component
     /**
      * @param string $value
      * @return Condition
-     * @throws \Exception
+     * @throws \InvalidArgumentException
      * @internal
      */
     public function __getCondition($value)
@@ -221,7 +222,7 @@ abstract class Filter extends \Grido\Components\Component
         if ($this->where !== NULL) {
             $condition = Condition::setupFromCallback($this->where, $value);
 
-        } else if (is_string($condition)) {
+        } elseif (is_string($condition)) {
             $condition = Condition::setup($this->getColumn(), $condition, $this->formatValue($value));
 
         } elseif ($condition instanceof Condition) {
@@ -239,7 +240,7 @@ abstract class Filter extends \Grido\Components\Component
         if (is_array($condition)) { //for user-defined condition by array or callback
             $condition = Condition::setupFromArray($condition);
 
-        }  elseif ($condition !== NULL && !$condition instanceof Condition) {
+        } elseif ($condition !== NULL && !$condition instanceof Condition) {
             $type = gettype($condition);
             throw new \InvalidArgumentException("Condition must be array or Condition object. $type given.");
         }

@@ -56,7 +56,7 @@ class Number extends Editable
      * @param string $thousandsSep thousands separator
      * @return Number
      */
-    public function setNumberFormat($decimals = NULL, $decPoint = NULL , $thousandsSep = NULL)
+    public function setNumberFormat($decimals = NULL, $decPoint = NULL, $thousandsSep = NULL)
     {
         if ($decimals !== NULL) {
             $this->numberFormat[self::NUMBER_FORMAT_DECIMALS] = (int) $decimals;
@@ -82,9 +82,9 @@ class Number extends Editable
     }
 
     /**
-    * @param mixed $value
-    * @return string
-    */
+     * @param mixed $value
+     * @return string
+     */
     protected function formatValue($value)
     {
         $value = parent::formatValue($value);

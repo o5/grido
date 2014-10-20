@@ -138,6 +138,7 @@ class DibiFluent extends \Nette\Object implements IDataSource
      * @param array $conditions
      * @param int $limit
      * @return array
+     * @throws \InvalidArgumentException
      */
     public function suggest($column, array $conditions, $limit)
     {

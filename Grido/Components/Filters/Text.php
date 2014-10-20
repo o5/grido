@@ -61,8 +61,8 @@ class Text extends Filter
             $prototype->data['grido-suggest-replacement'] = $replacement;
             $prototype->data['grido-suggest-limit'] = $filter->suggestionLimit;
             $prototype->data['grido-suggest-handler'] = $filter->link('suggest!', array(
-                'query' => $replacement)
-            );
+                'query' => $replacement
+            ));
         };
 
         return $this;
@@ -103,6 +103,7 @@ class Text extends Filter
     /**
      * @param string $query - value from input
      * @internal
+     * @throws \Exception
      */
     public function handleSuggest($query)
     {
@@ -135,7 +136,7 @@ class Text extends Filter
 
         //sort items - first beginning of item is same as query, then case sensitive and case insensitive
         $startsWith = $caseSensitive = $caseInsensitive = array();
-        foreach($items as $item){
+        foreach ($items as $item) {
             if (stripos($item, $query) === 0) {
                 $startsWith[] = $item;
             } elseif (strpos($item, $query) !== FALSE) {

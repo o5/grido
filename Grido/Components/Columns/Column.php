@@ -11,8 +11,7 @@
 
 namespace Grido\Components\Columns;
 
-use Grido\Components\Filters\Filter,
-    Grido\Helpers;
+use Grido\Helpers;
 
 /**
  * Column grid.
@@ -39,7 +38,7 @@ abstract class Column extends \Grido\Components\Component
 
     const VALUE_IDENTIFIER = '%value';
 
-    const ORDER_ASC  = 'asc';
+    const ORDER_ASC = 'asc';
     const ORDER_DESC = 'desc';
 
     /** @var string */
@@ -139,7 +138,7 @@ abstract class Column extends \Grido\Components\Component
     }
 
     /**
-     * @param mixed $callback|
+     * @param mixed $callback |
      * @return Column
      */
     public function setCustomRenderExport($callback)
@@ -276,7 +275,7 @@ abstract class Column extends \Grido\Components\Component
      */
     public function hasFilter()
     {
-        return $this->grid->hasFilters() && $this->grid->getComponent(Filter::ID)->getComponent($this->getName(), FALSE);
+        return (bool) $this->grid->getFilter($this->getName(), FALSE);
     }
 
     /**********************************************************************************************/

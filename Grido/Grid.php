@@ -11,9 +11,9 @@
 
 namespace Grido;
 
-use Grido\Components\Columns\Column,
-    Grido\Components\Filters\Filter,
-    Grido\Components\Paginator;
+use Grido\Components\Columns\Column;
+use Grido\Components\Filters\Filter;
+use Grido\Components\Paginator;
 
 /**
  * Grido - DataGrid for Nette Framework.
@@ -72,7 +72,7 @@ class Grid extends Components\Container
     /** @var \Nette\Utils\Html */
     protected $tablePrototype;
 
-    /** @var bool  */
+    /** @var bool */
     protected $rememberState = FALSE;
 
     /** @var string */
@@ -171,6 +171,7 @@ class Grid extends Components\Container
      * Sets default sorting.
      * @param array $sort
      * @return Grid
+     * @throws \InvalidArgumentException
      */
     public function setDefaultSort(array $sort)
     {
@@ -553,7 +554,7 @@ class Grid extends Components\Container
         if ($this->paginator === NULL) {
             $this->paginator = new Paginator;
             $this->paginator->setItemsPerPage($this->getPerPage())
-                            ->setGrid($this);
+                ->setGrid($this);
         }
 
         return $this->paginator;
@@ -593,11 +594,11 @@ class Grid extends Components\Container
 
     /**********************************************************************************************/
 
-     /**
-      * Loads state informations.
-      * @param array $params
-      * @internal
-      */
+    /**
+     * Loads state informations.
+     * @param array $params
+     * @internal
+     */
     public function loadState(array $params)
     {
         //loads state from session
@@ -745,6 +746,7 @@ class Grid extends Components\Container
 
     /**
      * @internal
+     * @throws \Exception
      */
     public function render()
     {
@@ -773,7 +775,7 @@ class Grid extends Components\Container
         if ($this->rememberState) {
             $session = $this->getRememberSession(TRUE);
             $params = array_keys($this->getReflection()->getPersistentParams());
-            foreach($params as $param) {
+            foreach ($params as $param) {
                 $session->params[$param] = $this->$param;
             }
         }

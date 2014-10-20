@@ -24,7 +24,6 @@ class ArrayObjectAccessor implements IPropertyAccessor
      * @param mixed $object
      * @param string $name
      * @throws PropertyAccessorException
-     * @throws \Nette\MemberAccessException
      * @throws \InvalidArgumentException
      * @return mixed
      */
@@ -60,6 +59,7 @@ class ArrayObjectAccessor implements IPropertyAccessor
      * @param mixed $object
      * @param string $name
      * @param mixed $value
+     * @throws \InvalidArgumentException
      */
     public function setProperty($object, $name, $value)
     {

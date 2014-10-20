@@ -149,6 +149,7 @@ abstract class Action extends \Grido\Components\Component
     /**
      * Returns element prototype (<a> html tag).
      * @return Html
+     * @throws \Exception
      */
     public function getElementPrototype()
     {
@@ -196,7 +197,7 @@ abstract class Action extends \Grido\Components\Component
 
             $element->data['grido-confirm'] = is_array($confirm)
                 ? vsprintf($this->translate(array_shift($confirm)), $confirm)
-                : $this->translate($confirm);;
+                : $this->translate($confirm);
         }
 
         return $element;

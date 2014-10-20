@@ -11,4 +11,6 @@ before_script:
   # Install Nette Tester
   - composer install --no-interaction --prefer-source --dev
 
-script: VERBOSE=true ./tests/run.sh -s tests/
+script:
+  - vendor/bin/tester tests -s
+  - vendor/bin/phpcs --standard=standards/ruleset.xml --extensions=php --encoding=utf-8 -sp Grido

@@ -70,7 +70,8 @@ class Condition extends \Nette\Object
             for ($i = 0; $i < $count; $i++) {
                 $item = $column[$i];
                 if ($i & 1 && !self::isOperator($item)) {
-                    throw new \InvalidArgumentException("The even values of column must be 'AND' or 'OR', '$item' given.");
+                    $msg = "The even values of column must be 'AND' or 'OR', '$item' given.";
+                    throw new \InvalidArgumentException($msg);
                 }
             }
         } else {
