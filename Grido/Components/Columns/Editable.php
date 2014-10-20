@@ -42,7 +42,7 @@ abstract class Editable extends Column
 
     /**
      * Sets column as editable.
-     * @param callback $callback function($id, $newValue, $oldValue, Columns\Editable $column) {} {}
+     * @param callback $callback function($id, $newValue, $oldValue, Columns\Editable $column) {}
      * @param \Nette\Forms\IControl $control
      * @return Editable
      */
@@ -124,7 +124,10 @@ abstract class Editable extends Column
                     if (($callbackNotSet && (!is_string($columnName) || strpos($columnName, '.'))) ||
                         ($callbackNotSet && !method_exists($grid->model->dataSource, 'update'))
                     ) {
-                        $msg = "Column '{$column->name}' has error: You must define an own editable callback.";
+                        $msg = "Column '$column->name' has error: You must define an own editable callback.";
+                        throw new \Exception($msg);
+                    } elseif ($column->isEditable() && $column->customRender !== NULL) {
+                        $msg = "Column '$column->name' has error: You cannot use editable with customRender callback.";
                         throw new \Exception($msg);
                     }
                 }
@@ -236,11 +239,10 @@ abstract class Editable extends Column
             : $this->grid->model->update($id, array($this->getColumn() => $newValue), $this->grid->primaryKey);
 
         // New lines follow
-        $data = $this->grid->model->getRow($this->grid->primaryKey, $id)->fetch();
-        $html = $this->render($data);
+        $html = $this->formatValue($newValue);
 
         // Also change JSON Response
-        $response = new \Nette\Application\Responses\JsonResponse(array('updated' => $success, 'html' => $html));
+        $response = new \Nette\Application\Responses\JsonResponse(array('updated' => (bool) $success, 'html' => $html));
         $this->presenter->sendResponse($response);
     }
 

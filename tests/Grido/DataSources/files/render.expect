@@ -30,10 +30,10 @@
         </div>
     </div>
 
-<table id="grid" class="table table-striped table-hover">
+<table id="grid" class="table table-striped table-hover" data-grido-options='{"editable":true}'>
     <thead>
         <tr class="head">
-                <th class="column grid-header-firstname">
+                <th class="column grid-header-firstname" data-grido-editable-handler="/?action=default&amp;do=grid-columns-firstname-editable&amp;presenter=Test" data-grido-editableControl-handler="/?action=default&amp;do=grid-columns-firstname-editableControl&amp;presenter=Test">
                         <a class="ajax" href="/?grid-sort%5Bfirstname%5D=asc&amp;grid-page=2&amp;grid-filter%5Bname%5D=a&amp;grid-filter%5Bmale%5D=1&amp;grid-filter%5Bcountry%5D=au&amp;action=default&amp;do=grid-sort&amp;presenter=Test">Firstname</a>
                         <span></span>
                 </th>
@@ -72,7 +72,7 @@
     </tfoot>
     <tbody>
             <tr class="grid-row-628">
-                    <td class="grid-cell-firstname">
+                    <td class="grid-cell-firstname" data-grido-editable-value="Luwam">
                             Luwam
                     </td>
                     <td class="grid-cell-surname">
@@ -89,7 +89,7 @@
                     </td>
             </tr>
             <tr class="grid-row-818">
-                    <td class="grid-cell-firstname">
+                    <td class="grid-cell-firstname" data-grido-editable-value="Ronald">
                             Ronald
                     </td>
                     <td class="grid-cell-surname">
@@ -106,7 +106,7 @@
                     </td>
             </tr>
             <tr class="grid-row-837">
-                    <td class="grid-cell-firstname">
+                    <td class="grid-cell-firstname" data-grido-editable-value="Dame">
                             Dame
                     </td>
                     <td class="grid-cell-surname">

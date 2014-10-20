@@ -25,6 +25,7 @@ class NetteDatabaseTest extends DataSourceTestCase
             $grid->setDefaultPerPage(3);
 
             $grid->addColumnText('firstname', 'Firstname')
+                ->setEditable(callback($this, 'editableCallbackTest'))
                 ->setSortable();
             $grid->addColumnText('surname', 'Surname');
             $grid->addColumnText('gender', 'Gender');

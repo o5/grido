@@ -388,7 +388,7 @@ abstract class Container extends \Nette\Application\UI\Control
     /**
      * Sets all columns as editable.
      * Callback is optional for user implementation of method for saving modified data.
-     * @param callback $callback
+     * @param callback $callback function($id, $newValue, $oldValue, Columns\Editable $column) {}
      * @return \Grido\Grid
      */
     public function setEditableColumns($callback = NULL)

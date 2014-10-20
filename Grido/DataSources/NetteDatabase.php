@@ -72,11 +72,11 @@ class NetteDatabase extends \Nette\Object implements IDataSource
     public function update($id, array $values, $idCol)
     {
         return (bool) $this->getSelection()
-            ->where("$idCol = ?", $id)
+            ->where("? = ?", $idCol, $id)
             ->update($values);
     }
 
-    /*********************************** interface IDataSource ************************************/
+    /********************************** interface IDataSource ************************************/
 
     /**
      * @return int
@@ -155,18 +155,5 @@ class NetteDatabase extends \Nette\Object implements IDataSource
         }
 
         return array_values($items);
-    }
-
-    /**
-     *
-     * @param mixed $id value of private key
-     * @param string $idCol name of column with private key
-     * @return \Nette\Database\Table\Selection selection
-     * @internal
-     */
-    public function getRow($idCol, $id)
-    {
-        return $this->getSelection()
-            ->where("$idCol = ?", $id);
     }
 }
