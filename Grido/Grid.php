@@ -163,7 +163,7 @@ class Grid extends Components\Container
      */
     public function setDefaultFilter(array $filter)
     {
-        $this->defaultFilter = $filter;
+        $this->defaultFilter = array_merge($this->defaultFilter, $filter);
         return $this;
     }
 

@@ -134,10 +134,6 @@ class GridTest extends \Tester\TestCase
     {
         $grid = new Grid;
 
-        Assert::error(function() use ($grid) {
-            $grid->setDefaultFilter('');
-        }, E_RECOVERABLE_ERROR);
-
         $data = array(
             array('A' => 'A1', 'B' => 'B1'),
             array('A' => 'A2', 'B' => 'B2'),

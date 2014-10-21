@@ -127,6 +127,10 @@ class FilterTest extends \Tester\TestCase
         $grid->addFilterText('filter', 'Filter')
             ->setDefaultValue('default');
         Assert::same(array('filter' => 'default'), $grid->defaultFilter);
+
+        $grid->addFilterText('filter2', 'Filter2')
+            ->setDefaultValue('default2');
+        Assert::same(array('filter' => 'default', 'filter2' => 'default2'), $grid->defaultFilter);
     }
 
     function testGetWrapperPrototype()
