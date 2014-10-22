@@ -6,7 +6,7 @@
         "client-side/grido.css"
     ],
     "ignore": [
-        "Grido",
+        "src",
         "tests",
         "README.md",
         "composer.json",
