@@ -14,8 +14,8 @@
         "forum": "http://forum.nette.org/cs/13109-grido-datagrid-pro-nette/"
     },
     "autoload": {
-        "psr-0": {
-            "Grido": ""
+        "psr-4": {
+            "Grido\\": "src/"
         }
     },
     "require": {

@@ -13,4 +13,4 @@ before_script:
 
 script:
   - vendor/bin/tester tests -s
-  - vendor/bin/phpcs --standard=standards/ruleset.xml --extensions=php --encoding=utf-8 -sp Grido
+  - vendor/bin/phpcs --standard=standards/ruleset.xml --extensions=php --encoding=utf-8 -sp src
