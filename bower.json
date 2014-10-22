@@ -11,7 +11,8 @@
         "README.md",
         "composer.json",
         ".gitignore",
-        ".travis.yml"
+        ".travis.yml",
+        "standards.xml"
     ],
     "dependencies": {
         "jquery": ">= 1.7"
