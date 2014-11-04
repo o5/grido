@@ -13,6 +13,7 @@ namespace Grido\Components;
 
 use Grido\Components\Actions\Action;
 use Grido\Components\Columns\Column;
+use Grido\Components\Columns\Editable;
 use Grido\Components\Filters\Filter;
 use Grido\Helpers;
 
@@ -45,7 +46,7 @@ abstract class Container extends \Nette\Application\UI\Control
      * Returns column component.
      * @param string $name
      * @param bool $need
-     * @return Columns\Editable
+     * @return Editable
      */
     public function getColumn($name, $need = TRUE)
     {
@@ -388,7 +389,7 @@ abstract class Container extends \Nette\Application\UI\Control
     /**
      * Sets all columns as editable.
      * Callback is optional for user implementation of method for saving modified data.
-     * @param callback $callback function($id, $newValue, $oldValue, Columns\Editable $column) {}
+     * @param callback $callback function($id, $newValue, $oldValue, Editable $column) {}
      * @return \Grido\Grid
      */
     public function setEditableColumns($callback = NULL)
@@ -399,7 +400,7 @@ abstract class Container extends \Nette\Application\UI\Control
             }
 
             foreach ($grid->getComponent(Column::ID)->getComponents() as $column) {
-                if ($column instanceof Columns\Editable && !$column->isEditable() && !$column->isEditableDisabled()) {
+                if ($column instanceof Editable && !$column->isEditableDisabled() && !$column->editableCallback) {
                     $column->setEditable($callback);
                 }
             }
