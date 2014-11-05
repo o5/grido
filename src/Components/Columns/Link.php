@@ -66,9 +66,9 @@ class Link extends Text
 
         $anchor = \Nette\Utils\Html::el('a')
             ->setHref($href)
-            ->setText($text);
-
-        $anchor->attrs['target'] = '_blank';
+            ->setText($text)
+            ->setTarget('_blank')
+            ->setRel('noreferrer');
 
         if ($truncate) {
             $anchor->setText($truncate($text))

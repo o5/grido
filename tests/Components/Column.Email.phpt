@@ -23,7 +23,7 @@ test(function() {
     Assert::same('<a href="mailto:noreply&#64;bugyik.cz">noreply@bugyik.cz</a>', (string) $column->render($testRow));
 
     $column->setTruncate(15);
-    Assert::same("<a href=\"mailto:noreply&#64;bugyik.cz\" title=\"noreply&#64;bugyik.cz\">noreply@bugyik…</a>", (string) $column->render($testRow));
+    Assert::same('<a href="mailto:noreply&#64;bugyik.cz" title="noreply&#64;bugyik.cz">noreply@bugyik…</a>', (string) $column->render($testRow));
 
     Assert::same('<a href="mailto:&amp;lt;script&amp;gt;alert(&amp;quot;XSS&amp;quot;)&amp;lt;/script&amp;gt;a">&amp;lt;script&amp;gt;alert(&amp;quot;XSS&amp;quot;)&amp;lt;/script&amp;gt;a</a>', (string) $column->render(array('column' => '<script>alert("XSS")</script>a')));
 });

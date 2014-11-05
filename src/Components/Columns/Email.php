@@ -37,6 +37,7 @@ class Email extends Link
     {
         $anchor = parent::getAnchor($value);
         unset($anchor->attrs['target']);
+        unset($anchor->attrs['rel']);
 
         return $anchor;
     }
