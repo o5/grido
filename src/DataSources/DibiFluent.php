@@ -84,6 +84,22 @@ class DibiFluent extends \Nette\Object implements IDataSource
         }
     }
 
+    /********************************** inline editation helpers ************************************/
+
+    /**
+     * Default callback used when an editable column has customRender.
+     * @param mixed $id
+     * @param string $idCol
+     * @return \DibiRow
+     */
+    public function getRow($id, $idCol)
+    {
+        $fluent = clone $this->fluent;
+        return $fluent
+            ->where("%n = %s", $id, $idCol)
+            ->fetch();
+    }
+
     /*********************************** interface IDataSource ************************************/
 
     /**

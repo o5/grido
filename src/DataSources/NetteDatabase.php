@@ -62,8 +62,10 @@ class NetteDatabase extends \Nette\Object implements IDataSource
         }
     }
 
+    /********************************** inline editation helpers ************************************/
+
     /**
-     * Default callback for inline editation.
+     * Default callback for an inline editation save.
      * @param mixed $id
      * @param array $values
      * @param string $idCol
@@ -72,8 +74,21 @@ class NetteDatabase extends \Nette\Object implements IDataSource
     public function update($id, array $values, $idCol)
     {
         return (bool) $this->getSelection()
-            ->where("? = ?", $idCol, $id)
+            ->where(array($idCol => $id)) //TODO: column escaping requires https://github.com/nette/nette/issues/1324
             ->update($values);
+    }
+
+    /**
+     * Default callback used when an editable column has customRender.
+     * @param mixed $id
+     * @param string $idCol
+     * @return \Nette\Database\Table\ActiveRow
+     */
+    public function getRow($id, $idCol)
+    {
+        return $this->getSelection()
+            ->where(array($idCol => $id)) //TODO: column escaping requires https://github.com/nette/nette/issues/1324
+            ->fetch();
     }
 
     /********************************** interface IDataSource ************************************/

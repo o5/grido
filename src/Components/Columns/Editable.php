@@ -22,6 +22,7 @@ namespace Grido\Components\Columns;
  * @property \Nette\Forms\IControl $editableControl
  * @property callback $editableCallback
  * @property callback $editableValueCallback
+ * @property callback $editableRowCallback
  */
 abstract class Editable extends Column
 {
@@ -39,6 +40,9 @@ abstract class Editable extends Column
 
     /** @var callback for custom value; function($row, Columns\Editable $column) {} */
     protected $editableValueCallback;
+
+    /** @var callback for getting row; function($row, Columns\Editable $column) {} */
+    protected $editableRowCallback;
 
     /**
      * Sets column as editable.
@@ -97,6 +101,19 @@ abstract class Editable extends Column
     }
 
     /**
+     * Sets editable row callback - it's required when used editable collumn with customRenderCallback
+     * @param callback $callback for getting row; function($id, Columns\Editable $column) {}
+     * @return Editable
+     */
+    public function setEditableRowCallback($callback)
+    {
+        $this->isEditable() ?: $this->setEditable();
+        $this->editableValueCallback = $callback;
+
+        return $this;
+    }
+
+    /**
      * @return Editable
      */
     public function disableEditable()
@@ -115,19 +132,22 @@ abstract class Editable extends Column
             $this->grid->onRender[] = function(\Grido\Grid $grid)
             {
                 foreach ($grid->getComponent(Column::ID)->getComponents() as $column) {
-                    if (!$column instanceof Editable) {
+                    if (!$column instanceof Editable || !$column->isEditable()) {
                         continue;
                     }
 
-                    $columnName = $column->getColumn();
-                    $callbackNotSet = $column->isEditable() && $column->editableCallback === NULL;
-                    if (($callbackNotSet && (!is_string($columnName) || strpos($columnName, '.'))) ||
-                        ($callbackNotSet && !method_exists($grid->model->dataSource, 'update'))
+                    $colDb = $column->getColumn();
+                    $colName = $column->getName();
+                    if ((!$column->editableCallback && (!is_string($colDb) || strpos($colDb, '.'))) ||
+                        (!$column->editableCallback && !method_exists($grid->model->dataSource, 'update'))
                     ) {
-                        $msg = "Column '$column->name' has error: You must define an own editable callback.";
+                        $msg = "Column '$colName' has error: You must define callback via setEditableCallback().";
                         throw new \Exception($msg);
-                    } elseif ($column->isEditable() && $column->customRender !== NULL) {
-                        $msg = "Column '$column->name' has error: You cannot use editable with customRender callback.";
+                    }
+
+                    $rowCallbackRequired = !$column->editableRowCallback && $column->customRender;
+                    if ($rowCallbackRequired && !method_exists($grid->model->dataSource, 'getRow')) {
+                        $msg = "Column '$colName' has error: You must define callback via setEditableRowCallback().";
                         throw new \Exception($msg);
                     }
                 }
@@ -238,11 +258,17 @@ abstract class Editable extends Column
             ? callback($this->editableCallback)->invokeArgs(array($id, $newValue, $oldValue, $this))
             : $this->grid->model->update($id, array($this->getColumn() => $newValue), $this->grid->primaryKey);
 
-        // New lines follow
-        $html = $this->formatValue($newValue);
+        if (is_callable($this->customRender)) {
+            $row = $this->editableRowCallback
+                ? callback($this->editableRowCallback)->invokeArgs(array($id, $this))
+                : $this->grid->model->getRow($id, $this->grid->primaryKey);
+            $html = callback($this->customRender)->invokeArgs(array($row));
+        } else {
+            $html = $this->formatValue($newValue);
+        }
 
-        // Also change JSON Response
-        $response = new \Nette\Application\Responses\JsonResponse(array('updated' => (bool) $success, 'html' => $html));
+        $payload = array('updated' => (bool) $success, 'html' => (string) $html);
+        $response = new \Nette\Application\Responses\JsonResponse($payload);
         $this->presenter->sendResponse($response);
     }
 
