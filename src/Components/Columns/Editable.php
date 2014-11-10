@@ -108,7 +108,7 @@ abstract class Editable extends Column
     public function setEditableRowCallback($callback)
     {
         $this->isEditable() ?: $this->setEditable();
-        $this->editableValueCallback = $callback;
+        $this->editableRowCallback = $callback;
 
         return $this;
     }
