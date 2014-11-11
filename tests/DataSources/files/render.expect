@@ -5,7 +5,7 @@
         <div class="items">
             <span class="grid-filter-phone">
                 <label for="frm-grid-form-filters-phone">Phone</label>
-                <input type="text" name="filters[phone]" class="text form-control" id="frm-grid-form-filters-phone" value="">
+                <input type="text" name="filters[phone]" class="text form-control" id="frm-grid-form-filters-phone">
             </span>
             <span class="grid-filter-name">
                 <label for="frm-grid-form-filters-name">Name</label>
