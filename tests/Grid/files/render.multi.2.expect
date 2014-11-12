@@ -192,19 +192,19 @@ and newline &quot;test&quot;;
         <div class="items">
             <span class="grid-filter-firstname">
                 <label for="frm-grid-form-filters-firstname">Firstname</label>
-                <input type="text" name="filters[firstname]" class="text form-control" id="frm-grid-form-filters-firstname" value="">
+                <input type="text" name="filters[firstname]" class="text form-control" id="frm-grid-form-filters-firstname">
             </span>
             <span class="grid-filter-surname">
                 <label for="frm-grid-form-filters-surname">Surname</label>
-                <input type="text" name="filters[surname]" class="text form-control" id="frm-grid-form-filters-surname" value="">
+                <input type="text" name="filters[surname]" class="text form-control" id="frm-grid-form-filters-surname">
             </span>
             <span class="grid-filter-gender">
                 <label for="frm-grid-form-filters-gender">Gender</label>
-                <input type="text" name="filters[gender]" class="text form-control" id="frm-grid-form-filters-gender" value="">
+                <input type="text" name="filters[gender]" class="text form-control" id="frm-grid-form-filters-gender">
             </span>
             <span class="grid-filter-birthday">
                 <label for="frm-grid-form-filters-birthday">Birthday</label>
-                <input type="text" name="filters[birthday]" class="text date form-control" autocomplete="off" id="frm-grid-form-filters-birthday" value="">
+                <input type="text" name="filters[birthday]" class="text date form-control" autocomplete="off" id="frm-grid-form-filters-birthday">
             </span>
         </div>
         <div class="buttons">
@@ -299,19 +299,19 @@ and newline &quot;test&quot;;
         <div class="items">
             <span class="grid-filter-firstname">
                 <label for="frm-grid-form-filters-firstname">Firstname</label>
-                <input type="text" name="filters[firstname]" class="text form-control" id="frm-grid-form-filters-firstname" value="">
+                <input type="text" name="filters[firstname]" class="text form-control" id="frm-grid-form-filters-firstname">
             </span>
             <span class="grid-filter-surname">
                 <label for="frm-grid-form-filters-surname">Surname</label>
-                <input type="text" name="filters[surname]" class="text form-control" id="frm-grid-form-filters-surname" value="">
+                <input type="text" name="filters[surname]" class="text form-control" id="frm-grid-form-filters-surname">
             </span>
             <span class="grid-filter-gender">
                 <label for="frm-grid-form-filters-gender">Gender</label>
-                <input type="text" name="filters[gender]" class="text form-control" id="frm-grid-form-filters-gender" value="">
+                <input type="text" name="filters[gender]" class="text form-control" id="frm-grid-form-filters-gender">
             </span>
             <span class="grid-filter-birthday">
                 <label for="frm-grid-form-filters-birthday">Birthday</label>
-                <input type="text" name="filters[birthday]" class="text date form-control" autocomplete="off" id="frm-grid-form-filters-birthday" value="">
+                <input type="text" name="filters[birthday]" class="text date form-control" autocomplete="off" id="frm-grid-form-filters-birthday">
             </span>
         </div>
         <div class="buttons">
