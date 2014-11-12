@@ -241,7 +241,7 @@
                         that.disableSelection.call(that);
                     }
 
-                    $('th.checker [type=checkbox]', $(this).parent()).click();
+                    $(that.selector, $(this).closest('tr')).click();
 
                     if (event.shiftKey) {
                         that.enableSelection.call(that);
@@ -660,7 +660,9 @@
         {
             var data = {},
                 that = this,
-                newValue = this.editControlObject.val();
+                newValue = $('[type=checkbox]', this.editControlObject).length
+                    ? ~~+ $('[type=checkbox]', this.editControlObject).is(':checked')
+                    : this.editControlObject.val();
 
             if (newValue === oldValue) {
                 $td.html(oldHtml);
