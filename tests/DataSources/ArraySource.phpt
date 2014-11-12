@@ -72,6 +72,7 @@ class ArraySourceTest extends DataSourceTestCase
         Assert::true($source->compare('Lucie', 'LIKE ?', '%Lu%'));
         Assert::true($source->compare('Lucie', 'LIKE ?', '%ie'));
         Assert::true($source->compare('Lucie', 'LIKE ?', 'lu%'));
+        Assert::true($source->compare('Lucie/Lucy', 'LIKE ?', 'Lucie/L%'));
         Assert::false($source->compare('Lucie', 'LIKE ?', 'ie%'));
         Assert::false($source->compare('Lucie', 'LIKE ?', '%lu'));
 
