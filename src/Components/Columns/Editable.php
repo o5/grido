@@ -108,7 +108,7 @@ abstract class Editable extends Column
     public function setEditableRowCallback($callback)
     {
         $this->isEditable() ?: $this->setEditable();
-        $this->editableValueCallback = $callback;
+        $this->editableRowCallback = $callback;
 
         return $this;
     }
@@ -138,15 +138,20 @@ abstract class Editable extends Column
 
                     $colDb = $column->getColumn();
                     $colName = $column->getName();
-                    if ((!$column->editableCallback && (!is_string($colDb) || strpos($colDb, '.'))) ||
-                        (!$column->editableCallback && !method_exists($grid->model->dataSource, 'update'))
+                    $isMissing = function ($method) use ($grid) {
+                        return $grid->model instanceof \Grido\DataSources\Model
+                            ? !method_exists($grid->model->dataSource, $method)
+                            : TRUE;
+                    };
+
+                    if (($column->editableCallback === NULL && (!is_string($colDb) || strpos($colDb, '.'))) ||
+                        ($column->editableCallback === NULL && $isMissing('update'))
                     ) {
                         $msg = "Column '$colName' has error: You must define callback via setEditableCallback().";
                         throw new \Exception($msg);
                     }
 
-                    $rowCallbackRequired = !$column->editableRowCallback && $column->customRender;
-                    if ($rowCallbackRequired && !method_exists($grid->model->dataSource, 'getRow')) {
+                    if ($column->editableRowCallback === NULL && $column->customRender && $isMissing('getRow')) {
                         $msg = "Column '$colName' has error: You must define callback via setEditableRowCallback().";
                         throw new \Exception($msg);
                     }
@@ -221,6 +226,15 @@ abstract class Editable extends Column
     public function getEditableValueCallback()
     {
         return $this->editableValueCallback;
+    }
+
+    /**
+     * @return callback
+     * @internal
+     */
+    public function getEditableRowCallback()
+    {
+        return $this->editableRowCallback;
     }
 
     /**

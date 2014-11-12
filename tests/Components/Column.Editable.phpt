@@ -15,6 +15,9 @@ use Tester\Assert,
 require_once __DIR__ . '/../bootstrap.php';
 require_once __DIR__ . '/../Helper.inc.php';
 
+require_once __DIR__ . '/../DataSources/files/doctrine/entities/Country.php';
+require_once __DIR__ . '/../DataSources/files/doctrine/entities/User.php';
+
 class EditableTest extends \Tester\TestCase
 {
     function testSetEditable()
@@ -85,12 +88,15 @@ class EditableTest extends \Tester\TestCase
 
         // EDITABLE AND AN OWN VALUE CALLBACK VIA METHOD
         $valueCallback = callback($this, 'test');
+        $rowCallback = callback($this, 'test');
         $grid = new Grid();
         $column = $grid->addColumnText('column', 'Column')->setEditable();
         $column->setEditableValueCallback($valueCallback);
+        $column->setEditableRowCallback($rowCallback);
         Assert::same(TRUE, $column->editable);
         Assert::same(FALSE, $column->editableDisabled);
         Assert::same($valueCallback, $column->editableValueCallback);
+        Assert::same($rowCallback, $column->editableRowCallback);
 
         Helper::grid(function(Grid $grid) {
             $grid->setModel(array());
@@ -106,6 +112,126 @@ class EditableTest extends \Tester\TestCase
             Assert::type('\Grido\Components\Columns\Editable', $column);
             Assert::true($column->isEditable());
         }
+    }
+
+    function testSetEditableValueCallback()
+    {
+        Helper::grid(function(Grid $grid) {
+            $row = array('id' => 1, 'name' => 'Lucy');
+            $grid->setModel(array($row));
+            $column = $grid->addColumnText('name', 'Name')
+                ->setEditableValueCallback(function(array $item, \Grido\Components\Columns\Text $column) use ($row) {
+                    Assert::same($row, $item);
+                    return $item['name'] . '-TEST';
+                });
+
+            Assert::same('<td class="grid-cell-name" data-grido-editable-value="Lucy-TEST"></td>', (string) $column->getCellPrototype($row));
+
+        })->run();
+    }
+
+    function testSetEditableRowCallback()
+    {
+        Helper::grid(function(Grid $grid) {
+            $grid->setModel(array());
+            $grid->presenter->forceAjaxMode = TRUE;
+            $grid->addColumnText('firstname', 'Firstname')
+                ->setEditable(function() {})
+                ->setCustomRender(function() {});
+
+            Assert::exception(function() use ($grid) {
+                $grid->render();
+            }, 'Exception', "Column 'firstname' has error: You must define callback via setEditableRowCallback().");
+
+        })->run();
+
+        $testedId = 2;
+        Helper::grid(function(Grid $grid) use ($testedId) {
+            $grid->setModel(array());
+            $grid->presenter->forceAjaxMode = TRUE;
+            $grid->addColumnText('firstname', 'Firstname')
+                ->setEditable(function() {return TRUE;})
+                ->setCustomRender(function($item) {return $item['firstname'] . '-TEST';})
+                ->setEditableRowCallback(function($id, \Grido\Components\Columns\Text $column) use ($testedId) {
+                    Assert::same($testedId, $id);
+                    return array('firstname' => 'Lucy');
+                });
+
+            ob_start();
+            $grid->render();
+            ob_clean();
+        });
+
+        ob_start();
+            Helper::request(array(
+                'do' => 'grid-columns-firstname-editable',
+                'grid-columns-firstname-id' => $testedId,
+                'grid-columns-firstname-newValue' => 'newValue',
+                'grid-columns-firstname-oldValue' => 'oldValue',
+            ));
+        $output = ob_get_clean();
+        Assert::same('{"updated":true,"html":"Lucy-TEST"}', $output);
+    }
+
+    function testEditableCallback()
+    {
+        $checkException = function($grid) {
+            Assert::exception(function() use ($grid) {
+                $grid->render();
+            }, 'Exception', "Column 'firstname' has error: You must define callback via setEditableCallback().");
+        };
+
+        //array source
+        Helper::grid(function(Grid $grid) use ($checkException) {
+            $grid->setModel(array());
+            $grid->presenter->forceAjaxMode = TRUE;
+            $grid->addColumnText('firstname', 'Firstname')
+                ->setEditable();
+
+            $checkException($grid);
+        })->run();
+
+        //dibi
+        Helper::grid(function(Grid $grid, TestPresenter $presenter) use ($checkException) {
+            $fluent = $presenter->context->dibi_sqlite
+                ->select('u.*, c.title AS country')
+                ->from('[user] u')
+                ->join('[country] c')->on('u.country_code = c.code');
+            $grid->setModel($fluent);
+            $grid->addColumnText('firstname', 'Firstname')
+                ->setEditable();
+
+            $checkException($grid);
+        })->run();
+
+        //doctrine
+        Helper::grid(function(Grid $grid, TestPresenter $presenter) use ($checkException) {
+            $entityManager = $presenter->context->getByType('Doctrine\ORM\EntityManager');
+            $repository = $entityManager->getRepository('Grido\Tests\Entities\User');
+            $model = new \Grido\DataSources\Doctrine(
+                $repository->createQueryBuilder('a') // We need to create query builder with inner join.
+                    ->addSelect('c')                 // This will produce less SQL queries with prefetch.
+                    ->innerJoin('a.country', 'c'),
+                array('country' => 'c.title'));      // Map country column to the title of the Country entity
+
+            $grid->setModel($model);
+            $grid->addColumnText('firstname', 'Firstname')
+                ->setEditable();
+
+            $checkException($grid);
+        })->run();
+
+        //nette database
+        Helper::grid(function(Grid $grid, TestPresenter $presenter) {
+            $database = $presenter->context->getByType('Nette\Database\Context');
+            $grid->setModel($database->table('user'), TRUE);
+            $grid->addColumnText('firstname', 'Firstname')
+                ->setEditable();
+
+            ob_start();
+            $grid->render();
+            ob_clean();
+        })->run();
     }
 
     function testHandleEditable()
