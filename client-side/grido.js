@@ -149,7 +149,7 @@
             $('td[class*="grid-cell-"]', this.$element)
                 .off('dblclick.grido')
                 .on('dblclick.grido', function(event) {
-                    if (helpers.isCtrl(event)) {
+                    if (helpers.isCtrl(event) && !$(this).hasClass('edit')) {
                         this.editable = new Grido.Editable(that).init($(this));
                     }
             });
