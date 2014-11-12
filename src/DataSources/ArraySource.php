@@ -93,7 +93,7 @@ class ArraySource extends \Nette\Object implements IDataSource
         $cond = str_replace(' ?', '', $condition);
 
         if ($cond === 'LIKE') {
-            $pattern = str_replace('%', '(.|\s)*', preg_quote($expected));
+            $pattern = str_replace('%', '(.|\s)*', preg_quote($expected, '/'));
             return (bool) preg_match("/^{$pattern}$/i", $actual);
 
         } elseif ($cond === '=') {
