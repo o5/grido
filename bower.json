@@ -1,6 +1,5 @@
 {
     "name": "grido",
-    "version": "1.0.0",
     "main": [
         "client-side/grido.js",
         "client-side/grido.css"
