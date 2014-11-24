@@ -20,9 +20,10 @@
     },
     "require": {
         "php": ">=5.3",
-        "nette/nette" : "2.2.4"
+        "nette/nette": "~2.0"
     },
     "require-dev": {
+        "nette/nette" : ">=2.2.4",
         "nette/tester": "@dev",
         "mockery/mockery": "@dev",
         "dibi/dibi": "@dev",
