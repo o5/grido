@@ -96,7 +96,7 @@ class DibiFluent extends \Nette\Object implements IDataSource
     {
         $fluent = clone $this->fluent;
         return $fluent
-            ->where("%n = %s", $id, $idCol)
+            ->where("%n = %s", $idCol, $id)
             ->fetch();
     }
 
