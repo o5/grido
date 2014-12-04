@@ -35,9 +35,10 @@ class FilterTextTest extends \Tester\TestCase
 
             $grid->addFilterText('test', 'Test')
                 ->setSuggestion()
-                    ->setSuggestionCallback(function($query, $filter, $conditions) {
+                    ->setSuggestionCallback(function($query, $filter, $conditions, $filterComp) use ($grid) {
                         Assert::same('QUERY', $query);
                         Assert::same(array('name' => 'aa'), $filter);
+                        Assert::same($grid->getFilter('test'), $filterComp);
 
                         $cond = new \Grido\Components\Filters\Condition('name', 'LIKE ?', '%aa%');
                         Assert::same($cond->__toArray(), $conditions[0]->__toArray());

@@ -128,7 +128,7 @@ class Text extends Filter
             $items = $this->grid->model->suggest($column, $conditions, $this->suggestionLimit);
 
         } else {
-            $items = callback($this->suggestionCallback)->invokeArgs(array($query, $actualFilter, $conditions));
+            $items = callback($this->suggestionCallback)->invokeArgs(array($query, $actualFilter, $conditions, $this));
             if (!is_array($items)) {
                 throw new \Exception('Items must be an array.');
             }
