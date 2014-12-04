@@ -427,8 +427,13 @@
                     : this.coolUri($.param(params));
 
                 $.data(document, this.grido.name + '-state', hash);
-                location.hash = hash;
+                this.changeLocationHash(hash);
             }
+        },
+
+        changeLocationHash: function(hash)
+        {
+            location.hash = hash;
         },
 
         handleHashChangeEvent: function()
