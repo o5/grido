@@ -101,6 +101,22 @@ class Text extends Filter
     }
 
     /**
+     * @return callback
+     */
+    public function getSuggestionCallback()
+    {
+        return $this->suggestionCallback;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSuggestionColumn()
+    {
+        return $this->suggestionColumn;
+    }
+
+    /**
      * @param string $query - value from input
      * @internal
      * @throws \Exception
