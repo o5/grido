@@ -466,36 +466,70 @@ class GridTest extends \Tester\TestCase
 
     function testHandleFilter()
     {
-        $defaultFilter = array('filterB' => 'test');
+        $defaultFilter = array('filterB' => 'default');
         Helper::grid(function(Grid $grid) use ($defaultFilter) {
             $grid->setModel(array());
             $grid->setDefaultFilter($defaultFilter);
             $grid->addFilterText('filter', 'Filter');
             $grid->addFilterText('filterB', 'FilterB');
+            $grid->addFilterCustom('filterC', new \Nette\Forms\Controls\MultiSelectBox(NULL, array('a' => 'a', 'b' => 'b', 'c' => 'c')));
         });
 
         $params = array('grid-page' => 2, 'do' => 'grid-form-submit', Grid::BUTTONS => array('search' => 'Search'), 'count' => 10);
 
+        //new filter AND default value
         $filter = array('filter' => 'test') + $defaultFilter;
         Helper::request($params + array(Filter::ID => $filter));
         Assert::same($filter, Helper::$grid->filter);
         Assert::same(1, Helper::$grid->page);
 
+        //new filter AND reset default #1
+        $filter = array('filter' => 'test');
+        Helper::request($params + array(Filter::ID => $filter));
+        Assert::same($filter + array('filterB' => ''), Helper::$grid->filter);
+        Assert::same(1, Helper::$grid->page);
+
+        //new filter AND reset default #2
+        $filter = array('filter' => 'test', 'filterB' => '');
+        Helper::request($params + array(Filter::ID => $filter));
+        Assert::same($filter + array('filterB' => ''), Helper::$grid->filter);
+        Assert::same(1, Helper::$grid->page);
+
+        //new filter AND reset default #3
+        $filter = array('filter' => 'test', 'filterB' => '0');
+        Helper::request($params + array(Filter::ID => $filter));
+        Assert::same($filter + array('filterB' => ''), Helper::$grid->filter);
+        Assert::same(1, Helper::$grid->page);
+
+        //skip empty value
         $filter = array('filter' => '') + $defaultFilter;
         Helper::request($params + array(Filter::ID => $filter));
         Assert::same($defaultFilter, Helper::$grid->filter);
         Assert::same(1, Helper::$grid->page);
 
-        $filter = array('filter' => '', 'filterB' => 'test');
+        //new filter
+        $filter = array('filter' => '0') + $defaultFilter;
         Helper::request($params + array(Filter::ID => $filter));
-        unset($filter['filter']);
         Assert::same($filter, Helper::$grid->filter);
         Assert::same(1, Helper::$grid->page);
 
-        $filter = array('filter' => 'test', 'filterB' => '');
+        $filter = array('filter' => '0.0') + $defaultFilter;
         Helper::request($params + array(Filter::ID => $filter));
         Assert::same($filter, Helper::$grid->filter);
         Assert::same(1, Helper::$grid->page);
+
+        //change default
+        $filter = array('filterB' => 'test');
+        Helper::request($params + array(Filter::ID => $filter));
+        Assert::same($filter, Helper::$grid->filter);
+        Assert::same(1, Helper::$grid->page);
+
+        //support for multichoice
+        $filter = array('filterC' => array('a', 'c')) + $defaultFilter;
+        Helper::request($params + array(Filter::ID => $filter));
+        $expected = sort($filter);
+        $actual = sort(Helper::$grid->filter);
+        Assert::same($expected, $actual);
 
         $data = array(
             array('A' => 'A1', 'B' => 'B3'),
