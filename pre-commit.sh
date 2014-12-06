@@ -9,9 +9,15 @@ fi
 
 git stash -q --keep-index
 
-echo "Run Code Sniffer..."
+echo "Running Code Sniffer..."
 vendor/bin/phpcs --standard=standards.xml --extensions=php --encoding=utf-8 -sp src
+if [ $? != 0 ]
+then
+        echo "\033[1;41;37mFix coding standards before commit!\033[0m\n"
+        exit 1
+fi
 
+echo "Running Nette Tester..."
 vendor/bin/tester tests -s
 
 RESULT=$?
