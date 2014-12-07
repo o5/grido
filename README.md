@@ -12,11 +12,16 @@ DataGrid for [Nette Framework](http://nette.org/) (PHP 5.3).
 
 Installation
 =============
-Download and extract to libs dir or use [Packagist] (https://packagist.org/packages/o5/grido) with [Composer](http://getcomposer.org/).
+
+The best way to install Grido is using  [Composer](http://getcomposer.org/):
+
+```sh
+$ composer require o5/grido:~2.0
+```
 
 Contributions
 =============
 Please, install pre-commit hook before contribution. Installation is nothing more than:
-```bash
-ln -s ../../pre-commit.sh .git/hooks/pre-commit
+```sh
+$ ln -s ../../pre-commit.sh .git/hooks/pre-commit
 ```
