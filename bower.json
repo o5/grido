@@ -7,10 +7,10 @@
     "ignore": [
         "src",
         "tests",
-        "README.md",
-        "composer.json",
         ".gitignore",
         ".travis.yml",
+        "composer.json",
+        "pre-commit.sh",
         "standards.xml"
     ],
     "dependencies": {
