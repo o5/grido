@@ -41,6 +41,8 @@
     {
         operation: null,
 
+        onInit: [],
+
         /**
          * Initial function.
          */
@@ -55,7 +57,10 @@
             this.initPagePrompt();
             this.initCheckNumeric();
             this.initEditable();
-            this.onInit();
+
+            for (var i in this.onInit) {
+                this.onInit[i](this);
+            }
 
             return this;
         },
@@ -154,8 +159,6 @@
                     }
             });
         },
-
-        onInit: function() {},
 
         /**
          * Sending filter form.

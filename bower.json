@@ -1,8 +1,8 @@
 {
     "name": "grido",
     "main": [
-        "client-side/grido.js",
-        "client-side/grido.css"
+        "client-side/js/grido.js",
+        "client-side/css/grido.css"
     ],
     "ignore": [
         "src",
