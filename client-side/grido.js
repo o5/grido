@@ -387,7 +387,6 @@
             }
 
             this.registerSuccessEvent();
-            this.registerHashChangeEvent();
 
             return this;
         },
@@ -399,11 +398,6 @@
                 $.proxy(that.handleSuccessEvent, that)(payload);
                 event.stopImmediatePropagation();
             });
-        },
-
-        registerHashChangeEvent: function()
-        {
-            this.handleHashChangeEvent();
         },
 
         /**
@@ -422,31 +416,22 @@
                     }
                 });
 
-                var hash = /mozilla/i.test(navigator.userAgent) && !/webkit/i.test(navigator.userAgent)
+                var uri = /mozilla/i.test(navigator.userAgent) && !/webkit/i.test(navigator.userAgent)
                     ? $.param(params)
                     : this.coolUri($.param(params));
 
-                $.data(document, this.grido.name + '-state', hash);
-                this.changeLocationHash(hash);
+                this.onSuccessEvent(params, uri);
             }
         },
 
-        changeLocationHash: function(hash)
+        /**
+         * @param {Object} params - grido params
+         * @param {String} uri
+         * @returns void
+         */
+        onSuccessEvent: function(params, uri)
         {
-            location.hash = hash;
-        },
-
-        handleHashChangeEvent: function()
-        {
-            var state = $.data(document, this.grido.name + '-state') || '',
-                hash = location.toString().split('#').splice(1).join('#');
-
-            if (hash.indexOf(this.grido.name + '-') >= 0 && state !== hash) {
-                var url = location.toString();
-                url = url.indexOf('?') >= 0 ? url.replace('#', '&') : url.replace('#', '?');
-
-                this.doRequest(url + '&do=' + this.grido.name + '-refresh');
-            }
+            window.history.pushState(params, document.title, '?' + uri);
         },
 
         /**
