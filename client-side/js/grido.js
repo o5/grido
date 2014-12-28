@@ -419,22 +419,42 @@
                     }
                 });
 
-                var uri = /mozilla/i.test(navigator.userAgent) && !/webkit/i.test(navigator.userAgent)
-                    ? $.param(params)
-                    : this.coolUri($.param(params));
-
-                this.onSuccessEvent(params, uri);
+                this.onSuccessEvent(params, this.getQueryString(params));
             }
+        },
+
+        getQueryString: function(params)
+        {
+            var queryString;
+            if ($.isEmptyObject(params)) {
+                var newParams = {};
+                var oldParams = this.getQueryParams();
+                for (var key in oldParams) {
+                    if (key.indexOf(this.grido.name) !== 0) {
+                        newParams[key] = oldParams[key];
+                    }
+                }
+
+                queryString = $.isEmptyObject(newParams)
+                    ? window.location.pathname
+                    : '?' + $.param(newParams);
+
+            } else {
+                queryString = '?' + $.param($.extend(this.getQueryParams(), params));
+            }
+
+            queryString = this.coolUri(queryString);
+
+            return queryString;
         },
 
         /**
          * @param {Object} params - grido params
-         * @param {String} uri
-         * @returns void
+         * @param {String} url
          */
-        onSuccessEvent: function(params, uri)
+        onSuccessEvent: function(params, url)
         {
-            window.history.pushState(params, document.title, '?' + uri);
+            window.history.pushState(params, document.title, url);
         },
 
         /**
@@ -456,10 +476,48 @@
                 replace = {'%5B': '[', '%5D': ']', '%E2%86%91' : '↑', '%E2%86%93' : '↓'};
 
             $.each(replace, function(key, val) {
-                cool = cool.replace(key, val);
+                cool = cool.replace(new RegExp(key, 'g'), val);
             });
 
             return cool;
+        },
+
+        /**
+         * Returns window.location.search as object
+         * @link http://jsbin.com/adali3/2
+         * @link http://stackoverflow.com/questions/901115/how-can-i-get-query-string-values-in-javascript/2880929#2880929
+         */
+        getQueryParams: function ()
+        {
+            var e,
+                d = function (s) {
+                    return decodeURIComponent(s).replace(/\+/g, " ");
+                },
+                q = window.location.search.substring(1),
+                r = /([^&=]+)=?([^&]*)/g,
+                params = {};
+
+            while (e = r.exec(q)) {
+                if (e[1].indexOf("[") === -1) {
+                    params[d(e[1])] = d(e[2]);
+                } else {
+                    var b1 = e[1].indexOf("["),
+                        aN = e[1].slice(b1 + 1, e[1].indexOf("]", b1)),
+                        pN = d(e[1].slice(0, b1));
+
+                    if (typeof params[pN] !== "object") {
+                        params[d(pN)] = {};
+                    }
+
+                    if (aN) {
+                        params[d(pN)][d(aN)] = d(e[2]);
+                    } else {
+                        Array.prototype.push.call(params[d(pN)], d(e[2]));
+                    }
+                }
+            }
+
+            return params;
         }
     };
 

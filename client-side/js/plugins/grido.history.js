@@ -13,14 +13,14 @@
     /*jshint laxbreak: true, expr: true */
     "use strict";
 
-    window.Grido.Ajax.prototype.onSuccessEvent = function(params, uri)
+    window.Grido.Ajax.prototype.onSuccessEvent = function(params, url)
     {
         if ($.fn.typeahead === undefined) {
             console.error('Plugin "history.js" is missing! Run `bower install history.js` and load it.');
             return;
         }
 
-        window.History.pushState(params, document.title, '?' + uri);
+        window.History.pushState(params, document.title, url);
     };
 
 })(jQuery, window, document);
