@@ -16,7 +16,7 @@ Installation
 The best way to install Grido is using  [Composer](http://getcomposer.org/):
 
 ```sh
-$ composer require o5/grido:~2.0
+$ composer require o5/grido
 ```
 
 Contributions
