@@ -390,6 +390,7 @@
             }
 
             this.registerSuccessEvent();
+            this.registerPopState();
 
             return this;
         },
@@ -397,10 +398,23 @@
         registerSuccessEvent: function()
         {
             var that = this;
-            this.grido.$element.bind('success.ajax.grido', function(event, payload) {
-                $.proxy(that.handleSuccessEvent, that)(payload);
-                event.stopImmediatePropagation();
-            });
+            this.grido.$element
+                .off('success.ajax.grido')
+                .on('success.ajax.grido', function(event, payload) {
+                    $.proxy(that.handleSuccessEvent, that)(payload);
+                    event.stopImmediatePropagation();
+                });
+        },
+
+        registerPopState: function()
+        {
+            var that = this;
+            $(window)
+                .off('popstate.ajax.grido')
+                .on('popstate.ajax.grido', function(event) {
+                    $.proxy(that.onPopState, that)(event);
+                    event.stopImmediatePropagation();
+                });
         },
 
         /**
@@ -419,10 +433,17 @@
                     }
                 });
 
-                this.onSuccessEvent(params, this.getQueryString(params));
+                var query = this.getQueryString(params);
+
+                $.data(document, this.grido.name + '-query', query);
+                this.onSuccessEvent(params, query);
             }
         },
 
+        /**
+         * @param {Object} params
+         * @returns {String}
+         */
         getQueryString: function(params)
         {
             var queryString;
@@ -443,9 +464,7 @@
                 queryString = '?' + $.param($.extend(this.getQueryParams(), params));
             }
 
-            queryString = this.coolUri(queryString);
-
-            return queryString;
+            return this.coolUri(queryString);
         },
 
         /**
@@ -455,6 +474,21 @@
         onSuccessEvent: function(params, url)
         {
             window.history.pushState(params, document.title, url);
+        },
+
+        /**
+         * @param Event event
+         */
+        onPopState: function(event)
+        {
+            var state = $.data(document, this.grido.name + '-query') || '',
+                query = window.location.search;
+
+            if (state !== query) {
+                var url = location.toString();
+                url += url.indexOf('?') === -1 ? '?' : '&';
+                this.doRequest(url + 'do=' + this.grido.name + '-refresh');
+            }
         },
 
         /**
