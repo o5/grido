@@ -193,28 +193,18 @@ class Doctrine extends \Nette\Object implements IDataSource
      */
     public function getData()
     {
-        // Paginator is better if the query uses ManyToMany associations
-        $usePaginator = $this->qb->getMaxResults() !== NULL || $this->qb->getFirstResult() !== NULL;
         $data = array();
 
-        if ($usePaginator) {
-            $paginator = new Paginator($this->getQuery());
+        // Paginator is better if the query uses ManyToMany associations
+        $result = $this->qb->getMaxResults() !== NULL || $this->qb->getFirstResult() !== NULL
+            ? new Paginator($this->getQuery())
+            : $this->qb->getQuery()->getResult();
 
-            // Convert paginator to the array
-            foreach ($paginator as $result) {
-                // Return only entity itself
-                $data[] = is_array($result)
-                    ? $result[0]
-                    : $result;
-            }
-        } else {
-
-            foreach ($this->qb->getQuery()->getResult() as $result) {
-                // Return only entity itself
-                $data[] = is_array($result)
-                    ? $result[0]
-                    : $result;
-            }
+        foreach ($result as $item) {
+            // Return only entity itself
+            $data[] = is_array($item)
+                ? $item[0]
+                : $item;
         }
 
         return $data;
