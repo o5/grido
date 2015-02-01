@@ -78,6 +78,12 @@ class GridTest extends \Tester\TestCase
         Assert::exception(function() use ($grid) {
             $grid->setModel(mock('BAD'), TRUE);
         }, 'InvalidArgumentException', 'Model must implement \Grido\DataSources\IDataSource.');
+
+        Assert::exception(function() {
+            $grid = new Grid;
+            $grid->getData();
+        }, 'Exception', 'Model cannot be empty, please use method $grid->setModel().');
+
     }
 
     function testSetPropertyAccessor()
@@ -86,7 +92,7 @@ class GridTest extends \Tester\TestCase
 
         $expected = 'Grido\PropertyAccessors\IPropertyAccessor';
         $grid->setPropertyAccessor(mock($expected));
-        Assert::type($expected, $grid->propertyAccessor);
+        Assert::type($expected, $grid->getPropertyAccessor());
 
         Assert::error(function() use ($grid) {
             $grid->setPropertyAccessor('');
@@ -710,6 +716,13 @@ class GridTest extends \Tester\TestCase
         Helper::request(array('count' => $perPage, 'grid-page' => 2, 'do' => 'grid-form-submit', Grid::BUTTONS => array('perPage' => 'Items per page')));
         Assert::same($perPage, Helper::$grid->perPage);
         Assert::same(1, Helper::$grid->page);
+    }
+
+    function testIsStrictMode()
+    {
+        $grid = new Grid;
+        $grid->setStrictMode(FALSE);
+        Assert::false($grid->isStrictMode());
     }
 }
 
