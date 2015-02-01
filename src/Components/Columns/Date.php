@@ -64,7 +64,7 @@ class Date extends Editable
 
     /**
      * @param mixed $value
-     * @return string
+     * @return mixed
      */
     protected function formatValue($value)
     {

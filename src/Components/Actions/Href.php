@@ -36,7 +36,7 @@ class Href extends Action
      * @param string $name
      * @param string $label
      * @param string $destination - first param for method $presenter->link()
-     * @param array $args - second param for method $presenter->link()
+     * @param array|null $args - second param for method $presenter->link()
      */
     public function __construct($grid, $name, $label, $destination = NULL, array $args = NULL)
     {
