@@ -14,6 +14,7 @@ namespace Grido\DataSources;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Grido\Components\Filters\Condition;
 use Nette\Utils\Strings;
+use Nette\Utils\Random;
 
 /**
  * Doctrine data source.
@@ -56,7 +57,7 @@ class Doctrine extends \Nette\Object implements IDataSource
      * @param array $filterMapping Maps columns to the DQL columns
      * @param array $sortMapping Maps columns to the DQL columns
      */
-    public function __construct(\Doctrine\ORM\QueryBuilder $qb, $filterMapping = NULL, $sortMapping = NULL)
+    public function __construct(\Doctrine\ORM\QueryBuilder $qb, array $filterMapping = NULL, array $sortMapping = NULL)
     {
         $this->qb = $qb;
         $this->filterMapping = $filterMapping;
@@ -138,7 +139,9 @@ class Doctrine extends \Nette\Object implements IDataSource
             if (!Condition::isOperator($column)) {
                 $columns[$key] = (isset($this->filterMapping[$column])
                     ? $this->filterMapping[$column]
-                    : (Strings::contains($column, ".") ? $column : $this->qb->getRootAlias() . '.' . $column));
+                    : (Strings::contains($column, ".")
+                        ? $column
+                        : current($this->qb->getRootAliases()) . '.' . $column));
             }
         }
 
@@ -165,7 +168,7 @@ class Doctrine extends \Nette\Object implements IDataSource
     protected function getRand()
     {
         do {
-            $rand = Strings::random(4, 'a-z');
+            $rand = Random::generate(4, 'a-z');
         } while (isset($this->rand[$rand]));
 
         $this->rand[$rand] = $rand;
@@ -241,7 +244,7 @@ class Doctrine extends \Nette\Object implements IDataSource
         foreach ($sorting as $key => $value) {
             $column = isset($this->sortMapping[$key])
                 ? $this->sortMapping[$key]
-                : $this->qb->getRootAlias() . '.' . $key;
+                : current($this->qb->getRootAliases()) . '.' . $key;
 
             $this->qb->addOrderBy($column, $value);
         }
@@ -262,7 +265,7 @@ class Doctrine extends \Nette\Object implements IDataSource
         if (is_string($column)) {
             $mapping = isset($this->filterMapping[$column])
                 ? $this->filterMapping[$column]
-                : $qb->getRootAlias() . '.' . $column;
+                : current($qb->getRootAliases()) . '.' . $column;
 
             $qb->select($mapping)->distinct()->orderBy($column);
         }
