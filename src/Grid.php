@@ -898,11 +898,11 @@ class Grid extends Components\Container
 
         $buttons = $form->addContainer(self::BUTTONS);
         $buttons->addSubmit('search', 'Grido.Search')
-            ->onClick[] = $this->handleFilter;
+            ->onClick[] = callback($this, 'handleFilter');
         $buttons->addSubmit('reset', 'Grido.Reset')
-            ->onClick[] = $this->handleReset;
+            ->onClick[] = callback($this, 'handleReset');
         $buttons->addSubmit('perPage', 'Grido.ItemsPerPage')
-            ->onClick[] = $this->handlePerPage;
+            ->onClick[] = callback($this, 'handlePerPage');
 
         $form->addSelect('count', 'Count', $this->getItemsForCountSelect())
             ->controlPrototype->attrs['title'] = $this->getTranslator()->translate('Grido.ItemsPerPage');

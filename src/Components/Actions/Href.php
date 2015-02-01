@@ -67,7 +67,6 @@ class Href extends Action
     public function getElement($row)
     {
         $element = parent::getElement($row);
-        $href = '';
 
         if ($this->customHref) {
             $href = callback($this->customHref)->invokeArgs(array($row));
