@@ -22,6 +22,7 @@ use Grido\Helpers;
  * @author      Petr Bugyík
  *
  * @property-read string $primaryKey
+ * @method void onSubmit(string $operation, array $ids) Description
  */
 class Operation extends Component
 {

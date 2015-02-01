@@ -165,7 +165,7 @@ class Doctrine extends \Nette\Object implements IDataSource
     protected function getRand()
     {
         do {
-            $rand = \Nette\Utils\Strings::random(4, 'a-z');
+            $rand = Strings::random(4, 'a-z');
         } while (isset($this->rand[$rand]));
 
         $this->rand[$rand] = $rand;

@@ -219,7 +219,7 @@ class Condition extends \Nette\Object
 
     /**
      * @param callable $callback
-     * @param string $value
+     * @param mixed $value
      * @return Condition
      */
     public static function setupFromCallback($callback, $value)

@@ -38,6 +38,9 @@ use Grido\Components\Paginator;
  * @property PropertyAccessors\IPropertyAccessor $propertyAccessor
  * @property callback $rowCallback
  * @property bool $strictMode
+ * @method void onRegistered(Grid $grid)
+ * @method void onRender(Grid $grid)
+ * @method void onFetchData(Grid $grid)
  */
 class Grid extends Components\Container
 {
@@ -744,7 +747,7 @@ class Grid extends Components\Container
     {
         if ($this->presenter->isAjax()) {
             $this->presenter->payload->grido = TRUE;
-            $this->invalidateControl();
+            $this->redrawControl();
         } else {
             $this->redirect('this');
         }
@@ -753,13 +756,12 @@ class Grid extends Components\Container
     /**********************************************************************************************/
 
     /**
-     * @param string $class
      * @return \Nette\Templating\FileTemplate
      * @internal
      */
-    public function createTemplate($class = NULL)
+    public function createTemplate()
     {
-        $template = parent::createTemplate($class);
+        $template = parent::createTemplate();
         $template->setFile(__DIR__ . '/Grid.latte');
         $template->registerHelper('translate', callback($this->getTranslator(), 'translate'));
 
@@ -883,7 +885,6 @@ class Grid extends Components\Container
         $perPage = $this->getPerPage();
         if ($perPage !== NULL && !in_array($perPage, $this->perPageList)) {
             $this->__triggerUserNotice("The number '$perPage' of items per page is out of range.");
-            $perPage = $this->defaultPerPage;
         }
 
         $this->model->limit($paginator->getOffset(), $paginator->getLength());
