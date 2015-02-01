@@ -1,0 +1,23 @@
+filter:
+    paths: ['src/*']
+    excluded_paths: ['client-side/*', 'tests/*', 'vendor/*']
+before_commands:
+    - 'composer install --prefer-source'
+tools:
+    external_code_coverage: false
+    php_code_coverage: false
+    sensiolabs_security_checker: true
+    php_pdepend: true
+    php_sim: true
+    php_mess_detector: true
+    php_changetracking: true
+    php_code_sniffer:
+        config:
+            ruleset: standards.xml
+    php_analyzer:
+        config:
+            verify_php_doc_comments:
+                suggest_more_specific_types: false
+checks:
+    php:
+        code_rating: true
