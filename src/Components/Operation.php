@@ -107,7 +107,8 @@ class Operation extends Component
      */
     public function handleOperations(\Nette\Forms\Controls\SubmitButton $button)
     {
-        $this->grid->onRegistered && $this->grid->onRegistered($this->grid);
+        $grid = $this->getGrid();
+        $grid->onRegistered && $grid->onRegistered($grid);
         $form = $button->getForm();
         $this->addCheckers($form[self::ID]);
 
@@ -115,10 +116,10 @@ class Operation extends Component
         if (empty($values[self::ID])) {
             $httpData = $form->getHttpData();
             if (!empty($httpData[self::ID][self::ID]) && $operation = $httpData[self::ID][self::ID]) {
-                trigger_error("Operation with name '$operation' does not exist.", E_USER_NOTICE);
+                $grid->__triggerUserNotice("Operation with name '$operation' does not exist.");
             }
 
-            $this->grid->reload();
+            $grid->reload();
         }
 
         $ids = array();
