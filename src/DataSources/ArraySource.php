@@ -113,6 +113,7 @@ class ArraySource extends \Nette\Object implements IDataSource
             return $actual !== NULL;
 
         } elseif (in_array($cond, array('<', '<=', '>', '>='))) {
+            $actual = (int) $actual;
             return eval("return {$actual} {$cond} {$expected};");
 
         } else {

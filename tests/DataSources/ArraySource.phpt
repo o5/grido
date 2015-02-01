@@ -97,6 +97,7 @@ class ArraySourceTest extends DataSourceTestCase
         Assert::true($source->compare('3', '<= ?', 3));
 
         Assert::true($source->compare(2, '< ?', 3));
+        Assert::true($source->compare(NULL, '< ?', 3));
 
         Assert::error(function() use ($source) {
             Assert::true($source->compare(2, 'SOMETHING ?', 3));
