@@ -38,7 +38,7 @@ class Number extends Text
 
     /**
      * @param string $value
-     * @return Condition
+     * @return Condition|bool
      * @throws \Exception
      * @internal
      */
