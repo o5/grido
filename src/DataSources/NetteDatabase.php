@@ -82,7 +82,7 @@ class NetteDatabase extends \Nette\Object implements IDataSource
      * Default callback used when an editable column has customRender.
      * @param mixed $id
      * @param string $idCol
-     * @return \Nette\Database\Table\ActiveRow
+     * @return \Nette\Database\Table\ActiveRow|bool
      */
     public function getRow($id, $idCol)
     {
