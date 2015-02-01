@@ -55,7 +55,7 @@ abstract class DataSourceTestCase extends \Tester\TestCase
         ob_start();
             Helper::request($params);
         $output = ob_get_clean();
-        Assert::same('["Trommler","Awet","Caitlin","Dragotina","Katherine","Satu"]', $output);
+        Assert::same('["Awet","Caitlin","Dragotina","Katherine","Satu","Trommler"]', $output);
     }
 
     function testSetWhere()

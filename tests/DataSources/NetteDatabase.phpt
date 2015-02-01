@@ -34,11 +34,9 @@ class NetteDatabaseTest extends DataSourceTestCase
                 ->setFilterText();
 
             $grid->addFilterText('name', 'Name')
-                ->setColumn('surname')
-                ->setColumn('firstname', Condition::OPERATOR_AND)
-                ->setSuggestion(function(\Nette\Database\Table\ActiveRow $row) {
-                    return $row['firstname'];
-            });
+                ->setColumn('firstname')
+                ->setColumn('surname', Condition::OPERATOR_AND)
+                ->setSuggestion('firstname');
 
             $grid->addColumnText('country', 'Country')
                 ->setSortable()

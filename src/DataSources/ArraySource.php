@@ -220,6 +220,7 @@ class ArraySource extends \Nette\Object implements IDataSource
             $items[$value] = \Nette\Templating\Helpers::escapeHtml($value);
         }
 
+        sort($items);
         return array_values($items);
     }
 }

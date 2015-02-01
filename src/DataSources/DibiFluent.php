@@ -159,7 +159,7 @@ class DibiFluent extends \Nette\Object implements IDataSource
     public function suggest($column, array $conditions, $limit)
     {
         $fluent = clone $this->fluent;
-        is_string($column) && $fluent->removeClause('SELECT')->select("DISTINCT $column");
+        is_string($column) && $fluent->removeClause('SELECT')->select("DISTINCT $column")->orderBy($column);
 
         foreach ($conditions as $condition) {
             $this->makeWhere($condition, $fluent);
@@ -180,6 +180,7 @@ class DibiFluent extends \Nette\Object implements IDataSource
             $items[$value] = \Nette\Templating\Helpers::escapeHtml($value);
         }
 
+        is_callable($column) && sort($items);
         return array_values($items);
     }
 }

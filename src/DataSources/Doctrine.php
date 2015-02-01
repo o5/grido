@@ -274,7 +274,7 @@ class Doctrine extends \Nette\Object implements IDataSource
                 ? $this->filterMapping[$column]
                 : $qb->getRootAlias() . '.' . $column;
 
-            $qb->select($mapping)->distinct();
+            $qb->select($mapping)->distinct()->orderBy($column);
         }
 
         foreach ($conditions as $condition) {
@@ -296,6 +296,7 @@ class Doctrine extends \Nette\Object implements IDataSource
             $items[$value] = \Nette\Templating\Helpers::escapeHtml($value);
         }
 
+        is_callable($column) && sort($items);
         return array_values($items);
     }
 }
