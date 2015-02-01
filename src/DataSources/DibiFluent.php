@@ -159,7 +159,9 @@ class DibiFluent extends \Nette\Object implements IDataSource
     public function suggest($column, array $conditions, $limit)
     {
         $fluent = clone $this->fluent;
-        is_string($column) && $fluent->removeClause('SELECT')->select("DISTINCT $column")->orderBy($column);
+        if (is_string($column)) {
+            $fluent->removeClause('SELECT')->select("DISTINCT %n", $column)->orderBy("%n", $column, 'ASC');
+        }
 
         foreach ($conditions as $condition) {
             $this->makeWhere($condition, $fluent);
