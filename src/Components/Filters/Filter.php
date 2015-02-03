@@ -206,7 +206,7 @@ abstract class Filter extends \Grido\Components\Component
     }
 
     /**
-     * @param string $value
+     * @param mixed $value
      * @return Condition|bool
      * @throws \InvalidArgumentException
      * @internal
