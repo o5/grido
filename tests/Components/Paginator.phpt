@@ -11,7 +11,6 @@ use Tester\Assert,
     Grido\Components\Paginator;
 
 require_once __DIR__ . '/../bootstrap.php';
-require_once __DIR__ . '/../Helper.inc.php';
 
 test(function() {
     $paginator = function() {

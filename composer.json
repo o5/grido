@@ -15,7 +15,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Grido\\": "src/"
+            "Grido\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Grido\\Tests\\": "tests"
         }
     },
     "require": {
