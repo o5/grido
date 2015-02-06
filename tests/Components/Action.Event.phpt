@@ -12,7 +12,6 @@ use Tester\Assert,
     Grido\Grid;
 
 require_once __DIR__ . '/../bootstrap.php';
-require_once __DIR__ . '/../Helper.inc.php';
 
 test(function() {
     Helper::grid(function(Grid $grid) {

@@ -13,7 +13,6 @@ use Tester\Assert,
     Grido\Grid;
 
 require_once __DIR__ . '/../bootstrap.php';
-require_once __DIR__ . '/../Helper.inc.php';
 
 class Response extends \Nette\Object implements \Nette\Http\IResponse
 {
