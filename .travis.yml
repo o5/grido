@@ -14,7 +14,7 @@ script:
   - vendor/bin/tester tests -s
   - vendor/bin/phpcs --standard=standards.xml --extensions=php --encoding=utf-8 -sp src
     #TODO - xdebug.ini
-  - vendor/bin/tester -p php -c /home/travis/.phpenv/versions/5.5.19/etc/conf.d/xdebug.ini --coverage tests/coverage.xml --coverage-src src/ tests/
+  - vendor/bin/tester -p php --coverage tests/coverage.xml --coverage-src src/ tests/
 
 after_script:
   - wget https://scrutinizer-ci.com/ocular.phar
