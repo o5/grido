@@ -24,7 +24,7 @@
     },
     "require-dev": {
         "nette/nette" : ">=2.2.4",
-        "nette/tester": "dev-wip-clover",
+        "nette/tester": "v1.3.2.1",
         "mockery/mockery": "~0.9",
         "dibi/dibi": "~2.2.2",
         "kdyby/doctrine": "~2.2",
@@ -36,7 +36,7 @@
     "repositories": [
         {
             "type": "vcs",
-            "url": "https://github.com/o5/tester"
+            "url": "https://github.com/Vrtak-CZ/tester"
         }
     ]
 }
