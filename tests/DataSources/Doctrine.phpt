@@ -45,9 +45,7 @@ class DoctrineTest extends DataSourceTestCase
             $grid->addFilterText('name', 'Name')
                 ->setColumn('surname')
                 ->setColumn('firstname', Condition::OPERATOR_AND)
-                ->setSuggestion(function(array $row) {
-                    return $row['a_firstname'];
-            });
+                ->setSuggestion('firstname');
 
             $grid->addColumnText('country', 'Country')
                 ->setSortable()

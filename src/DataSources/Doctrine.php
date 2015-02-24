@@ -267,7 +267,7 @@ class Doctrine extends \Nette\Object implements IDataSource
                 ? $this->filterMapping[$column]
                 : current($qb->getRootAliases()) . '.' . $column;
 
-            $qb->select($mapping)->distinct()->orderBy($column);
+            $qb->select($mapping)->distinct()->orderBy($mapping);
         }
 
         foreach ($conditions as $condition) {
