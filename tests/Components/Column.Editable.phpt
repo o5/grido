@@ -13,7 +13,6 @@ use Tester\Assert,
     Grido\Grid;
 
 require_once __DIR__ . '/../bootstrap.php';
-require_once __DIR__ . '/../Helper.inc.php';
 
 require_once __DIR__ . '/../DataSources/files/doctrine/entities/Country.php';
 require_once __DIR__ . '/../DataSources/files/doctrine/entities/User.php';

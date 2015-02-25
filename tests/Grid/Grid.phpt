@@ -15,7 +15,6 @@ use Tester\Assert,
     Grido\Components\Filters\Filter;
 
 require_once __DIR__ . '/../bootstrap.php';
-require_once __DIR__ . '/../Helper.inc.php';
 
 class GridTest extends \Tester\TestCase
 {
@@ -78,6 +77,12 @@ class GridTest extends \Tester\TestCase
         Assert::exception(function() use ($grid) {
             $grid->setModel(mock('BAD'), TRUE);
         }, 'InvalidArgumentException', 'Model must implement \Grido\DataSources\IDataSource.');
+
+        Assert::exception(function() {
+            $grid = new Grid;
+            $grid->getData();
+        }, 'Exception', 'Model cannot be empty, please use method $grid->setModel().');
+
     }
 
     function testSetPropertyAccessor()
@@ -86,7 +91,7 @@ class GridTest extends \Tester\TestCase
 
         $expected = 'Grido\PropertyAccessors\IPropertyAccessor';
         $grid->setPropertyAccessor(mock($expected));
-        Assert::type($expected, $grid->propertyAccessor);
+        Assert::type($expected, $grid->getPropertyAccessor());
 
         Assert::error(function() use ($grid) {
             $grid->setPropertyAccessor('');
@@ -121,13 +126,21 @@ class GridTest extends \Tester\TestCase
         $grid->perPage = 10;
         Assert::same(count($data), count($grid->data));
 
-        Assert::error(function() {
+        $definition = function($strictMode = TRUE) {
             $grid = new Grid;
+            $grid->setStrictMode($strictMode);
             $grid->setModel(array());
             $grid->addColumnText('column', 'Column');
             $grid->perPage = 1;
             $grid->data;
+        };
+
+        Assert::error(function() use ($definition) {
+            $definition();
         }, E_USER_NOTICE, "The number '1' of items per page is out of range.");
+
+        //STRICT MODE TEST
+        $definition(FALSE);
     }
 
     function testSetDefaultFilter()
@@ -402,7 +415,8 @@ class GridTest extends \Tester\TestCase
 
     function testHandlePage()
     {
-        Helper::grid(function(Grid $grid) {
+        $definition = function(Grid $grid, $strictMode = TRUE) {
+            $grid->setStrictMode($strictMode);
             $grid->setDefaultPerPage(2);
             $grid->addColumnText('column', 'Column');
             $grid->setModel(array(
@@ -411,10 +425,24 @@ class GridTest extends \Tester\TestCase
                 array('A' => 'A3', 'B' => 'B1'),
             ));
             $grid->getData();
+        };
+
+        Helper::grid(function(Grid $grid) use ($definition) {
+            $definition($grid);
         });
 
         Helper::request(array('grid-page' => 2, 'do' => 'grid-page'));
         Assert::same(array(array('A' => 'A3', 'B' => 'B1')), Helper::$grid->data);
+
+        $requestPageIsOutOfRange = array('grid-page' => 10, 'do' => 'grid-page');
+        Assert::error(function() use ($requestPageIsOutOfRange) {
+            Helper::request($requestPageIsOutOfRange);
+        }, 'E_USER_NOTICE', "Page is out of range.");
+
+        // STRICT MODE TESTS
+        Helper::grid(function(Grid $grid) use ($definition) {
+            $definition($grid, FALSE);
+        })->run($requestPageIsOutOfRange);
     }
 
     function testHandleSort()
@@ -428,7 +456,8 @@ class GridTest extends \Tester\TestCase
         Assert::same($sorting, Helper::$grid->sort);
         Assert::same(1, Helper::$grid->page);
 
-        Helper::grid(function(Grid $grid) {
+        $definition = function(Grid $grid, $strictMode = TRUE) {
+            $grid->setStrictMode($strictMode);
             $grid->setDefaultPerPage(2);
             $grid->setModel(array(
                 array('A' => 'A1', 'B' => 'B3'),
@@ -437,6 +466,10 @@ class GridTest extends \Tester\TestCase
             ));
             $grid->addColumnText('A', 'A');
             $grid->addColumnText('B', 'B')->setSortable();
+        };
+
+        Helper::grid(function(Grid $grid) use ($definition) {
+            $definition($grid);
         });
 
         Helper::request(array('grid-page' => 2, 'grid-sort' => array('B' => Column::ORDER_ASC), 'do' => 'grid-sort'));
@@ -448,20 +481,39 @@ class GridTest extends \Tester\TestCase
         ), Helper::$grid->data);
 
         //applySorting()
-        Helper::request(array('grid-sort' => array('B' => 'UP'), 'do' => 'grid-sort'));
+        $requestDirIsNotAllowed = array('grid-sort' => array('B' => 'UP'), 'do' => 'grid-sort');
+        Helper::request($requestDirIsNotAllowed);
         Assert::error(function(){
             Helper::$grid->data;
         }, 'E_USER_NOTICE', "Dir 'UP' is not allowed.");
 
-        Helper::request(array('grid-sort' => array('C' => Column::ORDER_ASC), 'do' => 'grid-sort'));
+        $requestColumnDoesntExist = array('grid-sort' => array('C' => Column::ORDER_ASC), 'do' => 'grid-sort');
+        Helper::request($requestColumnDoesntExist);
         Assert::error(function(){
             Helper::$grid->data;
         }, 'E_USER_NOTICE', "Column with name 'C' does not exist.");
 
-        Helper::request(array('grid-sort' => array('A' => Column::ORDER_ASC), 'do' => 'grid-sort'));
+        $requestColumnIsntSortable = array('grid-sort' => array('A' => Column::ORDER_ASC), 'do' => 'grid-sort');
+        Helper::request($requestColumnIsntSortable);
         Assert::error(function(){
             Helper::$grid->data;
         }, 'E_USER_NOTICE', "Column with name 'A' is not sortable.");
+
+        // STRICT MODE TESTS
+        Helper::grid(function(Grid $grid) use ($definition) {
+            $definition($grid, FALSE);
+            $grid->getData();
+        })->run($requestDirIsNotAllowed);
+
+        Helper::grid(function(Grid $grid) use ($definition) {
+            $definition($grid, FALSE);
+            $grid->getData();
+        })->run($requestColumnDoesntExist);
+
+        Helper::grid(function(Grid $grid) use ($definition) {
+            $definition($grid, FALSE);
+            $grid->getData();
+        })->run($requestColumnIsntSortable);
     }
 
     function testHandleFilter()
@@ -580,14 +632,21 @@ class GridTest extends \Tester\TestCase
         Assert::same($data, Helper::$grid->getData(FALSE));
         Assert::same(array('B' => ''), Helper::$grid->filter);
 
-        Assert::error(function() use ($data) {
+        $definition = function($data, $strictMode = TRUE) {
             $grid = new Grid;
+            $grid->setStrictMode($strictMode);
             $grid->addColumnText('column', 'Column');
             $grid->setModel($data);
             $grid->addFilterText('A', 'A');
             $grid->filter['B'] = 'B2';
             $grid->data;
+        };
+        Assert::error(function() use ($definition, $data) {
+            $definition($data);
         }, E_USER_NOTICE, "Filter with name 'B' does not exist.");
+
+        //STRICT MODE TEST
+        $definition($data, FALSE);
 
         //test session filter
         Helper::grid(function(Grid $grid) {
@@ -656,6 +715,13 @@ class GridTest extends \Tester\TestCase
         Helper::request(array('count' => $perPage, 'grid-page' => 2, 'do' => 'grid-form-submit', Grid::BUTTONS => array('perPage' => 'Items per page')));
         Assert::same($perPage, Helper::$grid->perPage);
         Assert::same(1, Helper::$grid->page);
+    }
+
+    function testIsStrictMode()
+    {
+        $grid = new Grid;
+        $grid->setStrictMode(FALSE);
+        Assert::false($grid->isStrictMode());
     }
 }
 

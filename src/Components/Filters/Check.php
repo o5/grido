@@ -36,7 +36,7 @@ class Check extends Filter
 
     /**
      * @param string $value
-     * @return array
+     * @return Condition|bool
      * @internal
      */
     public function __getCondition($value)

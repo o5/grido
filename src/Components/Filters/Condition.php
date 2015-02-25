@@ -18,10 +18,10 @@ namespace Grido\Components\Filters;
  * @subpackage  Components\Filters
  * @author      Petr Bugyík
  *
+ * @property array $column
+ * @property array $condition
+ * @property mixed $value
  * @property-read callable $callback
- * @property-write array $column
- * @property-write array $condition
- * @property-write array $value
  */
 class Condition extends \Nette\Object
 {
@@ -34,7 +34,7 @@ class Condition extends \Nette\Object
     /** @var array */
     protected $condition;
 
-    /** @var array */
+    /** @var mixed */
     protected $value;
 
     /** @var callable */
@@ -219,7 +219,7 @@ class Condition extends \Nette\Object
 
     /**
      * @param callable $callback
-     * @param string $value
+     * @param mixed $value
      * @return Condition
      */
     public static function setupFromCallback($callback, $value)

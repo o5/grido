@@ -10,7 +10,6 @@
 namespace Grido\Tests;
 
 require_once __DIR__ . '/../bootstrap.php';
-require_once __DIR__ . '/../Helper.inc.php';
 
 use Tester\Assert,
     Grido\Grid,
@@ -49,7 +48,8 @@ class OperationTest extends \Tester\TestCase
 
     function testHandleOperations()
     {
-        Helper::grid(function(Grid $grid) {
+        $definition = function(Grid $grid, $strictMode = TRUE) {
+            $grid->setStrictMode($strictMode);
             $grid->setModel(array(
                 array('id' => 1, 'a' => 'A1', 'b' => 'B1'),
                 array('id' => 2, 'a' => 'A2', 'b' => 'B2'),
@@ -63,6 +63,9 @@ class OperationTest extends \Tester\TestCase
                 Assert::same('edit', $operation);
                 Assert::same(array('2','4'), $id);
             });
+        };
+        Helper::grid(function(Grid $grid) use ($definition) {
+            $definition($grid);
         });
 
         $params = array(
@@ -78,10 +81,16 @@ class OperationTest extends \Tester\TestCase
 
         Helper::request($params);
 
-        Assert::error(function() use ($params) {
-            $params[Operation::ID][Operation::ID] = 'fake';
-            Helper::request($params);
+        $fakeParams = $params;
+        $fakeParams[Operation::ID][Operation::ID] = 'fake';
+
+        Assert::error(function() use ($fakeParams) {
+            Helper::request($fakeParams);
         }, E_USER_NOTICE, "Operation with name 'fake' does not exist.");
+
+        Helper::grid(function(Grid $grid) use ($definition) {
+            $definition($grid, FALSE);
+        })->run($fakeParams);
     }
 
     /**********************************************************************************************/

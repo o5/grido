@@ -37,6 +37,10 @@ use Grido\Components\Paginator;
  * @property DataSources\IDataSource $model
  * @property PropertyAccessors\IPropertyAccessor $propertyAccessor
  * @property callback $rowCallback
+ * @property bool $strictMode
+ * @method void onRegistered(Grid $grid)
+ * @method void onRender(Grid $grid)
+ * @method void onFetchData(Grid $grid)
  */
 class Grid extends Components\Container
 {
@@ -110,6 +114,9 @@ class Grid extends Components\Container
 
     /** @var PropertyAccessors\IPropertyAccessor */
     protected $propertyAccessor;
+
+    /** @var bool */
+    protected $strictMode = TRUE;
 
     /**
      * Sets a model that implements the interface Grido\DataSources\IDataSource or data-source object.
@@ -305,6 +312,17 @@ class Grid extends Components\Container
         return $this;
     }
 
+    /**
+     * Determines whether any user error will cause a notice.
+     * @param bool $mode
+     * @return \Grido\Grid
+     */
+    public function setStrictMode($mode)
+    {
+        $this->strictMode = (bool) $mode;
+        return $this;
+    }
+
     /**********************************************************************************************/
 
     /**
@@ -438,7 +456,7 @@ class Grid extends Components\Container
             }
 
             if ($applyPaging && $data && !in_array($this->page, range(1, $this->getPaginator()->pageCount))) {
-                trigger_error("Page is out of range.", E_USER_NOTICE);
+                $this->__triggerUserNotice("Page is out of range.");
                 $this->page = 1;
             }
 
@@ -592,6 +610,14 @@ class Grid extends Components\Container
         return (array) json_decode($this->getTablePrototype()->data[self::CLIENT_SIDE_OPTIONS]);
     }
 
+    /**
+     * @return bool
+     */
+    public function isStrictMode()
+    {
+        return $this->strictMode;
+    }
+
     /**********************************************************************************************/
 
     /**
@@ -721,7 +747,7 @@ class Grid extends Components\Container
     {
         if ($this->presenter->isAjax()) {
             $this->presenter->payload->grido = TRUE;
-            $this->invalidateControl();
+            $this->redrawControl();
         } else {
             $this->redirect('this');
         }
@@ -730,13 +756,12 @@ class Grid extends Components\Container
     /**********************************************************************************************/
 
     /**
-     * @param string $class
      * @return \Nette\Templating\FileTemplate
      * @internal
      */
-    public function createTemplate($class = NULL)
+    public function createTemplate()
     {
-        $template = parent::createTemplate($class);
+        $template = parent::createTemplate();
         $template->setFile(__DIR__ . '/Grid.latte');
         $template->registerHelper('translate', callback($this->getTranslator(), 'translate'));
 
@@ -803,7 +828,7 @@ class Grid extends Components\Container
                         $conditions[] = $condition;
                     }
                 } else {
-                    trigger_error("Filter with name '$column' does not exist.", E_USER_NOTICE);
+                    $this->__triggerUserNotice("Filter with name '$column' does not exist.");
                 }
             }
         }
@@ -820,7 +845,7 @@ class Grid extends Components\Container
             $component = $this->getColumn($column, FALSE);
             if (!$component) {
                 if (!isset($this->defaultSort[$column])) {
-                    trigger_error("Column with name '$column' does not exist.", E_USER_NOTICE);
+                    $this->__triggerUserNotice("Column with name '$column' does not exist.");
                     break;
                 }
 
@@ -828,7 +853,7 @@ class Grid extends Components\Container
                 if (isset($this->defaultSort[$column])) {
                     $component->setSortable();
                 } else {
-                    trigger_error("Column with name '$column' is not sortable.", E_USER_NOTICE);
+                    $this->__triggerUserNotice("Column with name '$column' is not sortable.");
                     break;
                 }
             }
@@ -839,7 +864,7 @@ class Grid extends Components\Container
                     break;
                 }
 
-                trigger_error("Dir '$dir' is not allowed.", E_USER_NOTICE);
+                $this->__triggerUserNotice("Dir '$dir' is not allowed.");
                 break;
             }
 
@@ -859,8 +884,7 @@ class Grid extends Components\Container
 
         $perPage = $this->getPerPage();
         if ($perPage !== NULL && !in_array($perPage, $this->perPageList)) {
-            trigger_error("The number '$perPage' of items per page is out of range.", E_USER_NOTICE);
-            $perPage = $this->defaultPerPage;
+            $this->__triggerUserNotice("The number '$perPage' of items per page is out of range.");
         }
 
         $this->model->limit($paginator->getOffset(), $paginator->getLength());
@@ -874,11 +898,11 @@ class Grid extends Components\Container
 
         $buttons = $form->addContainer(self::BUTTONS);
         $buttons->addSubmit('search', 'Grido.Search')
-            ->onClick[] = $this->handleFilter;
+            ->onClick[] = callback($this, 'handleFilter');
         $buttons->addSubmit('reset', 'Grido.Reset')
-            ->onClick[] = $this->handleReset;
+            ->onClick[] = callback($this, 'handleReset');
         $buttons->addSubmit('perPage', 'Grido.ItemsPerPage')
-            ->onClick[] = $this->handlePerPage;
+            ->onClick[] = callback($this, 'handlePerPage');
 
         $form->addSelect('count', 'Count', $this->getItemsForCountSelect())
             ->controlPrototype->attrs['title'] = $this->getTranslator()->translate('Grido.ItemsPerPage');
@@ -890,5 +914,14 @@ class Grid extends Components\Container
     protected function getItemsForCountSelect()
     {
         return array_combine($this->perPageList, $this->perPageList);
+    }
+
+    /**
+     * @internal
+     * @param string $message
+     */
+    public function __triggerUserNotice($message)
+    {
+        $this->strictMode && trigger_error($message, E_USER_NOTICE);
     }
 }

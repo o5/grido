@@ -11,6 +11,7 @@
 
 namespace Grido\DataSources;
 
+use Nette\Utils\Strings;
 use Grido\Components\Filters\Condition;
 
 /**
@@ -93,6 +94,9 @@ class ArraySource extends \Nette\Object implements IDataSource
         $cond = str_replace(' ?', '', $condition);
 
         if ($cond === 'LIKE') {
+            $actual = Strings::toAscii($actual);
+            $expected = Strings::toAscii($expected);
+
             $pattern = str_replace('%', '(.|\s)*', preg_quote($expected, '/'));
             return (bool) preg_match("/^{$pattern}$/i", $actual);
 
@@ -109,6 +113,7 @@ class ArraySource extends \Nette\Object implements IDataSource
             return $actual !== NULL;
 
         } elseif (in_array($cond, array('<', '<=', '>', '>='))) {
+            $actual = (int) $actual;
             return eval("return {$actual} {$cond} {$expected};");
 
         } else {
@@ -215,6 +220,7 @@ class ArraySource extends \Nette\Object implements IDataSource
             $items[$value] = \Nette\Templating\Helpers::escapeHtml($value);
         }
 
+        sort($items);
         return array_values($items);
     }
 }

@@ -15,7 +15,6 @@ use Tester\Assert,
     Grido\Components\Export;
 
 require_once __DIR__ . '/../bootstrap.php';
-require_once __DIR__ . '/../Helper.inc.php';
 
 class ExportTest extends \Tester\TestCase
 {

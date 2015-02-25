@@ -82,7 +82,7 @@ class NetteDatabase extends \Nette\Object implements IDataSource
      * Default callback used when an editable column has customRender.
      * @param mixed $id
      * @param string $idCol
-     * @return \Nette\Database\Table\ActiveRow
+     * @return \Nette\Database\Table\ActiveRow|bool
      */
     public function getRow($id, $idCol)
     {
@@ -148,7 +148,7 @@ class NetteDatabase extends \Nette\Object implements IDataSource
     public function suggest($column, array $conditions, $limit)
     {
         $selection = clone $this->selection;
-        is_string($column) && $selection->select("DISTINCT $column");
+        is_string($column) && $selection->select("DISTINCT $column")->order($column);
         $selection->limit($limit);
 
         foreach ($conditions as $condition) {
@@ -169,6 +169,7 @@ class NetteDatabase extends \Nette\Object implements IDataSource
             $items[$value] = \Nette\Templating\Helpers::escapeHtml($value);
         }
 
+        is_callable($column) && sort($items);
         return array_values($items);
     }
 }

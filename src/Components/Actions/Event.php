@@ -19,10 +19,11 @@ namespace Grido\Components\Actions;
  * @author      Josef Kříž <pepakriz@gmail.com>
  * @author      Petr Bugyík
  *
+ * @method void onClick(int $id, Event $event)
  */
 class Event extends Action
 {
-    /** @var array callback */
+    /** @var callback callback */
     public $onClick = array();
 
     /**

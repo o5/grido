@@ -38,11 +38,9 @@ class ArraySourceTest extends DataSourceTestCase
                 ->setFilterText();
 
             $grid->addFilterText('name', 'Name')
-                ->setColumn('surname')
-                ->setColumn('firstname', Condition::OPERATOR_AND)
-                ->setSuggestion(function($row) {
-                    return $row['firstname'];
-            });
+                ->setColumn('firstname')
+                ->setColumn('surname', Condition::OPERATOR_AND)
+                ->setSuggestion('firstname');
 
             $grid->addColumnText('country', 'Country')
                 ->setSortable()
@@ -75,6 +73,8 @@ class ArraySourceTest extends DataSourceTestCase
         Assert::true($source->compare('Lucie/Lucy', 'LIKE ?', 'Lucie/L%'));
         Assert::false($source->compare('Lucie', 'LIKE ?', 'ie%'));
         Assert::false($source->compare('Lucie', 'LIKE ?', '%lu'));
+        Assert::true($source->compare('Žluťoučký kůň', 'LIKE ?', 'zlutou%'));
+        Assert::true($source->compare('Žluťoučký kůň', 'LIKE ?', 'žlutou%'));
 
         Assert::true($source->compare('Lucie', '=', 'Lucie'));
         Assert::false($source->compare('Lucie', '=', 'lucie'));
@@ -95,6 +95,7 @@ class ArraySourceTest extends DataSourceTestCase
         Assert::true($source->compare('3', '<= ?', 3));
 
         Assert::true($source->compare(2, '< ?', 3));
+        Assert::true($source->compare(NULL, '< ?', 3));
 
         Assert::error(function() use ($source) {
             Assert::true($source->compare(2, 'SOMETHING ?', 3));

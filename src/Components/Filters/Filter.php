@@ -206,8 +206,8 @@ abstract class Filter extends \Grido\Components\Component
     }
 
     /**
-     * @param string $value
-     * @return Condition
+     * @param mixed $value
+     * @return Condition|bool
      * @throws \InvalidArgumentException
      * @internal
      */
@@ -224,9 +224,6 @@ abstract class Filter extends \Grido\Components\Component
 
         } elseif (is_string($condition)) {
             $condition = Condition::setup($this->getColumn(), $condition, $this->formatValue($value));
-
-        } elseif ($condition instanceof Condition) {
-            $condition = $condition;
 
         } elseif (is_callable($condition)) {
             $condition = callback($condition)->invokeArgs(array($value));
