@@ -125,6 +125,6 @@ class Export extends Component implements \Nette\Application\IResponse
         $httpResponse->setHeader('Content-Type', "text/csv; charset=$charset");
         $httpResponse->setHeader('Content-Disposition', "attachment; filename=\"$file\"; filename*=utf-8''$file");
 
-        print $source;
+        echo $source;
     }
 }
