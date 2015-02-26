@@ -18,7 +18,8 @@ namespace Grido\Components;
  * @subpackage  Components
  * @author      Petr Bugyík
  */
-class Export extends Component implements \Nette\Application\IResponse {
+class Export extends Component implements \Nette\Application\IResponse
+{
 
     const ID = 'export';
     const FETCH_LIMIT = 1000;
@@ -27,7 +28,8 @@ class Export extends Component implements \Nette\Application\IResponse {
      * @param \Grido\Grid $grid
      * @param string $label
      */
-    public function __construct(\Grido\Grid $grid, $label = NULL) {
+    public function __construct(\Grido\Grid $grid, $label = NULL)
+    {
         $this->grid = $grid;
         $this->label = $label === NULL ? ucfirst($this->grid->getName()) : $label;
 
@@ -38,7 +40,8 @@ class Export extends Component implements \Nette\Application\IResponse {
      * @param \Nette\ComponentModel\RecursiveComponentIterator $columns
      * @return string
      */
-    protected function generateCsvHeader(\Nette\ComponentModel\RecursiveComponentIterator $columns) {
+    protected function generateCsvHeader(\Nette\ComponentModel\RecursiveComponentIterator $columns)
+    {
         $head = array();
         foreach ($columns as $column) {
             $head[] = $column->getLabel();
@@ -58,7 +61,8 @@ class Export extends Component implements \Nette\Application\IResponse {
      * @param \Nette\ComponentModel\RecursiveComponentIterator $columns
      * @return string
      */
-    protected function generateCsv($data, \Nette\ComponentModel\RecursiveComponentIterator $columns) {
+    protected function generateCsv($data, \Nette\ComponentModel\RecursiveComponentIterator $columns)
+    {
         $resource = fopen('php://temp/maxmemory:' . (5 * 1024 * 1024), 'r+'); // 5MB of memory allocated
 
         foreach ($data as $item) {
@@ -80,7 +84,8 @@ class Export extends Component implements \Nette\Application\IResponse {
     /**
      * @internal
      */
-    public function handleExport() {
+    public function handleExport()
+    {
         $this->grid->onRegistered && $this->grid->onRegistered($this->grid);
         $this->grid->presenter->sendResponse($this);
     }
@@ -93,7 +98,8 @@ class Export extends Component implements \Nette\Application\IResponse {
      * @param \Nette\Http\IResponse $httpResponse
      * @return void
      */
-    public function send(\Nette\Http\IRequest $httpRequest, \Nette\Http\IResponse $httpResponse) {
+    public function send(\Nette\Http\IRequest $httpRequest, \Nette\Http\IResponse $httpResponse)
+    {
         $file = $this->label . '.csv';
 
         $model = $this->grid->getModel();
@@ -106,7 +112,7 @@ class Export extends Component implements \Nette\Application\IResponse {
             $model->limit($currentOffset, self::FETCH_LIMIT);
             $data = $model->getData();
             $csvData = $this->generateCsv($data, $columns);
-            $source.=$csvData;
+            $source .= $csvData;
             unset($data);
         }
 
@@ -121,5 +127,4 @@ class Export extends Component implements \Nette\Application\IResponse {
 
         print $source;
     }
-
 }
