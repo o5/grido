@@ -102,7 +102,7 @@ class Export extends Component implements \Nette\Application\IResponse
     {
         $file = $this->label . '.csv';
 
-        $model = $this->grid->getModel();
+        $model = $this->grid->getDataForCsv();
         $numberOfIterations = ceil($model->getCount() / self::FETCH_LIMIT);
         $columns = $this->grid[\Grido\Components\Columns\Column::ID]->getComponents();
         $source = $this->generateCsvHeader($columns);
