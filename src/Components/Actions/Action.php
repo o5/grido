@@ -241,8 +241,11 @@ abstract class Action extends \Grido\Components\Component
         $element = $this->getElement($row);
 
         if ($this->customRender) {
-            echo callback($this->customRender)->invokeArgs(array($row, $element));
-            return;
+            $callback = callback($this->customRender)->invokeArgs(array($row, $element));
+            if ( $callback !== NULL ){
+                echo $callback;
+                return;
+            }
         }
 
         echo $element->render();
