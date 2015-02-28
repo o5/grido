@@ -5,14 +5,14 @@ php:
   - 5.6
 
 before_install:
+  - php -i
   - composer self-update
 
 install:
   - composer install --no-interaction --prefer-source
-  - php -i
 
 script:
-    - vendor/bin/tester -p php --coverage tests/coverage.clover --coverage-src src/ tests/
+    - vendor/bin/tester -p php -c /home/travis/.phpenv/versions/5.6.5/etc/php.ini --coverage tests/coverage.clover --coverage-src src/ tests/
   # - vendor/bin/tester tests -s
   # - vendor/bin/phpcs --standard=standards.xml --extensions=php --encoding=utf-8 -sp src
 
