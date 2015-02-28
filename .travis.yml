@@ -13,10 +13,9 @@ install:
   - php -r "var_dump(extension_loaded('xdebug'));"
   - php -r "var_dump(PHP_BINARY);"
 
-before_script:
-  - vendor/bin/tester -p php -c tests/php-unix.ini --coverage tests/coverage.clover --coverage-src src/ tests/
-
 script:
+    - echo "extension = xdebug.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+    - vendor/bin/tester -p php --coverage tests/coverage.clover --coverage-src src/ tests/
   # - vendor/bin/tester tests -s
   # - vendor/bin/phpcs --standard=standards.xml --extensions=php --encoding=utf-8 -sp src
 
