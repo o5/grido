@@ -29,7 +29,7 @@
     },
     "require-dev": {
         "nette/nette" : "~2.2.0",
-        "nette/tester": "~1.3",
+        "o5/tester": "~1.3.2.2",
         "mockery/mockery": "~0.9",
         "dibi/dibi": "~2.2.2",
         "kdyby/doctrine": "~2.2",
@@ -37,11 +37,5 @@
     },
     "suggest": {
         "symfony/property-access": "Allows to use Grido\\PropertyAccessors\\SymfonyPropertyAccessor"
-    },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/Vrtak-CZ/tester"
-        }
-    ]
+    }
 }

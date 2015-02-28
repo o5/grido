@@ -14,7 +14,7 @@ install:
   - php -r "var_dump(PHP_BINARY);"
 
 before_script:
-  - vendor/bin/tester -p php --coverage tests/coverage.clover --coverage-src src/ tests/
+  - vendor/bin/tester -p php -c tests/php-unix.ini --coverage tests/coverage.clover --coverage-src src/ tests/
 
 script:
   # - vendor/bin/tester tests -s
