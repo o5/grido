@@ -5,7 +5,7 @@ php:
   - 5.6
 
 before_install:
-  - if [ $TRAVIS_PHP_VERSION = '5.6' ]; then COVERAGE="-c ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini --coverage tests/coverage.clover --coverage-src src/"; else COVERAGE="" && phpenv config-rm xdebug.ini; fi
+  - if [ $TRAVIS_PHP_VERSION = '5.6' ]; then COVERAGE="-c ~/.phpenv/versions/$TRAVIS_PHP_VERSION/etc/conf.d/xdebug.ini --coverage tests/coverage.clover --coverage-src src/"; else COVERAGE="" && phpenv config-rm xdebug.ini; fi
   - composer self-update
 
 install:
@@ -19,3 +19,6 @@ script:
 
 after_script:
   - if [ $TRAVIS_PHP_VERSION = '5.6' ]; then wget https://scrutinizer-ci.com/ocular.phar && php ocular.phar code-coverage:upload --format=php-clover tests/coverage.clover; fi
+
+  - wget https://scrutinizer-ci.com/ocular.phar
+  - php ocular.phar code-coverage:upload --format=php-clover tests/coverage.clover
