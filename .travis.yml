@@ -11,6 +11,7 @@ install:
   #- composer install --no-interaction --prefer-source
   - php -i | grep xdebug
   - php -r "var_dump(extension_loaded('xdebug'));"
+  - php -r "var_dump(PHP_BINARY);"
 
 before_script:
   #- vendor/bin/tester -p php -c tests/php-unix.ini --coverage tests/coverage.clover --coverage-src src/ tests/
