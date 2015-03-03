@@ -557,7 +557,7 @@ class Grid extends Components\Container
     public function getPropertyAccessor()
     {
         if ($this->propertyAccessor === NULL) {
-            $this->propertyAccessor = new PropertyAccessors\ArrayObjectAccessor;
+            $this->propertyAccessor = new PropertyAccessors\SymfonyPropertyAccessor;
         }
 
         return $this->propertyAccessor;
