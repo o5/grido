@@ -14,6 +14,7 @@ namespace Grido;
 use Grido\Components\Columns\Column;
 use Grido\Components\Filters\Filter;
 use Grido\Components\Paginator;
+use Grido\PropertyAccessors\SymfonyPropertyAccessor;
 
 /**
  * Grido - DataGrid for Nette Framework.
@@ -35,7 +36,6 @@ use Grido\Components\Paginator;
  * @property string $primaryKey
  * @property string $filterRenderType
  * @property DataSources\IDataSource $model
- * @property PropertyAccessors\IPropertyAccessor $propertyAccessor
  * @property callback $rowCallback
  * @property bool $strictMode
  * @method void onRegistered(Grid $grid)
@@ -112,7 +112,7 @@ class Grid extends Components\Container
     /** @var \Nette\Localization\ITranslator */
     protected $translator;
 
-    /** @var PropertyAccessors\IPropertyAccessor */
+    /** @var SymfonyPropertyAccessor */
     protected $propertyAccessor;
 
     /** @var bool */
@@ -131,17 +131,6 @@ class Grid extends Components\Container
             ? $model
             : new DataSources\Model($model);
 
-        return $this;
-    }
-
-    /**
-     * Sets a property accesor that implements the interface Grido\PropertyAccessors\IPropertyAccessor.
-     * @param PropertyAccessors\IPropertyAccessor $propertyAccessor
-     * @return Grid
-     */
-    public function setPropertyAccessor(PropertyAccessors\IPropertyAccessor $propertyAccessor)
-    {
-        $this->propertyAccessor = $propertyAccessor;
         return $this;
     }
 
@@ -551,13 +540,13 @@ class Grid extends Components\Container
     }
 
     /**
-     * @return PropertyAccessors\IPropertyAccessor
+     * @return SymfonyPropertyAccessor
      * @internal
      */
     public function getPropertyAccessor()
     {
         if ($this->propertyAccessor === NULL) {
-            $this->propertyAccessor = new PropertyAccessors\SymfonyPropertyAccessor;
+            $this->propertyAccessor = new SymfonyPropertyAccessor;
         }
 
         return $this->propertyAccessor;

@@ -21,7 +21,7 @@ use Symfony\Component\PropertyAccess\PropertyAccessor;
  * @author      Josef Kříž <pepakriz@gmail.com>
  * @link        http://symfony.com/doc/current/components/property_access/introduction.html
  */
-class SymfonyPropertyAccessor implements IPropertyAccessor
+class SymfonyPropertyAccessor
 {
     /** @var PropertyAccessor */
     private $propertyAccessor;
