@@ -85,19 +85,6 @@ class GridTest extends \Tester\TestCase
 
     }
 
-    function testSetPropertyAccessor()
-    {
-        $grid = new Grid;
-
-        $expected = 'Grido\PropertyAccessors\IPropertyAccessor';
-        $grid->setPropertyAccessor(mock($expected));
-        Assert::type($expected, $grid->getPropertyAccessor());
-
-        Assert::error(function() use ($grid) {
-            $grid->setPropertyAccessor('');
-        }, E_RECOVERABLE_ERROR);
-    }
-
     function testSetDefaultPerPage()
     {
         $grid = new Grid;

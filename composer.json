@@ -25,7 +25,8 @@
     },
     "require": {
         "php": ">=5.3",
-        "nette/nette": "~2.0"
+        "nette/nette": "~2.0",
+        "symfony/property-access": "~2.6"
     },
     "require-dev": {
         "nette/nette" : "~2.2.0",
@@ -34,8 +35,5 @@
         "dibi/dibi": "~2.2.2",
         "kdyby/doctrine": "~2.2",
         "squizlabs/php_codesniffer": "~2.0.0"
-    },
-    "suggest": {
-        "symfony/property-access": "Allows to use Grido\\PropertyAccessors\\SymfonyPropertyAccessor"
     }
 }

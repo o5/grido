@@ -64,7 +64,7 @@ class ActionTest extends \Tester\TestCase
 
         Assert::error(function(){
             Helper::$grid->getAction('edit')->render(array('id' => 11));
-        }, 'Grido\PropertyAccessors\PropertyAccessorException', "Property with name 'primary' does not exists in datasource.");
+        }, 'Symfony\Component\PropertyAccess\Exception\NoSuchIndexException');
     }
 
     function testSetDisable()
