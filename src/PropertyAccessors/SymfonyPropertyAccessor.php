@@ -11,6 +11,8 @@
 
 namespace Grido\PropertyAccessors;
 
+use Symfony\Component\PropertyAccess\PropertyAccessor;
+
 /**
  * Symfony property accessor.
  *
@@ -21,48 +23,37 @@ namespace Grido\PropertyAccessors;
  */
 class SymfonyPropertyAccessor implements IPropertyAccessor
 {
-    /** @var \Symfony\Component\PropertyAccess\PropertyAccessor */
+    /** @var PropertyAccessor */
     private $propertyAccessor;
+
+    public function __construct()
+    {
+        $this->propertyAccessor = new PropertyAccessor(TRUE, TRUE);
+    }
 
     /**
      * @param mixed $object
      * @param string $name
      * @return mixed
-     * @throws PropertyAccessorException
      */
     public function getProperty($object, $name)
     {
-        try {
-            return $this->getPropertyAccessor()->getValue($object, $name);
-        } catch (\Exception $e) {
-            throw new PropertyAccessorException("Property with name '$name' does not exists in datasource.", 0, $e);
+        if (is_array($object)) {
+            $name = '[' . $name . ']';
         }
+        return $this->propertyAccessor->getValue($object, $name);
     }
 
     /**
      * @param mixed $object
      * @param string $name
      * @param mixed $value
-     * @throws PropertyAccessorException
      */
     public function setProperty($object, $name, $value)
     {
-        try {
-            $this->getPropertyAccessor()->setValue($object, $name, $value);
-        } catch (\Exception $e) {
-            throw new PropertyAccessorException("Property with name '$name' does not exists in datasource.", 0, $e);
+        if (is_array($object)) {
+            $name = '[' . $name . ']';
         }
-    }
-
-    /**
-     * @return \Symfony\Component\PropertyAccess\PropertyAccessor
-     */
-    private function getPropertyAccessor()
-    {
-        if ($this->propertyAccessor === NULL) {
-            $this->propertyAccessor = new \Symfony\Component\PropertyAccess\PropertyAccessor(TRUE, TRUE);
-        }
-
-        return $this->propertyAccessor;
+        $this->propertyAccessor->setValue($object, $name, $value);
     }
 }
