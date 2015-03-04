@@ -150,7 +150,7 @@
                     {formContainer buttons}
                         {input perPage, class => 'hide'}
                     {/formContainer}
-                    <a n:if="$control->hasExport()" class="btn btn-default btn-xs btn-mini" href="{=$control->getComponent(\Grido\Components\Export::ID)->link('export!')}" title="{_'Grido.ExportAllItems'}"><i class="glyphicon glyphicon-download fa fa-download icon-download"></i></a>
+                    <a n:if="$control->hasExport()" class="export btn btn-default btn-xs btn-mini" href="{=$control->getComponent(\Grido\Components\Export::ID)->link('export!')}" title="{_'Grido.ExportAllItems'}"><i class="glyphicon glyphicon-download fa fa-download icon-download"></i></a>
                 </span>
             </td>
         </tr>
