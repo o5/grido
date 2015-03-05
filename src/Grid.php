@@ -485,7 +485,7 @@ class Grid extends Components\Container
         }
 
         return $session->isStarted()
-            ? $session->getSection($presenter->getName() . '\\' . ucfirst($this->getName()))
+            ? ($session->getSection($this->getUniqueId()))
             : NULL;
     }
 
