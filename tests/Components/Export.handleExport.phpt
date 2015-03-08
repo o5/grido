@@ -27,6 +27,7 @@ class Response extends \Nette\Object implements \Nette\Http\IResponse
     function setCode($code) {}
     function getCode() {}
     function addHeader($name, $value) {}
+    function getHeader($header, $default = NULL) {}
     function setContentType($type, $charset = NULL) {}
     function redirect($url, $code = self::S302_FOUND) {}
     function setExpiration($seconds) {}
@@ -39,26 +40,36 @@ class Response extends \Nette\Object implements \Nette\Http\IResponse
 test(function() {
     Helper::grid(function(Grid $grid) {
         $grid->setModel(array(
-            array('id' => 1, 'a' => 'A1', 'b' => 'B1'),
-            array('id' => 2, 'a' => 'A2', 'b' => 'B2'),
-            array('id' => 3, 'a' => 'A3', 'b' => 'B3'),
-            array('id' => 4, 'a' => 'A4', 'b' => 'B4'),
-            array('id' => 5, 'a' => 'A5', 'b' => 'B5'),
+            array('id' => 1, 'name' => 'Lucy', 'country' => 'Switzerland'),
+            array('id' => 2, 'name' => 'Příliš žlouťoucký kůň ďábelsky pěl ódy', 'country' => 'Switzerland'),
+            array('id' => 3, 'name' => 'Silvia', 'country' => 'Switzerland'),
+            array('id' => 4, 'name' => 'Mary', 'country' => 'Australia'),
+            array('id' => 5, 'name' => 'Michelle', 'country' => 'Australia'),
         ));
+
         $grid->setDefaultPerPage(2);
-        $grid->addColumnText('a', 'A');
-        $grid->addColumnText('b', 'B');
+        $grid->addColumnText('name', 'Name')
+            ->setSortable();
+        $grid->addColumnText('country', 'Country')
+            ->setFilterText();
         $grid->setExport();
     });
 
+    $params = array(
+        'do' => 'grid-export-export',
+        'grid-sort' => array('name' => \Grido\Components\Columns\Column::ORDER_DESC),
+        'grid-filter' => array('country' => 'Switzerland'),
+        'grid-page' => 2
+    );
+
     ob_start();
-        Helper::request(array('do' => 'grid-export-export'))->send(mock('\Nette\Http\IRequest'), new Response);
+        Helper::request($params)->send(mock('\Nette\Http\IRequest'), new Response);
     $output = ob_get_clean();
     Assert::same(file_get_contents(__DIR__ . '/files/Export.handleExport.expect'), $output);
 
     Assert::same(array(
 	'Content-Encoding' => 'UTF-16LE',
-	'Content-Length' => 70,
+	'Content-Length' => 199,
 	'Content-Type' => 'text/csv; charset=UTF-16LE',
 	'Content-Disposition' => 'attachment; filename="Grid.csv"; filename*=utf-8\'\'Grid.csv',
     ), Response::$headers);

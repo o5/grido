@@ -420,10 +420,11 @@ class Grid extends Components\Container
      * Returns fetched data.
      * @param bool $applyPaging
      * @param bool $useCache
+     * @param bool $fetch
      * @throws \Exception
      * @return array
      */
-    public function getData($applyPaging = TRUE, $useCache = TRUE)
+    public function getData($applyPaging = TRUE, $useCache = TRUE, $fetch = TRUE)
     {
         if ($this->model === NULL) {
             throw new \Exception('Model cannot be empty, please use method $grid->setModel().');
@@ -436,6 +437,10 @@ class Grid extends Components\Container
 
             if ($applyPaging) {
                 $this->applyPaging();
+            }
+
+            if ($fetch === FALSE) {
+                return $this->model;
             }
 
             $data = $this->model->getData();

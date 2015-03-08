@@ -37,34 +37,48 @@ class Export extends Component implements \Nette\Application\IResponse
     }
 
     /**
-     * @param array $data
-     * @param \Nette\ComponentModel\RecursiveComponentIterator $columns
      * @return string
      */
-    protected function generateCsv($data, \Nette\ComponentModel\RecursiveComponentIterator $columns)
+    protected function generateSource()
     {
-        $head = array();
+        $limit = 100;
+        $datasource = $this->grid->getData(FALSE, FALSE, FALSE);
+        $iterations = ceil($datasource->getCount() / $limit);
+
+        $columns = $this->grid[Columns\Column::ID]->getComponents();
+        $resource = fopen('php://temp', 'r+');
+
+        //generate header
+        $header = array();
         foreach ($columns as $column) {
-            $head[] = $column->getLabel();
+            $header[] = $column->getLabel();
         }
 
-        $resource = fopen('php://temp/maxmemory:' . (5 * 1024 * 1024), 'r+'); // 5MB of memory allocated
-        fputcsv($resource, $head);
+        fputcsv($resource, $header);
 
-        foreach ($data as $item) {
-            $items = array();
-            foreach ($columns as $column) {
-                $items[] = $column->renderExport($item);
+        for ($i = 0; $i < $iterations; ++$i) {
+            $datasource->limit($i * $limit, $limit);
+            $data = $datasource->getData();
+
+            foreach ($data as $item) {
+                $row = array();
+
+                foreach ($columns as $column) {
+                    $row[] = $column->renderExport($item);
+                }
+
+                fputcsv($resource, $row);
+                unset($row);
             }
 
-            fputcsv($resource, $items);
+            unset($data);
         }
 
         rewind($resource);
-        $output = stream_get_contents($resource);
+        $source = stream_get_contents($resource);
         fclose($resource);
 
-        return $output;
+        return $source;
     }
 
     /**
@@ -86,17 +100,15 @@ class Export extends Component implements \Nette\Application\IResponse
      */
     public function send(\Nette\Http\IRequest $httpRequest, \Nette\Http\IResponse $httpResponse)
     {
-        $file = $this->label . '.csv';
-        $data = $this->grid->getData(FALSE);
-        $columns = $this->grid[\Grido\Components\Columns\Column::ID]->getComponents();
-        $source = $this->generateCsv($data, $columns);
-
         $charset = 'UTF-16LE';
+        $file = $this->label . '.csv';
+
+        $source = $this->generateSource();
         $source = mb_convert_encoding($source, $charset, 'UTF-8');
         $source = "\xFF\xFE" . $source; //add BOM
 
         $httpResponse->setHeader('Content-Encoding', $charset);
-        $httpResponse->setHeader('Content-Length', strlen($source));
+        $httpResponse->setHeader('Content-Length', mb_strlen($source));
         $httpResponse->setHeader('Content-Type', "text/csv; charset=$charset");
         $httpResponse->setHeader('Content-Disposition', "attachment; filename=\"$file\"; filename*=utf-8''$file");
 
