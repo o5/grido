@@ -11,6 +11,8 @@
 
 namespace Grido\PropertyAccessors;
 
+use Nette\Database\Table\IRow;
+use Nette\Utils\Strings;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
 
 /**
@@ -32,12 +34,22 @@ class SymfonyPropertyAccessor
     }
 
     /**
-     * @param mixed $object
+     * @param array|object $object
      * @param string $name
      * @return mixed
      */
     public function getProperty($object, $name)
     {
+        if ($object instanceof IRow && Strings::contains($name, '.')) {
+            $parts = explode('.', $name);
+            foreach ($parts as $item) {
+                if (is_object($object)) {
+                    $object = $object->$item;
+                }
+            }
+            return $object;
+        }
+
         if (is_array($object)) {
             $name = '[' . $name . ']';
         }
@@ -45,7 +57,7 @@ class SymfonyPropertyAccessor
     }
 
     /**
-     * @param mixed $object
+     * @param array|object $object
      * @param string $name
      * @param mixed $value
      */
