@@ -23,7 +23,7 @@ class DibiFluentTest extends DataSourceTestCase
             $fluent = $presenter->context->dibi_sqlite
                 ->select('u.*, c.title AS country')
                 ->from('[user] u')
-                ->join('[country] c')->on('u.country_code = c.code');
+                ->leftJoin('[country] c')->on('u.country_code = c.code');
 
             $grid->setModel($fluent);
             $grid->setDefaultPerPage(3);

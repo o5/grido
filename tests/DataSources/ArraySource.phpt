@@ -23,7 +23,7 @@ class ArraySourceTest extends DataSourceTestCase
             $data = $presenter->context->dibi_sqlite
                 ->select('u.*, c.title AS country')
                 ->from('[user] u')
-                ->join('[country] c')->on('u.country_code = c.code')
+                ->leftJoin('[country] c')->on('u.country_code = c.code')
                 ->fetchAll();
             $grid->setModel($data);
             $grid->setDefaultPerPage(3);

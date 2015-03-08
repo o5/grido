@@ -91,6 +91,17 @@ abstract class DataSourceTestCase extends \Tester\TestCase
         return TRUE;
     }
 
+    function testNullableForeignKey()
+    {
+        Helper::request();
+
+        ob_start();
+            Helper::$grid->render();
+        $output = ob_get_clean();
+
+        Assert::same(Helper::$grid->count, 50);
+    }
+
     function testExport()
     {
         Helper::$presenter->forceAjaxMode = FALSE;
