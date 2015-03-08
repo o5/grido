@@ -72,7 +72,7 @@ class Href extends Action
             $href = callback($this->customHref)->invokeArgs(array($row));
         } else {
             $primaryKey = $this->getPrimaryKey();
-            $primaryValue = $this->propertyAccessor->getProperty($row, $primaryKey);
+            $primaryValue = $this->grid->getProperty($row, $primaryKey);
 
             $this->arguments[$primaryKey] = $primaryValue;
             $href = $this->presenter->link($this->getDestination(), $this->arguments);

@@ -63,7 +63,7 @@ class Event extends Action
     {
         $element = parent::getElement($row);
 
-        $primaryValue = $this->propertyAccessor->getProperty($row, $this->getPrimaryKey());
+        $primaryValue = $this->grid->getProperty($row, $this->getPrimaryKey());
         $element->href($this->link('click!', $primaryValue));
 
         return $element;

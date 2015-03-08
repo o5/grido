@@ -14,7 +14,7 @@ namespace Grido;
 use Grido\Components\Columns\Column;
 use Grido\Components\Filters\Filter;
 use Grido\Components\Paginator;
-use Grido\PropertyAccessors\SymfonyPropertyAccessor;
+use Symfony\Component\PropertyAccess\PropertyAccessor;
 
 /**
  * Grido - DataGrid for Nette Framework.
@@ -25,6 +25,7 @@ use Grido\PropertyAccessors\SymfonyPropertyAccessor;
  * @property-read int $count
  * @property-read mixed $data
  * @property-read \Nette\Utils\Html $tablePrototype
+ * @property-read PropertyAccessor $propertyAccessor
  * @property-write string $templateFile
  * @property bool $rememberState
  * @property array $defaultPerPage
@@ -112,7 +113,7 @@ class Grid extends Components\Container
     /** @var \Nette\Localization\ITranslator */
     protected $translator;
 
-    /** @var SymfonyPropertyAccessor */
+    /** @var PropertyAccessor */
     protected $propertyAccessor;
 
     /** @var bool */
@@ -545,19 +546,6 @@ class Grid extends Components\Container
     }
 
     /**
-     * @return SymfonyPropertyAccessor
-     * @internal
-     */
-    public function getPropertyAccessor()
-    {
-        if ($this->propertyAccessor === NULL) {
-            $this->propertyAccessor = new SymfonyPropertyAccessor;
-        }
-
-        return $this->propertyAccessor;
-    }
-
-    /**
      * @return Paginator
      * @internal
      */
@@ -573,6 +561,46 @@ class Grid extends Components\Container
     }
 
     /**
+     * A simple wrapper around symfony/property-access with Nette Database dot notation support.
+     * @param array|object $object
+     * @param type $name
+     * @return mixed
+     * @internal
+     */
+    public function getProperty($object, $name)
+    {
+        if ($object instanceof \Nette\Database\Table\IRow && \Nette\Utils\Strings::contains($name, '.')) {
+            $parts = explode('.', $name);
+            foreach ($parts as $item) {
+                if (is_object($object)) {
+                    $object = $object->$item;
+                }
+            }
+
+            return $object;
+        }
+
+        if (is_array($object)) {
+            $name = "[$name]";
+        }
+
+        return $this->getPropertyAccessor()->getValue($object, $name);
+    }
+
+    /**
+     * @return PropertyAccessor
+     * @internal
+     */
+    public function getPropertyAccessor()
+    {
+        if ($this->propertyAccessor === NULL) {
+            $this->propertyAccessor = new PropertyAccessor(TRUE, TRUE);
+        }
+
+        return $this->propertyAccessor;
+    }
+
+    /**
      * @param mixed $row item from db
      * @return \Nette\Utils\Html
      * @internal
@@ -580,7 +608,7 @@ class Grid extends Components\Container
     public function getRowPrototype($row)
     {
         try {
-            $primaryValue = $this->getPropertyAccessor()->getProperty($row, $this->getPrimaryKey());
+            $primaryValue = $this->getProperty($row, $this->getPrimaryKey());
         } catch (\Exception $e) {
             $primaryValue = NULL;
         }

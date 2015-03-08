@@ -144,10 +144,9 @@ class Operation extends Component
     {
         $items = $this->grid->getData();
         $primaryKey = $this->getPrimaryKey();
-        $propertyAccessor = $this->grid->getPropertyAccessor();
 
         foreach ($items as $item) {
-            $primaryValue = $propertyAccessor->getProperty($item, $primaryKey);
+            $primaryValue = $this->grid->getProperty($item, $primaryKey);
             if (!isset($container[$primaryValue])) {
                 $container->addCheckbox(Helpers::formatColumnName($primaryValue));
             }
