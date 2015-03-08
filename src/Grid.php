@@ -458,6 +458,18 @@ class Grid extends Components\Container
     }
 
     /**
+     * Returns data for CSV export
+     * @return DataSources\IDataSource
+     */
+    public function getDataForCsv()
+    {
+        $data = $this->getModel();
+        $this->applyFiltering();
+        $this->applySorting();
+        return $data;
+    }
+
+    /**
      * Returns translator.
      * @return Translations\FileTranslator
      */
