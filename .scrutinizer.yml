@@ -9,7 +9,7 @@ tools:
     sensiolabs_security_checker: true
     external_code_coverage:
         enabled: true
-        timeout: 900
+        timeout: 1200
     php_code_coverage: true
     php_mess_detector: true
     php_analyzer: true

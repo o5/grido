@@ -1,5 +1,5 @@
 /vendor
 /composer.lock
 /tests/tmp
-/tests/coverage.xml
 /tests/*/output
+coverage.xml
