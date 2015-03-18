@@ -16,7 +16,7 @@ before_script:
   - vendor/bin/phpcs --standard=standards.xml --extensions=php --encoding=utf-8 -sp src/
 
 script:
-  - vendor/bin/tester -p php $COVERAGE tests/
+  - vendor/bin/tester $COVERAGE tests/
 
 after_script:
   - if [ $TRAVIS_PHP_VERSION = '5.6' ]; then wget https://scrutinizer-ci.com/ocular.phar && php ocular.phar code-coverage:upload --format=php-clover tests/coverage.clover; fi
