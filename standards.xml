@@ -39,6 +39,7 @@
     <rule ref="Generic.Strings.UnnecessaryStringConcat"/>
     <rule ref="Generic.WhiteSpace.DisallowTabIndent"/>
     <rule ref="Generic.WhiteSpace.ScopeIndent"/>
+    <rule ref="Generic.CodeAnalysis.EmptyStatement"/>
 
     <rule ref="PEAR.Classes.ClassDeclaration"/>
     <rule ref="PEAR.ControlStructures.ControlSignature"/>
@@ -59,7 +60,6 @@
     <rule ref="Squiz.Classes.LowercaseClassKeywords"/>
     <rule ref="Squiz.Classes.SelfMemberReference"/>
     <rule ref="Squiz.Classes.DuplicateProperty"/>
-    <rule ref="Squiz.CodeAnalysis.EmptyStatement"/>
     <rule ref="Squiz.Commenting.DocCommentAlignment"/>
     <rule ref="Squiz.Commenting.FunctionCommentThrowTag"/>
     <rule ref="Squiz.ControlStructures.ForEachLoopDeclaration"/>

@@ -31,9 +31,9 @@
     "require-dev": {
         "nette/nette" : "~2.2.0",
         "nette/tester": "@dev",
-        "mockery/mockery": "~0.9",
-        "dibi/dibi": "~2.2.2",
-        "kdyby/doctrine": "~2.2",
-        "squizlabs/php_codesniffer": "~2.0.0"
+        "mockery/mockery": "~0.9.3",
+        "dibi/dibi": "~2.3.1",
+        "kdyby/doctrine": "~2.3.0",
+        "squizlabs/php_codesniffer": "~2.3.0"
     }
 }
