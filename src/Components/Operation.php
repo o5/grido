@@ -148,7 +148,8 @@ class Operation extends Component
         foreach ($items as $item) {
             $primaryValue = $this->grid->getProperty($item, $primaryKey);
             if (!isset($container[$primaryValue])) {
-                $container->addCheckbox(Helpers::formatColumnName($primaryValue));
+                $container->addCheckbox(Helpers::formatColumnName($primaryValue))
+                    ->controlPrototype->title = $primaryValue;
             }
         }
     }
