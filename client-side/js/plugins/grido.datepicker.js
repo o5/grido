@@ -17,9 +17,6 @@
         if ($.fn.daterangepicker === undefined) {
             console.error('Plugin "bootstrap-daterangepicker.js" is missing! Run `bower install bootstrap-daterangepicker` and load it.');
             return;
-        } else if (window.moment === undefined) {
-            console.error('Plugin "moment.js" required by "bootstrap-daterangepicker.js" is missing!');
-            return;
         }
 
         var format = Grido.options.datepicker.format.toUpperCase();
@@ -28,9 +25,7 @@
             {
                 singleDatePicker: true,
                 showDropdowns: true,
-                format: format,
-                startDate: window.moment().subtract(29, 'days'),
-                endDate: window.moment()
+                format: format
             });
         });
     });
