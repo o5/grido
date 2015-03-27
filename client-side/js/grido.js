@@ -485,9 +485,8 @@
                 query = window.location.search;
 
             if (state !== query) {
-                var url = location.toString();
-                url += url.indexOf('?') === -1 ? '?' : '&';
-                this.doRequest(url + 'do=' + this.grido.name + '-refresh');
+                var url = this.getRefreshGridHandlerUrl(this.grido.$element);
+                this.doRequest(url);
             }
         },
 
@@ -514,6 +513,16 @@
             });
 
             return cool;
+        },
+
+        /**
+         * Returns url for AJAX call to Refresh grid.
+         * @param {jQuery} $form
+         * @return {String} Url from data atribute of form
+         */
+        getRefreshGridHandlerUrl: function($form)
+        {
+            return $form.data('grido-refresh-handler');
         },
 
         /**

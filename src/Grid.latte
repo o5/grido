@@ -10,6 +10,7 @@
 {snippet grid}
 {?
     $form->getElementPrototype()->class[] = 'ajax grido';
+    $form->getElementPrototype()->{"data-grido-refresh-handler"} = $control->link("refresh!");
 
     $operation = $control->hasOperation();
     $actions = $control->hasActions() ? $control->getComponent(\Grido\Components\Actions\Action::ID)->getComponents() : array();
