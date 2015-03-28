@@ -1,6 +1,6 @@
 <div id="snippet-grid-grid">
 
-<form action="/" method="get" id="frm-grid-form" class="ajax grido">
+<form action="/" method="get" id="frm-grid-form" class="ajax grido" data-grido-refresh-handler="/?action=default&amp;do=grid-refresh&amp;presenter=Test">
     <div class="filter outer">
         <div class="items">
         </div>
