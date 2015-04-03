@@ -144,6 +144,7 @@ class DibiFluent extends \Nette\Object implements IDataSource
      */
     public function sort(array $sorting)
     {
+        $this->fluent->removeClause('ORDER BY');
         foreach ($sorting as $column => $sort) {
             $this->fluent->orderBy("%n", $column, $sort);
         }
@@ -160,6 +161,7 @@ class DibiFluent extends \Nette\Object implements IDataSource
     {
         $fluent = clone $this->fluent;
         if (is_string($column)) {
+            $fluent->removeClause('ORDER BY');
             $fluent->removeClause('SELECT')->select("DISTINCT %n", $column)->orderBy("%n", $column, 'ASC');
         }
 
