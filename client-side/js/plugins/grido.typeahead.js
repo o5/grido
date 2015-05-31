@@ -34,6 +34,7 @@
                 queryTokenizer: window.Bloodhound.tokenizers.whitespace,
                 remote: {
                     url: url.replace(wildcard, '%QUERY')
+                    wildcard: '%QUERY'
                 }
             };
 
