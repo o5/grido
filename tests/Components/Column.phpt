@@ -26,6 +26,15 @@ class ColumnTest extends \Tester\TestCase
         $column->setSortable(FALSE);
         Assert::false($column->isSortable());
     }
+    function testSetExportable()
+    {
+        $grid = new Grid;
+        $column = $grid->addColumnText('column', 'Column');
+        Assert::true($column->isExportable());
+
+        $column->setDisableExport(FALSE);
+        Assert::false($column->isExportable());
+    }
 
     function testSetReplacement()
     {

@@ -51,7 +51,9 @@ class Export extends Component implements \Nette\Application\IResponse
         //generate header
         $header = array();
         foreach ($columns as $column) {
-            $header[] = $column->getLabel();
+			if ($column->isExportable()) {
+				$header[] = $column->getLabel();
+			}
         }
 
         fputcsv($resource, $header);
@@ -64,8 +66,10 @@ class Export extends Component implements \Nette\Application\IResponse
                 $row = array();
 
                 foreach ($columns as $column) {
-                    $row[] = $column->renderExport($item);
-                }
+					if ($column->isExportable()) {
+						$row[] = $column->renderExport($item);
+					}
+				}
 
                 fputcsv($resource, $row);
                 unset($row);
