@@ -66,6 +66,9 @@ abstract class Column extends \Grido\Components\Component
     protected $customRenderExport;
 
     /** @var bool */
+    protected $renderable = TRUE;
+
+    /** @var bool */
     protected $exportable = TRUE;
 
     /** @var bool */
@@ -156,7 +159,17 @@ abstract class Column extends \Grido\Components\Component
      */
     public function setDisableExport($value = TRUE)
     {
-        $this->exportable = $value;
+        $this->exportable = !$value;
+        return $this;
+    }
+
+    /**
+     * @param bool $value
+     * @return Column
+     */
+    public function setOnlyForExport($value = TRUE)
+    {
+        $this->renderable = !$value;
         return $this;
     }
 
@@ -289,6 +302,15 @@ abstract class Column extends \Grido\Components\Component
     public function isExportable()
     {
         return $this->exportable;
+    }
+	
+    /**
+     * @return bool
+     * @internal
+     */
+    public function isRenderable()
+    {
+        return $this->renderable;
     }
 
     /**

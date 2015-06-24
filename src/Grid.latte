@@ -19,6 +19,7 @@
     $filterRenderType = $control->getFilterRenderType();
 
     $columns = $control->getComponent(\Grido\Components\Columns\Column::ID)->getComponents();
+	foreach ($columns as $colKey => $column) { if (!$column->isRenderable()): unset($columns[$colKey]); endif;}
     $columnCount = count($columns) + ($operation ? 1 : 0);
     $showActionsColumn = $actions || ($filters && $filterRenderType == \Grido\Components\Filters\Filter::RENDER_INNER);
 
