@@ -21,6 +21,12 @@ namespace Grido\Components;
 class Export extends Component implements \Nette\Application\IResponse
 {
     const ID = 'export';
+	
+	/** @var string */
+	private $cvsDelimiter = ',';
+	
+	/** @var string */
+	private $csvEnclosure = '"';
 
     /**
      * @param \Grido\Grid $grid
@@ -36,6 +42,13 @@ class Export extends Component implements \Nette\Application\IResponse
         $grid->addComponent($this, self::ID);
     }
 
+	public function setCsv($delimiter = ',', $enclosure = '"')
+	{
+		$this->cvsDelimiter = $delimiter;
+		$this->csvEnclosure = $enclosure;
+		return $this;
+	}
+	
     /**
      * @return string
      */
@@ -71,7 +84,7 @@ class Export extends Component implements \Nette\Application\IResponse
 					}
 				}
 
-                fputcsv($resource, $row);
+                fputcsv($resource, $row, $this->csvDelimiter, $this->csvEnclosure);
                 unset($row);
             }
 
