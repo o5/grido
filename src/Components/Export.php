@@ -118,15 +118,14 @@ class Export extends Component implements \Nette\Application\IResponse
      */
     public function send(\Nette\Http\IRequest $httpRequest, \Nette\Http\IResponse $httpResponse)
     {
-        $encoding = 'UTF-16LE';
+        $encoding = 'UTF-8';
         $file = $this->label . '.csv';
 
-        $source = $this->generateSource();
-        $source = mb_convert_encoding($source, $encoding, 'UTF-8');
-        $source = "\xFF\xFE" . $source; //add BOM
+		$source = chr(0xEF) . chr(0xBB) . chr(0xBF); //UTF-8 BOM
+        $source .= $this->generateSource();
 
         $httpResponse->setHeader('Content-Encoding', $encoding);
-        $httpResponse->setHeader('Content-Length', mb_strlen($source, 'UTF-8'));
+        $httpResponse->setHeader('Content-Length', mb_strlen($source, $encoding));
         $httpResponse->setHeader('Content-Type', "text/csv; charset=$encoding");
         $httpResponse->setHeader('Content-Disposition', "attachment; filename=\"$file\"; filename*=utf-8''$file");
 
