@@ -70,7 +70,7 @@ class Export extends Component implements \Nette\Application\IResponse
 			}
         }
 
-        fputcsv($resource, $header);
+        fputcsv($resource, $header, $this->csvDelimiter, $this->csvEnclosure);
 
         for ($i = 0; $i < $iterations; ++$i) {
             $datasource->limit($i * $limit, $limit);
