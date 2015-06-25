@@ -23,7 +23,7 @@ class Export extends Component implements \Nette\Application\IResponse
     const ID = 'export';
 	
 	/** @var string */
-	private $cvsDelimiter = ',';
+	private $csvDelimiter = ',';
 	
 	/** @var string */
 	private $csvEnclosure = '"';
@@ -44,7 +44,7 @@ class Export extends Component implements \Nette\Application\IResponse
 
 	public function setCsv($delimiter = ',', $enclosure = '"')
 	{
-		$this->cvsDelimiter = $delimiter;
+		$this->csvDelimiter = $delimiter;
 		$this->csvEnclosure = $enclosure;
 		
 		return $this;
