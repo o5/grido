@@ -322,7 +322,7 @@ class Grid extends Components\Container
     public function getCount()
     {
         if ($this->count === NULL) {
-            $this->count = $this->model->getCount();
+            $this->count = $this->getModel()->getCount();
         }
 
         return $this->count;
@@ -427,7 +427,7 @@ class Grid extends Components\Container
      */
     public function getData($applyPaging = TRUE, $useCache = TRUE, $fetch = TRUE)
     {
-        if ($this->model === NULL) {
+        if ($this->getModel() === NULL) {
             throw new \Exception('Model cannot be empty, please use method $grid->setModel().');
         }
 
@@ -441,10 +441,10 @@ class Grid extends Components\Container
             }
 
             if ($fetch === FALSE) {
-                return $this->model;
+                return $this->getModel();
             }
 
-            $data = $this->model->getData();
+            $data = $this->getModel()->getData();
 
             if ($useCache === TRUE) {
                 $this->data = $data;
@@ -538,7 +538,6 @@ class Grid extends Components\Container
 
     /**
      * @return DataSources\IDataSource
-     * @internal
      */
     public function getModel()
     {
@@ -830,7 +829,7 @@ class Grid extends Components\Container
     protected function applyFiltering()
     {
         $conditions = $this->__getConditions($this->getActualFilter());
-        $this->model->filter($conditions);
+        $this->getModel()->filter($conditions);
     }
 
     /**
@@ -894,7 +893,7 @@ class Grid extends Components\Container
         }
 
         if ($sort) {
-            $this->model->sort($sort);
+            $this->getModel()->sort($sort);
         }
     }
 
@@ -909,7 +908,7 @@ class Grid extends Components\Container
             $this->__triggerUserNotice("The number '$perPage' of items per page is out of range.");
         }
 
-        $this->model->limit($paginator->getOffset(), $paginator->getLength());
+        $this->getModel()->limit($paginator->getOffset(), $paginator->getLength());
     }
 
     protected function createComponentForm($name)
