@@ -31,14 +31,14 @@ class GridInSubcomponentTest extends \Tester\TestCase
             $subcomponent1 = new \Subcomponent($presenter, 'subcomponent1');
             $grid1 = new Grid($subcomponent1, 'grid');
             $grid1->setRememberState();
-            $session1 = $grid1->getRememberSession();
+            $session1 = $grid1->getRememberSession(TRUE);
             $session1->name = 'a';
             Assert::same($session1->name, 'a');
             
             $subcomponent2 = new \Subcomponent($presenter, 'subcomponent2');
             $grid2 = new Grid($subcomponent2, 'grid');
             $grid2->setRememberState();
-            $session2 = $grid2->getRememberSession();
+            $session2 = $grid2->getRememberSession(TRUE);
             $session2->name = 'b';
             
             Assert::same($session1->name, 'a');
