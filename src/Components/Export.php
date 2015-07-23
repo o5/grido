@@ -22,6 +22,9 @@ class Export extends Component implements \Nette\Application\IResponse
 {
     const ID = 'export';
 
+    /** @var int */
+    protected $stepSize = 100;
+
     /**
      * @param \Grido\Grid $grid
      * @param string $label
@@ -41,9 +44,8 @@ class Export extends Component implements \Nette\Application\IResponse
      */
     protected function generateSource()
     {
-        $limit = 100;
         $datasource = $this->grid->getData(FALSE, FALSE, FALSE);
-        $iterations = ceil($datasource->getCount() / $limit);
+        $iterations = ceil($datasource->getCount() / $this->stepSize);
 
         $columns = $this->grid[Columns\Column::ID]->getComponents();
         $resource = fopen('php://temp', 'r+');
@@ -57,7 +59,7 @@ class Export extends Component implements \Nette\Application\IResponse
         fputcsv($resource, $header);
 
         for ($i = 0; $i < $iterations; ++$i) {
-            $datasource->limit($i * $limit, $limit);
+            $datasource->limit($i * $this->stepSize, $this->stepSize);
             $data = $datasource->getData();
 
             foreach ($data as $item) {
@@ -88,6 +90,26 @@ class Export extends Component implements \Nette\Application\IResponse
     {
         $this->grid->onRegistered && $this->grid->onRegistered($this->grid);
         $this->grid->presenter->sendResponse($this);
+    }
+
+    /**
+     * Sets step size.
+     * @param int $stepSize
+     * @return Export
+     */
+    public function setStepSize($stepSize)
+    {
+        $this->stepSize = $stepSize;
+        return $this;
+    }
+
+    /**
+     * Gets step size.
+     * @return int
+     */
+    public function getStepSize()
+    {
+        return $this->stepSize;
     }
 
     /*************************** interface \Nette\Application\IResponse ***************************/
