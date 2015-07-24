@@ -15,7 +15,7 @@
 
     window.Grido.Ajax.prototype.onSuccessEvent = function(params, url)
     {
-        if ($.fn.typeahead === undefined) {
+        if (window.History === undefined) {
             console.error('Plugin "history.js" is missing! Run `bower install history.js` and load it.');
             return;
         }
