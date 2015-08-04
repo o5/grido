@@ -217,7 +217,7 @@ class ArraySource extends \Nette\Object implements IDataSource
                 throw new \InvalidArgumentException("Column of suggestion must be string or callback, $type given.");
             }
 
-            $items[$value] = \Nette\Templating\Helpers::escapeHtml($value);
+            $items[$value] = \Latte\Runtime\Filters::escapeHtml($value);
         }
 
         sort($items);

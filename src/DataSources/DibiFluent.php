@@ -179,7 +179,7 @@ class DibiFluent extends \Nette\Object implements IDataSource
                 throw new \InvalidArgumentException("Column of suggestion must be string or callback, $type given.");
             }
 
-            $items[$value] = \Nette\Templating\Helpers::escapeHtml($value);
+            $items[$value] = \Latte\Runtime\Filters::escapeHtml($value);
         }
 
         is_callable($column) && sort($items);
