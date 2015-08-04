@@ -1,15 +1,27 @@
 language: php
 
 php:
-  - 5.3
-  - 5.4
-  - 5.5
+    - 5.3
+    - 5.4
+    - 5.5
+    - 5.6
+    - 7.0
 
-before_script:
-  # Update Composer
-  - composer self-update
+matrix:
+    allow_failures:
+        - php: 5.3
+        - php: 5.4
+        - php: 7.0
 
-  # Install Nette Tester
-  - composer install --no-interaction --prefer-source --dev
+before_install:
+    - if [ $TRAVIS_PHP_VERSION = '5.6' ]; then COVERAGE="-c `php -i | grep 'xdebug.ini'` --coverage coverage.xml --coverage-src src/"; else COVERAGE="" && phpenv config-rm xdebug.ini; fi
 
-script: VERBOSE=true ./tests/run.sh -s tests/
+install:
+    - composer install --no-interaction --prefer-source
+
+script:
+    - vendor/bin/phpcs --standard=standards.xml --extensions=php --encoding=utf-8 -sp src/
+    - vendor/bin/tester -p php $COVERAGE tests/
+
+after_script:
+    - if [ $TRAVIS_PHP_VERSION = '5.6' ]; then wget https://scrutinizer-ci.com/ocular.phar && php ocular.phar code-coverage:upload --format=php-clover coverage.xml; fi

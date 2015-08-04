@@ -3,7 +3,7 @@
     "type": "library",
     "description": "Grido - DataGrid for Nette Framework",
     "keywords": ["datagrid", "datalist", "tablegrid", "grid", "list", "table", "nette"],
-    "homepage": "http://o5.github.io/grido-sandbox/",
+    "homepage": "http://o5.github.io/grido-examples/",
     "license": ["BSD-3", "GPL-2.0", "GPL-3.0"],
     "authors": [{
         "name": "Petr Bugyík",
@@ -14,18 +14,26 @@
         "forum": "http://forum.nette.org/cs/13109-grido-datagrid-pro-nette/"
     },
     "autoload": {
-        "psr-0": {
-            "Grido": ""
+        "psr-4": {
+            "Grido\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Grido\\Tests\\": "tests"
         }
     },
     "require": {
         "php": ">=5.3",
-        "nette/nette" : "~2.0"
+        "nette/nette": "~2.0",
+        "symfony/property-access": "~2.6"
     },
     "require-dev": {
-        "nette/tester": "@dev",
-        "mockery/mockery": "@dev",
-        "dibi/dibi": "@dev",
-        "nella/doctrine": "@dev"
+        "nette/nette" : "~2.2.0",
+        "nette/tester": "~1.4.0",
+        "mockery/mockery": "~0.9.3",
+        "dibi/dibi": "~2.3.1",
+        "kdyby/doctrine": "~2.3.0",
+        "squizlabs/php_codesniffer": "~2.3.0"
     }
 }

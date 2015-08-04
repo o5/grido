@@ -1,0 +1,24 @@
+parameters:
+    data_source_dir: %appDir%/DataSources/files/
+    doctrine_dir: %data_source_dir%/doctrine/
+
+    database:
+        sqlite:
+            driver: sqlite3
+            file: %data_source_dir%users.s3db
+            profiler: true
+
+nette:
+    database:
+        sqlite:
+            dsn: sqlite:%database.sqlite.file%
+
+services:
+    ndb_sqlite: @nette.database.sqlite
+    dibi_sqlite: DibiConnection(%database.sqlite%)
+
+doctrine:
+    driver: pdo_sqlite
+    path: %database.sqlite.file%
+    metadata:
+        Grido\Tests\Entities: %doctrine_dir%/

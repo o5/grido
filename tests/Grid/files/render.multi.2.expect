@@ -1,0 +1,409 @@
+<div id="snippet-grid-grid">
+
+<form action="/" method="get" id="frm-grid-form" class="ajax grido" data-grido-refresh-handler="/?action=default&amp;do=grid-refresh&amp;presenter=Test">
+    <div class="filter outer">
+        <div class="items">
+        </div>
+        <div class="buttons">
+                <input type="submit" name="buttons[reset]" class="btn btn-default btn-sm reset" id="frm-grid-form-buttons-reset" value="Reset">
+        </div>
+    </div>
+
+<table id="grid" class="table table-striped table-hover">
+    <thead>
+        <tr class="head">
+                <th class="column grid-header-firstname">
+                        Firstname
+                </th>
+                <th class="column grid-header-surname">
+                        Surname
+                </th>
+                <th class="column grid-header-gender">
+                        Gender
+                </th>
+                <th class="column grid-header-birthday">
+                        Birthday
+                </th>
+        </tr>
+    </thead>
+    <tfoot>
+        <tr>
+            <td colspan="4">
+                <span class="paginator">
+                        <span class="btn btn-default btn-xs btn-mini disabled" href="/?grid-page=0&amp;action=default&amp;do=grid-page&amp;presenter=Test"><i class="glyphicon glyphicon-arrow-left fa fa-arrow-left icon-arrow-left"></i> Previous</span>
+                            <span class="btn btn-default btn-xs btn-mini disabled">1</span>
+                            <a class="btn btn-default btn-xs btn-mini ajax" href="/?grid-page=2&amp;action=default&amp;do=grid-page&amp;presenter=Test">2</a>
+                            <a class="btn btn-default btn-xs btn-mini ajax" href="/?grid-page=3&amp;action=default&amp;do=grid-page&amp;presenter=Test">3</a>
+                            <a class="btn btn-default btn-xs btn-mini ajax" href="/?grid-page=4&amp;action=default&amp;do=grid-page&amp;presenter=Test">4</a>
+                        <a class="prompt" data-grido-prompt="Enter page:" data-grido-link="/?grid-page=0&amp;action=default&amp;do=grid-page&amp;presenter=Test">...</a>
+                            <a class="btn btn-default btn-xs btn-mini ajax" href="/?grid-page=7&amp;action=default&amp;do=grid-page&amp;presenter=Test">7</a>
+                        <a class="prompt" data-grido-prompt="Enter page:" data-grido-link="/?grid-page=0&amp;action=default&amp;do=grid-page&amp;presenter=Test">...</a>
+                            <a class="btn btn-default btn-xs btn-mini ajax" href="/?grid-page=13&amp;action=default&amp;do=grid-page&amp;presenter=Test">13</a>
+                        <a class="prompt" data-grido-prompt="Enter page:" data-grido-link="/?grid-page=0&amp;action=default&amp;do=grid-page&amp;presenter=Test">...</a>
+                            <a class="btn btn-default btn-xs btn-mini ajax" href="/?grid-page=19&amp;action=default&amp;do=grid-page&amp;presenter=Test">19</a>
+                        <a class="prompt" data-grido-prompt="Enter page:" data-grido-link="/?grid-page=0&amp;action=default&amp;do=grid-page&amp;presenter=Test">...</a>
+                            <a class="btn btn-default btn-xs btn-mini ajax" href="/?grid-page=25&amp;action=default&amp;do=grid-page&amp;presenter=Test">25</a>
+                        <a class="btn btn-default btn-xs btn-mini ajax" href="/?grid-page=2&amp;action=default&amp;do=grid-page&amp;presenter=Test">Next <i class="glyphicon glyphicon-arrow-right fa fa-arrow-right icon-arrow-right"></i></a>
+                </span>
+                <span class="count">
+                    Items 1 - 2 of 50
+                    <select name="count" title="Items per page" class="form-control" id="frm-grid-form-count"><option value="2" selected>2</option><option value="10">10</option><option value="20">20</option><option value="30">30</option><option value="50">50</option><option value="100">100</option></select>
+                        <input type="submit" name="buttons[perPage]" id="frm-grid-form-buttons-perPage" value="Items per page" class="hide">
+                </span>
+            </td>
+        </tr>
+    </tfoot>
+    <tbody>
+            <tr class="grid-row-1">
+                    <td class="grid-cell-firstname">
+                            Trommler
+                    </td>
+                    <td class="grid-cell-surname">
+                            Trommler
+                    </td>
+                    <td class="grid-cell-gender">
+                            Martina
+                    </td>
+                    <td class="grid-cell-birthday">
+                            1964-10-25
+                    </td>
+            </tr>
+            <tr class="grid-row-20">
+                    <td class="grid-cell-firstname">
+                            Marij
+                    </td>
+                    <td class="grid-cell-surname">
+                            Rašpolić Příliš, žluťoučký &quot;kůň&quot; úpěl &#039;ďábelské&#039; ódy.
+and newline &quot;test&quot;;
+                    </td>
+                    <td class="grid-cell-gender">
+                            male
+                    </td>
+                    <td class="grid-cell-birthday">
+                            1972-12-16
+                    </td>
+            </tr>
+    </tbody>
+</table>
+<div><input type="hidden" name="action" value="default"><input type="hidden" name="presenter" value="Test"><input type="hidden" name="do" value="grid-form-submit"><!--[if IE]><input type=IEbug disabled style="display:none"><![endif]--></div>
+</form>
+
+</div><div id="snippet-grid-grid">
+
+<form action="/" method="get" id="frm-grid-form" class="ajax grido" data-grido-refresh-handler="/?action=default&amp;do=grid-refresh&amp;presenter=Test">
+    <div class="filter outer">
+        <div class="items">
+        </div>
+        <div class="buttons">
+                <input type="submit" name="buttons[reset]" class="btn btn-default btn-sm reset" id="frm-grid-form-buttons-reset" value="Reset">
+        </div>
+    </div>
+
+<table id="grid" class="table table-striped table-hover">
+    <thead>
+        <tr class="head">
+                <th class="column grid-header-firstname">
+                        Firstname
+                </th>
+                <th class="column grid-header-surname">
+                        Surname
+                </th>
+                <th class="column grid-header-gender">
+                        Gender
+                </th>
+                <th class="column grid-header-birthday">
+                        Birthday
+                </th>
+            <th class="actions center">
+                Actions
+            </th>
+        </tr>
+    </thead>
+    <tfoot>
+        <tr>
+            <td colspan="5">
+                <span class="paginator">
+                        <span class="btn btn-default btn-xs btn-mini disabled" href="/?grid-page=0&amp;action=default&amp;do=grid-page&amp;presenter=Test"><i class="glyphicon glyphicon-arrow-left fa fa-arrow-left icon-arrow-left"></i> Previous</span>
+                            <span class="btn btn-default btn-xs btn-mini disabled">1</span>
+                            <a class="btn btn-default btn-xs btn-mini ajax" href="/?grid-page=2&amp;action=default&amp;do=grid-page&amp;presenter=Test">2</a>
+                            <a class="btn btn-default btn-xs btn-mini ajax" href="/?grid-page=3&amp;action=default&amp;do=grid-page&amp;presenter=Test">3</a>
+                            <a class="btn btn-default btn-xs btn-mini ajax" href="/?grid-page=4&amp;action=default&amp;do=grid-page&amp;presenter=Test">4</a>
+                        <a class="prompt" data-grido-prompt="Enter page:" data-grido-link="/?grid-page=0&amp;action=default&amp;do=grid-page&amp;presenter=Test">...</a>
+                            <a class="btn btn-default btn-xs btn-mini ajax" href="/?grid-page=7&amp;action=default&amp;do=grid-page&amp;presenter=Test">7</a>
+                        <a class="prompt" data-grido-prompt="Enter page:" data-grido-link="/?grid-page=0&amp;action=default&amp;do=grid-page&amp;presenter=Test">...</a>
+                            <a class="btn btn-default btn-xs btn-mini ajax" href="/?grid-page=13&amp;action=default&amp;do=grid-page&amp;presenter=Test">13</a>
+                        <a class="prompt" data-grido-prompt="Enter page:" data-grido-link="/?grid-page=0&amp;action=default&amp;do=grid-page&amp;presenter=Test">...</a>
+                            <a class="btn btn-default btn-xs btn-mini ajax" href="/?grid-page=19&amp;action=default&amp;do=grid-page&amp;presenter=Test">19</a>
+                        <a class="prompt" data-grido-prompt="Enter page:" data-grido-link="/?grid-page=0&amp;action=default&amp;do=grid-page&amp;presenter=Test">...</a>
+                            <a class="btn btn-default btn-xs btn-mini ajax" href="/?grid-page=25&amp;action=default&amp;do=grid-page&amp;presenter=Test">25</a>
+                        <a class="btn btn-default btn-xs btn-mini ajax" href="/?grid-page=2&amp;action=default&amp;do=grid-page&amp;presenter=Test">Next <i class="glyphicon glyphicon-arrow-right fa fa-arrow-right icon-arrow-right"></i></a>
+                </span>
+                <span class="count">
+                    Items 1 - 2 of 50
+                    <select name="count" title="Items per page" class="form-control" id="frm-grid-form-count"><option value="2" selected>2</option><option value="10">10</option><option value="20">20</option><option value="30">30</option><option value="50">50</option><option value="100">100</option></select>
+                        <input type="submit" name="buttons[perPage]" id="frm-grid-form-buttons-perPage" value="Items per page" class="hide">
+                </span>
+            </td>
+        </tr>
+    </tfoot>
+    <tbody>
+            <tr class="grid-row-1">
+                    <td class="grid-cell-firstname">
+                            Trommler
+                    </td>
+                    <td class="grid-cell-surname">
+                            Trommler
+                    </td>
+                    <td class="grid-cell-gender">
+                            Martina
+                    </td>
+                    <td class="grid-cell-birthday">
+                            1964-10-25
+                    </td>
+                <td class="actions center">
+<a class="grid-action-edit btn btn-default btn-xs btn-mini" href="/?id=1&amp;action=edit&amp;presenter=Test">Edit</a>                </td>
+            </tr>
+            <tr class="grid-row-20">
+                    <td class="grid-cell-firstname">
+                            Marij
+                    </td>
+                    <td class="grid-cell-surname">
+                            Rašpolić Příliš, žluťoučký &quot;kůň&quot; úpěl &#039;ďábelské&#039; ódy.
+and newline &quot;test&quot;;
+                    </td>
+                    <td class="grid-cell-gender">
+                            male
+                    </td>
+                    <td class="grid-cell-birthday">
+                            1972-12-16
+                    </td>
+                <td class="actions center">
+<a class="grid-action-edit btn btn-default btn-xs btn-mini" href="/?id=20&amp;action=edit&amp;presenter=Test">Edit</a>                </td>
+            </tr>
+    </tbody>
+</table>
+<div><input type="hidden" name="action" value="default"><input type="hidden" name="presenter" value="Test"><input type="hidden" name="do" value="grid-form-submit"><!--[if IE]><input type=IEbug disabled style="display:none"><![endif]--></div>
+</form>
+
+</div><div id="snippet-grid-grid">
+
+<form action="/" method="get" id="frm-grid-form" class="ajax grido" data-grido-refresh-handler="/?action=default&amp;do=grid-refresh&amp;presenter=Test">
+    <div class="filter outer">
+        <div class="items">
+            <span class="grid-filter-firstname">
+                <label for="frm-grid-form-filters-firstname">Firstname</label>
+                <input type="text" name="filters[firstname]" class="text form-control" id="frm-grid-form-filters-firstname">
+            </span>
+            <span class="grid-filter-surname">
+                <label for="frm-grid-form-filters-surname">Surname</label>
+                <input type="text" name="filters[surname]" class="text form-control" id="frm-grid-form-filters-surname">
+            </span>
+            <span class="grid-filter-gender">
+                <label for="frm-grid-form-filters-gender">Gender</label>
+                <input type="text" name="filters[gender]" class="text form-control" id="frm-grid-form-filters-gender">
+            </span>
+            <span class="grid-filter-birthday">
+                <label for="frm-grid-form-filters-birthday">Birthday</label>
+                <input type="text" name="filters[birthday]" class="text date form-control" autocomplete="off" id="frm-grid-form-filters-birthday">
+            </span>
+        </div>
+        <div class="buttons">
+                    <input type="submit" name="buttons[search]" class="btn btn-default btn-sm search" id="frm-grid-form-buttons-search" value="Search">
+                <input type="submit" name="buttons[reset]" class="btn btn-default btn-sm reset" id="frm-grid-form-buttons-reset" value="Reset">
+        </div>
+    </div>
+
+<table id="grid" class="table table-striped table-hover">
+    <thead>
+        <tr class="head">
+                <th class="column grid-header-firstname">
+                        Firstname
+                </th>
+                <th class="column grid-header-surname">
+                        Surname
+                </th>
+                <th class="column grid-header-gender">
+                        Gender
+                </th>
+                <th class="column grid-header-birthday">
+                        Birthday
+                </th>
+        </tr>
+    </thead>
+    <tfoot>
+        <tr>
+            <td colspan="4">
+                <span class="paginator">
+                        <span class="btn btn-default btn-xs btn-mini disabled" href="/?grid-page=0&amp;action=default&amp;do=grid-page&amp;presenter=Test"><i class="glyphicon glyphicon-arrow-left fa fa-arrow-left icon-arrow-left"></i> Previous</span>
+                            <span class="btn btn-default btn-xs btn-mini disabled">1</span>
+                            <a class="btn btn-default btn-xs btn-mini ajax" href="/?grid-page=2&amp;action=default&amp;do=grid-page&amp;presenter=Test">2</a>
+                            <a class="btn btn-default btn-xs btn-mini ajax" href="/?grid-page=3&amp;action=default&amp;do=grid-page&amp;presenter=Test">3</a>
+                            <a class="btn btn-default btn-xs btn-mini ajax" href="/?grid-page=4&amp;action=default&amp;do=grid-page&amp;presenter=Test">4</a>
+                        <a class="prompt" data-grido-prompt="Enter page:" data-grido-link="/?grid-page=0&amp;action=default&amp;do=grid-page&amp;presenter=Test">...</a>
+                            <a class="btn btn-default btn-xs btn-mini ajax" href="/?grid-page=7&amp;action=default&amp;do=grid-page&amp;presenter=Test">7</a>
+                        <a class="prompt" data-grido-prompt="Enter page:" data-grido-link="/?grid-page=0&amp;action=default&amp;do=grid-page&amp;presenter=Test">...</a>
+                            <a class="btn btn-default btn-xs btn-mini ajax" href="/?grid-page=13&amp;action=default&amp;do=grid-page&amp;presenter=Test">13</a>
+                        <a class="prompt" data-grido-prompt="Enter page:" data-grido-link="/?grid-page=0&amp;action=default&amp;do=grid-page&amp;presenter=Test">...</a>
+                            <a class="btn btn-default btn-xs btn-mini ajax" href="/?grid-page=19&amp;action=default&amp;do=grid-page&amp;presenter=Test">19</a>
+                        <a class="prompt" data-grido-prompt="Enter page:" data-grido-link="/?grid-page=0&amp;action=default&amp;do=grid-page&amp;presenter=Test">...</a>
+                            <a class="btn btn-default btn-xs btn-mini ajax" href="/?grid-page=25&amp;action=default&amp;do=grid-page&amp;presenter=Test">25</a>
+                        <a class="btn btn-default btn-xs btn-mini ajax" href="/?grid-page=2&amp;action=default&amp;do=grid-page&amp;presenter=Test">Next <i class="glyphicon glyphicon-arrow-right fa fa-arrow-right icon-arrow-right"></i></a>
+                </span>
+                <span class="count">
+                    Items 1 - 2 of 50
+                    <select name="count" title="Items per page" class="form-control" id="frm-grid-form-count"><option value="2" selected>2</option><option value="10">10</option><option value="20">20</option><option value="30">30</option><option value="50">50</option><option value="100">100</option></select>
+                        <input type="submit" name="buttons[perPage]" id="frm-grid-form-buttons-perPage" value="Items per page" class="hide">
+                </span>
+            </td>
+        </tr>
+    </tfoot>
+    <tbody>
+            <tr class="grid-row-1">
+                    <td class="grid-cell-firstname">
+                            Trommler
+                    </td>
+                    <td class="grid-cell-surname">
+                            Trommler
+                    </td>
+                    <td class="grid-cell-gender">
+                            Martina
+                    </td>
+                    <td class="grid-cell-birthday">
+                            1964-10-25
+                    </td>
+            </tr>
+            <tr class="grid-row-20">
+                    <td class="grid-cell-firstname">
+                            Marij
+                    </td>
+                    <td class="grid-cell-surname">
+                            Rašpolić Příliš, žluťoučký &quot;kůň&quot; úpěl &#039;ďábelské&#039; ódy.
+and newline &quot;test&quot;;
+                    </td>
+                    <td class="grid-cell-gender">
+                            male
+                    </td>
+                    <td class="grid-cell-birthday">
+                            1972-12-16
+                    </td>
+            </tr>
+    </tbody>
+</table>
+<div><input type="hidden" name="action" value="default"><input type="hidden" name="presenter" value="Test"><input type="hidden" name="do" value="grid-form-submit"></div>
+</form>
+
+</div><div id="snippet-grid-grid">
+
+<form action="/" method="get" id="frm-grid-form" class="ajax grido" data-grido-refresh-handler="/?action=default&amp;do=grid-refresh&amp;presenter=Test">
+    <div class="filter outer">
+        <div class="items">
+            <span class="grid-filter-firstname">
+                <label for="frm-grid-form-filters-firstname">Firstname</label>
+                <input type="text" name="filters[firstname]" class="text form-control" id="frm-grid-form-filters-firstname">
+            </span>
+            <span class="grid-filter-surname">
+                <label for="frm-grid-form-filters-surname">Surname</label>
+                <input type="text" name="filters[surname]" class="text form-control" id="frm-grid-form-filters-surname">
+            </span>
+            <span class="grid-filter-gender">
+                <label for="frm-grid-form-filters-gender">Gender</label>
+                <input type="text" name="filters[gender]" class="text form-control" id="frm-grid-form-filters-gender">
+            </span>
+            <span class="grid-filter-birthday">
+                <label for="frm-grid-form-filters-birthday">Birthday</label>
+                <input type="text" name="filters[birthday]" class="text date form-control" autocomplete="off" id="frm-grid-form-filters-birthday">
+            </span>
+        </div>
+        <div class="buttons">
+                    <input type="submit" name="buttons[search]" class="btn btn-default btn-sm search" id="frm-grid-form-buttons-search" value="Search">
+                <input type="submit" name="buttons[reset]" class="btn btn-default btn-sm reset" id="frm-grid-form-buttons-reset" value="Reset">
+        </div>
+    </div>
+
+<table id="grid" class="table table-striped table-hover">
+    <thead>
+        <tr class="head">
+                <th class="column grid-header-firstname">
+                        Firstname
+                </th>
+                <th class="column grid-header-surname">
+                        Surname
+                </th>
+                <th class="column grid-header-gender">
+                        Gender
+                </th>
+                <th class="column grid-header-birthday">
+                        Birthday
+                </th>
+            <th class="actions center">
+                Actions
+            </th>
+        </tr>
+    </thead>
+    <tfoot>
+        <tr>
+            <td colspan="5">
+                <span class="paginator">
+                        <span class="btn btn-default btn-xs btn-mini disabled" href="/?grid-page=0&amp;action=default&amp;do=grid-page&amp;presenter=Test"><i class="glyphicon glyphicon-arrow-left fa fa-arrow-left icon-arrow-left"></i> Previous</span>
+                            <span class="btn btn-default btn-xs btn-mini disabled">1</span>
+                            <a class="btn btn-default btn-xs btn-mini ajax" href="/?grid-page=2&amp;action=default&amp;do=grid-page&amp;presenter=Test">2</a>
+                            <a class="btn btn-default btn-xs btn-mini ajax" href="/?grid-page=3&amp;action=default&amp;do=grid-page&amp;presenter=Test">3</a>
+                            <a class="btn btn-default btn-xs btn-mini ajax" href="/?grid-page=4&amp;action=default&amp;do=grid-page&amp;presenter=Test">4</a>
+                        <a class="prompt" data-grido-prompt="Enter page:" data-grido-link="/?grid-page=0&amp;action=default&amp;do=grid-page&amp;presenter=Test">...</a>
+                            <a class="btn btn-default btn-xs btn-mini ajax" href="/?grid-page=7&amp;action=default&amp;do=grid-page&amp;presenter=Test">7</a>
+                        <a class="prompt" data-grido-prompt="Enter page:" data-grido-link="/?grid-page=0&amp;action=default&amp;do=grid-page&amp;presenter=Test">...</a>
+                            <a class="btn btn-default btn-xs btn-mini ajax" href="/?grid-page=13&amp;action=default&amp;do=grid-page&amp;presenter=Test">13</a>
+                        <a class="prompt" data-grido-prompt="Enter page:" data-grido-link="/?grid-page=0&amp;action=default&amp;do=grid-page&amp;presenter=Test">...</a>
+                            <a class="btn btn-default btn-xs btn-mini ajax" href="/?grid-page=19&amp;action=default&amp;do=grid-page&amp;presenter=Test">19</a>
+                        <a class="prompt" data-grido-prompt="Enter page:" data-grido-link="/?grid-page=0&amp;action=default&amp;do=grid-page&amp;presenter=Test">...</a>
+                            <a class="btn btn-default btn-xs btn-mini ajax" href="/?grid-page=25&amp;action=default&amp;do=grid-page&amp;presenter=Test">25</a>
+                        <a class="btn btn-default btn-xs btn-mini ajax" href="/?grid-page=2&amp;action=default&amp;do=grid-page&amp;presenter=Test">Next <i class="glyphicon glyphicon-arrow-right fa fa-arrow-right icon-arrow-right"></i></a>
+                </span>
+                <span class="count">
+                    Items 1 - 2 of 50
+                    <select name="count" title="Items per page" class="form-control" id="frm-grid-form-count"><option value="2" selected>2</option><option value="10">10</option><option value="20">20</option><option value="30">30</option><option value="50">50</option><option value="100">100</option></select>
+                        <input type="submit" name="buttons[perPage]" id="frm-grid-form-buttons-perPage" value="Items per page" class="hide">
+                </span>
+            </td>
+        </tr>
+    </tfoot>
+    <tbody>
+            <tr class="grid-row-1">
+                    <td class="grid-cell-firstname">
+                            Trommler
+                    </td>
+                    <td class="grid-cell-surname">
+                            Trommler
+                    </td>
+                    <td class="grid-cell-gender">
+                            Martina
+                    </td>
+                    <td class="grid-cell-birthday">
+                            1964-10-25
+                    </td>
+                <td class="actions center">
+<a class="grid-action-edit btn btn-default btn-xs btn-mini" href="/?id=1&amp;action=edit&amp;presenter=Test">Edit</a>                </td>
+            </tr>
+            <tr class="grid-row-20">
+                    <td class="grid-cell-firstname">
+                            Marij
+                    </td>
+                    <td class="grid-cell-surname">
+                            Rašpolić Příliš, žluťoučký &quot;kůň&quot; úpěl &#039;ďábelské&#039; ódy.
+and newline &quot;test&quot;;
+                    </td>
+                    <td class="grid-cell-gender">
+                            male
+                    </td>
+                    <td class="grid-cell-birthday">
+                            1972-12-16
+                    </td>
+                <td class="actions center">
+<a class="grid-action-edit btn btn-default btn-xs btn-mini" href="/?id=20&amp;action=edit&amp;presenter=Test">Edit</a>                </td>
+            </tr>
+    </tbody>
+</table>
+<div><input type="hidden" name="action" value="default"><input type="hidden" name="presenter" value="Test"><input type="hidden" name="do" value="grid-form-submit"></div>
+</form>
+
+</div>
