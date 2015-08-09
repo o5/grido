@@ -20,31 +20,31 @@ namespace Grido\Components\Columns;
  */
 class Check extends Editable
 {
-	/**
-	 * @param mixed $value
-	 * @return mixed
-	 */
-	protected function formatValue($value)
-	{
-		$value = parent::formatValue($value);
+    /**
+     * @param mixed $value
+     * @return mixed
+     */
+    protected function formatValue($value)
+    {
+        $value = parent::formatValue($value);
 
-		return $value
-			? $this->translate('Grido.Columns.Check.Positive')
-			: $this->translate('Grido.Columns.Check.Negative');
-	}
+        return $value
+            ? $this->translate('Grido.Columns.Check.Positive')
+            : $this->translate('Grido.Columns.Check.Negative');
+    }
 
-	/**
-	 * @param mixed $row
-	 * @return string
-	 * @internal
-	 */
-	public function renderExport($row)
-	{
-		if (is_callable($this->customRenderExport)) {
-			return callback($this->customRenderExport)->invokeArgs(array($row));
-		}
+    /**
+     * @param mixed $row
+     * @return string
+     * @internal
+     */
+    public function renderExport($row)
+    {
+        if (is_callable($this->customRenderExport)) {
+            return callback($this->customRenderExport)->invokeArgs(array($row));
+        }
 
-		$value = $this->getValue($row);
-		return $this->formatValue($value);
-	}
+        $value = $this->getValue($row);
+        return $this->formatValue($value);
+    }
 }

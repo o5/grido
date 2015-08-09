@@ -10,20 +10,20 @@
 require_once __DIR__ . '/../bootstrap.php';
 
 use Tester\Assert,
-	Grido\Grid;
+    Grido\Grid;
 
 test(function() {
-	$grid = new Grid;
+    $grid = new Grid;
 
-	$column = $grid->addColumnCheck('column', 'Column');
-	Assert::same('Yes', $column->render(array('column' => TRUE)));
-	Assert::same('No', $column->render(array('column' => FALSE)));
+    $column = $grid->addColumnCheck('column', 'Column');
+    Assert::same('Yes', $column->render(array('column' => TRUE)));
+    Assert::same('No', $column->render(array('column' => FALSE)));
 
-	Assert::same('Yes', $column->render(array('column' => 1)));
-	Assert::same('No', $column->render(array('column' => 0)));
+    Assert::same('Yes', $column->render(array('column' => 1)));
+    Assert::same('No', $column->render(array('column' => 0)));
 
-	Assert::same('Yes', $column->render(array('column' => 't')));
-	Assert::same('No', $column->render(array('column' => '')));
+    Assert::same('Yes', $column->render(array('column' => 't')));
+    Assert::same('No', $column->render(array('column' => '')));
 
-	Assert::same('No', $column->render(array('column' => NULL)));
+    Assert::same('No', $column->render(array('column' => NULL)));
 });
