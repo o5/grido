@@ -51,8 +51,16 @@
             if (payload.grido) {
                 this.selector.trigger('success.ajax.grido', payload);
 
-                //scroll up after ajax update
-                $('html, body').animate({scrollTop: 0}, 400);
+                //scroll to first grid after ajax update
+			    var offset = 0;
+			    for (var id in payload.snippets) {
+				    var $snippet = $('#' + id);
+				    if ($snippet.length) {
+				        offset = parseInt($snippet.offset()['top']);
+				    }
+				    break;
+			    }
+			    $('html, body').animate({scrollTop: offset}, 400);
             }
         }
     });
