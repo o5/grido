@@ -128,7 +128,9 @@
                     var page = parseInt(prompt($(this).data('grido-prompt')), 10);
                     if (page && page > 0 && page <= parseInt($('.paginator a.btn:last', that.element).prev().text(), 10)) {
                         var location = $(this).data('grido-link').replace('page=0', 'page=' + page);
-                        window.location = that.options.ajax ? location.replace('?', '#') : location;
+                        window.location = location;
+                    } else if (page) {
+                        window.alert('Page is out of range.');
                     }
                 });
         },
