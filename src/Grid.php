@@ -506,10 +506,10 @@ class Grid extends Components\Container
             $this->tablePrototype->id($this->getName())
                 ->class[] = 'table table-striped table-hover';
         // `id` can be still NULL if `name` was not passed to Grid constructor
-	    // try to inject it again
+        // try to inject it again
         } elseif (!$this->tablePrototype->id) {
             $this->tablePrototype->id($this->getName());
-	    }
+        }
 
         return $this->tablePrototype;
     }
