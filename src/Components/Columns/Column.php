@@ -349,7 +349,7 @@ abstract class Column extends \Grido\Components\Component
     protected function formatValue($value)
     {
         $value = is_string($value)
-            ? \Nette\Templating\Helpers::escapeHtml($value)
+            ? \Latte\Runtime\Filters::escapeHtml($value)
             : $value;
 
         return $this->applyReplacement($value);

@@ -246,8 +246,10 @@ class EditableTest extends \Tester\TestCase
 
         Helper::grid(function(Grid $grid) use ($editableSuffix) {
             $dsn = $grid->presenter->context->ndb_sqlite->getDsn() . $editableSuffix;
+            $cacheMemoryStorage = new \Nette\Caching\Storages\MemoryStorage;
             $connection = new \Nette\Database\Connection($dsn);
-            $database = new \Nette\Database\Context($connection);
+			$structure = new \Nette\Database\Structure($connection, $cacheMemoryStorage);
+            $database = new \Nette\Database\Context($connection, $structure);
 
             $grid->setModel($database->table('user'));
             $grid->presenter->forceAjaxMode = TRUE;
@@ -268,8 +270,10 @@ class EditableTest extends \Tester\TestCase
         //TEST INSIDE EDITABLE CALLBACK
         Helper::grid(function(Grid $grid) use ($editableSuffix, $newValue, $oldValue, $id) {
             $dsn = $grid->presenter->context->ndb_sqlite->getDsn() . $editableSuffix;
+			$cacheMemoryStorage = new \Nette\Caching\Storages\MemoryStorage;
             $connection = new \Nette\Database\Connection($dsn);
-            $database = new \Nette\Database\Context($connection);
+			$structure = new \Nette\Database\Structure($connection, $cacheMemoryStorage);
+            $database = new \Nette\Database\Context($connection, $structure);
 
             $grid->setModel($database->table('user'));
             $grid->presenter->forceAjaxMode = TRUE;
