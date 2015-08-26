@@ -108,7 +108,7 @@ class Export extends Component implements \Nette\Application\IResponse
         $source = "\xFF\xFE" . $source; //add BOM
 
         $httpResponse->setHeader('Content-Encoding', $encoding);
-        $httpResponse->setHeader('Content-Length', mb_strlen($source, $encoding));
+        $httpResponse->setHeader('Content-Length', strlen($source));
         $httpResponse->setHeader('Content-Type', "text/csv; charset=$encoding");
         $httpResponse->setHeader('Content-Disposition', "attachment; filename=\"$file\"; filename*=utf-8''$file");
 
