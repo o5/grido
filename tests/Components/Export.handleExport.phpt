@@ -69,7 +69,7 @@ test(function() {
 
     Assert::same(array(
 	'Content-Encoding' => 'UTF-16LE',
-	'Content-Length' => 103,
+	'Content-Length' => 206,
 	'Content-Type' => 'text/csv; charset=UTF-16LE',
 	'Content-Disposition' => 'attachment; filename="Grid.csv"; filename*=utf-8\'\'Grid.csv',
     ), Response::$headers);
