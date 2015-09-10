@@ -81,6 +81,9 @@ class Grid extends Components\Container
     protected $rememberState = FALSE;
 
     /** @var string */
+    protected $rememberStateSectionName;
+
+    /** @var string */
     protected $primaryKey = 'id';
 
     /** @var string */
@@ -268,13 +271,15 @@ class Grid extends Components\Container
     /**
      * Sets saving state to session.
      * @param bool $state
+     * @param string $sectionName
      * @return Grid
      */
-    public function setRememberState($state = TRUE)
+    public function setRememberState($state = TRUE, $sectionName = NULL)
     {
         $this->getPresenter(); //component must be attached to presenter
         $this->getRememberSession(TRUE); //start session if not
         $this->rememberState = (bool) $state;
+        $this->rememberStateSectionName = $sectionName;
 
         return $this;
     }
@@ -491,7 +496,7 @@ class Grid extends Components\Container
         }
 
         return $session->isStarted()
-            ? ($session->getSection($presenter->name . ':' . $this->getUniqueId()))
+            ? ($session->getSection($this->rememberStateSectionName ?: ($presenter->name . ':' . $this->getUniqueId())))
             : NULL;
     }
 
