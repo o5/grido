@@ -272,10 +272,7 @@ class Grid extends Components\Container
      */
     public function setRememberState($state = TRUE)
     {
-        $this->getPresenter(); //component must be attached to presenter
-        $this->getRememberSession(TRUE); //start session if not
         $this->rememberState = (bool) $state;
-
         return $this;
     }
 
@@ -487,7 +484,12 @@ class Grid extends Components\Container
         $session = $presenter->getSession();
 
         if (!$session->isStarted() && $forceStart) {
-            $session->start();
+            try {
+                $session->start();
+            }
+            catch (\Nette\InvalidStateException $ex) {
+                return NULL;
+            }
         }
 
         return $session->isStarted()
@@ -707,8 +709,8 @@ class Grid extends Components\Container
     {
         $values = $button->form->values[Filter::ID];
         $session = $this->rememberState //session filter
-            ? isset($this->getRememberSession(TRUE)->params['filter'])
-                ? $this->getRememberSession(TRUE)->params['filter']
+            ? ($this->getRememberSession(TRUE) && isset($this->getRememberSession()->params['filter']))
+                ? $this->getRememberSession()->params['filter']
                 : array()
             : array();
 
@@ -734,7 +736,7 @@ class Grid extends Components\Container
         $this->filter = array();
         $this->perPage = NULL;
 
-        if ($session = $this->getRememberSession()) {
+        if ($this->rememberState && $session = $this->getRememberSession(TRUE)) {
             $session->remove();
         }
 
@@ -817,9 +819,9 @@ class Grid extends Components\Container
 
     protected function saveRememberState()
     {
-        if ($this->rememberState) {
-            $session = $this->getRememberSession(TRUE);
+        if ($this->rememberState && $session = $this->getRememberSession(TRUE)) {
             $params = array_keys($this->getReflection()->getPersistentParams());
+
             foreach ($params as $param) {
                 $session->params[$param] = $this->$param;
             }
