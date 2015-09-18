@@ -33,7 +33,8 @@
                 datumTokenizer: window.Bloodhound.tokenizers.obj.whitespace('value'),
                 queryTokenizer: window.Bloodhound.tokenizers.whitespace,
                 remote: {
-                    url: url.replace(wildcard, '%QUERY')
+                    url: url.replace(wildcard, '%QUERY'),
+                    wildcard: '%QUERY'
                 }
             };
 
