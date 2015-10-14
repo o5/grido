@@ -48,7 +48,7 @@
 }
 
 .grido tr.head th:first-child {border-radius: 4px 0 0 0}
-.grido tr.head th:last-child {border-radius: 4px 4px 0 0}
+.grido tr.head th:last-child {border-radius: 0 4px 0 0}
 
 .grido th,
 .grido td
