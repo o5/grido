@@ -16,15 +16,17 @@ fi;
 
 if [ ! -z "$PHP_FILES" ]; then
     echo "\nCheck coding standards using PHP_CodeSniffer...\n"
-    vendor/bin/phpcs --standard=standards.xml --colors --encoding=utf-8 --runtime-set php_path php -sp $PHP_FILES
+    vendor/bin/phpcs --ignore=tests/ --standard=standards.xml --colors --encoding=utf-8 --runtime-set php_path php -sp $PHP_FILES
     if [ $? != 0 ]; then
         EXITCODE=1
     fi
 
-    echo "Run Nette Tester...\n"
-    vendor/bin/tester -p php -s tests/
-    if [ $? != 0 ]; then
-        EXITCODE=1
+    if [ $EXITCODE == 0 ]; then
+        echo "Run Nette Tester...\n"
+        vendor/bin/tester -p php -s tests/
+        if [ $? != 0 ]; then
+            EXITCODE=1
+        fi
     fi
 fi
 
