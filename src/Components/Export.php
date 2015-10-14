@@ -29,9 +29,7 @@ class Export extends Component implements \Nette\Application\IResponse
     public function __construct(\Grido\Grid $grid, $label = NULL)
     {
         $this->grid = $grid;
-        $this->label = $label === NULL
-            ? ucfirst($this->grid->getName())
-            : $label;
+        $this->label = $label;
 
         $grid->addComponent($this, self::ID);
     }
@@ -101,7 +99,7 @@ class Export extends Component implements \Nette\Application\IResponse
     public function send(\Nette\Http\IRequest $httpRequest, \Nette\Http\IResponse $httpResponse)
     {
         $encoding = 'UTF-16LE';
-        $file = $this->label . '.csv';
+        $file = ($this->label ? $this->label : ucfirst($this->grid->getName())) . '.csv';
 
         $source = $this->generateSource();
         $source = mb_convert_encoding($source, $encoding, 'UTF-8');

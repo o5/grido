@@ -66,7 +66,7 @@ function run($path, $name = NULL)
             if ($name) {
                 $test->runTest($name);
             } else {
-                $test->run();
+                method_exists($test, 'run') && $test->run();
             }
         }
     }
