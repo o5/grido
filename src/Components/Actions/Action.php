@@ -150,7 +150,7 @@ abstract class Action extends \Grido\Components\Component
     /**
      * Returns element prototype (<a> html tag).
      * @return Html
-     * @throws \Exception
+     * @throws Exception
      */
     public function getElementPrototype()
     {
