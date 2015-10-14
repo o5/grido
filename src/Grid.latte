@@ -97,9 +97,14 @@
         <tr n:if="$filterRenderType == \Grido\Components\Filters\Filter::RENDER_INNER && $filters" class="filter inner">
             {foreach $columns as $column}
                 {if $column->hasFilter()}
-                    {$control->getFilter($column->getName())->getWrapperPrototype()->startTag()|noescape}
+                    {var $f = $control->getFilter($column->getName())}
+                    {$f->getWrapperPrototype()->startTag()|noescape}
                     {formContainer filters}
-                        {input $column->getName()}
+                        {if $f instanceof \Grido\Components\Filters\Check}
+                            {input $column->getName():}
+                        {else}
+                            {input $column->getName()}
+                        {/if}
                     {/formContainer}
                     {$control->getFilter($column->getName())->getWrapperPrototype()->endTag()|noescape}
                 {elseif $column->headerPrototype->rowspan != 2}

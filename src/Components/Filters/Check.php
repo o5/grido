@@ -31,7 +31,9 @@ class Check extends Filter
      */
     protected function getFormControl()
     {
-        return new \Nette\Forms\Controls\Checkbox($this->label);
+        $control = new \Nette\Forms\Controls\Checkbox($this->label);
+        $control->getControlPrototype()->class[] = 'checkbox';
+        return $control;
     }
 
     /**

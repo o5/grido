@@ -17,11 +17,11 @@
             </span>
             <span class="grid-filter-male">
 
-                <label for="frm-grid-form-filters-male"><input type="checkbox" name="filters[male]" class="form-control" id="frm-grid-form-filters-male" checked>Only male</label>
+                <label for="frm-grid-form-filters-male"><input type="checkbox" name="filters[male]" class="checkbox form-control" id="frm-grid-form-filters-male" checked>Only male</label>
             </span>
             <span class="grid-filter-tall">
 
-                <label for="frm-grid-form-filters-tall"><input type="checkbox" name="filters[tall]" class="form-control" id="frm-grid-form-filters-tall">Only tall</label>
+                <label for="frm-grid-form-filters-tall"><input type="checkbox" name="filters[tall]" class="checkbox form-control" id="frm-grid-form-filters-tall">Only tall</label>
             </span>
         </div>
         <div class="buttons">

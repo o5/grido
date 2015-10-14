@@ -103,6 +103,7 @@
 .grido .filter.outer input.text,
 .grido .filter.inner select,
 .grido .filter.inner input.text {width: 100%}
+.grido .filter.inner input.checkbox {margin: 0 auto}
 
 .grido .filter.outer .buttons {
     float: right;

@@ -29,16 +29,16 @@
         </tr>
         <tr class="filter inner">
                     <th class="grid-filter-firstname">
-                        <input type="text" name="filters[firstname]" class="text form-control" id="frm-grid-form-filters-firstname">
+                            <input type="text" name="filters[firstname]" class="text form-control" id="frm-grid-form-filters-firstname">
                     </th>
                     <th class="grid-filter-surname">
-                        <input type="text" name="filters[surname]" class="text form-control" id="frm-grid-form-filters-surname">
+                            <input type="text" name="filters[surname]" class="text form-control" id="frm-grid-form-filters-surname">
                     </th>
                     <th class="grid-filter-gender">
-                        <input type="text" name="filters[gender]" class="text form-control" id="frm-grid-form-filters-gender">
+                            <input type="text" name="filters[gender]" class="text form-control" id="frm-grid-form-filters-gender">
                     </th>
                     <th class="grid-filter-birthday">
-                        <input type="text" name="filters[birthday]" class="text date form-control" autocomplete="off" id="frm-grid-form-filters-birthday">
+                            <input type="text" name="filters[birthday]" class="text date form-control" autocomplete="off" id="frm-grid-form-filters-birthday">
                     </th>
 
             <th class="buttons">
