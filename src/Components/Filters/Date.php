@@ -24,6 +24,9 @@ namespace Grido\Components\Filters;
 class Date extends Text
 {
     /** @var string */
+    protected $condition = 'BETWEEN ? AND ?';
+
+    /** @var string */
     protected $formatValue;
 
     /** @var string */
@@ -94,9 +97,13 @@ class Date extends Text
     {
         $condition = $this->condition;
         if ($this->where === NULL && is_string($condition)) {
-            $column = $this->getColumn();
-            return ($date = \DateTime::createFromFormat($this->dateFormatInput, $value))
-                ? Condition::setupFromArray(array($column, $condition, $date->format($this->dateFormatOutput)))
+            $date = \DateTime::createFromFormat($this->dateFormatInput, trim($value));
+            $values = $date
+                ? array($date->format('Y-m-d') . ' 00:00:00', $date->format('Y-m-d') . ' 23:59:59')
+                : NULL;
+
+            return $values
+                ? Condition::setup($this->getColumn(), $this->condition, $values)
                 : Condition::setupEmpty();
         }
 
