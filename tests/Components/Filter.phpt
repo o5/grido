@@ -34,7 +34,7 @@ class FilterTest extends \Tester\TestCase
         $filter->setColumn('column3', 'and');
         Assert::error(function() use ($filter) {
             $filter->setColumn('column4', 'ORR');
-        }, 'InvalidArgumentException', 'Operator must be Condition::OPERATOR_AND or Condition::OPERATOR_OR.');
+        }, 'Grido\Exception', 'Operator must be Condition::OPERATOR_AND or Condition::OPERATOR_OR.');
 
         $filter = $grid->addFilterText('filterY', 'Filter');
         Assert::same(array('filterY'), $filter->column);
@@ -214,7 +214,7 @@ class FilterTest extends \Tester\TestCase
         // getter
         Assert::exception(function() use ($grid) {
             $grid->getFilter('filter');
-        }, 'InvalidArgumentException');
+        }, 'Nette\InvalidArgumentException');
         Assert::null($grid->getFilter('filter', FALSE));
 
         $grid = new Grid;

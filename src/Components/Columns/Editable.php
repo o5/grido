@@ -11,6 +11,8 @@
 
 namespace Grido\Components\Columns;
 
+use Grido\Exception;
+
 /**
  * An inline editable column.
  *
@@ -124,6 +126,9 @@ abstract class Editable extends Column
         return $this;
     }
 
+    /**
+     * @throws Exception
+     */
     protected function setClientSideOptions()
     {
         $options = $this->grid->getClientSideOptions();
@@ -148,12 +153,12 @@ abstract class Editable extends Column
                         ($column->editableCallback === NULL && $isMissing('update'))
                     ) {
                         $msg = "Column '$colName' has error: You must define callback via setEditableCallback().";
-                        throw new \Exception($msg);
+                        throw new Exception($msg);
                     }
 
                     if ($column->editableRowCallback === NULL && $column->customRender && $isMissing('getRow')) {
                         $msg = "Column '$colName' has error: You must define callback via setEditableRowCallback().";
-                        throw new \Exception($msg);
+                        throw new Exception($msg);
                     }
                 }
             };

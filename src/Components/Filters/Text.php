@@ -11,6 +11,8 @@
 
 namespace Grido\Components\Filters;
 
+use Grido\Exception;
+
 /**
  * Text input filter.
  *
@@ -119,7 +121,7 @@ class Text extends Filter
     /**
      * @param string $query - value from input
      * @internal
-     * @throws \Exception
+     * @throws Exception
      */
     public function handleSuggest($query)
     {
@@ -146,7 +148,7 @@ class Text extends Filter
         } else {
             $items = callback($this->suggestionCallback)->invokeArgs(array($query, $actualFilter, $conditions, $this));
             if (!is_array($items)) {
-                throw new \Exception('Items must be an array.');
+                throw new Exception('Items must be an array.');
             }
         }
 

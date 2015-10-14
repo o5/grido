@@ -11,6 +11,8 @@
 
 namespace Grido\DataSources;
 
+use Grido\Exception;
+
 /**
  * Dibi Fluent data source.
  *
@@ -154,7 +156,7 @@ class DibiFluent extends \Nette\Object implements IDataSource
      * @param array $conditions
      * @param int $limit
      * @return array
-     * @throws \InvalidArgumentException
+     * @throws Exception
      */
     public function suggest($column, array $conditions, $limit)
     {
@@ -176,7 +178,7 @@ class DibiFluent extends \Nette\Object implements IDataSource
                 $value = (string) $column($row);
             } else {
                 $type = gettype($column);
-                throw new \InvalidArgumentException("Column of suggestion must be string or callback, $type given.");
+                throw new Exception("Column of suggestion must be string or callback, $type given.");
             }
 
             $items[$value] = \Nette\Templating\Helpers::escapeHtml($value);

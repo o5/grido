@@ -72,11 +72,11 @@ class GridTest extends \Tester\TestCase
 
         Assert::exception(function() use ($grid) {
             $grid->setModel(mock('BAD'));
-        }, 'InvalidArgumentException', 'Model must implement \Grido\DataSources\IDataSource.');
+        }, 'Grido\Exception', 'Model must implement \Grido\DataSources\IDataSource.');
 
         Assert::exception(function() use ($grid) {
             $grid->setModel(mock('BAD'), TRUE);
-        }, 'InvalidArgumentException', 'Model must implement \Grido\DataSources\IDataSource.');
+        }, 'Grido\Exception', 'Model must implement \Grido\DataSources\IDataSource.');
 
         Assert::exception(function() {
             $grid = new Grid;
@@ -166,7 +166,7 @@ class GridTest extends \Tester\TestCase
 
         Assert::exception(function() use ($grid) {
             $grid->setDefaultSort(array('a' => 'up'));
-        }, 'InvalidArgumentException', "Dir 'up' for column 'a' is not allowed.");
+        }, 'Grido\Exception', "Dir 'up' for column 'a' is not allowed.");
 
         $grid = new Grid;
         $data = array(
@@ -202,7 +202,7 @@ class GridTest extends \Tester\TestCase
 
         Assert::exception(function() use ($grid) {
             $grid->setDefaultSort(array('A' => 'up'));
-        }, 'InvalidArgumentException', "Dir 'up' for column 'A' is not allowed.");
+        }, 'Grido\Exception', "Dir 'up' for column 'A' is not allowed.");
     }
 
     function testSetPerPageList()
@@ -250,7 +250,7 @@ class GridTest extends \Tester\TestCase
 
         Assert::exception(function() use ($grid) {
             $grid->setFilterRenderType('INNERR');
-        }, 'InvalidArgumentException', 'Type must be Filter::RENDER_INNER or Filter::RENDER_OUTER.');
+        }, 'Grido\Exception', 'Type must be Filter::RENDER_INNER or Filter::RENDER_OUTER.');
     }
 
     function testSetPaginator()

@@ -11,6 +11,8 @@
 
 namespace Grido\Translations;
 
+use Grido\Exception;
+
 /**
  * Simple file translator.
  *
@@ -44,13 +46,13 @@ class FileTranslator extends \Nette\Object implements \Nette\Localization\ITrans
 
     /**
      * @param string $lang
-     * @throws \Exception
+     * @throws Exception
      * @return array
      */
     protected function getTranslationsFromFile($lang)
     {
         if (!$translations = @include (__DIR__ . "/$lang.php")) {
-            throw new \Exception("Translations for language '$lang' not found.");
+            throw new Exception("Translations for language '$lang' not found.");
         }
 
         return $translations;

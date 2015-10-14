@@ -121,7 +121,7 @@ class OperationTest extends \Tester\TestCase
         $grid = new Grid;
         Assert::exception(function() use ($grid) {
             $grid->getOperation();
-        }, 'InvalidArgumentException');
+        }, 'Nette\InvalidArgumentException');
 
         Assert::null($grid->getOperation(FALSE));
     }

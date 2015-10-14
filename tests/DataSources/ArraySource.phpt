@@ -99,7 +99,7 @@ class ArraySourceTest extends DataSourceTestCase
 
         Assert::error(function() use ($source) {
             Assert::true($source->compare(2, 'SOMETHING ?', 3));
-        }, 'InvalidArgumentException', "Condition 'SOMETHING ?' not implemented yet.");
+        }, 'Grido\Exception', "Condition 'SOMETHING ?' not implemented yet.");
     }
 }
 

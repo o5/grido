@@ -11,6 +11,8 @@
 
 namespace Grido\DataSources;
 
+use Grido\Exception;
+
 /**
  * Model of data source.
  *
@@ -30,7 +32,7 @@ class Model extends \Nette\Object
 
     /**
      * @param mixed $model
-     * @throws \InvalidArgumentException
+     * @throws Exception
      */
     public function __construct($model)
     {
@@ -45,7 +47,7 @@ class Model extends \Nette\Object
         } elseif ($model instanceof IDataSource) {
             $dataSource = $model;
         } else {
-            throw new \InvalidArgumentException('Model must implement \Grido\DataSources\IDataSource.');
+            throw new Exception('Model must implement \Grido\DataSources\IDataSource.');
         }
 
         $this->dataSource = $dataSource;

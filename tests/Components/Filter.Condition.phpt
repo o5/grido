@@ -29,11 +29,11 @@ class FilterConditionTest extends \Tester\TestCase
 
         Assert::exception(function() {
             new Condition(array('column', 'or'), NULL);
-        }, 'InvalidArgumentException', 'Count of column must be odd.');
+        }, 'Grido\Exception', 'Count of column must be odd.');
 
         Assert::exception(function() {
             new Condition(array('column', 'xxx', 'column2'), NULL);
-        }, 'InvalidArgumentException', "The even values of column must be 'AND' or 'OR', 'xxx' given.");
+        }, 'Grido\Exception', "The even values of column must be 'AND' or 'OR', 'xxx' given.");
     }
 
     function testSetCondition()
@@ -86,13 +86,13 @@ class FilterConditionTest extends \Tester\TestCase
         Assert::same(array('condition'), $condition->condition);
         Assert::same(array('value'), $condition->value);
 
-        Assert::error(function() {
+        Assert::exception(function() {
             Condition::setupFromArray(array('one'));
-        }, '\InvalidArgumentException', 'Condition array must contain 3 items.');
+        }, 'Grido\Exception', 'Condition array must contain 3 items.');
 
-        Assert::error(function() {
+        Assert::exception(function() {
             Condition::setupFromArray(array('one', 'two', 'three', 'for'));
-        }, '\InvalidArgumentException', 'Condition array must contain 3 items.');
+        }, 'Grido\Exception', 'Condition array must contain 3 items.');
     }
 
     function testSetupFromCallback()

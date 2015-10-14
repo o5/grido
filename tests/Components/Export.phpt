@@ -48,7 +48,7 @@ class ExportTest extends \Tester\TestCase
         // getter
         Assert::exception(function() use ($grid) {
             $grid->getExport();
-        }, 'InvalidArgumentException');
+        }, 'Nette\InvalidArgumentException');
     }
 }
 

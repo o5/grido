@@ -11,6 +11,8 @@
 
 namespace Grido\Components\Filters;
 
+use Grido\Exception;
+
 /**
  * Builds filter condition.
  *
@@ -54,7 +56,7 @@ class Condition extends \Nette\Object
 
     /**
      * @param mixed $column
-     * @throws \InvalidArgumentException
+     * @throws Exception
      * @return Condition
      */
     public function setColumn($column)
@@ -64,14 +66,14 @@ class Condition extends \Nette\Object
 
             //check validity
             if ($count % 2 === 0) {
-                throw new \InvalidArgumentException('Count of column must be odd.');
+                throw new Exception('Count of column must be odd.');
             }
 
             for ($i = 0; $i < $count; $i++) {
                 $item = $column[$i];
                 if ($i & 1 && !self::isOperator($item)) {
                     $msg = "The even values of column must be 'AND' or 'OR', '$item' given.";
-                    throw new \InvalidArgumentException($msg);
+                    throw new Exception($msg);
                 }
             }
         } else {
@@ -205,13 +207,13 @@ class Condition extends \Nette\Object
 
     /**
      * @param array $condition
-     * @throws \InvalidArgumentException
+     * @throws Exception
      * @return Condition
      */
     public static function setupFromArray(array $condition)
     {
         if (count($condition) !== 3) {
-            throw new \InvalidArgumentException("Condition array must contain 3 items.");
+            throw new Exception("Condition array must contain 3 items.");
         }
 
         return new self($condition[0], $condition[1], $condition[2]);
@@ -237,7 +239,7 @@ class Condition extends \Nette\Object
      * @param string $prefix - column prefix
      * @param string $suffix - column suffix
      * @param bool $brackets - add brackets when multiple where
-     * @throws \InvalidArgumentException
+     * @throws Exception
      * @return array
      */
     public function __toArray($prefix = NULL, $suffix = NULL, $brackets = TRUE)

@@ -11,9 +11,11 @@
 
 namespace Grido;
 
+use Grido\Exception;
+use Grido\Components\Paginator;
 use Grido\Components\Columns\Column;
 use Grido\Components\Filters\Filter;
-use Grido\Components\Paginator;
+
 use Symfony\Component\PropertyAccess\PropertyAccessor;
 
 /**
@@ -123,7 +125,7 @@ class Grid extends Components\Container
      * Sets a model that implements the interface Grido\DataSources\IDataSource or data-source object.
      * @param mixed $model
      * @param bool $forceWrapper
-     * @throws \InvalidArgumentException
+     * @throws Exception
      * @return Grid
      */
     public function setModel($model, $forceWrapper = FALSE)
@@ -168,7 +170,7 @@ class Grid extends Components\Container
      * Sets default sorting.
      * @param array $sort
      * @return Grid
-     * @throws \InvalidArgumentException
+     * @throws Exception
      */
     public function setDefaultSort(array $sort)
     {
@@ -177,7 +179,7 @@ class Grid extends Components\Container
         foreach ($sort as $column => $dir) {
             $dir = strtr(strtolower($dir), $replace);
             if (!in_array($dir, $replace)) {
-                throw new \InvalidArgumentException("Dir '$dir' for column '$column' is not allowed.");
+                throw new Exception("Dir '$dir' for column '$column' is not allowed.");
             }
 
             $this->defaultSort[$column] = $dir;
@@ -217,14 +219,14 @@ class Grid extends Components\Container
      * Sets type of filter rendering.
      * Defaults inner (Filter::RENDER_INNER) if column does not exist then outer filter (Filter::RENDER_OUTER).
      * @param string $type
-     * @throws \InvalidArgumentException
+     * @throws Exception
      * @return Grid
      */
     public function setFilterRenderType($type)
     {
         $type = strtolower($type);
         if (!in_array($type, array(Filter::RENDER_INNER, Filter::RENDER_OUTER))) {
-            throw new \InvalidArgumentException('Type must be Filter::RENDER_INNER or Filter::RENDER_OUTER.');
+            throw new Exception('Type must be Filter::RENDER_INNER or Filter::RENDER_OUTER.');
         }
 
         $this->filterRenderType = $type;
@@ -422,13 +424,13 @@ class Grid extends Components\Container
      * @param bool $applyPaging
      * @param bool $useCache
      * @param bool $fetch
-     * @throws \Exception
+     * @throws Exception
      * @return array
      */
     public function getData($applyPaging = TRUE, $useCache = TRUE, $fetch = TRUE)
     {
         if ($this->getModel() === NULL) {
-            throw new \Exception('Model cannot be empty, please use method $grid->setModel().');
+            throw new Exception('Model cannot be empty, please use method $grid->setModel().');
         }
 
         $data = $this->data;
@@ -791,12 +793,12 @@ class Grid extends Components\Container
 
     /**
      * @internal
-     * @throws \Exception
+     * @throws Exception
      */
     public function render()
     {
         if (!$this->hasColumns()) {
-            throw new \Exception('Grid must have defined a column, please use method $grid->addColumn*().');
+            throw new Exception('Grid must have defined a column, please use method $grid->addColumn*().');
         }
 
         $this->saveRememberState();

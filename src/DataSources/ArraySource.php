@@ -11,8 +11,10 @@
 
 namespace Grido\DataSources;
 
-use Nette\Utils\Strings;
+use Grido\Exception;
 use Grido\Components\Filters\Condition;
+
+use Nette\Utils\Strings;
 
 /**
  * Array data source.
@@ -84,7 +86,7 @@ class ArraySource extends \Nette\Object implements IDataSource
      * @param string $actual
      * @param string $condition
      * @param mixed $expected
-     * @throws \InvalidArgumentException
+     * @throws Exception
      * @return bool
      */
     public function compare($actual, $condition, $expected)
@@ -117,7 +119,7 @@ class ArraySource extends \Nette\Object implements IDataSource
             return eval("return {$actual} {$cond} {$expected};");
 
         } else {
-            throw new \InvalidArgumentException("Condition '$condition' not implemented yet.");
+            throw new Exception("Condition '$condition' not implemented yet.");
         }
     }
 
@@ -160,12 +162,12 @@ class ArraySource extends \Nette\Object implements IDataSource
 
     /**
      * @param array $sorting
-     * @throws \Exception
+     * @throws Exception
      */
     public function sort(array $sorting)
     {
         if (count($sorting) > 1) {
-            throw new \Exception('Multi-column sorting is not implemented yet.');
+            throw new Exception('Multi-column sorting is not implemented yet.');
         }
 
         foreach ($sorting as $column => $sort) {
@@ -195,7 +197,7 @@ class ArraySource extends \Nette\Object implements IDataSource
      * @param array $conditions
      * @param int $limit
      * @return array
-     * @throws \InvalidArgumentException
+     * @throws Exception
      */
     public function suggest($column, array $conditions, $limit)
     {
@@ -214,7 +216,7 @@ class ArraySource extends \Nette\Object implements IDataSource
                 $value = (string) $column($row);
             } else {
                 $type = gettype($column);
-                throw new \InvalidArgumentException("Column of suggestion must be string or callback, $type given.");
+                throw new Exception("Column of suggestion must be string or callback, $type given.");
             }
 
             $items[$value] = \Nette\Templating\Helpers::escapeHtml($value);

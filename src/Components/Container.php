@@ -11,11 +11,11 @@
 
 namespace Grido\Components;
 
+use Grido\Helpers;
 use Grido\Components\Actions\Action;
 use Grido\Components\Columns\Column;
-use Grido\Components\Columns\Editable;
 use Grido\Components\Filters\Filter;
-use Grido\Helpers;
+use Grido\Components\Columns\Editable;
 
 /**
  * Container of grid components.

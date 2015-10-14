@@ -11,10 +11,12 @@
 
 namespace Grido\DataSources;
 
-use Doctrine\ORM\Tools\Pagination\Paginator;
+use Grido\Exception;
 use Grido\Components\Filters\Condition;
+
 use Nette\Utils\Strings;
 use Nette\Utils\Random;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 
 /**
  * Doctrine data source.
@@ -255,7 +257,7 @@ class Doctrine extends \Nette\Object implements IDataSource
      * @param array $conditions
      * @param int $limit
      * @return array
-     * @throws \InvalidArgumentException
+     * @throws Exception
      */
     public function suggest($column, array $conditions, $limit)
     {
@@ -283,7 +285,7 @@ class Doctrine extends \Nette\Object implements IDataSource
                 $value = (string) $column($row);
             } else {
                 $type = gettype($column);
-                throw new \InvalidArgumentException("Column of suggestion must be string or callback, $type given.");
+                throw new Exception("Column of suggestion must be string or callback, $type given.");
             }
 
             $items[$value] = \Nette\Templating\Helpers::escapeHtml($value);

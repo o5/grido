@@ -12,6 +12,7 @@
 namespace Grido\Components\Columns;
 
 use Grido\Helpers;
+use Grido\Exception;
 
 /**
  * Column grid.
@@ -312,7 +313,7 @@ abstract class Column extends \Grido\Components\Component
 
     /**
      * @param mixed $row
-     * @throws \InvalidArgumentException
+     * @throws Exception
      * @return mixed
      */
     protected function getValue($row)
@@ -325,7 +326,7 @@ abstract class Column extends \Grido\Components\Component
             return callback($column)->invokeArgs(array($row));
 
         } else {
-            throw new \InvalidArgumentException('Column must be string or callback.');
+            throw new Exception('Column must be string or callback.');
         }
     }
 

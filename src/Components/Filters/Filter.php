@@ -12,6 +12,7 @@
 namespace Grido\Components\Filters;
 
 use Grido\Helpers;
+use Grido\Exception;
 
 /**
  * Data filtering.
@@ -87,13 +88,13 @@ abstract class Filter extends \Grido\Components\Component
      * @param string $column
      * @param string $operator
      * @return Filter
-     * @throws \InvalidArgumentException
+     * @throws Exception
      */
     public function setColumn($column, $operator = Condition::OPERATOR_OR)
     {
         $columnAlreadySet = count($this->column) > 0;
         if (!Condition::isOperator($operator) && $columnAlreadySet) {
-            throw new \InvalidArgumentException('Operator must be Condition::OPERATOR_AND or Condition::OPERATOR_OR.');
+            throw new Exception('Operator must be Condition::OPERATOR_AND or Condition::OPERATOR_OR.');
         }
 
         if ($columnAlreadySet) {
@@ -208,7 +209,7 @@ abstract class Filter extends \Grido\Components\Component
     /**
      * @param mixed $value
      * @return Condition|bool
-     * @throws \InvalidArgumentException
+     * @throws Exception
      * @internal
      */
     public function __getCondition($value)
@@ -239,7 +240,7 @@ abstract class Filter extends \Grido\Components\Component
 
         } elseif ($condition !== NULL && !$condition instanceof Condition) {
             $type = gettype($condition);
-            throw new \InvalidArgumentException("Condition must be array or Condition object. $type given.");
+            throw new Exception("Condition must be array or Condition object. $type given.");
         }
 
         return $condition;

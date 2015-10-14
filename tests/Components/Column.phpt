@@ -259,7 +259,7 @@ class ColumnTest extends \Tester\TestCase
         // getter
         Assert::exception(function() use ($grid) {
             $grid->getColumn('column');
-        }, 'InvalidArgumentException');
+        }, 'Nette\InvalidArgumentException');
         Assert::same(NULL, $grid->getColumn('column', FALSE));
 
         $grid = new Grid;
