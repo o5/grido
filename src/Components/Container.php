@@ -11,6 +11,7 @@
 
 namespace Grido\Components;
 
+use Grido\Grid;
 use Grido\Helpers;
 use Grido\Components\Actions\Action;
 use Grido\Components\Columns\Column;
@@ -388,13 +389,13 @@ abstract class Container extends \Nette\Application\UI\Control
 
     /**
      * Sets all columns as editable.
-     * Callback is optional for user implementation of method for saving modified data.
+     * First parameter is optional and is for implementation of method for saving modified data.
      * @param callback $callback function($id, $newValue, $oldValue, Editable $column) {}
-     * @return \Grido\Grid
+     * @return Grid
      */
     public function setEditableColumns($callback = NULL)
     {
-        $this->onRegistered[] = function(\Grido\Grid $grid) use ($callback) {
+        $this->onRender[] = function(Grid $grid) use ($callback) {
             if (!$grid->hasColumns()) {
                 return;
             }

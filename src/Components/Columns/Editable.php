@@ -267,7 +267,7 @@ abstract class Editable extends Column
      */
     public function handleEditable($id, $newValue, $oldValue)
     {
-        $this->grid->onRegistered($this->grid);
+        $this->grid->onRender($this->grid);
 
         if (!$this->presenter->isAjax() || !$this->isEditable()) {
             $this->presenter->terminate();
@@ -296,7 +296,7 @@ abstract class Editable extends Column
      */
     public function handleEditableControl($value)
     {
-        $this->grid->onRegistered($this->grid);
+        $this->grid->onRender($this->grid);
 
         if (!$this->presenter->isAjax() || !$this->isEditable()) {
             $this->presenter->terminate();

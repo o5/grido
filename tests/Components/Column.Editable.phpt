@@ -107,6 +107,8 @@ class EditableTest extends \Tester\TestCase
             $grid->setEditableColumns();
         })->run();
 
+        Helper::$grid->onRender(Helper::$grid);
+
         foreach (Helper::$grid->getComponent(\Grido\Components\Columns\Column::ID)->getComponents() as $column) {
             Assert::type('\Grido\Components\Columns\Editable', $column);
             Assert::true($column->isEditable());
@@ -303,7 +305,7 @@ class EditableTest extends \Tester\TestCase
         Helper::grid(function(Grid $grid) {
             $grid->setModel(array());
             $grid->presenter->forceAjaxMode = TRUE;
-            $grid->addColumnText('firstname', 'Firstname')->setEditable(NULL, new TextInput);
+            $grid->addColumnText('firstname', 'Firstname')->setEditable(function() {}, new TextInput);
         });
 
         ob_start();
