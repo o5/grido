@@ -33,7 +33,8 @@
                 datumTokenizer: window.Bloodhound.tokenizers.obj.whitespace('value'),
                 queryTokenizer: window.Bloodhound.tokenizers.whitespace,
                 remote: {
-                    url: url.replace(wildcard, '%QUERY')
+                    url: url,
+                    wildcard: '-query-'
                 }
             };
 
@@ -45,14 +46,14 @@
             }
 
             var source = new window.Bloodhound(options);
-            source.initialize();
 
-            $(this).typeahead(null, {
-                displayKey: function(item) {
-                    return item;
-                },
-                source: source.ttAdapter()
-            });
+            var typeaheadOptions;
+            $(this).typeahead(
+                typeaheadOptions,
+                {
+                    source: source
+                }
+            );
 
             $(this).on('typeahead:selected', function() {
                 _this.sendFilterForm();
