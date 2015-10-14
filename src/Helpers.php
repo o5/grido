@@ -25,7 +25,7 @@ class Helpers
      */
     public static function formatColumnName($name)
     {
-        return str_replace('.', '__', $name);
+        return str_replace('.', '___', $name);
     }
 
     /**
@@ -34,6 +34,6 @@ class Helpers
      */
     public static function unformatColumnName($name)
     {
-        return str_replace('__', '.', $name);
+        return str_replace('___', '.', $name);
     }
 }
