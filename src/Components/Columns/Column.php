@@ -66,6 +66,12 @@ abstract class Column extends \Grido\Components\Component
     protected $customRenderExport;
 
     /** @var bool */
+    protected $renderable = TRUE;
+
+    /** @var bool */
+    protected $exportable = TRUE;
+
+    /** @var bool */
     protected $sortable = FALSE;
 
     /** @var array of arrays('pattern' => 'replacement') */
@@ -144,6 +150,26 @@ abstract class Column extends \Grido\Components\Component
     public function setCustomRenderExport($callback)
     {
         $this->customRenderExport = $callback;
+        return $this;
+    }
+
+    /**
+     * @param bool $value
+     * @return Column
+     */
+    public function setDisableExport($value = TRUE)
+    {
+        $this->exportable = !$value;
+        return $this;
+    }
+
+    /**
+     * @param bool $value
+     * @return Column
+     */
+    public function setOnlyForExport($value = TRUE)
+    {
+        $this->renderable = !$value;
         return $this;
     }
 
@@ -267,6 +293,24 @@ abstract class Column extends \Grido\Components\Component
     public function isSortable()
     {
         return $this->sortable;
+    }
+	
+    /**
+     * @return bool
+     * @internal
+     */
+    public function isExportable()
+    {
+        return $this->exportable;
+    }
+	
+    /**
+     * @return bool
+     * @internal
+     */
+    public function isRenderable()
+    {
+        return $this->renderable;
     }
 
     /**

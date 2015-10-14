@@ -21,6 +21,12 @@ namespace Grido\Components;
 class Export extends Component implements \Nette\Application\IResponse
 {
     const ID = 'export';
+	
+	/** @var string */
+	private $csvDelimiter = ',';
+	
+	/** @var string */
+	private $csvEnclosure = '"';
 
     /**
      * @param \Grido\Grid $grid
@@ -36,6 +42,14 @@ class Export extends Component implements \Nette\Application\IResponse
         $grid->addComponent($this, self::ID);
     }
 
+	public function setCsv($delimiter = ',', $enclosure = '"')
+	{
+		$this->csvDelimiter = $delimiter;
+		$this->csvEnclosure = $enclosure;
+		
+		return $this;
+	}
+	
     /**
      * @return string
      */
@@ -51,10 +65,12 @@ class Export extends Component implements \Nette\Application\IResponse
         //generate header
         $header = array();
         foreach ($columns as $column) {
-            $header[] = $column->getLabel();
+			if ($column->isExportable()) {
+				$header[] = $column->getLabel();
+			}
         }
 
-        fputcsv($resource, $header);
+        fputcsv($resource, $header, $this->csvDelimiter, $this->csvEnclosure);
 
         for ($i = 0; $i < $iterations; ++$i) {
             $datasource->limit($i * $limit, $limit);
@@ -64,10 +80,12 @@ class Export extends Component implements \Nette\Application\IResponse
                 $row = array();
 
                 foreach ($columns as $column) {
-                    $row[] = $column->renderExport($item);
-                }
+					if ($column->isExportable()) {
+						$row[] = $column->renderExport($item);
+					}
+				}
 
-                fputcsv($resource, $row);
+                fputcsv($resource, $row, $this->csvDelimiter, $this->csvEnclosure);
                 unset($row);
             }
 
@@ -100,12 +118,11 @@ class Export extends Component implements \Nette\Application\IResponse
      */
     public function send(\Nette\Http\IRequest $httpRequest, \Nette\Http\IResponse $httpResponse)
     {
-        $encoding = 'UTF-16LE';
+        $encoding = 'UTF-8';
         $file = $this->label . '.csv';
 
-        $source = $this->generateSource();
-        $source = mb_convert_encoding($source, $encoding, 'UTF-8');
-        $source = "\xFF\xFE" . $source; //add BOM
+		$source = chr(0xEF) . chr(0xBB) . chr(0xBF); //UTF-8 BOM
+        $source .= $this->generateSource();
 
         $httpResponse->setHeader('Content-Encoding', $encoding);
         $httpResponse->setHeader('Content-Length', mb_strlen($source, $encoding));
