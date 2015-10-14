@@ -314,10 +314,14 @@ class GridTest extends \Tester\TestCase
 
     function testSetClientSideOptions()
     {
-        $grid = new Grid;
-        $options = array('key' => 'value');
-        $grid->setClientSideOptions($options);
-        Assert::same($grid->tablePrototype->data['grido-options'], json_encode($options));
+        Helper::grid(function($grid) {
+            $grid->setModel(array(array('test' => 'test')));
+            $grid->addColumnText('test', 'Test');
+            $options = array('key' => 'value');
+            $grid->setClientSideOptions($options);
+            $grid->render();
+            Assert::same($grid->tablePrototype->data[Grid::CLIENT_SIDE_OPTIONS], json_encode($options));
+        })->run();
     }
 
     /**********************************************************************************************/

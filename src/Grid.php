@@ -121,6 +121,11 @@ class Grid extends Components\Container
     /** @var bool */
     protected $strictMode = TRUE;
 
+    /** @var array */
+    protected $options = array(
+        self::CLIENT_SIDE_OPTIONS => array()
+    );
+
     /**
      * Sets a model that implements the interface Grido\DataSources\IDataSource or data-source object.
      * @param mixed $model
@@ -300,7 +305,7 @@ class Grid extends Components\Container
      */
     public function setClientSideOptions(array $options)
     {
-        $this->getTablePrototype()->data[self::CLIENT_SIDE_OPTIONS] = json_encode($options);
+        $this->options[self::CLIENT_SIDE_OPTIONS] = $options;
         return $this;
     }
 
@@ -630,7 +635,7 @@ class Grid extends Components\Container
      */
     public function getClientSideOptions()
     {
-        return (array) json_decode($this->getTablePrototype()->data[self::CLIENT_SIDE_OPTIONS]);
+        return (array) $this->options[self::CLIENT_SIDE_OPTIONS];
     }
 
     /**
@@ -813,6 +818,10 @@ class Grid extends Components\Container
         $this->template->paginator = $this->paginator;
 
         $form['count']->setValue($this->getPerPage());
+
+        if ($options = $this->options[self::CLIENT_SIDE_OPTIONS]) {
+            $this->getTablePrototype()->data[self::CLIENT_SIDE_OPTIONS] = json_encode($options);
+        }
 
         $this->template->render();
     }
