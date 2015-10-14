@@ -926,6 +926,7 @@ class Grid extends Components\Container
             ->onClick[] = callback($this, 'handlePerPage');
 
         $form->addSelect('count', 'Count', $this->getItemsForCountSelect())
+            ->setTranslator(NULL)
             ->controlPrototype->attrs['title'] = $this->getTranslator()->translate('Grido.ItemsPerPage');
     }
 
