@@ -268,6 +268,16 @@ abstract class Container extends \Nette\Application\UI\Control
         return new Columns\Number($this, $name, $label, $decimals, $decPoint, $thousandsSep);
     }
 
+    /**
+     * @param string $name
+     * @param string $label
+     * @return Columns\Check
+     */
+    public function addColumnCheck($name, $label)
+    {
+        return new Columns\Check($this, $name, $label);
+    }
+
     /**********************************************************************************************/
 
     /**

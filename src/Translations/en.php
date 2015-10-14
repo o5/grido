@@ -24,4 +24,6 @@ return array(
     'Grido.EnterPage' => 'Enter page:',
     'Grido.NoResults' => 'No results.',
     'Grido.ExportAllItems' => 'Export all items',
+    'Grido.Columns.Check.Positive' => 'Yes',
+    'Grido.Columns.Check.Negative' => 'No'
 );

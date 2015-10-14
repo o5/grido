@@ -24,4 +24,6 @@ return array(
     'Grido.EnterPage' => 'Vložte stranu:',
     'Grido.NoResults' => 'Žiadne výsledky.',
     'Grido.ExportAllItems' => 'Exportovať všetky položky',
+    'Grido.Columns.Check.Positive' => 'Áno',
+    'Grido.Columns.Check.Negative' => 'Nie'
 );
