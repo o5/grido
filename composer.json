@@ -34,6 +34,7 @@
         "mockery/mockery": "~0.9.3",
         "dibi/dibi": "~2.3.1",
         "kdyby/doctrine": "~2.3.0",
-        "squizlabs/php_codesniffer": "~2.3.0"
+        "squizlabs/php_codesniffer": "~2.3.0",
+        "nextras/dbal": "~1.0.0"
     }
 }
