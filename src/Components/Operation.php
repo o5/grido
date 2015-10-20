@@ -13,6 +13,7 @@ namespace Grido\Components;
 
 use Grido\Grid;
 use Grido\Helpers;
+use Grido\Exception;
 
 /**
  * Operation with one or more rows.
@@ -138,6 +139,7 @@ class Operation extends Component
 
     /**
      * @param \Nette\Forms\Container $container
+     * @throws Exception
      * @internal
      */
     public function addCheckers(\Nette\Forms\Container $container)
@@ -146,10 +148,17 @@ class Operation extends Component
         $primaryKey = $this->getPrimaryKey();
 
         foreach ($items as $item) {
-            $primaryValue = $this->grid->getProperty($item, $primaryKey);
-            if (!isset($container[$primaryValue])) {
-                $container->addCheckbox(Helpers::formatColumnName($primaryValue))
-                    ->controlPrototype->title = $primaryValue;
+            try {
+                $primaryValue = $this->grid->getProperty($item, $primaryKey);
+                if (!isset($container[$primaryValue])) {
+                    $container->addCheckbox(Helpers::formatColumnName($primaryValue))
+                        ->controlPrototype->title = $primaryValue;
+                }
+            } catch (\Exception $e) {
+                throw new Exception(
+                    'You should define some else primary key via $grid->setPrimaryKey() '.
+                    "because currently defined '$primaryKey' key is not suitable for operation feature."
+                );
             }
         }
     }
