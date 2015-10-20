@@ -25,8 +25,8 @@
             </span>
         </div>
         <div class="buttons">
-                    <input type="submit" name="buttons[search]" class="btn btn-default btn-sm search" id="frm-grid-form-buttons-search" value="Search">
-                <input type="submit" name="buttons[reset]" class="btn btn-default btn-sm reset" id="frm-grid-form-buttons-reset" value="Reset">
+                    <input type="submit" name="buttons[search]" class="btn btn-default btn-sm search" value="Search">
+                <input type="submit" name="buttons[reset]" class="btn btn-default btn-sm reset" value="Reset">
         </div>
     </div>
 
@@ -64,7 +64,7 @@
                 <span class="count">
                     Items 4 - 6 of 6
                     <select name="count" title="Items per page" class="form-control" id="frm-grid-form-count"><option value="3" selected>3</option><option value="10">10</option><option value="20">20</option><option value="30">30</option><option value="50">50</option><option value="100">100</option></select>
-                        <input type="submit" name="buttons[perPage]" id="frm-grid-form-buttons-perPage" value="Items per page" class="hide">
+                        <input type="submit" name="buttons[perPage]" value="Items per page" class="hide">
                     <a class="export btn btn-default btn-xs btn-mini" href="/?action=default&amp;do=grid-export-export&amp;presenter=Test" title="Export all items"><i class="glyphicon glyphicon-download fa fa-download icon-download"></i></a>
                 </span>
             </td>
@@ -124,7 +124,6 @@
             </tr>
     </tbody>
 </table>
-<div><input type="hidden" name="action" value="default"><input type="hidden" name="presenter" value="Test"><input type="hidden" name="do" value="grid-form-submit"></div>
-</form>
+<input type="hidden" name="action" value="default"><input type="hidden" name="presenter" value="Test"><input type="hidden" name="do" value="grid-form-submit"></form>
 
 </div>

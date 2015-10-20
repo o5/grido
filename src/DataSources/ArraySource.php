@@ -54,7 +54,7 @@ class ArraySource extends \Nette\Object implements IDataSource
         $that = $this;
         return array_filter($data, function ($row) use ($condition, $that) {
             if ($condition->callback) {
-                return callback($condition->callback)->invokeArgs(array($condition->value, $row));
+                return call_user_func_array($condition->callback, array($condition->value, $row));
             }
 
             $i = 0;
@@ -219,7 +219,7 @@ class ArraySource extends \Nette\Object implements IDataSource
                 throw new Exception("Column of suggestion must be string or callback, $type given.");
             }
 
-            $items[$value] = \Nette\Templating\Helpers::escapeHtml($value);
+            $items[$value] = \Latte\Runtime\Filters::escapeHtml($value);
         }
 
         sort($items);

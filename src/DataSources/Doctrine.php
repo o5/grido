@@ -133,7 +133,7 @@ class Doctrine extends \Nette\Object implements IDataSource
             : $qb;
 
         if ($condition->callback) {
-            return callback($condition->callback)->invokeArgs(array($condition->value, $qb));
+            return call_user_func_array($condition->callback, array($condition->value, $qb));
         }
 
         $columns = $condition->column;
@@ -288,7 +288,7 @@ class Doctrine extends \Nette\Object implements IDataSource
                 throw new Exception("Column of suggestion must be string or callback, $type given.");
             }
 
-            $items[$value] = \Nette\Templating\Helpers::escapeHtml($value);
+            $items[$value] = \Latte\Runtime\Filters::escapeHtml($value);
         }
 
         is_callable($column) && sort($items);

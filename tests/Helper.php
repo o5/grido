@@ -83,7 +83,7 @@ class Helper
         $url = new \Nette\Http\UrlScript('http://localhost/');
         $url->setScriptPath('/');
 
-        $configurator = new \Nette\Config\Configurator;
+        $configurator = new \Nette\Configurator;
         $configurator->addConfig(__DIR__ . '/config.neon');
         \Kdyby\Events\DI\EventsExtension::register($configurator);
         \Kdyby\Annotations\DI\AnnotationsExtension::register($configurator);

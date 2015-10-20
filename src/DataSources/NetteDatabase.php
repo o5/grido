@@ -57,7 +57,7 @@ class NetteDatabase extends \Nette\Object implements IDataSource
             : $selection;
 
         if ($condition->callback) {
-            callback($condition->callback)->invokeArgs(array($condition->value, $selection));
+            call_user_func_array($condition->callback, array($condition->value, $selection));
         } else {
             call_user_func_array(array($selection, 'where'), $condition->__toArray());
         }
@@ -167,7 +167,7 @@ class NetteDatabase extends \Nette\Object implements IDataSource
                 throw new Exception("Column of suggestion must be string or callback, $type given.");
             }
 
-            $items[$value] = \Nette\Templating\Helpers::escapeHtml($value);
+            $items[$value] = \Latte\Runtime\Filters::escapeHtml($value);
         }
 
         is_callable($column) && sort($items);

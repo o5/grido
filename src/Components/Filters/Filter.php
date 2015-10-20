@@ -227,7 +227,7 @@ abstract class Filter extends \Grido\Components\Component
             $condition = Condition::setup($this->getColumn(), $condition, $this->formatValue($value));
 
         } elseif (is_callable($condition)) {
-            $condition = callback($condition)->invokeArgs(array($value));
+            $condition = call_user_func_array($condition, array($value));
 
         } elseif (is_array($condition)) {
             $condition = isset($condition[$value])

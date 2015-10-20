@@ -46,7 +46,7 @@ class Operation extends Component
         $grid->addComponent($this, self::ID);
 
         $grid['form'][$grid::BUTTONS]->addSubmit(self::ID, 'OK')
-            ->onClick[] = callback($this, 'handleOperations');
+            ->onClick[] = array($this, 'handleOperations');
 
         $grid['form']->addContainer(self::ID)
             ->addSelect(self::ID, 'Selected', $operations)

@@ -10,9 +10,7 @@
 namespace Grido\Tests;
 
 use Tester\Assert,
-    Grido\Grid,
-    Grido\Components\Columns\Column,
-    Grido\Components\Filters\Filter;
+    Grido\Grid;
 
 require_once __DIR__ . '/../bootstrap.php';
 
@@ -22,10 +20,10 @@ class GridInSubcomponentTest extends \Tester\TestCase
 {
 
     function testSessionsInDifferentGridsWithTheSameNameAreIndenpendent() {
-        
+
         Helper::grid(function(){})->run();
         $presenter = Helper::$presenter;
-        
+
         $presenter->onStartUp[] = function(TestPresenter $presenter){
 
             $subcomponent1 = new \Subcomponent($presenter, 'subcomponent1');
@@ -34,17 +32,17 @@ class GridInSubcomponentTest extends \Tester\TestCase
             $session1 = $grid1->getRememberSession();
             $session1->name = 'a';
             Assert::same($session1->name, 'a');
-            
+
             $subcomponent2 = new \Subcomponent($presenter, 'subcomponent2');
             $grid2 = new Grid($subcomponent2, 'grid');
             $grid2->setRememberState();
             $session2 = $grid2->getRememberSession();
             $session2->name = 'b';
-            
+
             Assert::same($session1->name, 'a');
             Assert::same($session2->name, 'b');
         };
-        
+
         $request = new \Nette\Application\Request('Test', \Nette\Http\Request::GET, array());
         $presenter->run($request);
     }
