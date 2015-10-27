@@ -194,6 +194,7 @@
             }
 
             this.initSelectState();
+            this.initActiveRows();
             this.bindClickOnCheckbox();
             this.bindClickOnRow();
             this.bindClickOnInvertor();
@@ -209,6 +210,10 @@
             $(this.selector + ':checked', this.grido.$table).length === 0 && this.controlState('disabled');
         },
 
+        initActiveRows: function()
+        {
+            $(this.selector + ':checked', this.grido.$table).closest('tr').addClass('active');
+        },
         /**
          * Click on checkbox with shift support.
          */
