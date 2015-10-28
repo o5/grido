@@ -187,15 +187,28 @@ abstract class Editable extends Column
      * Returns cell prototype (<td> html tag).
      * @param mixed $row
      * @return \Nette\Utils\Html
+     * @throws \Exception
      */
     public function getCellPrototype($row = NULL)
     {
         $td = parent::getCellPrototype($row);
 
         if ($this->isEditable() && $row !== NULL) {
-            $td->data['grido-editable-value'] = $this->editableValueCallback === NULL
+            $editableValue = $this->editableValueCallback === NULL
                 ? parent::getValue($row)
                 : callback($this->editableValueCallback)->invokeArgs(array($row, $this));
+
+            if ((!is_array( $editableValue)) &&
+                ((!is_object( $editableValue) && settype($editableValue, 'string') !== FALSE) ||
+                (is_object($editableValue) && method_exists($editableValue, '__toString')))
+            ) {
+                $td->data['grido-editable-value'] = $editableValue;
+
+            } else {
+                $colName = $this->getColumn();
+                $msg = "Column '$colName' has error: You must define callback via setEditableValueCallback().";
+                throw new \Exception($msg);
+            }
         }
 
         return $td;
