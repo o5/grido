@@ -12,7 +12,8 @@ namespace Grido\Tests;
 use Tester\Assert,
     Grido\Grid,
     Grido\Tests\Helper,
-    Grido\Components\Export;
+    Grido\Components\Export,
+    Grido\DataSources\ArraySource;
 
 require_once __DIR__ . '/../bootstrap.php';
 
@@ -70,20 +71,20 @@ class ExportTest extends \Tester\TestCase
 
     function testHandleExport()
     {
-        $this->handleExportScenario('Export');
+        $this->exportScenario('Testovací export');
     }
 
     function testLabelGeneration()
     {
-        $this->handleExportScenario();
+        $this->exportScenario();
     }
 
-    function handleExportScenario($label = NULL)
+    private function exportScenario($label = NULL)
     {
         Helper::grid(function(Grid $grid) use ($label) {
             $grid->setModel(array(
                 array('id' => 1, 'name' => 'Lucy', 'country' => 'Switzerland'),
-                array('id' => 2, 'name' => 'Příliš žlouťoucký kůň ďábelsky pěl ódy', 'country' => 'Switzerland'),
+                array('id' => 2, 'name' => "Příliš; žlouťoucký, \"kůň\" \n ďábelsky \tpěl 'ódy", 'country' => 'Switzerland'),
                 array('id' => 3, 'name' => 'Silvia', 'country' => 'Switzerland'),
                 array('id' => 4, 'name' => 'Mary', 'country' => 'Australia'),
                 array('id' => 5, 'name' => 'Michelle', 'country' => 'Australia'),
@@ -109,13 +110,12 @@ class ExportTest extends \Tester\TestCase
         $output = ob_get_clean();
         Assert::same(file_get_contents(__DIR__ . '/files/Export.expect'), $output);
 
-        $label = $label ? $label : 'Grid';
+        $label = $label ? ucfirst(\Nette\Utils\Strings::webalize($label)) : 'Grid';
 
         Assert::same(array(
-            'Content-Encoding' => 'UTF-16LE',
-            'Content-Length' => 103,
-            'Content-Type' => 'text/csv; charset=UTF-16LE',
-            'Content-Disposition' => "attachment; filename=\"$label.csv\"; filename*=utf-8''$label.csv",
+            'Content-Encoding' => 'utf-8',
+            'Content-Type' => 'text/csv; charset=utf-8',
+            'Content-Disposition' => "attachment; filename=\"$label.csv\"",
         ), Response::$headers);
     }
 }

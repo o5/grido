@@ -11,22 +11,31 @@
 
 namespace Grido\Components;
 
+use Grido\Grid;
+use Grido\Components\Columns\Column;
+use Nette\Utils\Strings;
+
 /**
  * Exporting data to CSV.
  *
  * @package     Grido
  * @subpackage  Components
  * @author      Petr Bugyík
+ *
+ * @property int $fetchLimit
  */
 class Export extends Component implements \Nette\Application\IResponse
 {
     const ID = 'export';
 
+    /** @var int */
+    protected $fetchLimit = 100000;
+
     /**
-     * @param \Grido\Grid $grid
+     * @param Grid $grid
      * @param string $label
      */
-    public function __construct(\Grido\Grid $grid, $label = NULL)
+    public function __construct(Grid $grid, $label = NULL)
     {
         $this->grid = $grid;
         $this->label = $label;
@@ -35,48 +44,63 @@ class Export extends Component implements \Nette\Application\IResponse
     }
 
     /**
-     * @return string
+     * @return void
      */
-    protected function generateSource()
+    protected function printCsv()
     {
-        $limit = 100;
-        $datasource = $this->grid->getData(FALSE, FALSE, FALSE);
-        $iterations = ceil($datasource->getCount() / $limit);
+        $escape = function($value) {
+            return preg_match("~[\"\n,;\t]~", $value) || $value === ""
+                ? '"' . str_replace('"', '""', $value) . '"'
+                : $value;
+        };
 
-        $columns = $this->grid[Columns\Column::ID]->getComponents();
-        $resource = fopen('php://temp', 'r+');
+        $print = function(array $row) {
+            print implode(',', $row) . "\n";
+        };
 
-        //generate header
         $header = array();
+        $columns = $this->grid[Column::ID]->getComponents();
         foreach ($columns as $column) {
-            $header[] = $column->getLabel();
+            $header[] = $escape($column->getLabel());
         }
 
-        fputcsv($resource, $header);
+        $print($header);
 
-        for ($i = 0; $i < $iterations; ++$i) {
-            $datasource->limit($i * $limit, $limit);
+        $datasource = $this->grid->getData(FALSE, FALSE, FALSE);
+        $iterations = ceil($datasource->getCount() / $this->fetchLimit);
+        for ($i = 0; $i < $iterations; $i++) {
+            $datasource->limit($i * $this->fetchLimit, $this->fetchLimit);
             $data = $datasource->getData();
 
             foreach ($data as $item) {
                 $row = array();
 
                 foreach ($columns as $column) {
-                    $row[] = $column->renderExport($item);
+                    $row[] = $escape($column->renderExport($item));
                 }
 
-                fputcsv($resource, $row);
-                unset($row);
+                $print($row);
             }
-
-            unset($data);
         }
+    }
 
-        rewind($resource);
-        $source = stream_get_contents($resource);
-        fclose($resource);
+    /**
+     * Sets a limit which will be used in order to retrieve data from datasource.
+     * @param int $limit
+     * @return \Grido\Components\Export
+     */
+    public function setFetchLimit($limit)
+    {
+        $this->fetchLimit = (int) $limit;
+        return $this;
+    }
 
-        return $source;
+    /**
+     * @return int
+     */
+    public function getFetchLimit()
+    {
+        return $this->fetchLimit;
     }
 
     /**
@@ -98,18 +122,16 @@ class Export extends Component implements \Nette\Application\IResponse
      */
     public function send(\Nette\Http\IRequest $httpRequest, \Nette\Http\IResponse $httpResponse)
     {
-        $encoding = 'UTF-16LE';
-        $file = ($this->label ? $this->label : ucfirst($this->grid->getName())) . '.csv';
-
-        $source = $this->generateSource();
-        $source = mb_convert_encoding($source, $encoding, 'UTF-8');
-        $source = "\xFF\xFE" . $source; //add BOM
+        $encoding = 'utf-8';
+        $label = $this->label
+            ? ucfirst(Strings::webalize($this->label))
+            : ucfirst($this->grid->name);
 
         $httpResponse->setHeader('Content-Encoding', $encoding);
-        $httpResponse->setHeader('Content-Length', mb_strlen($source, $encoding));
         $httpResponse->setHeader('Content-Type', "text/csv; charset=$encoding");
-        $httpResponse->setHeader('Content-Disposition', "attachment; filename=\"$file\"; filename*=utf-8''$file");
+        $httpResponse->setHeader('Content-Disposition', "attachment; filename=\"$label.csv\"");
 
-        print $source;
+        print chr(0xEF) . chr(0xBB) . chr(0xBF); //UTF-8 BOM
+        $this->printCsv();
     }
 }
