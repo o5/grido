@@ -33,10 +33,4 @@ test(function() {
 
     $testRow = ['column' => 'ftp://google.com'];
     Assert::same('<a href="ftp://google.com" target="_blank" rel="noreferrer">ftp://google.com</a>', (string) $column->render($testRow));
-
-    //@deprecated
-    Assert::error(function() use ($grid) {
-        $href = $grid->addColumnHref('href', 'Href');
-        Assert::type('\Grido\Components\Columns\Link', $href);
-    }, E_USER_DEPRECATED);
 });
