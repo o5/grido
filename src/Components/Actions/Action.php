@@ -156,7 +156,7 @@ abstract class Action extends \Grido\Components\Component
     {
         if ($this->elementPrototype === NULL) {
             $this->elementPrototype = Html::el('a')
-                ->setClass(array('grid-action-' . $this->getName()))
+                ->setClass(['grid-action-' . $this->getName()])
                 ->setText($this->label);
         }
 
@@ -193,7 +193,7 @@ abstract class Action extends \Grido\Components\Component
 
         if ($confirm = $this->getOption('confirm')) {
             $confirm = is_callable($confirm)
-                ? call_user_func_array($confirm, array($row))
+                ? call_user_func_array($confirm, [$row])
                 : $confirm;
 
             $element->data['grido-confirm'] = is_array($confirm)
@@ -235,14 +235,14 @@ abstract class Action extends \Grido\Components\Component
      */
     public function render($row)
     {
-        if (!$row || ($this->disable && call_user_func_array($this->disable, array($row)))) {
+        if (!$row || ($this->disable && call_user_func_array($this->disable, [$row]))) {
             return;
         }
 
         $element = $this->getElement($row);
 
         if ($this->customRender) {
-            echo call_user_func_array($this->customRender, array($row, $element));
+            echo call_user_func_array($this->customRender, [$row, $element]);
             return;
         }
 

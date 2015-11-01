@@ -24,7 +24,7 @@ namespace Grido\Components\Actions;
 class Event extends Action
 {
     /** @var callback callback */
-    public $onClick = array();
+    public $onClick = [];
 
     /**
      * @param \Grido\Grid $grid

@@ -46,7 +46,7 @@ class EditableTest extends \Tester\TestCase
         Assert::type('\Nette\Forms\Controls\TextInput', $column->editableControl);
 
         // EDITABLE AND AN OWN CALLBACK VIA PARAM
-        $callback = array($this, 'test');
+        $callback = [$this, 'test'];
         $grid = new Grid();
         $column = $grid->addColumnText('column', 'Column')->setEditable($callback);
         Assert::same(TRUE, $column->editable);
@@ -55,7 +55,7 @@ class EditableTest extends \Tester\TestCase
         Assert::type('\Nette\Forms\Controls\TextInput', $column->editableControl);
 
         // EDITABLE AND AN OWN CALLBACK VIA METHOD
-        $callback = array($this, 'test');
+        $callback = [$this, 'test'];
         $grid = new Grid();
         $column = $grid->addColumnText('column', 'Column')->setEditable();
         $column->setEditableCallback($callback);
@@ -65,8 +65,8 @@ class EditableTest extends \Tester\TestCase
         Assert::type('\Nette\Forms\Controls\TextInput', $column->editableControl);
 
         // EDITABLE AND AN OWN CALLBACK, CONTROL VIA PARAM
-        $callback = array($this, 'test');
-        $control = new \Nette\Forms\Controls\SelectBox(array('1','2','3'));
+        $callback = [$this, 'test'];
+        $control = new \Nette\Forms\Controls\SelectBox(['1','2','3']);
         $grid = new Grid();
         $column = $grid->addColumnText('column', 'Column')->setEditable($callback, $control);
         Assert::same(TRUE, $column->editable);
@@ -75,8 +75,8 @@ class EditableTest extends \Tester\TestCase
         Assert::same($control, $column->editableControl);
 
         // EDITABLE AND AN OWN CONTROL VIA METHOD
-        $callback = array($this, 'test');
-        $control = new \Nette\Forms\Controls\SelectBox(array('1','2','3'));
+        $callback = [$this, 'test'];
+        $control = new \Nette\Forms\Controls\SelectBox(['1','2','3']);
         $grid = new Grid();
         $column = $grid->addColumnText('column', 'Column')->setEditable();
         $column->setEditableControl($control);
@@ -86,8 +86,8 @@ class EditableTest extends \Tester\TestCase
         Assert::same($control, $column->editableControl);
 
         // EDITABLE AND AN OWN VALUE CALLBACK VIA METHOD
-        $valueCallback = array($this, 'test');
-        $rowCallback = array($this, 'test');
+        $valueCallback = [$this, 'test'];
+        $rowCallback = [$this, 'test'];
         $grid = new Grid();
         $column = $grid->addColumnText('column', 'Column')->setEditable();
         $column->setEditableValueCallback($valueCallback);
@@ -98,7 +98,7 @@ class EditableTest extends \Tester\TestCase
         Assert::same($rowCallback, $column->editableRowCallback);
 
         Helper::grid(function(Grid $grid) {
-            $grid->setModel(array());
+            $grid->setModel([]);
             $grid->addColumnText('text', 'Text');
             $grid->addColumnNumber('number', 'Number');
             $grid->addColumnDate('date', 'Date');
@@ -118,8 +118,8 @@ class EditableTest extends \Tester\TestCase
     function testSetEditableValueCallback()
     {
         Helper::grid(function(Grid $grid) {
-            $row = array('id' => 1, 'name' => 'Lucy');
-            $grid->setModel(array($row));
+            $row = ['id' => 1, 'name' => 'Lucy'];
+            $grid->setModel([$row]);
             $column = $grid->addColumnText('name', 'Name')
                 ->setEditableValueCallback(function(array $item, \Grido\Components\Columns\Text $column) use ($row) {
                     Assert::same($row, $item);
@@ -134,7 +134,7 @@ class EditableTest extends \Tester\TestCase
     function testSetEditableRowCallback()
     {
         Helper::grid(function(Grid $grid) {
-            $grid->setModel(array());
+            $grid->setModel([]);
             $grid->presenter->forceAjaxMode = TRUE;
             $grid->addColumnText('firstname', 'Firstname')
                 ->setEditable(function() {})
@@ -148,14 +148,14 @@ class EditableTest extends \Tester\TestCase
 
         $testedId = 2;
         Helper::grid(function(Grid $grid) use ($testedId) {
-            $grid->setModel(array());
+            $grid->setModel([]);
             $grid->presenter->forceAjaxMode = TRUE;
             $grid->addColumnText('firstname', 'Firstname')
                 ->setEditable(function() {return TRUE;})
                 ->setCustomRender(function($item) {return $item['firstname'] . '-TEST';})
                 ->setEditableRowCallback(function($id, \Grido\Components\Columns\Text $column) use ($testedId) {
                     Assert::same($testedId, $id);
-                    return array('firstname' => 'Lucy');
+                    return ['firstname' => 'Lucy'];
                 });
 
             ob_start();
@@ -164,12 +164,12 @@ class EditableTest extends \Tester\TestCase
         });
 
         ob_start();
-            Helper::request(array(
+            Helper::request([
                 'do' => 'grid-columns-firstname-editable',
                 'grid-columns-firstname-id' => $testedId,
                 'grid-columns-firstname-newValue' => 'newValue',
                 'grid-columns-firstname-oldValue' => 'oldValue',
-            ));
+            ]);
         $output = ob_get_clean();
         Assert::same('{"updated":true,"html":"Lucy-TEST"}', $output);
     }
@@ -184,7 +184,7 @@ class EditableTest extends \Tester\TestCase
 
         //array source
         Helper::grid(function(Grid $grid) use ($checkException) {
-            $grid->setModel(array());
+            $grid->setModel([]);
             $grid->presenter->forceAjaxMode = TRUE;
             $grid->addColumnText('firstname', 'Firstname')
                 ->setEditable();
@@ -213,7 +213,7 @@ class EditableTest extends \Tester\TestCase
                 $repository->createQueryBuilder('a') // We need to create query builder with inner join.
                     ->addSelect('c')                 // This will produce less SQL queries with prefetch.
                     ->innerJoin('a.country', 'c'),
-                array('country' => 'c.title'));      // Map country column to the title of the Country entity
+                ['country' => 'c.title']);      // Map country column to the title of the Country entity
 
             $grid->setModel($model);
             $grid->addColumnText('firstname', 'Firstname')
@@ -261,12 +261,12 @@ class EditableTest extends \Tester\TestCase
         });
 
         ob_start();
-            Helper::request(array(
+            Helper::request([
                 'do' => 'grid-columns-firstname-editable',
                 'grid-columns-firstname-id' => $id,
                 'grid-columns-firstname-newValue' => $newValue,
                 'grid-columns-firstname-oldValue' => $oldValue
-            ));
+            ]);
         ob_clean();
 
         //TEST INSIDE EDITABLE CALLBACK
@@ -292,12 +292,12 @@ class EditableTest extends \Tester\TestCase
         });
 
         ob_start();
-            Helper::request(array(
+            Helper::request([
                 'do' => 'grid-columns-firstname-editable',
                 'grid-columns-firstname-id' => $id,
                 'grid-columns-firstname-newValue' => $newValue,
                 'grid-columns-firstname-oldValue' => $oldValue
-            ));
+            ]);
         ob_clean();
 
         //cleaup
@@ -307,16 +307,16 @@ class EditableTest extends \Tester\TestCase
     function testHandleEditableControl()
     {
         Helper::grid(function(Grid $grid) {
-            $grid->setModel(array());
+            $grid->setModel([]);
             $grid->presenter->forceAjaxMode = TRUE;
             $grid->addColumnText('firstname', 'Firstname')->setEditable(function() {}, new TextInput);
         });
 
         ob_start();
-            Helper::request(array(
+            Helper::request([
                 'do' => 'grid-columns-firstname-editableControl',
                 'grid-columns-firstname-value' => 'Test',
-            ));
+            ]);
         $output = ob_get_clean();
         Assert::same('<input type="text" name="editfirstname" id="frm-grid-form-editfirstname" value="Test">', $output);
     }

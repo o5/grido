@@ -29,7 +29,7 @@ class FilterCustomTest extends \Tester\TestCase
         $grid = new Grid;
         $control = new \Nette\Forms\Controls\TextArea;
         $filter = $grid->addFilterCustom('custom', $control);
-        Assert::same(array('custom = ?', 'TEST'), $filter->__getCondition('TEST')->__toArray());
+        Assert::same(['custom = ?', 'TEST'], $filter->__getCondition('TEST')->__toArray());
     }
 }
 

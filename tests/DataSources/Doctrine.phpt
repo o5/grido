@@ -28,13 +28,13 @@ class DoctrineTest extends DataSourceTestCase
                 $repository->createQueryBuilder('a') // We need to create query builder with inner join.
                     ->addSelect('c')                 // This will produce less SQL queries with prefetch.
                     ->leftJoin('a.country', 'c'),
-                array('country' => 'c.title'));      // Map country column to the title of the Country entity
+                ['country' => 'c.title']);      // Map country column to the title of the Country entity
 
             $grid->setModel($model);
             $grid->setDefaultPerPage(3);
 
             $grid->addColumnText('firstname', 'Firstname')
-                ->setEditable(array($this, 'editableCallbackTest'))
+                ->setEditable([$this, 'editableCallbackTest'])
                 ->setSortable();
             $grid->addColumnText('surname', 'Surname');
             $grid->addColumnText('gender', 'Gender');
@@ -55,9 +55,9 @@ class DoctrineTest extends DataSourceTestCase
                     });
 
             $grid->addFilterCheck('male', 'Only male')
-                ->setCondition(array(
-                    TRUE => array('gender', '= ?', 'male')
-                ));
+                ->setCondition([
+                    TRUE => ['gender', '= ?', 'male']
+                ]);
 
             $grid->addFilterCheck('tall', 'Only tall')
                 ->setWhere(function($value, \Doctrine\ORM\QueryBuilder $qb) {

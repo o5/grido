@@ -96,7 +96,7 @@ class Date extends Text
         if ($this->where === NULL && is_string($condition)) {
             $column = $this->getColumn();
             return ($date = \DateTime::createFromFormat($this->dateFormatInput, $value))
-                ? Condition::setupFromArray(array($column, $condition, $date->format($this->dateFormatOutput)))
+                ? Condition::setupFromArray([$column, $condition, $date->format($this->dateFormatOutput)])
                 : Condition::setupEmpty();
         }
 

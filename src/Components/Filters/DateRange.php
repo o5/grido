@@ -31,7 +31,7 @@ class DateRange extends Date
     protected $mask = '/(.*)\s?-\s?(.*)/';
 
     /** @var array */
-    protected $dateFormatOutput = array('Y-m-d', 'Y-m-d G:i:s');
+    protected $dateFormatOutput = ['Y-m-d', 'Y-m-d G:i:s'];
 
     /**
      * @param string $formatFrom
@@ -44,7 +44,7 @@ class DateRange extends Date
             ? $formatFrom
             : $formatTo;
 
-        $this->dateFormatOutput = array($formatFrom, $formatTo);
+        $this->dateFormatOutput = [$formatFrom, $formatTo];
         return $this;
     }
 
@@ -102,7 +102,7 @@ class DateRange extends Date
             }
 
             $values = $from && $to
-                ? array($from->format($this->dateFormatOutput[0]), $to->format($this->dateFormatOutput[1]))
+                ? [$from->format($this->dateFormatOutput[0]), $to->format($this->dateFormatOutput[1])]
                 : NULL;
 
             return $values

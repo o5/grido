@@ -26,7 +26,7 @@ class Href extends Action
     protected $destination;
 
     /** @var array second param for method $presenter->link() */
-    protected $arguments = array();
+    protected $arguments = [];
 
     /** @var callback for custom href attribute creating */
     protected $customHref;
@@ -69,7 +69,7 @@ class Href extends Action
         $element = parent::getElement($row);
 
         if ($this->customHref) {
-            $href = call_user_func_array($this->customHref, array($row));
+            $href = call_user_func_array($this->customHref, [$row]);
         } else {
             $primaryKey = $this->getPrimaryKey();
             $primaryValue = $this->grid->getProperty($row, $primaryKey);

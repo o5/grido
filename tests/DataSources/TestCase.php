@@ -21,14 +21,14 @@ abstract class DataSourceTestCase extends \Tester\TestCase
     const EDITABLE_TEST_VALUE_OLD = 'Old value';
 
     /** @var array GET parameters to request */
-    private $params =  array(
+    private $params =  [
         'grid-page' => 2,
-        'grid-sort' => array('country' => Column::ORDER_ASC),
-        'grid-filter' => array(
+        'grid-sort' => ['country' => Column::ORDER_ASC],
+        'grid-filter' => [
             'name' => 'a',
             'male' => TRUE,
             'country' => 'au',
-    ));
+    ]];
 
     function testRender()
     {
@@ -44,13 +44,13 @@ abstract class DataSourceTestCase extends \Tester\TestCase
     function testSuggest()
     {
         Helper::$presenter->forceAjaxMode = TRUE;
-        $params = $this->params + array('grid-filters-country-query' => 'and', 'do' => 'grid-filters-country-suggest');
+        $params = $this->params + ['grid-filters-country-query' => 'and', 'do' => 'grid-filters-country-suggest'];
         ob_start();
             Helper::request($params);
         $output = ob_get_clean();
         Assert::same('["Finland","Poland"]', $output);
 
-        $params = array('grid-filters-name-query' => 't', 'do' => 'grid-filters-name-suggest');
+        $params = ['grid-filters-name-query' => 't', 'do' => 'grid-filters-name-suggest'];
         ob_start();
             Helper::request($params);
         $output = ob_get_clean();
@@ -59,7 +59,7 @@ abstract class DataSourceTestCase extends \Tester\TestCase
 
     function testSetWhere()
     {
-        Helper::request(array('grid-filter' => array('tall' => TRUE)));
+        Helper::request(['grid-filter' => ['tall' => TRUE]]);
         Helper::$grid->getData(FALSE);
         Assert::same(10, Helper::$grid->count);
     }
@@ -68,12 +68,12 @@ abstract class DataSourceTestCase extends \Tester\TestCase
     {
         Helper::$presenter->forceAjaxMode = TRUE;
 
-        $params = array(
+        $params = [
             'do' => 'grid-columns-firstname-editable',
             'grid-columns-firstname-id' => self::EDITABLE_TEST_ID,
             'grid-columns-firstname-newValue' => self::EDITABLE_TEST_VALUE,
             'grid-columns-firstname-oldValue' => self::EDITABLE_TEST_VALUE_OLD,
-        );
+        ];
         ob_start();
             Helper::request($params);
         $output = ob_get_clean();
@@ -105,7 +105,7 @@ abstract class DataSourceTestCase extends \Tester\TestCase
     function testExport()
     {
         Helper::$presenter->forceAjaxMode = FALSE;
-        $params = $this->params + array('do' => 'grid-export-export');
+        $params = $this->params + ['do' => 'grid-export-export'];
 
         ob_start();
             Helper::request($params)->send(mock('\Nette\Http\IRequest'), new \Nette\Http\Response);

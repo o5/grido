@@ -54,11 +54,11 @@ class ArraySource extends \Nette\Object implements IDataSource
         $that = $this;
         return array_filter($data, function ($row) use ($condition, $that) {
             if ($condition->callback) {
-                return call_user_func_array($condition->callback, array($condition->value, $row));
+                return call_user_func_array($condition->callback, [$condition->value, $row]);
             }
 
             $i = 0;
-            $results = array();
+            $results = [];
             foreach ($condition->column as $column) {
                 if (Condition::isOperator($column)) {
                     $results[] = " $column ";
@@ -114,7 +114,7 @@ class ArraySource extends \Nette\Object implements IDataSource
         } elseif ($cond === 'IS NOT NULL') {
             return $actual !== NULL;
 
-        } elseif (in_array($cond, array('<', '<=', '>', '>='))) {
+        } elseif (in_array($cond, ['<', '<=', '>', '>='])) {
             $actual = (int) $actual;
             return eval("return {$actual} {$cond} {$expected};");
 
@@ -171,7 +171,7 @@ class ArraySource extends \Nette\Object implements IDataSource
         }
 
         foreach ($sorting as $column => $sort) {
-            $data = array();
+            $data = [];
             foreach ($this->data as $item) {
                 $sorter = (string) $item[$column];
                 $data[$sorter][] = $item;
@@ -183,7 +183,7 @@ class ArraySource extends \Nette\Object implements IDataSource
                 krsort($data);
             }
 
-            $this->data = array();
+            $this->data = [];
             foreach ($data as $i) {
                 foreach ($i as $item) {
                     $this->data[] = $item;
@@ -208,7 +208,7 @@ class ArraySource extends \Nette\Object implements IDataSource
 
         array_slice($data, 1, $limit);
 
-        $items = array();
+        $items = [];
         foreach ($data as $row) {
             if (is_string($column)) {
                 $value = (string) $row[$column];

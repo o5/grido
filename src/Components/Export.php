@@ -34,7 +34,7 @@ class Export extends Component implements \Nette\Application\IResponse
     protected $fetchLimit = 100000;
 
     /** @var array */
-    protected $header = array();
+    protected $header = [];
 
     /** @var callable */
     protected $customData;
@@ -68,7 +68,7 @@ class Export extends Component implements \Nette\Application\IResponse
 
         $columns = $this->grid[Column::ID]->getComponents();
 
-        $header = array();
+        $header = [];
         $headerItems = $this->header ? $this->header : $columns;
         foreach ($headerItems as $column) {
             $header[] = $this->header
@@ -87,7 +87,7 @@ class Export extends Component implements \Nette\Application\IResponse
                 : $datasource->getData();
 
             foreach ($data as $items) {
-                $row = array();
+                $row = [];
 
                 $columns = $this->customData
                     ? $items

@@ -23,11 +23,11 @@ namespace Grido\Components\Columns;
 class Number extends Editable
 {
     /** @var array */
-    protected $numberFormat = array(
+    protected $numberFormat = [
         self::NUMBER_FORMAT_DECIMALS => 0,
         self::NUMBER_FORMAT_DECIMAL_POINT => '.',
         self::NUMBER_FORMAT_THOUSANDS_SEPARATOR => ','
-    );
+    ];
 
     /** @const keys of array $numberFormat */
     const NUMBER_FORMAT_DECIMALS = 0;

@@ -9,7 +9,7 @@
  * the file LICENSE.md that was distributed with this source code.
  */
 
-return array(
+return [
     'Grido.HintNumber' => 'Môžete použiť <, <=, >, >=, <>. Napr.: ">= %d"',
     'Grido.SelectSomeRow' => 'Vyberte riadok',
     'Grido.Invert' => 'Obrátit výber',
@@ -24,4 +24,4 @@ return array(
     'Grido.EnterPage' => 'Vložte stranu:',
     'Grido.NoResults' => 'Žiadne výsledky.',
     'Grido.ExportAllItems' => 'Exportovať všetky položky',
-);
+];

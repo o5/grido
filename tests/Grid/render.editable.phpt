@@ -49,7 +49,7 @@ test(function()
             ->setFilterDate();
 
         $grid->addActionHref('edit', 'Edit')
-            ->elementPrototype->addAttributes(array('class' => 'xxx'));
+            ->elementPrototype->addAttributes(['class' => 'xxx']);
 
         $grid->addActionEvent('delete', 'Delete')
             ->elementPrototype->class[] = 'yyy';
@@ -57,7 +57,7 @@ test(function()
         $grid->addActionEvent('print', 'Print')
             ->elementPrototype = \Nette\Utils\Html::el('button');
 
-        $grid->setOperation(array('print' => 'Print'), function(){});
+        $grid->setOperation(['print' => 'Print'], function(){});
         $grid->setExport();
 
     })->run();

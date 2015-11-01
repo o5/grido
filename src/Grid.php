@@ -59,10 +59,10 @@ class Grid extends Components\Container
     public $perPage;
 
     /** @var array @persistent */
-    public $sort = array();
+    public $sort = [];
 
     /** @var array @persistent */
-    public $filter = array();
+    public $filter = [];
 
     /** @var array event on all grid's components registered */
     public $onRegistered;
@@ -92,16 +92,16 @@ class Grid extends Components\Container
     protected $filterRenderType;
 
     /** @var array */
-    protected $perPageList = array(10, 20, 30, 50, 100);
+    protected $perPageList = [10, 20, 30, 50, 100];
 
     /** @var int */
     protected $defaultPerPage = 20;
 
     /** @var array */
-    protected $defaultFilter = array();
+    protected $defaultFilter = [];
 
     /** @var array */
-    protected $defaultSort = array();
+    protected $defaultSort = [];
 
     /** @var DataSources\IDataSource */
     protected $model;
@@ -125,9 +125,9 @@ class Grid extends Components\Container
     protected $strictMode = TRUE;
 
     /** @var array */
-    protected $options = array(
-        self::CLIENT_SIDE_OPTIONS => array()
-    );
+    protected $options = [
+        self::CLIENT_SIDE_OPTIONS => []
+    ];
 
     /**
      * Sets a model that implements the interface Grido\DataSources\IDataSource or data-source object.
@@ -182,7 +182,7 @@ class Grid extends Components\Container
      */
     public function setDefaultSort(array $sort)
     {
-        static $replace = array('asc' => Column::ORDER_ASC, 'desc' => Column::ORDER_DESC);
+        static $replace = ['asc' => Column::ORDER_ASC, 'desc' => Column::ORDER_DESC];
 
         foreach ($sort as $column => $dir) {
             $dir = strtr(strtolower($dir), $replace);
@@ -233,7 +233,7 @@ class Grid extends Components\Container
     public function setFilterRenderType($type)
     {
         $type = strtolower($type);
-        if (!in_array($type, array(Filter::RENDER_INNER, Filter::RENDER_OUTER))) {
+        if (!in_array($type, [Filter::RENDER_INNER, Filter::RENDER_OUTER])) {
             throw new Exception('Type must be Filter::RENDER_INNER or Filter::RENDER_OUTER.');
         }
 
@@ -628,7 +628,7 @@ class Grid extends Components\Container
         $primaryValue ? $tr->class[] = "grid-row-$primaryValue" : NULL;
 
         if ($this->rowCallback) {
-            $tr = call_user_func_array($this->rowCallback, array($row, $tr));
+            $tr = call_user_func_array($this->rowCallback, [$row, $tr]);
         }
 
         return $tr;
@@ -721,8 +721,8 @@ class Grid extends Components\Container
         $session = $this->rememberState //session filter
             ? isset($this->getRememberSession(TRUE)->params['filter'])
                 ? $this->getRememberSession(TRUE)->params['filter']
-                : array()
-            : array();
+                : []
+            : [];
 
         foreach ($values as $name => $value) {
             if (is_numeric($value) || !empty($value) || isset($this->defaultFilter[$name]) || isset($session[$name])) {
@@ -742,15 +742,15 @@ class Grid extends Components\Container
      */
     public function handleReset(\Nette\Forms\Controls\SubmitButton $button)
     {
-        $this->sort = array();
-        $this->filter = array();
+        $this->sort = [];
+        $this->filter = [];
         $this->perPage = NULL;
 
         if ($session = $this->getRememberSession()) {
             $session->remove();
         }
 
-        $button->form->setValues(array(Filter::ID => $this->defaultFilter), TRUE);
+        $button->form->setValues([Filter::ID => $this->defaultFilter], TRUE);
 
         $this->page = 1;
         $this->reload();
@@ -796,7 +796,7 @@ class Grid extends Components\Container
     {
         $template = parent::createTemplate();
         $template->setFile(__DIR__ . '/Grid.latte');
-        $template->registerHelper('translate', array($this->getTranslator(), 'translate'));
+        $template->registerHelper('translate', [$this->getTranslator(), 'translate']);
 
         return $template;
     }
@@ -855,9 +855,9 @@ class Grid extends Components\Container
      */
     public function __getConditions(array $filter)
     {
-        $conditions = array();
+        $conditions = [];
         if ($filter) {
-            $this['form']->setDefaults(array(Filter::ID => $filter));
+            $this['form']->setDefaults([Filter::ID => $filter]);
 
             foreach ($filter as $column => $value) {
                 if ($component = $this->getFilter($column, FALSE)) {
@@ -875,7 +875,7 @@ class Grid extends Components\Container
 
     protected function applySorting()
     {
-        $sort = array();
+        $sort = [];
         $this->sort = $this->sort ? $this->sort : $this->defaultSort;
 
         foreach ($this->sort as $column => $dir) {
@@ -895,7 +895,7 @@ class Grid extends Components\Container
                 }
             }
 
-            if (!in_array($dir, array(Column::ORDER_ASC, Column::ORDER_DESC))) {
+            if (!in_array($dir, [Column::ORDER_ASC, Column::ORDER_DESC])) {
                 if ($dir == '' && isset($this->defaultSort[$column])) {
                     unset($this->sort[$column]);
                     break;
@@ -935,11 +935,11 @@ class Grid extends Components\Container
 
         $buttons = $form->addContainer(self::BUTTONS);
         $buttons->addSubmit('search', 'Grido.Search')
-            ->onClick[] = array($this, 'handleFilter');
+            ->onClick[] = [$this, 'handleFilter'];
         $buttons->addSubmit('reset', 'Grido.Reset')
-            ->onClick[] = array($this, 'handleReset');
+            ->onClick[] = [$this, 'handleReset'];
         $buttons->addSubmit('perPage', 'Grido.ItemsPerPage')
-            ->onClick[] = array($this, 'handlePerPage');
+            ->onClick[] = [$this, 'handlePerPage'];
 
         $form->addSelect('count', 'Count', $this->getItemsForCountSelect())
             ->setTranslator(NULL)

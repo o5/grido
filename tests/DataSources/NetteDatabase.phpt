@@ -25,7 +25,7 @@ class NetteDatabaseTest extends DataSourceTestCase
             $grid->setDefaultPerPage(3);
 
             $grid->addColumnText('firstname', 'Firstname')
-                ->setEditable(array($this, 'editableCallbackTest'))
+                ->setEditable([$this, 'editableCallbackTest'])
                 ->setSortable();
             $grid->addColumnText('surname', 'Surname');
             $grid->addColumnText('gender', 'Gender');
@@ -45,9 +45,9 @@ class NetteDatabaseTest extends DataSourceTestCase
                     ->setSuggestion(function($row) { return $row->country->title; });
 
             $grid->addFilterCheck('male', 'Only male')
-                ->setCondition(array(
-                    TRUE => array('gender', '= ?', 'male')
-                ));
+                ->setCondition([
+                    TRUE => ['gender', '= ?', 'male']
+                ]);
 
             $grid->addFilterCheck('tall', 'Only tall')
                 ->setWhere(function($value, \Nette\Database\Table\Selection $fluent) {

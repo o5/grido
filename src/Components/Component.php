@@ -100,6 +100,6 @@ abstract class Component extends \Nette\Application\UI\PresenterComponent
      */
     protected function translate($message)
     {
-        return call_user_func_array(array($this->grid->getTranslator(), "translate"), func_get_args());
+        return call_user_func_array([$this->grid->getTranslator(), "translate"], func_get_args());
     }
 }

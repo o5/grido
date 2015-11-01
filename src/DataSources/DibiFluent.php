@@ -80,9 +80,9 @@ class DibiFluent extends \Nette\Object implements IDataSource
             : $fluent;
 
         if ($condition->callback) {
-            call_user_func_array($condition->callback, array($condition->value, $fluent));
+            call_user_func_array($condition->callback, [$condition->value, $fluent]);
         } else {
-            call_user_func_array(array($fluent, 'where'), $condition->__toArray('[', ']'));
+            call_user_func_array([$fluent, 'where'], $condition->__toArray('[', ']'));
         }
     }
 
@@ -169,7 +169,7 @@ class DibiFluent extends \Nette\Object implements IDataSource
             $this->makeWhere($condition, $fluent);
         }
 
-        $items = array();
+        $items = [];
         $data = $fluent->fetchAll(0, $limit);
         foreach ($data as $row) {
             if (is_string($column)) {

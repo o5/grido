@@ -20,9 +20,9 @@ class OperationTest extends \Tester\TestCase
     function testSetConfirm()
     {
         Helper::grid(function(Grid $grid) {
-            $grid->setModel(array());
+            $grid->setModel([]);
             $grid->addColumnText('column', 'Column');
-            $grid->setOperation(array('edit' => 'Edit', 'delete' => 'Delete'), function() {})
+            $grid->setOperation(['edit' => 'Edit', 'delete' => 'Delete'], function() {})
                 ->setConfirm('delete', 'Are you sure?');
             $grid->render();
         })->run();
@@ -36,7 +36,7 @@ class OperationTest extends \Tester\TestCase
     function testGetPrimaryKey()
     {
         $grid = new Grid;
-        $operation = $grid->setOperation(array(), array());
+        $operation = $grid->setOperation([], []);
         Assert::same($grid->primaryKey, $operation->primaryKey);
 
         $primaryKey = 'xx';
@@ -50,34 +50,34 @@ class OperationTest extends \Tester\TestCase
     {
         $definition = function(Grid $grid, $strictMode = TRUE) {
             $grid->setStrictMode($strictMode);
-            $grid->setModel(array(
-                array('id' => 1, 'a' => 'A1', 'b' => 'B1'),
-                array('id' => 2, 'a' => 'A2', 'b' => 'B2'),
-                array('id' => 3, 'a' => 'A3', 'b' => 'B3'),
-                array('id' => 4, 'a' => 'A4', 'b' => 'B4'),
-                array('id' => 5, 'a' => 'A5', 'b' => 'B5'),
-            ));
+            $grid->setModel([
+                ['id' => 1, 'a' => 'A1', 'b' => 'B1'],
+                ['id' => 2, 'a' => 'A2', 'b' => 'B2'],
+                ['id' => 3, 'a' => 'A3', 'b' => 'B3'],
+                ['id' => 4, 'a' => 'A4', 'b' => 'B4'],
+                ['id' => 5, 'a' => 'A5', 'b' => 'B5'],
+            ]);
             $grid->addColumnText('a', 'A');
             $grid->addColumnText('b', 'B');
-            $grid->setOperation(array('edit' => 'Edit', 'del' => 'Del'), function($operation, $id) {
+            $grid->setOperation(['edit' => 'Edit', 'del' => 'Del'], function($operation, $id) {
                 Assert::same('edit', $operation);
-                Assert::same(array('2','4'), $id);
+                Assert::same(['2','4'], $id);
             });
         };
         Helper::grid(function(Grid $grid) use ($definition) {
             $definition($grid);
         });
 
-        $params = array(
+        $params = [
             'do' => 'grid-form-submit',
             'count' => 10,
-            Grid::BUTTONS => array(Operation::ID => 'OK'),
-            Operation::ID => array(
+            Grid::BUTTONS => [Operation::ID => 'OK'],
+            Operation::ID => [
                 Operation::ID => 'edit',
                 '2' => 'on',
                 '4' => 'on',
                 '9' => 'on'
-        ));
+        ]];
 
         Helper::request($params);
 
@@ -100,7 +100,7 @@ class OperationTest extends \Tester\TestCase
         $grid = new Grid;
         Assert::false($grid->hasOperation());
 
-        $grid->setOperation(array(), array());
+        $grid->setOperation([], []);
         Assert::false($grid->hasOperation());
         Assert::true($grid->hasOperation(FALSE));
     }
@@ -108,14 +108,14 @@ class OperationTest extends \Tester\TestCase
     function testSetOperations()
     {
         $grid = new Grid;
-        $operations = array('print' => 'Print', 'delete' => 'Delete');
+        $operations = ['print' => 'Print', 'delete' => 'Delete'];
         $onSubmit = function() {};
         $grid->setOperation($operations, $onSubmit);
         $component = $grid->getOperation();
         Assert::type('\Grido\Components\Operation', $component);
         $componentId = \Grido\Components\Operation::ID;
         Assert::same($operations, $grid['form'][$componentId][$componentId]->items);
-        Assert::same($component->onSubmit, array($onSubmit));
+        Assert::same($component->onSubmit, [$onSubmit]);
 
         // getter
         $grid = new Grid;

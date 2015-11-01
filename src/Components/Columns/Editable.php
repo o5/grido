@@ -133,7 +133,7 @@ abstract class Editable extends Column
     {
         $options = $this->grid->getClientSideOptions();
         if (!isset($options['editable'])) { //only once
-            $this->grid->setClientSideOptions(array('editable' => TRUE));
+            $this->grid->setClientSideOptions(['editable' => TRUE]);
             $this->grid->onRender[] = function(\Grido\Grid $grid)
             {
                 foreach ($grid->getComponent(Column::ID)->getComponents() as $column) {
@@ -199,7 +199,7 @@ abstract class Editable extends Column
 
             $td->data['grido-editable-value'] = $this->editableValueCallback === NULL
                 ? parent::getValue($row)
-                : call_user_func_array($this->editableValueCallback, array($row, $this));
+                : call_user_func_array($this->editableValueCallback, [$row, $this]);
         }
 
         return $td;
@@ -278,19 +278,19 @@ abstract class Editable extends Column
         }
 
         $success = $this->editableCallback
-            ? call_user_func_array($this->editableCallback, array($id, $newValue, $oldValue, $this))
-            : $this->grid->model->update($id, array($this->getColumn() => $newValue), $this->grid->primaryKey);
+            ? call_user_func_array($this->editableCallback, [$id, $newValue, $oldValue, $this])
+            : $this->grid->model->update($id, [$this->getColumn() => $newValue], $this->grid->primaryKey);
 
         if (is_callable($this->customRender)) {
             $row = $this->editableRowCallback
-                ? call_user_func_array($this->editableRowCallback, array($id, $this))
+                ? call_user_func_array($this->editableRowCallback, [$id, $this])
                 : $this->grid->model->getRow($id, $this->grid->primaryKey);
-            $html = call_user_func_array($this->customRender, array($row));
+            $html = call_user_func_array($this->customRender, [$row]);
         } else {
             $html = $this->formatValue($newValue);
         }
 
-        $payload = array('updated' => (bool) $success, 'html' => (string) $html);
+        $payload = ['updated' => (bool) $success, 'html' => (string) $html];
         $response = new \Nette\Application\Responses\JsonResponse($payload);
         $this->presenter->sendResponse($response);
     }

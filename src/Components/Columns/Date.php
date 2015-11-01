@@ -91,7 +91,7 @@ class Date extends Editable
     public function renderExport($row)
     {
         if (is_callable($this->customRenderExport)) {
-            return call_user_func_array($this->customRenderExport, array($row));
+            return call_user_func_array($this->customRenderExport, [$row]);
         }
 
         $value = $this->getValue($row);

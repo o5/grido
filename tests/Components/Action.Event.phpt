@@ -19,5 +19,5 @@ test(function() {
             ->onClick[] = function($primaryValue) {
                 Assert::same('value', $primaryValue);
             };
-    })->run(array('grid-actions-delete-id' => 'value', 'do' => 'grid-actions-delete-click'));
+    })->run(['grid-actions-delete-id' => 'value', 'do' => 'grid-actions-delete-click']);
 });

@@ -24,12 +24,12 @@ class FilterTest extends \Tester\TestCase
 
         $filter = $grid->addFilterText('filter', 'Filter')
             ->setColumn('column1', 'xx');
-        Assert::same(array('column1'), $filter->column);
+        Assert::same(['column1'], $filter->column);
 
         $filter = $grid->addFilterText('filterX', 'Filter')
             ->setColumn('column1')
             ->setColumn('column2', Condition::OPERATOR_AND);
-        Assert::same(array('column1', Condition::OPERATOR_AND, 'column2'), $filter->column);
+        Assert::same(['column1', Condition::OPERATOR_AND, 'column2'], $filter->column);
 
         $filter->setColumn('column3', 'and');
         Assert::error(function() use ($filter) {
@@ -37,11 +37,11 @@ class FilterTest extends \Tester\TestCase
         }, 'Grido\Exception', 'Operator must be Condition::OPERATOR_AND or Condition::OPERATOR_OR.');
 
         $filter = $grid->addFilterText('filterY', 'Filter');
-        Assert::same(array('filterY'), $filter->column);
+        Assert::same(['filterY'], $filter->column);
 
         $filter = $grid->addColumnText('columnX', 'ColumnX')
             ->setFilterText();
-        Assert::same(array('columnX'), $filter->column);
+        Assert::same(['columnX'], $filter->column);
     }
 
     function testSetCondition() //+ __getCondition()
@@ -54,20 +54,20 @@ class FilterTest extends \Tester\TestCase
         //string condition
         $filter->setCondition('<> ?');
         Assert::type('Grido\Components\Filters\Condition', $filter->__getCondition('value'));
-        Assert::same(array('filter <> ?', '%value%'), $filter->__getCondition('value')->__toArray());
+        Assert::same(['filter <> ?', '%value%'], $filter->__getCondition('value')->__toArray());
 
         //object Condition
         $filter->setCondition(new Condition('filter', '<> ?', 'value%'));
         Assert::type('Grido\Components\Filters\Condition', $filter->__getCondition('value'));
-        Assert::same(array('filter <> ?', 'value%'), $filter->__getCondition('value')->__toArray());
+        Assert::same(['filter <> ?', 'value%'], $filter->__getCondition('value')->__toArray());
 
         //callback condition - return array
         $filter->setCondition(function($value) {
             Assert::same('value', $value);
-            return array('status', '= ?', $value);
+            return ['status', '= ?', $value];
         });
         Assert::type('Grido\Components\Filters\Condition', $filter->__getCondition('value'));
-        Assert::same(array('status = ?', 'value'), $filter->__getCondition('value')->__toArray());
+        Assert::same(['status = ?', 'value'], $filter->__getCondition('value')->__toArray());
 
         //callback condition - return object Condition
         $filter->setCondition(function($value) {
@@ -75,21 +75,21 @@ class FilterTest extends \Tester\TestCase
             return new Condition('status', '<> ?', $value);
         });
         Assert::type('Grido\Components\Filters\Condition', $filter->__getCondition('value'));
-        Assert::same(array('status <> ?', 'value'), $filter->__getCondition('value')->__toArray());
+        Assert::same(['status <> ?', 'value'], $filter->__getCondition('value')->__toArray());
 
         //array of array condition
-        $filter->setCondition(array('deleted' => array('status', '= ?', 'deleted')));
+        $filter->setCondition(['deleted' => ['status', '= ?', 'deleted']]);
         Assert::type('Grido\Components\Filters\Condition', $filter->__getCondition('deleted'));
-        Assert::same(array('status = ?', 'deleted'), $filter->__getCondition('deleted')->__toArray());
+        Assert::same(['status = ?', 'deleted'], $filter->__getCondition('deleted')->__toArray());
         Assert::type('Grido\Components\Filters\Condition', $filter->__getCondition('value'));
-        Assert::same(array('0 = 1'), $filter->__getCondition('value')->__toArray());
+        Assert::same(['0 = 1'], $filter->__getCondition('value')->__toArray());
 
         //array of object condition
-        $filter->setCondition(array('deleted' => new Condition('status', '= ?', 'deleted')));
+        $filter->setCondition(['deleted' => new Condition('status', '= ?', 'deleted')]);
         Assert::type('Grido\Components\Filters\Condition', $filter->__getCondition('deleted'));
-        Assert::same(array('status = ?', 'deleted'), $filter->__getCondition('deleted')->__toArray());
+        Assert::same(['status = ?', 'deleted'], $filter->__getCondition('deleted')->__toArray());
         Assert::type('Grido\Components\Filters\Condition', $filter->__getCondition('value'));
-        Assert::same(array('0 = 1'), $filter->__getCondition('value')->__toArray());
+        Assert::same(['0 = 1'], $filter->__getCondition('value')->__toArray());
     }
 
     function testSetWhere()
@@ -118,7 +118,7 @@ class FilterTest extends \Tester\TestCase
         $filter = $grid->addFilterText('filter', 'Filter')
             ->setFormatValue('%%value%');
 
-        Assert::same(array('filter LIKE ?', '%TEST%'), $filter->__getCondition('TEST')->__toArray());
+        Assert::same(['filter LIKE ?', '%TEST%'], $filter->__getCondition('TEST')->__toArray());
     }
 
     function testSetDefaufaulValue()
@@ -126,11 +126,11 @@ class FilterTest extends \Tester\TestCase
         $grid = new Grid;
         $grid->addFilterText('filter', 'Filter')
             ->setDefaultValue('default');
-        Assert::same(array('filter' => 'default'), $grid->defaultFilter);
+        Assert::same(['filter' => 'default'], $grid->defaultFilter);
 
         $grid->addFilterText('filter2', 'Filter2')
             ->setDefaultValue('default2');
-        Assert::same(array('filter' => 'default', 'filter2' => 'default2'), $grid->defaultFilter);
+        Assert::same(['filter' => 'default', 'filter2' => 'default2'], $grid->defaultFilter);
     }
 
     function testGetWrapperPrototype()
@@ -190,7 +190,7 @@ class FilterTest extends \Tester\TestCase
         Assert::same($label, $component->label);
 
         $name = 'select';
-        $items = array('one' => 'raz', 'two' => 'dva');
+        $items = ['one' => 'raz', 'two' => 'dva'];
         $grid->addFilterSelect($name, $label, $items);
         $component = $grid->getFilter($name);
         Assert::type('\Grido\Components\Filters\Select', $component);

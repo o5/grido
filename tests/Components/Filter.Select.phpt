@@ -19,7 +19,7 @@ class FilterSelectTest extends \Tester\TestCase
     function testFormControl()
     {
         $grid = new Grid;
-        $items = array('one' => 'One');
+        $items = ['one' => 'One'];
         $filter = $grid->addFilterSelect('select', 'Select', $items);
         Assert::type('Nette\Forms\Controls\SelectBox', $filter->control);
         Assert::same($items, $filter->control->items);
@@ -29,7 +29,7 @@ class FilterSelectTest extends \Tester\TestCase
     {
         $grid = new Grid;
         $filter = $grid->addFilterSelect('select', 'Select');
-        Assert::same(array('select = ?', 'TEST'), $filter->__getCondition('TEST')->__toArray());
+        Assert::same(['select = ?', 'TEST'], $filter->__getCondition('TEST')->__toArray());
     }
 }
 

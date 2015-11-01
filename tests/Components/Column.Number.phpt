@@ -16,10 +16,10 @@ test(function() {
     $grid = new Grid;
 
     $column = $grid->addColumnNumber('column', 'Column');
-    Assert::same('12,346', $column->render(array('column' => 12345.99)));
+    Assert::same('12,346', $column->render(['column' => 12345.99]));
 
     $column->setNumberFormat(1, ',', '.');
-    Assert::same('12.345,6', $column->render(array('column' => '12345.55')));
+    Assert::same('12.345,6', $column->render(['column' => '12345.55']));
 
-    Assert::same('&lt;script&gt;alert(&quot;XSS&quot;)&lt;/script&gt;a', $column->render(array('column' => '<script>alert("XSS")</script>a')));
+    Assert::same('&lt;script&gt;alert(&quot;XSS&quot;)&lt;/script&gt;a', $column->render(['column' => '<script>alert("XSS")</script>a']));
 });

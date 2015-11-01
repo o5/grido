@@ -38,7 +38,7 @@ class Helper
             self::$presenter = $self->createPresenter();
         }
 
-        self::$presenter->onStartUp = array();
+        self::$presenter->onStartUp = [];
         self::$presenter->onStartUp[] = function(TestPresenter $presenter) use ($definition) {
             if (isset($presenter[Helper::GRID_NAME])) {
                 unset($presenter[Helper::GRID_NAME]);
@@ -55,7 +55,7 @@ class Helper
      * @param string $method
      * @return \Nette\Application\IResponse
      */
-    public static function request(array $params = array(), $method = \Nette\Http\Request::GET)
+    public static function request(array $params = [], $method = \Nette\Http\Request::GET)
     {
         $request = new \Nette\Application\Request('Test', $method, $params);
         $response = self::$presenter->run($request);
@@ -70,7 +70,7 @@ class Helper
      * @param string $method
      * @return \Nette\Application\IResponse
      */
-    public function run(array $params = array(), $method = \Nette\Http\Request::GET)
+    public function run(array $params = [], $method = \Nette\Http\Request::GET)
     {
         return self::request($params, $method);
     }

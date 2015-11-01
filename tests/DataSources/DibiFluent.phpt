@@ -29,7 +29,7 @@ class DibiFluentTest extends DataSourceTestCase
             $grid->setDefaultPerPage(3);
 
             $grid->addColumnText('firstname', 'Firstname')
-                ->setEditable(array($this, 'editableCallbackTest'))
+                ->setEditable([$this, 'editableCallbackTest'])
                 ->setSortable();
             $grid->addColumnText('surname', 'Surname');
             $grid->addColumnText('gender', 'Gender');
@@ -49,9 +49,9 @@ class DibiFluentTest extends DataSourceTestCase
                     ->setSuggestion('title');
 
             $grid->addFilterCheck('male', 'Only male')
-                ->setCondition(array(
-                    TRUE => array('gender', '= ?', 'male')
-                ));
+                ->setCondition([
+                    TRUE => ['gender', '= ?', 'male']
+                ]);
 
             $grid->addFilterCheck('tall', 'Only tall')
                 ->setWhere(function($value, \DibiFluent $fluent) {

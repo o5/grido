@@ -46,7 +46,7 @@ class Operation extends Component
         $grid->addComponent($this, self::ID);
 
         $grid['form'][$grid::BUTTONS]->addSubmit(self::ID, 'OK')
-            ->onClick[] = array($this, 'handleOperations');
+            ->onClick[] = [$this, 'handleOperations'];
 
         $grid['form']->addContainer(self::ID)
             ->addSelect(self::ID, 'Selected', $operations)
@@ -124,7 +124,7 @@ class Operation extends Component
             $grid->reload();
         }
 
-        $ids = array();
+        $ids = [];
         $operation = $values[self::ID];
         unset($values[self::ID]);
 

@@ -22,22 +22,22 @@ class FilterNumberTest extends \Tester\TestCase
         $filter = $grid->addFilterNumber('number', 'Number');
         Assert::type('Nette\Forms\Controls\TextInput', $filter->control);
         Assert::same(0, strpos($filter->control->controlPrototype->title, 'You can use <, <=, >, >=, <>. e.g. ">='));
-        Assert::same(array('text', 'number'), $filter->control->controlPrototype->class);
+        Assert::same(['text', 'number'], $filter->control->controlPrototype->class);
     }
 
     function testGetCondition()
     {
         $grid = new Grid;
         $filter = $grid->addFilterNumber('number', 'Number');
-        Assert::same(array('number = ?', '12.34'), $filter->__getCondition('=12.34')->__toArray());
-        Assert::same(array('number = ?', '-12.34'), $filter->__getCondition('-12,34')->__toArray());
-        Assert::same(array('number = ?', '12.34'), $filter->__getCondition('**12.34')->__toArray());
-        Assert::same(array('number = ?', '12'), $filter->__getCondition('12')->__toArray());
-        Assert::same(array('number <> ?', '12.34'), $filter->__getCondition('<>12.34')->__toArray());
-        Assert::same(array('number > ?', '12.34'), $filter->__getCondition('>12.34')->__toArray());
-        Assert::same(array('number < ?', '12'), $filter->__getCondition('<12')->__toArray());
-        Assert::same(array('number >= ?', '12.34'), $filter->__getCondition('>=12.34')->__toArray());
-        Assert::same(array('number <= ?', '12.34'), $filter->__getCondition('<=12.34')->__toArray());
+        Assert::same(['number = ?', '12.34'], $filter->__getCondition('=12.34')->__toArray());
+        Assert::same(['number = ?', '-12.34'], $filter->__getCondition('-12,34')->__toArray());
+        Assert::same(['number = ?', '12.34'], $filter->__getCondition('**12.34')->__toArray());
+        Assert::same(['number = ?', '12'], $filter->__getCondition('12')->__toArray());
+        Assert::same(['number <> ?', '12.34'], $filter->__getCondition('<>12.34')->__toArray());
+        Assert::same(['number > ?', '12.34'], $filter->__getCondition('>12.34')->__toArray());
+        Assert::same(['number < ?', '12'], $filter->__getCondition('<12')->__toArray());
+        Assert::same(['number >= ?', '12.34'], $filter->__getCondition('>=12.34')->__toArray());
+        Assert::same(['number <= ?', '12.34'], $filter->__getCondition('<=12.34')->__toArray());
     }
 }
 

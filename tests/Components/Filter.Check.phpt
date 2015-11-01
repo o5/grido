@@ -27,7 +27,7 @@ class FilterCheckTest extends \Tester\TestCase
     {
         $grid = new Grid;
         $filter = $grid->addFilterCheck('check', 'Check');
-        Assert::same(array('check IS NOT NULL'), $filter->__getCondition(TRUE)->__toArray());
+        Assert::same(['check IS NOT NULL'], $filter->__getCondition(TRUE)->__toArray());
     }
 
     function testChangeValue()

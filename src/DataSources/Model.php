@@ -25,7 +25,7 @@ use Grido\Exception;
 class Model extends \Nette\Object
 {
     /** @var array */
-    public $callback = array();
+    public $callback = [];
 
     /** @var IDataSource */
     protected $dataSource;
@@ -64,7 +64,7 @@ class Model extends \Nette\Object
     public function __call($method, $args)
     {
         return isset($this->callback[$method])
-            ? call_user_func_array($this->callback[$method], array($this->dataSource, $args))
-            : call_user_func_array(array($this->dataSource, $method), $args);
+            ? call_user_func_array($this->callback[$method], [$this->dataSource, $args])
+            : call_user_func_array([$this->dataSource, $method], $args);
     }
 }

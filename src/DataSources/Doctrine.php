@@ -133,7 +133,7 @@ class Doctrine extends \Nette\Object implements IDataSource
             : $qb;
 
         if ($condition->callback) {
-            return call_user_func_array($condition->callback, array($condition->value, $qb));
+            return call_user_func_array($condition->callback, [$condition->value, $qb]);
         }
 
         $columns = $condition->column;
@@ -198,7 +198,7 @@ class Doctrine extends \Nette\Object implements IDataSource
      */
     public function getData()
     {
-        $data = array();
+        $data = [];
 
         // Paginator is better if the query uses ManyToMany associations
         $result = $this->qb->getMaxResults() !== NULL || $this->qb->getFirstResult() !== NULL
@@ -276,7 +276,7 @@ class Doctrine extends \Nette\Object implements IDataSource
             $this->makeWhere($condition, $qb);
         }
 
-        $items = array();
+        $items = [];
         $data = $qb->getQuery()->getScalarResult();
         foreach ($data as $row) {
             if (is_string($column)) {

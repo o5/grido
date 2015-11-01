@@ -43,7 +43,7 @@ class GridInSubcomponentTest extends \Tester\TestCase
             Assert::same($session2->name, 'b');
         };
 
-        $request = new \Nette\Application\Request('Test', \Nette\Http\Request::GET, array());
+        $request = new \Nette\Application\Request('Test', \Nette\Http\Request::GET, []);
         $presenter->run($request);
     }
 }

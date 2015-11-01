@@ -33,7 +33,7 @@ class Paginator extends \Nette\Utils\Paginator
     protected $page;
 
     /** @var array */
-    protected $steps = array();
+    protected $steps = [];
 
     /** @var int */
     protected $countBegin;

@@ -20,20 +20,20 @@ class ActionTest extends \Tester\TestCase
     {
         Helper::grid(function(Grid $grid){
             $element = \Nette\Utils\Html::el('a')
-                ->setClass(array('action'))
+                ->setClass(['action'])
                 ->setText('Edit');
             $grid->addActionHref('edit', 'Edit')->setElementPrototype($element);
         })->run();
 
         ob_start();
-            Helper::$grid->getAction('edit')->render(array('id' => 11));
+            Helper::$grid->getAction('edit')->render(['id' => 11]);
         $output = ob_get_clean();
         Assert::same('<a class="action" href="/?id=11&amp;action=edit&amp;presenter=Test">Edit</a>', $output);
     }
 
     function testSetCustomRender()
     {
-        $testRow = array('id' => 11, 'column' => 'value');
+        $testRow = ['id' => 11, 'column' => 'value'];
         Helper::grid(function(Grid $grid) use ($testRow) {
             $grid->addActionHref('edit', 'Edit')
                 ->setCustomRender(function($row, \Nette\Utils\Html $element) use ($testRow) {
@@ -58,12 +58,12 @@ class ActionTest extends \Tester\TestCase
         })->run();
 
         ob_start();
-            Helper::$grid->getAction('edit')->render(array('primary' => 11));
+            Helper::$grid->getAction('edit')->render(['primary' => 11]);
         $output = ob_get_clean();
         Assert::same('<a class="grid-action-edit" href="/?primary=11&amp;action=edit&amp;presenter=Test">Edit</a>', $output);
 
         Assert::error(function(){
-            Helper::$grid->getAction('edit')->render(array('id' => 11));
+            Helper::$grid->getAction('edit')->render(['id' => 11]);
         }, 'Symfony\Component\PropertyAccess\Exception\NoSuchIndexException');
     }
 
@@ -77,12 +77,12 @@ class ActionTest extends \Tester\TestCase
         })->run();
 
         ob_start();
-            Helper::$grid->getAction('delete')->render(array('id' => 2, 'status' => 'delete'));
+            Helper::$grid->getAction('delete')->render(['id' => 2, 'status' => 'delete']);
         $output = ob_get_clean();
         Assert::same('', $output);
 
         ob_start();
-            Helper::$grid->getAction('delete')->render(array('id' => 3, 'status' => 'published'));
+            Helper::$grid->getAction('delete')->render(['id' => 3, 'status' => 'published']);
         $output = ob_get_clean();
         Assert::same('<a class="grid-action-delete" href="/?id=3&amp;action=delete&amp;presenter=Test">Delete</a>', $output);
     }
@@ -96,12 +96,12 @@ class ActionTest extends \Tester\TestCase
         })->run();
 
         ob_start();
-            Helper::$grid->getAction('delete')->render(array('id' => 2));
+            Helper::$grid->getAction('delete')->render(['id' => 2]);
         $output = ob_get_clean();
         Assert::same('<a class="grid-action-delete" href="/?id=2&amp;action=delete&amp;presenter=Test" data-grido-confirm="Are you sure?">Delete</a>', $output);
 
         //test callback
-        $testRow = array('id' => 2, 'firstname' => 'Lucie');
+        $testRow = ['id' => 2, 'firstname' => 'Lucie'];
         Helper::grid(function(Grid $grid) use ($testRow) {
             $grid->addActionHref('delete', 'Delete')
                 ->setConfirm(function($row) use ($testRow) {
@@ -115,13 +115,13 @@ class ActionTest extends \Tester\TestCase
         $output = ob_get_clean();
         Assert::same('<a class="grid-action-delete" href="/?id=2&amp;action=delete&amp;presenter=Test" data-grido-confirm="Are you sure you want to delete Lucie?">Delete</a>', $output);
 
-        $testRow = array('id' => 2, 'firstname' => 'Lucie');
+        $testRow = ['id' => 2, 'firstname' => 'Lucie'];
         Helper::grid(function(Grid $grid) use ($testRow) {
-            $grid->translator = new \Grido\Translations\FileTranslator('cs', array('Are you sure you want to delete user %s?' => 'Opravdu chceš smazat uživatele %s?'));
+            $grid->translator = new \Grido\Translations\FileTranslator('cs', ['Are you sure you want to delete user %s?' => 'Opravdu chceš smazat uživatele %s?']);
             $grid->addActionHref('delete', 'Delete')
                 ->setConfirm(function($row) use ($testRow) {
                     Assert::same($testRow, $row);
-                    return array("Are you sure you want to delete user %s?", $row['firstname']);
+                    return ["Are you sure you want to delete user %s?", $row['firstname']];
                 });
         })->run();
 
@@ -157,7 +157,7 @@ class ActionTest extends \Tester\TestCase
 
         $name = 'href';
         $destination = 'edit';
-        $args = array('args');
+        $args = ['args'];
         $grid->addActionHref($name, $label, $destination, $args);
         $component = $grid->getAction($name);
         Assert::type('\Grido\Components\Actions\Href', $component);
@@ -173,7 +173,7 @@ class ActionTest extends \Tester\TestCase
         Assert::type('\Grido\Components\Actions\Event', $component);
         Assert::type('\Grido\Components\Actions\Action', $component);
         Assert::same($label, $component->label);
-        Assert::same(array($onClick), $component->onClick);
+        Assert::same([$onClick], $component->onClick);
 
         // getter
         Assert::exception(function() use ($grid) {
