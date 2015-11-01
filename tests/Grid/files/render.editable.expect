@@ -83,7 +83,7 @@
                 <td class="checker">
                     <label for="frm-grid-form-operations-1"><input type="checkbox" name="operations[1]" title="1" id="frm-grid-form-operations-1"></label>
                 </td>
-                    <td class="grid-cell-firstname" data-grido-editable-value="Trommler">
+                    <td class="grid-cell-firstname editable" data-grido-editable-value="Trommler">
                             Trommler
                     </td>
                     <td class="grid-cell-surname">
@@ -92,7 +92,7 @@
                     <td class="grid-cell-gender">
                             Martina
                     </td>
-                    <td class="grid-cell-birthday" data-grido-editable-value="1964-10-25">
+                    <td class="grid-cell-birthday editable" data-grido-editable-value="1964-10-25">
                             25.10.1964
                     </td>
                 <td class="actions center">
@@ -102,7 +102,7 @@
                 <td class="checker">
                     <label for="frm-grid-form-operations-20"><input type="checkbox" name="operations[20]" title="20" id="frm-grid-form-operations-20"></label>
                 </td>
-                    <td class="grid-cell-firstname" data-grido-editable-value="Marij">
+                    <td class="grid-cell-firstname editable" data-grido-editable-value="Marij">
                             Marij
                     </td>
                     <td class="grid-cell-surname">
@@ -112,7 +112,7 @@ and newline &quot;test&quot;;
                     <td class="grid-cell-gender">
                             male
                     </td>
-                    <td class="grid-cell-birthday" data-grido-editable-value="1972-12-16">
+                    <td class="grid-cell-birthday editable" data-grido-editable-value="1972-12-16">
                             16.12.1972
                     </td>
                 <td class="actions center">
@@ -122,7 +122,7 @@ and newline &quot;test&quot;;
                 <td class="checker">
                     <label for="frm-grid-form-operations-39"><input type="checkbox" name="operations[39]" title="39" id="frm-grid-form-operations-39"></label>
                 </td>
-                    <td class="grid-cell-firstname" data-grido-editable-value="Lyyli">
+                    <td class="grid-cell-firstname editable" data-grido-editable-value="Lyyli">
                             Lyyli
                     </td>
                     <td class="grid-cell-surname">
@@ -131,7 +131,7 @@ and newline &quot;test&quot;;
                     <td class="grid-cell-gender">
                             female
                     </td>
-                    <td class="grid-cell-birthday" data-grido-editable-value="1963-5-5">
+                    <td class="grid-cell-birthday editable" data-grido-editable-value="1963-5-5">
                             05.05.1963
                     </td>
                 <td class="actions center">
@@ -141,7 +141,7 @@ and newline &quot;test&quot;;
                 <td class="checker">
                     <label for="frm-grid-form-operations-58"><input type="checkbox" name="operations[58]" title="58" id="frm-grid-form-operations-58"></label>
                 </td>
-                    <td class="grid-cell-firstname" data-grido-editable-value="Dýrleif">
+                    <td class="grid-cell-firstname editable" data-grido-editable-value="Dýrleif">
                             Dýrleif
                     </td>
                     <td class="grid-cell-surname">
@@ -150,7 +150,7 @@ and newline &quot;test&quot;;
                     <td class="grid-cell-gender">
                             female
                     </td>
-                    <td class="grid-cell-birthday" data-grido-editable-value="1972-11-24">
+                    <td class="grid-cell-birthday editable" data-grido-editable-value="1972-11-24">
                             24.11.1972
                     </td>
                 <td class="actions center">

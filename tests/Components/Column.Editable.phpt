@@ -126,7 +126,7 @@ class EditableTest extends \Tester\TestCase
                     return $item['name'] . '-TEST';
                 });
 
-            Assert::same('<td class="grid-cell-name" data-grido-editable-value="Lucy-TEST"></td>', (string) $column->getCellPrototype($row));
+            Assert::same('<td class="grid-cell-name editable" data-grido-editable-value="Lucy-TEST"></td>', (string) $column->getCellPrototype($row));
 
         })->run();
     }

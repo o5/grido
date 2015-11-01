@@ -72,7 +72,7 @@
     </tfoot>
     <tbody>
             <tr class="grid-row-628">
-                    <td class="grid-cell-firstname" data-grido-editable-value="Luwam">
+                    <td class="grid-cell-firstname editable" data-grido-editable-value="Luwam">
                             Luwam
                     </td>
                     <td class="grid-cell-surname">
@@ -89,7 +89,7 @@
                     </td>
             </tr>
             <tr class="grid-row-818">
-                    <td class="grid-cell-firstname" data-grido-editable-value="Ronald">
+                    <td class="grid-cell-firstname editable" data-grido-editable-value="Ronald">
                             Ronald
                     </td>
                     <td class="grid-cell-surname">
@@ -106,7 +106,7 @@
                     </td>
             </tr>
             <tr class="grid-row-837">
-                    <td class="grid-cell-firstname" data-grido-editable-value="Dame">
+                    <td class="grid-cell-firstname editable" data-grido-editable-value="Dame">
                             Dame
                     </td>
                     <td class="grid-cell-surname">
