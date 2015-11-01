@@ -46,7 +46,7 @@ class EditableTest extends \Tester\TestCase
         Assert::type('\Nette\Forms\Controls\TextInput', $column->editableControl);
 
         // EDITABLE AND AN OWN CALLBACK VIA PARAM
-        $callback = callback($this, 'test');
+        $callback = array($this, 'test');
         $grid = new Grid();
         $column = $grid->addColumnText('column', 'Column')->setEditable($callback);
         Assert::same(TRUE, $column->editable);
@@ -55,7 +55,7 @@ class EditableTest extends \Tester\TestCase
         Assert::type('\Nette\Forms\Controls\TextInput', $column->editableControl);
 
         // EDITABLE AND AN OWN CALLBACK VIA METHOD
-        $callback = callback($this, 'test');
+        $callback = array($this, 'test');
         $grid = new Grid();
         $column = $grid->addColumnText('column', 'Column')->setEditable();
         $column->setEditableCallback($callback);
@@ -65,7 +65,7 @@ class EditableTest extends \Tester\TestCase
         Assert::type('\Nette\Forms\Controls\TextInput', $column->editableControl);
 
         // EDITABLE AND AN OWN CALLBACK, CONTROL VIA PARAM
-        $callback = callback($this, 'test');
+        $callback = array($this, 'test');
         $control = new \Nette\Forms\Controls\SelectBox(array('1','2','3'));
         $grid = new Grid();
         $column = $grid->addColumnText('column', 'Column')->setEditable($callback, $control);
@@ -75,7 +75,7 @@ class EditableTest extends \Tester\TestCase
         Assert::same($control, $column->editableControl);
 
         // EDITABLE AND AN OWN CONTROL VIA METHOD
-        $callback = callback($this, 'test');
+        $callback = array($this, 'test');
         $control = new \Nette\Forms\Controls\SelectBox(array('1','2','3'));
         $grid = new Grid();
         $column = $grid->addColumnText('column', 'Column')->setEditable();
@@ -86,8 +86,8 @@ class EditableTest extends \Tester\TestCase
         Assert::same($control, $column->editableControl);
 
         // EDITABLE AND AN OWN VALUE CALLBACK VIA METHOD
-        $valueCallback = callback($this, 'test');
-        $rowCallback = callback($this, 'test');
+        $valueCallback = array($this, 'test');
+        $rowCallback = array($this, 'test');
         $grid = new Grid();
         $column = $grid->addColumnText('column', 'Column')->setEditable();
         $column->setEditableValueCallback($valueCallback);
@@ -248,8 +248,10 @@ class EditableTest extends \Tester\TestCase
 
         Helper::grid(function(Grid $grid) use ($editableSuffix) {
             $dsn = $grid->presenter->context->ndb_sqlite->getDsn() . $editableSuffix;
+            $cacheMemoryStorage = new \Nette\Caching\Storages\MemoryStorage;
             $connection = new \Nette\Database\Connection($dsn);
-            $database = new \Nette\Database\Context($connection);
+            $structure = new \Nette\Database\Structure($connection, $cacheMemoryStorage);
+            $database = new \Nette\Database\Context($connection, $structure);
 
             $grid->setModel($database->table('user'));
             $grid->presenter->forceAjaxMode = TRUE;
@@ -270,8 +272,10 @@ class EditableTest extends \Tester\TestCase
         //TEST INSIDE EDITABLE CALLBACK
         Helper::grid(function(Grid $grid) use ($editableSuffix, $newValue, $oldValue, $id) {
             $dsn = $grid->presenter->context->ndb_sqlite->getDsn() . $editableSuffix;
+            $cacheMemoryStorage = new \Nette\Caching\Storages\MemoryStorage;
             $connection = new \Nette\Database\Connection($dsn);
-            $database = new \Nette\Database\Context($connection);
+            $structure = new \Nette\Database\Structure($connection, $cacheMemoryStorage);
+            $database = new \Nette\Database\Context($connection, $structure);
 
             $grid->setModel($database->table('user'));
             $grid->presenter->forceAjaxMode = TRUE;

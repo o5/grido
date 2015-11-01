@@ -15,8 +15,8 @@ if (@!include __DIR__ . '/../vendor/autoload.php') {
 // configure environment
 Tester\Environment::setup();
 date_default_timezone_set('Europe/Prague');
-Nette\Diagnostics\Debugger::$maxDepth = 5;
-Nette\Diagnostics\Debugger::$maxLen = 500;
+Tracy\Debugger::$maxDepth = 5;
+Tracy\Debugger::$maxLen = 500;
 
 // create temporary directory
 define('TEMP_DIR', __DIR__ . '/tmp/' . getmypid());

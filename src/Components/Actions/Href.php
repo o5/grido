@@ -69,7 +69,7 @@ class Href extends Action
         $element = parent::getElement($row);
 
         if ($this->customHref) {
-            $href = callback($this->customHref)->invokeArgs(array($row));
+            $href = call_user_func_array($this->customHref, array($row));
         } else {
             $primaryKey = $this->getPrimaryKey();
             $primaryValue = $this->grid->getProperty($row, $primaryKey);

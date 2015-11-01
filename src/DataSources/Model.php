@@ -64,7 +64,7 @@ class Model extends \Nette\Object
     public function __call($method, $args)
     {
         return isset($this->callback[$method])
-            ? callback($this->callback[$method])->invokeArgs(array($this->dataSource, $args))
+            ? call_user_func_array($this->callback[$method], array($this->dataSource, $args))
             : call_user_func_array(array($this->dataSource, $method), $args);
     }
 }

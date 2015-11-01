@@ -199,7 +199,7 @@ abstract class Editable extends Column
 
             $td->data['grido-editable-value'] = $this->editableValueCallback === NULL
                 ? parent::getValue($row)
-                : callback($this->editableValueCallback)->invokeArgs(array($row, $this));
+                : call_user_func_array($this->editableValueCallback, array($row, $this));
         }
 
         return $td;
@@ -278,14 +278,14 @@ abstract class Editable extends Column
         }
 
         $success = $this->editableCallback
-            ? callback($this->editableCallback)->invokeArgs(array($id, $newValue, $oldValue, $this))
+            ? call_user_func_array($this->editableCallback, array($id, $newValue, $oldValue, $this))
             : $this->grid->model->update($id, array($this->getColumn() => $newValue), $this->grid->primaryKey);
 
         if (is_callable($this->customRender)) {
             $row = $this->editableRowCallback
-                ? callback($this->editableRowCallback)->invokeArgs(array($id, $this))
+                ? call_user_func_array($this->editableRowCallback, array($id, $this))
                 : $this->grid->model->getRow($id, $this->grid->primaryKey);
-            $html = callback($this->customRender)->invokeArgs(array($row));
+            $html = call_user_func_array($this->customRender, array($row));
         } else {
             $html = $this->formatValue($newValue);
         }

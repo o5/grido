@@ -628,7 +628,7 @@ class Grid extends Components\Container
         $primaryValue ? $tr->class[] = "grid-row-$primaryValue" : NULL;
 
         if ($this->rowCallback) {
-            $tr = callback($this->rowCallback)->invokeArgs(array($row, $tr));
+            $tr = call_user_func_array($this->rowCallback, array($row, $tr));
         }
 
         return $tr;
@@ -796,7 +796,7 @@ class Grid extends Components\Container
     {
         $template = parent::createTemplate();
         $template->setFile(__DIR__ . '/Grid.latte');
-        $template->registerHelper('translate', callback($this->getTranslator(), 'translate'));
+        $template->registerHelper('translate', array($this->getTranslator(), 'translate'));
 
         return $template;
     }
@@ -935,11 +935,11 @@ class Grid extends Components\Container
 
         $buttons = $form->addContainer(self::BUTTONS);
         $buttons->addSubmit('search', 'Grido.Search')
-            ->onClick[] = callback($this, 'handleFilter');
+            ->onClick[] = array($this, 'handleFilter');
         $buttons->addSubmit('reset', 'Grido.Reset')
-            ->onClick[] = callback($this, 'handleReset');
+            ->onClick[] = array($this, 'handleReset');
         $buttons->addSubmit('perPage', 'Grido.ItemsPerPage')
-            ->onClick[] = callback($this, 'handlePerPage');
+            ->onClick[] = array($this, 'handlePerPage');
 
         $form->addSelect('count', 'Count', $this->getItemsForCountSelect())
             ->setTranslator(NULL)

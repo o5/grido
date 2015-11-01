@@ -176,7 +176,7 @@ abstract class Column extends \Grido\Components\Component
 
         if ($this->cellCallback && $row !== NULL) {
             $td = clone $td;
-            $td = callback($this->cellCallback)->invokeArgs(array($row, $td));
+            $td = call_user_func_array($this->cellCallback, array($row, $td));
         }
 
         return $td;
@@ -289,7 +289,7 @@ abstract class Column extends \Grido\Components\Component
     public function render($row)
     {
         if (is_callable($this->customRender)) {
-            return callback($this->customRender)->invokeArgs(array($row));
+            return call_user_func_array($this->customRender, array($row));
         }
 
         $value = $this->getValue($row);
@@ -304,7 +304,7 @@ abstract class Column extends \Grido\Components\Component
     public function renderExport($row)
     {
         if (is_callable($this->customRenderExport)) {
-            return callback($this->customRenderExport)->invokeArgs(array($row));
+            return call_user_func_array($this->customRenderExport, array($row));
         }
 
         $value = $this->getValue($row);
@@ -323,7 +323,7 @@ abstract class Column extends \Grido\Components\Component
             return $this->grid->getProperty($row, Helpers::unformatColumnName($column));
 
         } elseif (is_callable($column)) {
-            return callback($column)->invokeArgs(array($row));
+            return call_user_func_array($column, array($row));
 
         } else {
             throw new Exception('Column must be string or callback.');
@@ -350,7 +350,7 @@ abstract class Column extends \Grido\Components\Component
     protected function formatValue($value)
     {
         $value = is_string($value)
-            ? \Nette\Templating\Helpers::escapeHtml($value)
+            ? \Latte\Runtime\Filters::escapeHtml($value)
             : $value;
 
         return $this->applyReplacement($value);

@@ -71,7 +71,7 @@ class Date extends Editable
         if ($value === NULL || is_bool($value)) {
             return $this->applyReplacement($value);
         } elseif (is_scalar($value)) {
-            $value = \Nette\Templating\Helpers::escapeHtml($value);
+            $value = \Latte\Runtime\Filters::escapeHtml($value);
             $replaced = $this->applyReplacement($value);
             if ($value !== $replaced && is_scalar($replaced)) {
                 return $replaced;
@@ -91,7 +91,7 @@ class Date extends Editable
     public function renderExport($row)
     {
         if (is_callable($this->customRenderExport)) {
-            return callback($this->customRenderExport)->invokeArgs(array($row));
+            return call_user_func_array($this->customRenderExport, array($row));
         }
 
         $value = $this->getValue($row);
