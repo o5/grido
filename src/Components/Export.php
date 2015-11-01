@@ -23,6 +23,8 @@ use Nette\Utils\Strings;
  * @author      Petr Bugyík
  *
  * @property int $fetchLimit
+ * @property-write array $header
+ * @property-write callable $customData
  */
 class Export extends Component implements \Nette\Application\IResponse
 {
@@ -30,6 +32,12 @@ class Export extends Component implements \Nette\Application\IResponse
 
     /** @var int */
     protected $fetchLimit = 100000;
+
+    /** @var array */
+    protected $header = array();
+
+    /** @var callable */
+    protected $customData;
 
     /**
      * @param Grid $grid
@@ -58,10 +66,14 @@ class Export extends Component implements \Nette\Application\IResponse
             print implode(',', $row) . "\n";
         };
 
-        $header = array();
         $columns = $this->grid[Column::ID]->getComponents();
-        foreach ($columns as $column) {
-            $header[] = $escape($column->getLabel());
+
+        $header = array();
+        $headerItems = $this->header ? $this->header : $columns;
+        foreach ($headerItems as $column) {
+            $header[] = $this->header
+                ? $escape($column)
+                : $escape($column->getLabel());
         }
 
         $print($header);
@@ -70,13 +82,21 @@ class Export extends Component implements \Nette\Application\IResponse
         $iterations = ceil($datasource->getCount() / $this->fetchLimit);
         for ($i = 0; $i < $iterations; $i++) {
             $datasource->limit($i * $this->fetchLimit, $this->fetchLimit);
-            $data = $datasource->getData();
+            $data = $this->customData
+                ? call_user_func_array($this->customData, [$datasource])
+                : $datasource->getData();
 
-            foreach ($data as $item) {
+            foreach ($data as $items) {
                 $row = array();
 
+                $columns = $this->customData
+                    ? $items
+                    : $columns;
+
                 foreach ($columns as $column) {
-                    $row[] = $escape($column->renderExport($item));
+                    $row[] = $this->customData
+                        ? $escape($column)
+                        : $escape($column->renderExport($items));
                 }
 
                 $print($row);
@@ -101,6 +121,29 @@ class Export extends Component implements \Nette\Application\IResponse
     public function getFetchLimit()
     {
         return $this->fetchLimit;
+    }
+
+    /**
+     * Sets a custom header of result CSV file (list of field names).
+     * @param array $header
+     * @return \Grido\Components\Export
+     */
+    public function setHeader(array $header)
+    {
+        $this->header = $header;
+        return $this;
+    }
+
+    /**
+     * Sets a callback to modify output data. This callback must return a list of items. (array) function($datasource)
+     * DEBUG? You probably need to comment lines started with $httpResponse->setHeader in Grido\Components\Export.php
+     * @param callable $callback
+     * @return \Grido\Components\Export
+     */
+    public function setCustomData($callback)
+    {
+        $this->customData = $callback;
+        return $this;
     }
 
     /**

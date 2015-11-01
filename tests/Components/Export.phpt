@@ -118,6 +118,46 @@ class ExportTest extends \Tester\TestCase
             'Content-Disposition' => "attachment; filename=\"$label.csv\"",
         ), Response::$headers);
     }
+
+    function testCustomData()
+    {
+        Helper::grid(function(Grid $grid) {
+            $grid->setModel(new ArraySource(array(
+                array('firstname' => 'Satu', 'surname' => 'Tukio', 'card' => 'Visa'),
+                array('firstname' => 'Ronald', 'surname' => 'Olivo', 'card' => 'MasterCard'),
+                array('firstname' => 'Feorie', 'surname' => 'Hamid', 'card' => 'MasterCard'),
+                array('firstname' => 'Hyiab', 'surname' => 'Haylom', 'card' => 'MasterCard'),
+                array('firstname' => 'Ambessa', 'surname' => 'Ali', 'card' => 'Visa'),
+                array('firstname' => 'Mateo', 'surname' => 'Topić', 'card' => "Příliš; žlouťoucký, \"kůň\" \n ďábelsky \tpěl 'ódy"),
+            )));
+
+            $grid->addColumnText('firstname', 'Name')
+                ->setSortable();
+
+            $grid->setExport()
+                ->setHeader(array('"Jméno"', "Příjmení\t", "Karta\n", 'Jméno,Příjmení'))
+                ->setCustomData(function(ArraySource $source) {
+                    $data = $source->getData();
+                    $outData = array();
+                    foreach ($data as $item) {
+                        $outData[] = [
+                            $item['firstname'],
+                            $item['surname'],
+                            $item['card'],
+                            $item['firstname'] . ',' .$item['surname'],
+                        ];
+                    }
+                    return $outData;
+                });
+        });
+
+        $params = array('do' => 'grid-export-export');
+
+        ob_start();
+            Helper::request($params)->send(mock('\Nette\Http\IRequest'), new Response);
+        $output = ob_get_clean();
+        Assert::same(file_get_contents(__DIR__ . '/files/Export.custom.expect'), $output);
+    }
 }
 
 run(__FILE__);
