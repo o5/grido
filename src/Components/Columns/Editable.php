@@ -198,7 +198,7 @@ abstract class Editable extends Column
             }
 
             $td->data['grido-editable-value'] = $this->editableValueCallback === NULL
-                ? parent::getValue($row)
+                ? $this->getValue($row)
                 : call_user_func_array($this->editableValueCallback, [$row, $this]);
         }
 
@@ -306,7 +306,9 @@ abstract class Editable extends Column
             $this->presenter->terminate();
         }
 
-        $control = $this->getEditableControl()->setValue($value);
+        $control = $this->getEditableControl();
+        $control->setValue($value);
+
         $this->getForm()->addComponent($control, 'edit' . $this->getName());
 
         $response = new \Nette\Application\Responses\TextResponse($control->getControl()->render());

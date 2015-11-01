@@ -151,7 +151,7 @@ class Export extends Component implements \Nette\Application\IResponse
      */
     public function handleExport()
     {
-        $this->grid->onRegistered && $this->grid->onRegistered($this->grid);
+        !empty($this->grid->onRegistered) && $this->grid->onRegistered($this->grid);
         $this->grid->presenter->sendResponse($this);
     }
 
@@ -168,7 +168,7 @@ class Export extends Component implements \Nette\Application\IResponse
         $encoding = 'utf-8';
         $label = $this->label
             ? ucfirst(Strings::webalize($this->label))
-            : ucfirst($this->grid->name);
+            : ucfirst($this->grid->getName());
 
         $httpResponse->setHeader('Content-Encoding', $encoding);
         $httpResponse->setHeader('Content-Type', "text/csv; charset=$encoding");

@@ -426,7 +426,7 @@ class Grid extends Components\Container
     public function getActualFilter($key = NULL)
     {
         $filter = $this->filter ? $this->filter : $this->defaultFilter;
-        return $key && isset($filter[$key]) ? $filter[$key] : $filter;
+        return $key !== NULL && isset($filter[$key]) ? $filter[$key] : $filter;
     }
 
     /**
@@ -435,7 +435,7 @@ class Grid extends Components\Container
      * @param bool $useCache
      * @param bool $fetch
      * @throws Exception
-     * @return array
+     * @return array|DataSources\IDataSource|\Nette\Database\Table\Selection
      */
     public function getData($applyPaging = TRUE, $useCache = TRUE, $fetch = TRUE)
     {
@@ -462,12 +462,12 @@ class Grid extends Components\Container
                 $this->data = $data;
             }
 
-            if ($applyPaging && $data && !in_array($this->page, range(1, $this->getPaginator()->pageCount))) {
+            if ($applyPaging && !empty($data) && !in_array($this->page, range(1, $this->getPaginator()->pageCount))) {
                 $this->__triggerUserNotice("Page is out of range.");
                 $this->page = 1;
             }
 
-            if ($this->onFetchData) {
+            if (!empty($this->onFetchData)) {
                 $this->onFetchData($this);
             }
         }
@@ -574,7 +574,7 @@ class Grid extends Components\Container
     /**
      * A simple wrapper around symfony/property-access with Nette Database dot notation support.
      * @param array|object $object
-     * @param type $name
+     * @param string $name
      * @return mixed
      * @internal
      */
@@ -664,7 +664,7 @@ class Grid extends Components\Container
         $session = $this->getRememberSession();
         if ($session && $this->getPresenter()->isSignalReceiver($this)) {
             $session->remove();
-        } elseif ($session && !$params && $session->params) {
+        } elseif ($session && empty($params) && $session->params) {
             $params = (array) $session->params;
         }
 
@@ -679,7 +679,7 @@ class Grid extends Components\Container
      */
     public function saveState(array &$params, $reflection = NULL)
     {
-        $this->onRegistered && $this->onRegistered($this);
+        !empty($this->onRegistered) && $this->onRegistered($this);
         return parent::saveState($params, $reflection);
     }
 
@@ -814,13 +814,13 @@ class Grid extends Components\Container
         $this->saveRememberState();
         $data = $this->getData();
 
-        if ($this->onRender) {
+        if (!empty($this->onRender)) {
             $this->onRender($this);
         }
 
         $this->template->data = $data;
         $this->template->form = $form = $this['form'];
-        $this->template->paginator = $this->paginator;
+        $this->template->paginator = $this->getPaginator();
 
         $form['count']->setValue($this->getPerPage());
 
@@ -856,7 +856,7 @@ class Grid extends Components\Container
     public function __getConditions(array $filter)
     {
         $conditions = [];
-        if ($filter) {
+        if (!empty($filter)) {
             $this['form']->setDefaults([Filter::ID => $filter]);
 
             foreach ($filter as $column => $value) {
@@ -908,7 +908,7 @@ class Grid extends Components\Container
             $sort[$component ? $component->column : $column] = $dir == Column::ORDER_ASC ? 'ASC' : 'DESC';
         }
 
-        if ($sort) {
+        if (!empty($sort)) {
             $this->getModel()->sort($sort);
         }
     }

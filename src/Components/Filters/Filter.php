@@ -159,7 +159,7 @@ abstract class Filter extends \Grido\Components\Component
      */
     public function getColumn()
     {
-        if (!$this->column) {
+        if (empty($this->column)) {
             $column = $this->getName();
             if ($columnComponent = $this->grid->getColumn($column, FALSE)) {
                 $column = $columnComponent->column; //use db column from column compoment
@@ -182,6 +182,14 @@ abstract class Filter extends \Grido\Components\Component
         }
 
         return $this->control;
+    }
+
+    /**
+     * @throws Exception
+     */
+    protected function getFormControl()
+    {
+        throw new Exception("Filter {$this->name} cannot be use, because it is not implement getFormControl() method.");
     }
 
     /**

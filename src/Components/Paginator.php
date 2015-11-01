@@ -99,7 +99,7 @@ class Paginator extends \Nette\Utils\Paginator
      */
     public function getSteps()
     {
-        if (!$this->steps) {
+        if (empty($this->steps)) {
             $arr = range(
                 max($this->getFirstPage(), $this->getPage() - $this->stepRange),
                 min($this->getLastPage(), $this->getPage() + $this->stepRange)

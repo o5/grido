@@ -124,7 +124,7 @@ class Text extends Filter
      */
     public function handleSuggest($query)
     {
-        $this->grid->onRegistered && $this->grid->onRegistered($this->grid);
+        !empty($this->grid->onRegistered) && $this->grid->onRegistered($this->grid);
         $name = $this->getName();
 
         if (!$this->getPresenter()->isAjax() || !$this->suggestion || $query == '') {
