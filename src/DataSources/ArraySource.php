@@ -51,8 +51,7 @@ class ArraySource extends \Nette\Object implements IDataSource
             ? $this->data
             : $data;
 
-        $that = $this;
-        return array_filter($data, function ($row) use ($condition, $that) {
+        return array_filter($data, function ($row) use ($condition) {
             if ($condition->callback) {
                 return call_user_func_array($condition->callback, [$condition->value, $row]);
             }
@@ -65,7 +64,7 @@ class ArraySource extends \Nette\Object implements IDataSource
 
                 } else {
                     $i = count($condition->condition) > 1 ? $i : 0;
-                    $results[] = (int) $that->compare(
+                    $results[] = (int) $this->compare(
                         $row[$column],
                         $condition->condition[$i],
                         isset($condition->value[$i]) ? $condition->value[$i] : NULL

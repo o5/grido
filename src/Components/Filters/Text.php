@@ -57,12 +57,11 @@ class Text extends Filter
         $prototype->attrs['autocomplete'] = 'off';
         $prototype->class[] = 'suggest';
 
-        $filter = $this;
-        $this->grid->onRender[] = function() use ($prototype, $filter) {
+        $this->grid->onRender[] = function() use ($prototype) {
             $replacement = '-query-';
             $prototype->data['grido-suggest-replacement'] = $replacement;
-            $prototype->data['grido-suggest-limit'] = $filter->suggestionLimit;
-            $prototype->data['grido-suggest-handler'] = $filter->link('suggest!', [
+            $prototype->data['grido-suggest-limit'] = $this->suggestionLimit;
+            $prototype->data['grido-suggest-handler'] = $this->link('suggest!', [
                 'query' => $replacement
             ]);
         };

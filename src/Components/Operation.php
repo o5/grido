@@ -52,9 +52,8 @@ class Operation extends Component
             ->addSelect(self::ID, 'Selected', $operations)
             ->setPrompt('Grido.Selected');
 
-        $that = $this;
-        $grid->onRender[] = function(Grid $grid) use ($that) {
-            $that->addCheckers($grid['form'][Operation::ID]);
+        $grid->onRender[] = function(Grid $grid) {
+            $this->addCheckers($grid['form'][Operation::ID]);
         };
 
         $this->onSubmit[] = $onSubmit;
