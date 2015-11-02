@@ -34,6 +34,7 @@ class Event extends Action
      * @param string $name
      * @param string $label
      * @param callable $onClick
+     * @throws Exception
      */
     public function __construct($grid, $name, $label, $onClick = NULL)
     {
