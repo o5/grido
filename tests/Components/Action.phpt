@@ -138,6 +138,16 @@ class ActionTest extends \Tester\TestCase
         Assert::same('delete', $action->getOption('icon'));
     }
 
+    function testSetOption()
+    {
+        $grid = new Grid;
+        $action = $grid->addActionHref('delete', 'Delete')
+            ->setOption('test', 'test')
+            ->setOption('test', NULL);
+        Assert::same(NULL, $action->getOption('test'));
+        Assert::same([], $action->getOptions());
+    }
+
     /**********************************************************************************************/
 
     function testHasActions()
@@ -173,7 +183,7 @@ class ActionTest extends \Tester\TestCase
         Assert::type('\Grido\Components\Actions\Event', $component);
         Assert::type('\Grido\Components\Actions\Action', $component);
         Assert::same($label, $component->label);
-        Assert::same([$onClick], $component->onClick);
+        Assert::same($onClick, $component->onClick);
 
         // getter
         Assert::exception(function() use ($grid) {

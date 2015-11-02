@@ -103,6 +103,12 @@ class FilterConditionTest extends \Tester\TestCase
         Assert::same('value', $condition->value);
     }
 
+    function testGetColumnWithoutOperator()
+    {
+        $condition = new Condition(['column', 'and', 'column2'], NULL, ['value']);
+        Assert::same(['column', 'column2'], $condition->getColumnWithoutOperator());
+    }
+
     function testToArray()
     {
         $condition = new Condition('column', '<> ?', 'value');

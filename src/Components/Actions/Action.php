@@ -160,10 +160,8 @@ abstract class Action extends \Grido\Components\Component
                 ->setText($this->label);
         }
 
-        if (isset($this->elementPrototype->class) && is_string($this->elementPrototype->class)) {
+        if (isset($this->elementPrototype->class)) {
             $this->elementPrototype->class = (array) $this->elementPrototype->class;
-        } elseif (isset($this->elementPrototype->class) && !is_array($this->elementPrototype->class)) {
-            throw new Exception('Attribute class must be string or array.');
         }
 
         return $this->elementPrototype;

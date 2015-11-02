@@ -48,10 +48,10 @@ test(function()
         $grid->addActionHref('edit', 'Edit')
             ->elementPrototype->addAttributes(['class' => 'xxx']);
 
-        $grid->addActionEvent('delete', 'Delete')
+        $grid->addActionEvent('delete', 'Delete', function() {})
             ->elementPrototype->class[] = 'yyy';
 
-        $grid->addActionEvent('print', 'Print')
+        $grid->addActionEvent('print', 'Print', function() {})
             ->elementPrototype = \Nette\Utils\Html::el('button');
 
         $grid->setOperation(['print' => 'Print'], function(){});

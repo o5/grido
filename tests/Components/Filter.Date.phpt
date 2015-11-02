@@ -33,9 +33,14 @@ class FilterDateTest extends \Tester\TestCase
         Assert::same(['date LIKE ?', '2012-12-21%'], $filter->__getCondition('21.12.2012')->__toArray());
         Assert::same(['0 = 1'], $filter->__getCondition('TEST BAD INPUT')->__toArray());
 
+        $formatInput = 'd/m/Y';
+        $formatOutpu = 'd.m.Y';
         $filter
-            ->setDateFormatInput('d/m/Y')
-            ->setDateFormatOutput('d.m.Y');
+            ->setDateFormatInput($formatInput)
+            ->setDateFormatOutput($formatOutpu);
+
+        Assert::same($formatInput, $filter->getDateFormatInput());
+        Assert::same($formatOutpu, $filter->getDateFormatOutput());
 
         Assert::same(['date LIKE ?', '21.12.2012'], $filter->__getCondition('21/12/2012')->__toArray());
         Assert::same(['0 = 1'], $filter->__getCondition('21.12.2012')->__toArray()); //test bad input

@@ -327,12 +327,12 @@ abstract class Container extends \Nette\Application\UI\Control
      * @param string $name
      * @param string $label
      * @param string $destination
-     * @param array $args
+     * @param array $arguments
      * @return Actions\Href
      */
-    public function addActionHref($name, $label, $destination = NULL, array $args = NULL)
+    public function addActionHref($name, $label, $destination = NULL, array $arguments = [])
     {
-        return new Actions\Href($this, $name, $label, $destination, $args);
+        return new Actions\Href($this, $name, $label, $destination, $arguments);
     }
 
     /**

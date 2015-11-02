@@ -11,6 +11,9 @@
 
 namespace Grido\Components\Actions;
 
+use Grido\Grid;
+use Grido\Exception;
+
 /**
  * Event action.
  *
@@ -19,37 +22,52 @@ namespace Grido\Components\Actions;
  * @author      Josef Kříž <pepakriz@gmail.com>
  * @author      Petr Bugyík
  *
- * @method void onClick(int $id, Event $event)
+ * @property callable $onClick function($id, Grido\Components\Actions\Event $event)
  */
 class Event extends Action
 {
-    /** @var callback callback */
-    public $onClick = [];
+    /** @var callable function($id, Grido\Components\Actions\Event $event) */
+    private $onClick;
 
     /**
      * @param \Grido\Grid $grid
      * @param string $name
      * @param string $label
-     * @param callback $onClick
+     * @param callable $onClick
      */
     public function __construct($grid, $name, $label, $onClick = NULL)
     {
         parent::__construct($grid, $name, $label);
 
-        if ($onClick !== NULL) {
-            $this->onClick[] = $onClick;
+        if ($onClick === NULL) {
+            $grid->onRender[] = function(Grid $grid) {
+                if ($this->onClick === NULL) {
+                    throw new Exception("Callback onClick in action '{$this->name}' must be set.");
+                }
+            };
+        } else {
+            $this->setOnClick($onClick);
         }
     }
 
     /**
      * Sets on-click handler.
-     * @param callback $onClick
+     * @param callable $onClick function($id, Grido\Components\Actions\Event $event)
      * @return \Grido\Components\Actions\Event
      */
-    public function setOnClick($onClick)
+    public function setOnClick(callable $onClick)
     {
         $this->onClick = $onClick;
         return $this;
+    }
+
+    /**
+     * Returns on-click handler.
+     * @return callable
+     */
+    public function getOnClick()
+    {
+        return $this->onClick;
     }
 
     /**********************************************************************************************/
@@ -72,11 +90,11 @@ class Event extends Action
     /**********************************************************************************************/
 
     /**
-     * @param $id
+     * @param int $id
      * @internal
      */
     public function handleClick($id)
     {
-        $this->onClick($id, $this);
+        call_user_func_array($this->onClick, [$id, $this]);
     }
 }

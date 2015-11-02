@@ -274,6 +274,7 @@ class ColumnTest extends \Tester\TestCase
         $grid = new Grid;
         $fiter = $grid->addColumnText($name, $label)->setFilterText();
         Assert::type('\Grido\Components\Filters\Text', $fiter);
+        Assert::same('Grido\Components\Filters\Text', $fiter->type);
         Assert::same($name, $fiter->name);
         Assert::same($label, $fiter->label);
 

@@ -59,7 +59,9 @@ class DibiFluentTest extends DataSourceTestCase
                     $fluent->where('[centimeters] >= %i', 180);
                 });
 
-            $grid->setExport();
+            $limit = 100;
+            $export = $grid->setExport()->setFetchLimit($limit);
+            Assert::same($limit, $export->getFetchLimit());
 
         })->run();
     }

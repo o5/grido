@@ -65,6 +65,20 @@ class ActionHrefTest extends \Tester\TestCase
         $output = ob_get_clean();
         Assert::same('<a class="grid-action-delete" href="/edit/2/Lucie/">Delete</a>', $output);
     }
+
+    function testDestinationAndArguments()
+    {
+        Helper::grid(function(Grid $grid) {
+            $destination = 'test';
+            $arguments = ['test' => 'test'];
+
+            $action = $grid->addActionHref('delete', 'Delete', $destination, $arguments);
+            Assert::same($destination, $action->getDestination());
+            Assert::same($arguments, $action->getArguments());
+            Assert::same('<a class="grid-action-delete" href="/?test=test&amp;id=3&amp;action=test&amp;presenter=Test">Delete</a>', (string) $action->getElement(['id' => 3]));
+
+        })->run();
+    }
 }
 
 run(__FILE__);

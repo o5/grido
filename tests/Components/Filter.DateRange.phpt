@@ -36,10 +36,13 @@ class FilterDateRangeTest extends \Tester\TestCase
         $filter->setDateFormatOutput('Y-m-d', 'Y-m-d g:i:s');
         Assert::same(['date BETWEEN ? AND ?', '2012-12-21', '2012-12-22 11:59:59'], $filter->__getCondition('21.12.2012 - 22.12.2012')->__toArray());
 
+        $mask = '/(.*)\s?-\s?(.*)/';
         $filter
-            ->setMask('/(.*)\s?-\s?(.*)/')
+            ->setMask($mask)
             ->setDateFormatInput('d/m/Y')
             ->setDateFormatOutput('d.m.Y');
+
+        Assert::same($mask, $filter->getMask());
         Assert::same(['date BETWEEN ? AND ?', '21.12.2012', '22.12.2012'], $filter->__getCondition('21/12/2012-22/12/2012')->__toArray());
         Assert::same(['0 = 1'], $filter->__getCondition('21.12.2012-22.12.2012')->__toArray()); //test bad input
 

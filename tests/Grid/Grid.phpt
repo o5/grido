@@ -233,6 +233,17 @@ class GridTest extends \Tester\TestCase
         }, E_RECOVERABLE_ERROR);
     }
 
+    function testGetTranslator()
+    {
+        $grid = new Grid;
+        $grid->translator->setLang('sk');
+        Assert::type('\Grido\Translations\FileTranslator', $grid->translator);
+
+        Assert::exception(function() use ($grid) {
+            $grid->translator->lang = 'aa';
+        }, '\Grido\Exception');
+    }
+
     function testSetFilterRenderType()
     {
         $grid = new Grid;

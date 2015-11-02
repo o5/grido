@@ -36,14 +36,14 @@ class Href extends Action
      * @param string $name
      * @param string $label
      * @param string $destination - first param for method $presenter->link()
-     * @param array|null $args - second param for method $presenter->link()
+     * @param array $arguments - second param for method $presenter->link()
      */
-    public function __construct($grid, $name, $label, $destination = NULL, array $args = NULL)
+    public function __construct($grid, $name, $label, $destination = NULL, array $arguments = [])
     {
         parent::__construct($grid, $name, $label);
 
         $this->destination = $destination;
-        $this->arguments = $args;
+        $this->arguments = $arguments;
     }
 
     /**
@@ -98,6 +98,7 @@ class Href extends Action
 
     /**
      * @return array
+     * @internal
      */
     public function getArguments()
     {

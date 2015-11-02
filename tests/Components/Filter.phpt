@@ -13,7 +13,6 @@ require_once __DIR__ . '/../bootstrap.php';
 
 use Tester\Assert,
     Grido\Grid,
-    Grido\Components\Filters\Filter,
     Grido\Components\Filters\Condition;
 
 class FilterTest extends \Tester\TestCase
