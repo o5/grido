@@ -857,7 +857,15 @@ class Grid extends Components\Container
     {
         $conditions = [];
         if (!empty($filter)) {
-            $this['form']->setDefaults([Filter::ID => $filter]);
+            try {
+                $this['form']->setDefaults([Filter::ID => $filter]);
+            } catch (\Nette\InvalidArgumentException $e) {
+                $this->__triggerUserNotice($e->getMessage());
+                $filter = [];
+                if ($session = $this->getRememberSession()) {
+                    $session->remove();
+                }
+            }
 
             foreach ($filter as $column => $value) {
                 if ($component = $this->getFilter($column, FALSE)) {
