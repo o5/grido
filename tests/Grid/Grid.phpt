@@ -228,9 +228,9 @@ class GridTest extends \Tester\TestCase
         $grid->setTranslator(mock($translator));
         Assert::type($translator, $grid->translator);
 
-        Assert::error(function() use ($grid) {
+        Helper::assertTypeError(function() use ($grid) {
             $grid->setTranslator('');
-        }, E_RECOVERABLE_ERROR);
+        });
     }
 
     function testGetTranslator()
@@ -272,9 +272,9 @@ class GridTest extends \Tester\TestCase
         $grid->setPaginator(mock($paginator));
         Assert::type($paginator, $grid->paginator);
 
-        Assert::error(function() use ($grid) {
+        Helper::assertTypeError(function() use ($grid) {
             $grid->setPaginator('');
-        }, E_RECOVERABLE_ERROR);
+        });
     }
 
     function testSetPrimaryKey()

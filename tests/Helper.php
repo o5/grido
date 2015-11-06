@@ -11,6 +11,8 @@
 
 namespace Grido\Tests;
 
+use Tester\Assert;
+
 /**
  * Test helper.
  *
@@ -73,6 +75,15 @@ class Helper
     public function run(array $params = [], $method = \Nette\Http\Request::GET)
     {
         return self::request($params, $method);
+    }
+
+    public static function assertTypeError($function)
+    {
+        if (PHP_VERSION_ID < 70000) {
+            Assert::error($function, E_RECOVERABLE_ERROR);
+        } else {
+            Assert::exception($function, '\TypeError');
+        }
     }
 
     /**
