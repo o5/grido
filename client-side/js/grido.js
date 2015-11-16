@@ -272,7 +272,7 @@
                         that.changeRow($(this).closest('tr'), !val);
                     });
 
-                    return false;
+                    return true;
                 });
         },
 
