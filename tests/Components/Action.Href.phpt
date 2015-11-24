@@ -79,6 +79,22 @@ class ActionHrefTest extends \Tester\TestCase
 
         })->run();
     }
+
+    function testDestinationWithFilterValues()
+    {
+        Helper::grid(function(Grid $grid) {
+            $grid->sort = ['test' => 'asc'];
+            $grid->page = 2;
+            $grid->perPage = 50;
+            $grid->addFilterText('foo', 'Foo')
+                ->setDefaultValue('bar');
+
+            $action = $grid->addActionHref('delete', 'Delete')
+                ->setAddFilterValues();
+            Assert::same('<a class="grid-action-delete" href="/?grid-filter%5Bfoo%5D=bar&amp;grid-sort%5Btest%5D=asc&amp;grid-page=2&amp;grid-perPage=50&amp;id=3&amp;action=delete&amp;presenter=Test">Delete</a>', (string) $action->getElement(['id' => 3]));
+
+        })->run();
+    }
 }
 
 run(__FILE__);
