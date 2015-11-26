@@ -23,7 +23,7 @@ if [ ! -z "$PHP_FILES" ]; then
 
     if [ $EXITCODE == 0 ]; then
         echo "Run Nette Tester...\n"
-        vendor/bin/tester -p php -s tests/
+        composer test
         if [ $? != 0 ]; then
             EXITCODE=1
         fi
