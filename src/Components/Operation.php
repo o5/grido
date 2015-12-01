@@ -133,6 +133,11 @@ class Operation extends Component
             }
         }
 
+        if ($this->presenter->isAjax()) {
+            $this->grid['form'][self::ID][self::ID]->setValue(NULL);
+            $this->grid->getData(TRUE, FALSE);
+        }
+
         $this->onSubmit($operation, $ids);
     }
 
