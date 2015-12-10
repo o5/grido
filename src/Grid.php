@@ -106,9 +106,6 @@ class Grid extends Components\Container
     /** @var DataSources\IDataSource */
     protected $model;
 
-    /** @var string */
-    protected $templateFile;
-
     /** @var int total count of items */
     protected $count;
 
@@ -274,7 +271,11 @@ class Grid extends Components\Container
      */
     public function setTemplateFile($file)
     {
-        $this->templateFile = $file;
+        $this->onRender[] = function() use ($file) {
+            $this->template->gridoTemplate = $this->getTemplate()->getFile();
+            $this->getTemplate()->setFile($file);
+        };
+
         return $this;
     }
 
@@ -798,7 +799,7 @@ class Grid extends Components\Container
     public function createTemplate()
     {
         $template = parent::createTemplate();
-        $template->setFile($this->templateFile ?: __DIR__ . '/Grid.latte');
+        $template->setFile(__DIR__ . '/Grid.latte');
         $template->registerHelper('translate', [$this->getTranslator(), 'translate']);
 
         return $template;
