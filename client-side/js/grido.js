@@ -635,7 +635,7 @@
          */
         getPrimaryKeyValue: function($tr)
         {
-            return $tr.attr('class').match(/[grid\-row\-]([0-9]+)/)[1];
+            return $tr.attr('class').replace(/grid\-row\-/, '');
         },
 
         /**
