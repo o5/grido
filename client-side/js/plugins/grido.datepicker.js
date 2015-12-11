@@ -25,7 +25,9 @@
             {
                 singleDatePicker: true,
                 showDropdowns: true,
-                format: format
+                locale: {
+                    format: format
+                }
             });
         });
     });
