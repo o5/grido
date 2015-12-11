@@ -26,7 +26,9 @@
         Grido.$element.on('focus', 'input.daterange', function() {
             $(this).daterangepicker(
             {
-                format: format,
+                locale: {
+                    format: format
+                },
                 showDropdowns: true,
                 ranges: {
                     'Today': [window.moment(), window.moment()],
