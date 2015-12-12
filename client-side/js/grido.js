@@ -893,6 +893,11 @@
                 }
             };
 
+            // Support for nette-live-form-validation
+            if (typeof window.LiveForm === 'object') {
+                LiveForm.setupHandlers($control.get(0));
+            }
+
             $control
                 .off('keypress.grido')
                  .on('keypress.grido', keypress)
