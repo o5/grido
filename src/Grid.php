@@ -972,6 +972,10 @@ class Grid extends Components\Container
      */
     public function __triggerUserNotice($message)
     {
+        if ($this->getPresenter(FALSE) && $session = $this->getRememberSession()) {
+            $session->remove();
+        }
+
         $this->strictMode && trigger_error($message, E_USER_NOTICE);
     }
 }
