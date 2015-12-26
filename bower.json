@@ -1,13 +1,14 @@
 {
     "name": "grido",
     "main": [
-        "client-side/js/grido.js",
-        "client-side/css/grido.css"
+        "assets/js/grido.js",
+        "assets/sass/grido.scss"
     ],
     "ignore": [
         "src",
         "tests",
         ".gitignore",
+        ".scrutinizer",
         ".travis.yml",
         "composer.json",
         "pre-commit.sh",

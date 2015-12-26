@@ -14,10 +14,8 @@
  * @param {jQuery} $ (version > 1.7)
  * @param {Window} window
  * @param {Document} document
- * @param {Location} location
- * @param {Navigator} navigator
  */
-;(function($, window, document, location, navigator) {
+;(function($, window, document) {
     /*jshint laxbreak: true, expr: true */
     "use strict";
 
@@ -948,4 +946,4 @@
     window.Grido = Grido;
     return Grido;
 
-})(jQuery, window, document, location, navigator);
+})(jQuery, window, document);

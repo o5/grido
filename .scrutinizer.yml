@@ -1,6 +1,6 @@
 filter:
     paths: [src/*]
-    excluded_paths: [client-side/*, tests/*, vendor/*]
+    excluded_paths: [assets/*, tests/*, vendor/*]
 
 before_commands:
     - 'composer install --prefer-source'
@@ -18,9 +18,9 @@ tools:
     php_sim:
         min_mass: 30
     php_loc:
-        excluded_dirs: [client-side, vendor, tests]
+        excluded_dirs: [assets, vendor, tests]
     php_cpd:
-        excluded_dirs: [client-side, vendor, tests]
+        excluded_dirs: [assets, vendor, tests]
     php_code_sniffer:
         enabled: true
         config:

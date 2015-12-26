@@ -31,6 +31,20 @@ $ composer syntax
 $ composer test
 ```
 
+## Working with assets
+- You should never modify files in */assets/dist/* folder
+- Just install build dependencies over [npm](https://docs.npmjs.com/getting-started/what-is-npm)
+
+``` bash
+$ npm install
+```
+
+- Run watcher and edit any of **.scss* or **.js* file.
+
+``` bash
+$ npm run watch
+```
+
 ## Tip: For nerds only!
 - You should set pre-commit hook which will trigger `composer syntax` and `composer test` before each commit.
 - How to install it? Just run **exactly** command bellow in root of repository:

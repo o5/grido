@@ -1,0 +1,21 @@
+{
+    "name": "grido",
+    "homepage": "https://github.com/o5/grido",
+    "license": "(BSD-3-Clause OR GPL-2.0 OR GPL-3.0)",
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/o5/grido.git"
+    },
+    "scripts": {
+        "watch": "./node_modules/.bin/gulp"
+    },
+    "devDependencies": {
+        "gulp": "^3.9.0",
+        "gulp-concat": "^2.6.0",
+        "gulp-minify-css": "^1.2.2",
+        "gulp-rename": "^1.2.2",
+        "gulp-sass": "^2.1.1",
+        "gulp-uglify": "^1.5.1",
+        "merge-stream": "^1.0.0"
+    }
+}
