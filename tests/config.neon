@@ -15,7 +15,7 @@ nette:
 
 services:
     ndb_sqlite: @database.sqlite
-    dibi_sqlite: DibiConnection(%database.sqlite%)
+    dibi_sqlite: \Dibi\Connection(%database.sqlite%)
 
 doctrine:
     driver: pdo_sqlite

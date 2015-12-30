@@ -34,7 +34,7 @@
         "latte/latte": "~2.3",
         "nette/application": "~2.2",
         "nette/component-model": "~2.2",
-        "symfony/property-access": "~2.6"
+        "symfony/property-access": "~3.0"
     },
     "require-dev": {
         "tracy/tracy": "~2.3",
@@ -42,8 +42,8 @@
         "nette/database": "~2.2",
         "nette/tester": "~1.6.1",
         "mockery/mockery": "~0.9.3",
-        "dibi/dibi": "~2.3.1",
-        "kdyby/doctrine": "~2.3.0",
-        "squizlabs/php_codesniffer": "~2.3.0"
+        "dibi/dibi": "~3.0.1",
+        "kdyby/doctrine": "~3.0.1",
+        "squizlabs/php_codesniffer": "~2.5"
     }
 }

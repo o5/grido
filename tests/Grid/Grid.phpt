@@ -55,7 +55,7 @@ class GridTest extends \Tester\TestCase
         $grid->setModel(mock('Grido\DataSources\IDataSource'), TRUE);
         Assert::type('Grido\DataSources\Model', $grid->model);
 
-        $grid->setModel(new \DibiFluent(mock('\DibiConnection')));
+        $grid->setModel(new \DibiFluent(mock('\\Dibi\Connection')));
         Assert::type('Grido\DataSources\Model', $grid->model);
 
         $grid->setModel(mock('\Nette\Database\Table\Selection'));
@@ -67,7 +67,7 @@ class GridTest extends \Tester\TestCase
         $grid->setModel([]);
         Assert::type('Grido\DataSources\Model', $grid->model);
 
-        $grid->setModel(new \DibiFluent(mock('\DibiConnection')));
+        $grid->setModel(new \DibiFluent(mock('\\Dibi\Connection')));
         Assert::type('Grido\DataSources\Model', $grid->model);
 
         Assert::exception(function() use ($grid) {
