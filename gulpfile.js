@@ -19,7 +19,7 @@ gulp.task('sass', function () {
 });
 
 gulp.task('css', ['sass'], function () {
-    return gulp.src(cssDir + '/*.css')
+    return gulp.src([cssDir + '/*.css', '!' + cssDir + '/*.min.css'])
         .pipe(minifycss())
         .pipe(rename({extname: '.min.css'}))
         .pipe(gulp.dest(cssDir));
@@ -37,7 +37,7 @@ gulp.task('scripts', function() {
 });
 
 gulp.task('js', ['scripts'], function() {
-   return gulp.src([jsDir + '/grido.js', jsDir + '/grido.bundle.js'])
+   return gulp.src([jsDir + '/*.js', '!' + jsDir + '/*.min.js'])
         .pipe(uglify({preserveComments: 'license'}))
         .pipe(rename({extname: '.min.js'}))
         .pipe(gulp.dest(jsDir));
