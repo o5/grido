@@ -7,6 +7,7 @@
 [![Coverage Status][ico-scrutinizer]][link-scrutinizer]
 [![Quality Score][ico-code-quality]][link-code-quality]
 [![Total Downloads][ico-downloads]][link-downloads]
+[![Dependencies][ico-dependencies]][link-dependencies]
 
 Grido is an extension for [Nette Framework](http://nette.org/). Grido helps you with data listing, formatting, sorting, paging, filtering, editing, bulk actions and exporting them.
 It doesn't matter which datasource you are using. For now, Grido works with [Nette Database](https://github.com/nette/database), [Dibi](https://github.com/dg/dibi), [Doctrine](https://github.com/doctrine/doctrine2) and ArraySource (for raw PHP Arrays).
@@ -42,6 +43,7 @@ The New BSD License and GNU General Public License. Please see [License File](LI
 [ico-scrutinizer]: https://img.shields.io/scrutinizer/coverage/g/o5/grido.svg?style=flat-square
 [ico-code-quality]: https://img.shields.io/scrutinizer/g/o5/grido.svg?style=flat-square
 [ico-downloads]: https://img.shields.io/packagist/dt/o5/grido.svg?style=flat-square
+[ico-dependencies]: https://www.versioneye.com/php/o5:grido/badge.svg?style=flat
 
 [link-packagist]: https://packagist.org/packages/o5/grido
 [link-travis]: https://travis-ci.org/o5/grido
@@ -50,3 +52,4 @@ The New BSD License and GNU General Public License. Please see [License File](LI
 [link-downloads]: https://packagist.org/packages/o5/grido
 [link-author]: https://github.com/o5
 [link-contributors]: ../../contributors
+[link-dependencies]: https://www.versioneye.com/php/o5:grido
