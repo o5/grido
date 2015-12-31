@@ -17,7 +17,7 @@ remains intact.
 New BSD License
 ---------------
 
-Copyright (c) 2011, 2015 Petr Bugyík (http://petr.bugyik.cz)
+Copyright (c) 2011, 2016 Petr Bugyík (http://petr.bugyik.cz)
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
