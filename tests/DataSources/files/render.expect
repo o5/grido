@@ -1,6 +1,11 @@
+
 <div id="snippet-grid-grid">
 
-<form action="/" method="get" id="frm-grid-form" class="ajax grido" data-grido-refresh-handler="/?action=default&amp;do=grid-refresh&amp;presenter=Test">
+
+
+
+
+<form action="/" method="get" id="frm-grid-form" class="ajax grido table-responsive" data-grido-refresh-handler="/?action=default&amp;do=grid-refresh&amp;presenter=Test">
     <div class="filter outer">
         <div class="items">
             <span class="grid-filter-phone">
@@ -56,16 +61,16 @@
         <tr>
             <td colspan="5">
                 <span class="paginator">
-                        <a class="btn btn-default btn-xs btn-mini ajax" href="/?grid-sort%5Bcountry%5D=asc&amp;grid-filter%5Bname%5D=a&amp;grid-filter%5Bmale%5D=1&amp;grid-filter%5Bcountry%5D=au&amp;action=default&amp;do=grid-page&amp;presenter=Test"><i class="glyphicon glyphicon-arrow-left fa fa-arrow-left icon-arrow-left"></i> Previous</a>
-                            <a class="btn btn-default btn-xs btn-mini ajax" href="/?grid-sort%5Bcountry%5D=asc&amp;grid-filter%5Bname%5D=a&amp;grid-filter%5Bmale%5D=1&amp;grid-filter%5Bcountry%5D=au&amp;action=default&amp;do=grid-page&amp;presenter=Test">1</a>
-                            <span class="btn btn-default btn-xs btn-mini disabled">2</span>
-                        <span class="btn btn-default btn-xs btn-mini disabled" href="/?grid-page=3&amp;grid-sort%5Bcountry%5D=asc&amp;grid-filter%5Bname%5D=a&amp;grid-filter%5Bmale%5D=1&amp;grid-filter%5Bcountry%5D=au&amp;action=default&amp;do=grid-page&amp;presenter=Test">Next <i class="glyphicon glyphicon-arrow-right fa fa-arrow-right icon-arrow-right"></i></span>
+                        <a class="ajax btn btn-default btn-xs btn-mini" href="/?grid-sort%5Bcountry%5D=asc&amp;grid-filter%5Bname%5D=a&amp;grid-filter%5Bmale%5D=1&amp;grid-filter%5Bcountry%5D=au&amp;action=default&amp;do=grid-page&amp;presenter=Test"><i class="glyphicon glyphicon-arrow-left fa fa-arrow-left"></i> Previous</a>
+                            <a class="ajax btn btn-default btn-xs btn-mini" href="/?grid-sort%5Bcountry%5D=asc&amp;grid-filter%5Bname%5D=a&amp;grid-filter%5Bmale%5D=1&amp;grid-filter%5Bcountry%5D=au&amp;action=default&amp;do=grid-page&amp;presenter=Test">1</a>
+                            <span class="disabled btn btn-default btn-xs btn-mini">2</span>
+                        <span class="disabled btn btn-default btn-xs btn-mini" href="/?grid-page=3&amp;grid-sort%5Bcountry%5D=asc&amp;grid-filter%5Bname%5D=a&amp;grid-filter%5Bmale%5D=1&amp;grid-filter%5Bcountry%5D=au&amp;action=default&amp;do=grid-page&amp;presenter=Test">Next <i class="glyphicon glyphicon-arrow-right fa fa-arrow-right"></i></span>
                 </span>
                 <span class="count">
                     Items 4 - 6 of 6
-                    <select name="count" title="Items per page" class="form-control" id="frm-grid-form-count"><option value="3" selected>3</option><option value="10">10</option><option value="20">20</option><option value="30">30</option><option value="50">50</option><option value="100">100</option></select>
+                        <select name="count" title="Items per page" class="form-control" id="frm-grid-form-count"><option value="3" selected>3</option><option value="10">10</option><option value="20">20</option><option value="30">30</option><option value="50">50</option><option value="100">100</option></select>
                         <input type="submit" name="buttons[perPage]" value="Items per page" class="hide">
-                    <a class="export btn btn-default btn-xs btn-mini" href="/?action=default&amp;do=grid-export-export&amp;presenter=Test" title="Export all items"><i class="glyphicon glyphicon-download fa fa-download icon-download"></i></a>
+                    <a class="export btn btn-default btn-xs btn-mini" href="/?action=default&amp;do=grid-export-export&amp;presenter=Test" title="Export all items"><i class="glyphicon glyphicon-download fa fa-download"></i></a>
                 </span>
             </td>
         </tr>

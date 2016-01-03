@@ -406,11 +406,54 @@ class GridTest extends \Tester\TestCase
 
     function testGetTablePrototype()
     {
-        $grid = new Grid;
-        $table = $grid->tablePrototype;
+        Helper::grid(function(Grid $grid) {
+            $grid->model = [['test' => 'test']];
+            $grid->addColumnText('test', 'Test');
+            $grid->tablePrototype->class[] = 'test';
+        })->run();
 
-        $table->class[] = 'test';
-        Assert::same('<table class="table table-striped table-hover test"></table>', (string) $table);
+        ob_start();
+            Helper::$grid->render();
+        $output = ob_get_clean();
+
+        Assert::contains('<table id="grid" class="test table table-striped table-hover">', $output);
+    }
+
+    function testSetCustomization()
+    {
+        $grid = new Grid;
+        $customization = new \Grido\Customization;
+        $grid->setCustomization($customization);
+
+        Assert::same($grid->customization, $customization);
+
+        $string = 'first second';
+        $customization->buttonClass = $string;
+        Assert::same($string, $customization->buttonClass);
+
+        $array = ['first', 'second'];
+        $customization->buttonClass = $array;
+        Assert::same(implode(' ', $array), $customization->buttonClass);
+
+        $customization->iconClass = $string;
+        Assert::same($string, $customization->iconClass);
+
+        $string = 'fa';
+        $customization->iconClass = $string;
+        Assert::same('fa fa-delete', $customization->getIconClass('delete'));
+
+        $array = ['glyphicon', 'fa'];
+        $customization->iconClass = $array;
+        Assert::same('glyphicon glyphicon-delete fa fa-delete', $customization->getIconClass('delete'));
+
+        $list = $customization->getTemplateFiles();
+        foreach (new \DirectoryIterator(__DIR__ . '/../../src/templates') as $file) {
+            if ($file->isFile()) {
+                $list[$file->getBasename('.latte')] = realpath($file->getPathname());
+            }
+        }
+
+        Assert::same($list, $customization->getTemplateFiles());
     }
 
     /**********************************************************************************************/

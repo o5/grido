@@ -15,6 +15,7 @@ use Grido\Exception;
 use Grido\Components\Paginator;
 use Grido\Components\Columns\Column;
 use Grido\Components\Filters\Filter;
+use Grido\Components\Actions\Action;
 
 use Symfony\Component\PropertyAccess\PropertyAccessor;
 
@@ -28,6 +29,7 @@ use Symfony\Component\PropertyAccess\PropertyAccessor;
  * @property-read mixed $data
  * @property-read \Nette\Utils\Html $tablePrototype
  * @property-read PropertyAccessor $propertyAccessor
+ * @property-read Customization $customization
  * @property-write string $templateFile
  * @property bool $rememberState
  * @property array $defaultPerPage
@@ -128,6 +130,9 @@ class Grid extends Components\Container
     protected $options = [
         self::CLIENT_SIDE_OPTIONS => []
     ];
+
+    /** @var Customization */
+    protected $customization;
 
     /**
      * Sets a model that implements the interface Grido\DataSources\IDataSource or data-source object.
@@ -329,6 +334,14 @@ class Grid extends Components\Container
         return $this;
     }
 
+    /**
+     * @param \Grido\Customization $customization
+     */
+    public function setCustomization(Customization $customization)
+    {
+        $this->customization = $customization;
+    }
+
     /**********************************************************************************************/
 
     /**
@@ -519,8 +532,7 @@ class Grid extends Components\Container
     {
         if ($this->tablePrototype === NULL) {
             $this->tablePrototype = \Nette\Utils\Html::el('table');
-            $this->tablePrototype->id($this->getName())
-                ->class[] = 'table table-striped table-hover';
+            $this->tablePrototype->id($this->getName());
         }
 
         return $this->tablePrototype;
@@ -653,6 +665,18 @@ class Grid extends Components\Container
     public function isStrictMode()
     {
         return $this->strictMode;
+    }
+
+    /**
+     * @return Customization
+     */
+    public function getCustomization()
+    {
+        if ($this->customization === NULL) {
+            $this->customization = new Customization;
+        }
+
+        return $this->customization;
     }
 
     /**********************************************************************************************/
@@ -799,7 +823,7 @@ class Grid extends Components\Container
     public function createTemplate()
     {
         $template = parent::createTemplate();
-        $template->setFile(__DIR__ . '/Grid.latte');
+        $template->setFile(__DIR__ . '/templates/bootstrap.latte');
         $template->registerHelper('translate', [$this->getTranslator(), 'translate']);
 
         return $template;
@@ -825,6 +849,11 @@ class Grid extends Components\Container
         $this->template->data = $data;
         $this->template->form = $form = $this['form'];
         $this->template->paginator = $this->getPaginator();
+
+        $this->template->columns = $this->getComponent(Column::ID)->getComponents();
+        $this->template->actions = $this->hasActions() ? $this->getComponent(Action::ID)->getComponents() : [];
+        $this->template->formFilters = $this->hasFilters() ? $form->getComponent(Filter::ID)->getComponents() : [];
+        $this->template->customization = $this->getCustomization();
 
         $form['count']->setValue($this->getPerPage());
 
