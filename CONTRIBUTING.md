@@ -7,7 +7,7 @@ We accept contributions via Pull Requests on [Github](https://github.com/o5/grid
 
 ## Pull Requests
 
-- **Coding Standard** - The easiest way to apply the conventions just run `composer syntax`
+- **Coding Standard** - The easiest way to apply the conventions just run `composer syntax`. You can also try `composer syntax-fix` for fixing errors automatically.
 
 - **Add tests!** - Your patch won't be accepted if it doesn't have tests.
 

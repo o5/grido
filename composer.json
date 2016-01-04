@@ -25,7 +25,8 @@
     },
     "scripts": {
         "test": "./vendor/bin/tester --colors 1 tests/",
-        "syntax": "./vendor/bin/phpcs --standard=standards.xml --colors --encoding=utf-8 -sp src/"
+        "syntax": "./vendor/bin/phpcs --standard=standards.xml --colors --encoding=utf-8 -sp src/",
+        "syntax-fix": "./vendor/bin/phpcbf --standard=standards.xml src/"
     },
     "require": {
         "php": ">=5.5",
