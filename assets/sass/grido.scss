@@ -19,7 +19,9 @@
     table, .filter.outer {
         box-shadow: 1px 1px 12px -1px rgba(0, 0, 0, 0.2);
     }
-    thead th, tfoot td, .filter.outer {
+    thead th,
+    tfoot td,
+    .filter.outer {
         background: #E9E9E9;
         background: -moz-linear-gradient(top, #FAFAFA 0%, #E9E9E9 100%);
         background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #FAFAFA), color-stop(100%, #E9E9E9));
@@ -53,14 +55,11 @@
         border-width: 0 1px 1px 0;
         height: 30px;
     }
-    th.column {
-        width: 7%;
+    thead, tfoot {
+        font-size: 1em;
     }
-    thead {
-        font-size: 1.15em;
-    }
-    tfoot {
-        font-size: 1.1em;
+    tbody {
+        font-size: 0.9em;
     }
     .no-results {
         text-align: center;
@@ -117,25 +116,35 @@
     }
     th {
         &.column {
-            span {
-                width: 0;
-                height: 0;
-                vertical-align: top;
+            text-transform: uppercase;
+
+            .arrow {
                 content: "";
-                float: right;
-                margin-top: 8px;
                 border-right: 4px solid transparent;
                 border-left: 4px solid transparent;
+                display: inline-block;
+                width: 0;
+                height: 0;
+                margin-left: 2px;
+                vertical-align: middle;
             }
-            &.asc span {
-                border-bottom: 4px solid #555;
+
+            a.desc .arrow {
+                border-top: 4px dashed;
+                border-bottom: 0;
             }
-            &.desc span {
-                border-top: 4px solid #555;
+
+            a.asc .arrow {
+                border-top: 0;
+                border-bottom: 4px dashed;
+            }
+
+            a, span {
+                display: block;
             }
         }
         &.actions {
-            width: 15%;
+            text-transform: uppercase;
             text-align: center;
         }
         &.buttons {
@@ -177,7 +186,7 @@
             float: left;
             text-align: left;
         }
-        .count {
+        .right {
             float: right;
             text-align: left;
         }
@@ -252,14 +261,117 @@
     }
 }
 
-/******************** TWITTER BOOTSTRAP RESET ********************/
+/******************** BOOTSTRAP TEMPLATE ********************/
+// TODO - move to separate file
 
-.btn-mini [class*=" icon-"] {
-    margin-top: 1px;
-}
+.bootstrap {
 
-.btn-sm .fa, .btn-xs .fa, small .fa, .btn-group-sm .fa, .btn-group-xs .fa, .input-group-sm .fa, .input-group-xs .fa {
-    font-size: 14px;
-    top: 1px;
-    position: relative;
+    .filter.outer .items {
+        width: 100%;
+    }
+
+    tfoot tr td {
+        line-height: 10px;
+
+        label {
+            font-weight: normal;
+        }
+    }
+
+    .operations {
+        padding: 2px 0 0 2px;
+    }
+
+    .right {
+        padding: 2px 2px 0;
+
+        span {
+            margin-left: 3px;
+        }
+
+        .export a, .reset button {
+            margin-top: -2px;
+        }
+    }
+
+    .paginator {
+        width: 300px;
+        margin: 0 auto;
+        padding: 0 5px;
+
+        ul {
+            margin: 0;
+            display: inline-block;
+
+            li {
+                display: inline;
+
+                a {
+                    width: 22px;
+                    padding: 0;
+                    border-radius: 0;
+                }
+
+                a, span {
+                    float: left;
+                    line-height: 26px;
+                    text-decoration: none;
+                }
+
+                &:first-child a {
+                    border-top-left-radius: 4px;
+                    border-bottom-left-radius: 4px;
+                    border-right: 0;
+                }
+
+                &:last-child a {
+                    border-top-right-radius: 4px;
+                    border-bottom-right-radius: 4px;
+                    border-left: 0;
+                }
+            }
+        }
+
+        input {
+            width: 125px;
+            height: 28px;
+            padding: 0;
+            font-size: 14px;
+            vertical-align: middle;
+            text-align: center;
+            float: left;
+            border-radius: 0;
+            margin: 0 -1px;
+
+            &::-webkit-input-placeholder {
+                color: inherit;
+            }
+
+            &::-moz-placeholder {
+                color: inherit;
+            }
+
+            &:-ms-input-placeholder {
+                color: inherit;
+            }
+
+            // http://exisweb.net/css-input-number-firefox
+            -moz-appearance: textfield;
+            &::-webkit-outer-spin-button,
+            &::-webkit-inner-spin-button {
+                -webkit-appearance: none;
+                margin: 0;
+            }
+        }
+    }
+
+    .bootstrap-select {
+        .btn-default {
+            background-image: none;
+        }
+
+        .btn {
+            padding: 0 12px;
+        }
+    }
 }

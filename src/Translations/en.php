@@ -24,4 +24,6 @@ return [
     'Grido.EnterPage' => 'Enter page:',
     'Grido.NoResults' => 'No results.',
     'Grido.ExportAllItems' => 'Export all items',
+    'Grido.Export' => 'Export',
+    'Grido.Bootstrap.Paginator' => 'Page %d z %d',
 ];

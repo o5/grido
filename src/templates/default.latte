@@ -17,6 +17,10 @@
 
     $columnCount = count($columns) + ($control->hasOperation() ? 1 : 0);
     $showActionsColumn = $actions || ($formFilters && $filterRenderType == \Grido\Components\Filters\Filter::RENDER_INNER);
+
+    $actionThElement = \Nette\Utils\Html::el('th');
+    $actionThElement->setText($control->translator->translate('Grido.Actions'));
+    $actionThElement->class[] = 'actions center';
 }
 
 {block customization}{/block}
@@ -29,6 +33,7 @@
 
 {form form}
 {if $filterRenderType == \Grido\Components\Filters\Filter::RENDER_OUTER}
+    {block outerFilterWrapper}
     <div n:block="outerFilter" class="filter outer">
         <div class="items">
             <span n:foreach="$formFilters as $filter" class="grid-filter-{$filter->getName()}">
@@ -47,6 +52,7 @@
             {/formContainer}
         </div>
     </div>
+    {/block}
 {/if}
 
 {block table}
@@ -60,17 +66,16 @@
                 {$column->getHeaderPrototype()->startTag()|noescape}
                     {if $column->isSortable()}
                         <a n:if="!$column->getSort()" n:href="sort! [$column->getName() => \Grido\Components\Columns\Column::ORDER_ASC]" class="ajax">{$column->getLabel()|noescape}</a>
-                        <a n:if="$column->getSort() == \Grido\Components\Columns\Column::ORDER_ASC" n:href="sort! [$column->getName() => \Grido\Components\Columns\Column::ORDER_DESC]" class="sort ajax">{$column->getLabel()|noescape}</a>
-                        <a n:if="$column->getSort() == \Grido\Components\Columns\Column::ORDER_DESC" n:href="sort! [$column->getName() => \Grido\Components\Columns\Column::ORDER_ASC]" class="sort ajax">{$column->getLabel()|noescape}</a>
-                        <span></span>
+                        <a n:if="$column->getSort() == \Grido\Components\Columns\Column::ORDER_ASC" n:href="sort! [$column->getName() => \Grido\Components\Columns\Column::ORDER_DESC]" class="sort ajax asc">{$column->getLabel()|noescape} <i class="arrow"></i></a>
+                        <a n:if="$column->getSort() == \Grido\Components\Columns\Column::ORDER_DESC" n:href="sort! [$column->getName() => \Grido\Components\Columns\Column::ORDER_ASC]" class="sort ajax desc">{$column->getLabel()|noescape} <i class="arrow"></i></a>
                     {else}
-                        {$column->getLabel()|noescape}
+                        <span>{$column->getLabel()|noescape}</span>
                     {/if}
                 {$column->getHeaderPrototype()->endTag()|noescape}
             {/foreach}
-            <th n:if="$showActionsColumn" class="actions center">
-                {_'Grido.Actions'}
-            </th>
+            {if $showActionsColumn}
+                {=$actionThElement}
+            {/if}
         </tr>
         <tr n:if="$filterRenderType == \Grido\Components\Filters\Filter::RENDER_INNER && $formFilters" class="filter inner" n:block="innerFilter">
             {foreach $columns as $column}
@@ -92,7 +97,7 @@
                 {/if}
             {/foreach}
 
-            <th n:if="$formFilters" class="buttons">
+            <th n:if="$formFilters" class="buttons" n:block="action">
                 {formContainer buttons}
                     {block innerFilterControls}
                         {input search}
@@ -132,15 +137,21 @@
                         <a class="ajax {$customization->buttonClass}" n:href="page! page => $paginator->getPage() + 1">{_'Grido.Next'} <i class="{=$customization->getIconClass('arrow-right')}"></i></a>
                     {/if}
                 </span>
-                <span n:block="count" class="count">
-                    {= sprintf($template->translate('Grido.Items'), $paginator->getCountBegin(), $paginator->getCountEnd(), $control->getCount())}
-                    {block perPageElement}
-                        {input count}
+                <span class="right">
+                    {block right}
+                    <span n:block="perpage" class="count">
+                        <label>{= sprintf($template->translate('Grido.Items'), $paginator->getCountBegin(), $paginator->getCountEnd(), $control->getCount())}</label>
+                        {block perPageElement}
+                            {input count}
+                        {/block}
+                        {input $form[buttons][perPage], class => 'hide'}
+                    </span>
+                    {block export}
+                    <span n:if="$control->hasExport()" class="export">
+                        <a class="{$customization->buttonClass}" href="{=$control->getComponent(\Grido\Components\Export::ID)->link('export!')}" title="{_'Grido.ExportAllItems'}"><i class="{=$customization->getIconClass('download')}"> {_'Grido.Export'}</i></a>
+                    </span>
                     {/block}
-                    {formContainer buttons}
-                        {input perPage, class => 'hide'}
-                    {/formContainer}
-                    <a n:if="$control->hasExport()" class="export {$customization->buttonClass}" href="{=$control->getComponent(\Grido\Components\Export::ID)->link('export!')}" title="{_'Grido.ExportAllItems'}"><i class="{=$customization->getIconClass('download')}"></i></a>
+                    {/block}
                 </span>
             </td>
         </tr>

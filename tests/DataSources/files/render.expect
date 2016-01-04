@@ -5,7 +5,7 @@
 
 
 
-<form action="/" method="get" id="frm-grid-form" class="ajax grido table-responsive" data-grido-refresh-handler="/?action=default&amp;do=grid-refresh&amp;presenter=Test">
+<form action="/" method="get" id="frm-grid-form" class="ajax grido table-responsive bootstrap" data-grido-refresh-handler="/?action=default&amp;do=grid-refresh&amp;presenter=Test">
     <div class="filter outer">
         <div class="items">
             <span class="grid-filter-phone">
@@ -30,8 +30,6 @@
             </span>
         </div>
         <div class="buttons">
-                    <input type="submit" name="buttons[search]" class="btn btn-default btn-sm search" value="Search">
-                <input type="submit" name="buttons[reset]" class="btn btn-default btn-sm reset" value="Reset">
         </div>
     </div>
 
@@ -40,37 +38,57 @@
         <tr class="head">
                 <th class="column grid-header-firstname" data-grido-editable-handler="/?action=default&amp;do=grid-columns-firstname-editable&amp;presenter=Test" data-grido-editableControl-handler="/?action=default&amp;do=grid-columns-firstname-editableControl&amp;presenter=Test">
                         <a class="ajax" href="/?grid-sort%5Bfirstname%5D=asc&amp;grid-page=2&amp;grid-filter%5Bname%5D=a&amp;grid-filter%5Bmale%5D=1&amp;grid-filter%5Bcountry%5D=au&amp;action=default&amp;do=grid-sort&amp;presenter=Test">Firstname</a>
-                        <span></span>
                 </th>
                 <th class="column grid-header-surname">
-                        Surname
+                        <span>Surname</span>
                 </th>
                 <th class="column grid-header-gender">
-                        Gender
+                        <span>Gender</span>
                 </th>
                 <th class="column grid-header-phone">
-                        Phone
+                        <span>Phone</span>
                 </th>
                 <th class="column grid-header-country asc">
-                        <a class="sort ajax" href="/?grid-sort%5Bcountry%5D=desc&amp;grid-page=2&amp;grid-filter%5Bname%5D=a&amp;grid-filter%5Bmale%5D=1&amp;grid-filter%5Bcountry%5D=au&amp;action=default&amp;do=grid-sort&amp;presenter=Test">Country</a>
-                        <span></span>
+                        <a class="sort ajax asc" href="/?grid-sort%5Bcountry%5D=desc&amp;grid-page=2&amp;grid-filter%5Bname%5D=a&amp;grid-filter%5Bmale%5D=1&amp;grid-filter%5Bcountry%5D=au&amp;action=default&amp;do=grid-sort&amp;presenter=Test">Country <i class="arrow"></i></a>
                 </th>
         </tr>
     </thead>
     <tfoot>
         <tr>
             <td colspan="5">
-                <span class="paginator">
-                        <a class="ajax btn btn-default btn-xs btn-mini" href="/?grid-sort%5Bcountry%5D=asc&amp;grid-filter%5Bname%5D=a&amp;grid-filter%5Bmale%5D=1&amp;grid-filter%5Bcountry%5D=au&amp;action=default&amp;do=grid-page&amp;presenter=Test"><i class="glyphicon glyphicon-arrow-left fa fa-arrow-left"></i> Previous</a>
-                            <a class="ajax btn btn-default btn-xs btn-mini" href="/?grid-sort%5Bcountry%5D=asc&amp;grid-filter%5Bname%5D=a&amp;grid-filter%5Bmale%5D=1&amp;grid-filter%5Bcountry%5D=au&amp;action=default&amp;do=grid-page&amp;presenter=Test">1</a>
-                            <span class="disabled btn btn-default btn-xs btn-mini">2</span>
-                        <span class="disabled btn btn-default btn-xs btn-mini" href="/?grid-page=3&amp;grid-sort%5Bcountry%5D=asc&amp;grid-filter%5Bname%5D=a&amp;grid-filter%5Bmale%5D=1&amp;grid-filter%5Bcountry%5D=au&amp;action=default&amp;do=grid-page&amp;presenter=Test">Next <i class="glyphicon glyphicon-arrow-right fa fa-arrow-right"></i></span>
-                </span>
-                <span class="count">
-                    Items 4 - 6 of 6
-                        <select name="count" title="Items per page" class="form-control" id="frm-grid-form-count"><option value="3" selected>3</option><option value="10">10</option><option value="20">20</option><option value="30">30</option><option value="50">50</option><option value="100">100</option></select>
+<span class="paginator">
+    <ul>
+        <li>
+                <a class="ajax btn btn-default btn-sm" title="Previous" href="/?grid-sort%5Bcountry%5D=asc&amp;grid-filter%5Bname%5D=a&amp;grid-filter%5Bmale%5D=1&amp;grid-filter%5Bcountry%5D=au&amp;action=default&amp;do=grid-page&amp;presenter=Test"><i class="fa fa-backward"></i></a>
+        </li>
+        <li>
+                <a class="ajax btn btn-default btn-sm" title="Previous" href="/?grid-sort%5Bcountry%5D=asc&amp;grid-filter%5Bname%5D=a&amp;grid-filter%5Bmale%5D=1&amp;grid-filter%5Bcountry%5D=au&amp;action=default&amp;do=grid-page&amp;presenter=Test"><i class="fa fa-chevron-left"></i></a>
+        </li>
+        <li>
+            <input type="text" class="form-control" placeholder="Page 2 z 2" data-grido-current="2" min="1" max="2" data-grido-link="/?grid-page=0&amp;grid-sort%5Bcountry%5D=asc&amp;grid-filter%5Bname%5D=a&amp;grid-filter%5Bmale%5D=1&amp;grid-filter%5Bcountry%5D=au&amp;action=default&amp;do=grid-page&amp;presenter=Test">
+        </li>
+        <li>
+                <a class="disabled btn btn-default btn-sm"><i class="fa fa-chevron-right"></i></a>
+        </li>
+        <li>
+                <a class="disabled btn btn-default btn-sm"><i class="fa fa-forward"></i></a>
+        </li>
+    </ul>
+</span>
+                <span class="right">
+                    <span class="count">
+                        <label>Items 4 - 6 of 6</label>
+                            <select name="count" title="Items per page" class="form-control" id="frm-grid-form-count"><option value="3" selected>3</option><option value="10">10</option><option value="20">20</option><option value="30">30</option><option value="50">50</option><option value="100">100</option></select>
                         <input type="submit" name="buttons[perPage]" value="Items per page" class="hide">
-                    <a class="export btn btn-default btn-xs btn-mini" href="/?action=default&amp;do=grid-export-export&amp;presenter=Test" title="Export all items"><i class="glyphicon glyphicon-download fa fa-download"></i></a>
+                    </span>
+                    <span class="export">
+                        <a class="btn btn-default btn-xs" href="/?action=default&amp;do=grid-export-export&amp;presenter=Test" title="Export all items"><i class="fa fa-download"> Export</i></a>
+                    </span>
+    <span class="reset">
+        <button title="Reset" type="submit" class="btn btn-default btn-xs" name="buttons[reset]" value="Reset">
+            <span class="fa fa-refresh"> Reset</span>
+        </button>
+    </span>
                 </span>
             </td>
         </tr>

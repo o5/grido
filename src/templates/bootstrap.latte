@@ -7,15 +7,18 @@
  * the file LICENSE.md that was distributed with this source code.
  *}
 
+ {* Template for TWITTER BOOTSTRAP 3 and FONT AWESOME 4 *}
+
 {extends default.latte}
 
 {block customization}
     {?
-        /* TWITTER BOOTSTRAP 2/3 */
-        $customization->buttonClass = 'btn btn-default btn-xs btn-mini';
-        $customization->iconClass = ['glyphicon', 'fa'];
+        $customization->iconClass = 'fa';
+        $customization->buttonClass = 'btn btn-default btn-xs';
 
-        $form->elementPrototype->class[] = 'table-responsive';
+        $actionThElement->class[] = 'col-xs-1';
+
+        $form->elementPrototype->class[] = 'table-responsive bootstrap';
         $control->tablePrototype->class[] = 'table table-striped table-hover';
 
         $form[count]->controlPrototype->class[] = 'form-control';
@@ -42,4 +45,77 @@
             }
         }
     {/foreach}
+{/block}
+
+{block outerFilterWrapper}
+    {if $formFilters}
+        {include outerFilter _form => $form}
+    {/if}
+{/block}
+
+{block outerFilterControls}
+    {* intentionally commented out (experimental)
+    {if $formFilters}
+        <button n:name="search" title="Search" type="submit" class="btn btn-default btn-sm">
+            <span class="fa fa-search"></span> {_$form[buttons][search]->caption}
+        </button>
+    {/if}
+    *}
+{/block}
+
+{block innerFilterControls}
+    {* intentionally commented out (experimental)
+    <button n:name="search" title="Search" type="submit" class="{$customization->buttonClass}">
+        <span class="fa fa-search"></span>
+    </button>
+    <button n:name="reset" title="Reset" type="submit" class="{$customization->buttonClass}">
+        <span class="fa fa-refresh"></span>
+    </button>
+    *}
+{/block}
+
+<span n:if="$paginator->steps && $paginator->pageCount > 1" n:block="paginator" class="paginator">
+    <ul>
+        <li>
+            {if $control->page == 1}
+                <a class="disabled btn btn-default btn-sm"><i class="{=$customization->getIconClass('backward')}"></i></a>
+            {else}
+                <a class="ajax btn btn-default btn-sm" n:href="page! page => 1" title="{_'Grido.Previous'}"><i class="{=$customization->getIconClass('backward')}"></i></a>
+            {/if}
+        </li>
+        <li>
+            {if $control->page == 1}
+                <a class="disabled btn btn-default btn-sm"><i class="{=$customization->getIconClass('chevron-left')}"></i></a>
+            {else}
+                <a class="ajax btn btn-default btn-sm" n:href="page! page => $paginator->getPage() - 1" title="{_'Grido.Previous'}"><i class="{=$customization->getIconClass('chevron-left')}"></i></a>
+            {/if}
+        </li>
+        <li>
+            <input type="text" class="form-control" placeholder="{=sprintf($template->translate('Grido.Bootstrap.Paginator'), $control->page, $paginator->lastPage)}" data-grido-current="{$control->page}" min="1" max="{$paginator->getLastPage()}" data-grido-link="{link page! page => 0}">
+        </li>
+        <li>
+            {if $control->page == $paginator->getPageCount()}
+                <a class="disabled btn btn-default btn-sm"><i class="{=$customization->getIconClass('chevron-right')}"></i></a>
+            {else}
+                <a class="ajax btn btn-default btn-sm" n:href="page! page => $paginator->getPage() + 1" title="{_'Grido.Next'}"><i class="{=$customization->getIconClass('chevron-right')}"></i></a>
+            {/if}
+        </li>
+        <li>
+            {if $control->page == $paginator->getPageCount()}
+                <a class="disabled btn btn-default btn-sm"><i class="{=$customization->getIconClass('forward')}"></i></a>
+            {else}
+                <a class="ajax btn btn-default btn-sm" n:href="page! page => $paginator->getLastPage()" title="{_'Grido.Next'}"><i class="{=$customization->getIconClass('forward')}"></i></a>
+            {/if}
+        </li>
+    </ul>
+</span>
+
+{block right}
+    {include perpage, _form => $form}
+    {include export}
+    <span class="reset" n:block="reset">
+        <button n:name="$form[buttons][reset]" title="{_'Grido.Reset'}" type="submit" class="{$customization->buttonClass}">
+            <span class="fa fa-refresh"> {_'Grido.Reset'}</span>
+        </button>
+    </span>
 {/block}

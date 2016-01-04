@@ -24,4 +24,6 @@ return [
     'Grido.EnterPage' => 'Vložte stranu:',
     'Grido.NoResults' => 'Žiadne výsledky.',
     'Grido.ExportAllItems' => 'Exportovať všetky položky',
+    'Grido.Export' => 'Export',
+    'Grido.Bootstrap.Paginator' => 'Strana %d z %d',
 ];
