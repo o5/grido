@@ -19,7 +19,8 @@ class ArraySourceTest extends DataSourceTestCase
 {
     function setUp()
     {
-        Helper::grid(function(Grid $grid, TestPresenter $presenter) {
+        $that = $this;
+        Helper::grid(function(Grid $grid, TestPresenter $presenter) use ($that) {
             $data = $presenter->context->dibi_sqlite
                 ->select('u.*, c.title AS country')
                 ->from('[user] u')
@@ -29,7 +30,7 @@ class ArraySourceTest extends DataSourceTestCase
             $grid->setDefaultPerPage(3);
 
             $grid->addColumnText('firstname', 'Firstname')
-                ->setEditable(callback($this, 'editableCallbackTest'))
+                ->setEditable(callback($that, 'editableCallbackTest'))
                 ->setSortable();
             $grid->addColumnText('surname', 'Surname');
             $grid->addColumnText('gender', 'Gender');

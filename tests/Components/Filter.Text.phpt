@@ -77,7 +77,7 @@ class FilterTextTest extends \Tester\TestCase
         ob_start();
             Helper::$grid->getFilter('name')->handleSuggest('cc');
         $output = ob_get_clean();
-        Assert::same('["CC &lt;script&gt;alert(&quot;XSS&quot;)&lt;/script&gt;"]', $output);
+        Assert::same('["CC &lt;script&gt;alert(&quot;XSS&quot;)&lt;\/script&gt;"]', $output);
 
         ob_start();
             Helper::request(array('grid-filter' => array('name' => 'aa'), 'do' => 'grid-filters-test-suggest', 'grid-filters-test-query' => 'QUERY'));

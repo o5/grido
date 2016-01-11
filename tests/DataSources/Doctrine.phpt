@@ -21,7 +21,8 @@ class DoctrineTest extends DataSourceTestCase
 {
     function setUp()
     {
-        Helper::grid(function(Grid $grid, TestPresenter $presenter) {
+        $that = $this;
+        Helper::grid(function(Grid $grid, TestPresenter $presenter) use ($that) {
             $entityManager = $presenter->context->getByType('Doctrine\ORM\EntityManager');
             $repository = $entityManager->getRepository('Grido\Tests\Entities\User');
             $model = new \Grido\DataSources\Doctrine(
@@ -34,7 +35,7 @@ class DoctrineTest extends DataSourceTestCase
             $grid->setDefaultPerPage(3);
 
             $grid->addColumnText('firstname', 'Firstname')
-                ->setEditable(callback($this, 'editableCallbackTest'))
+                ->setEditable(callback($that, 'editableCallbackTest'))
                 ->setSortable();
             $grid->addColumnText('surname', 'Surname');
             $grid->addColumnText('gender', 'Gender');

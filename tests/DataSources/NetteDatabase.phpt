@@ -19,13 +19,14 @@ class NetteDatabaseTest extends DataSourceTestCase
 {
     function setUp()
     {
-        Helper::grid(function(Grid $grid, TestPresenter $presenter) {
+        $that = $this;
+        Helper::grid(function(Grid $grid, TestPresenter $presenter) use ($that) {
             $database = $presenter->context->getByType('Nette\Database\Context');
             $grid->setModel($database->table('user'));
             $grid->setDefaultPerPage(3);
 
             $grid->addColumnText('firstname', 'Firstname')
-                ->setEditable(callback($this, 'editableCallbackTest'))
+                ->setEditable(callback($that, 'editableCallbackTest'))
                 ->setSortable();
             $grid->addColumnText('surname', 'Surname');
             $grid->addColumnText('gender', 'Gender');

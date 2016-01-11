@@ -83,7 +83,7 @@ class Export extends Component implements \Nette\Application\IResponse
         for ($i = 0; $i < $iterations; $i++) {
             $datasource->limit($i * $this->fetchLimit, $this->fetchLimit);
             $data = $this->customData
-                ? call_user_func_array($this->customData, [$datasource])
+                ? call_user_func_array($this->customData, array($datasource))
                 : $datasource->getData();
 
             foreach ($data as $items) {
