@@ -25,10 +25,11 @@
     },
     "require": {
         "php": ">=5.3",
-        "nette/nette": ">=2.0.0 <2.3.0",
+        "nette/nette": "~2.0",
         "symfony/property-access": "~2.6"
     },
     "require-dev": {
+        "nette/nette" : "~2.2.0",
         "nette/tester": "~1.4.0",
         "mockery/mockery": "~0.9.3",
         "dibi/dibi": "~2.3.1",
