@@ -4,7 +4,7 @@ var gulp        = require('gulp'),
     merge       = require('merge-stream'),
     sass        = require('gulp-sass'),
     rename      = require('gulp-rename'),
-    minifycss   = require('gulp-minify-css'),
+    cssnano     = require('gulp-cssnano'),
     concat      = require('gulp-concat'),
     uglify      = require('gulp-uglify');
 
@@ -20,7 +20,7 @@ gulp.task('sass', function () {
 
 gulp.task('css', ['sass'], function () {
     return gulp.src([cssDir + '/*.css', '!' + cssDir + '/*.min.css'])
-        .pipe(minifycss())
+        .pipe(cssnano())
         .pipe(rename({extname: '.min.css'}))
         .pipe(gulp.dest(cssDir));
 });
