@@ -45,9 +45,8 @@
             {formContainer buttons}
                 {block outerFilterControls}
                 {if $formFilters}
-                    {input search}
+                    {input search, style => "display:none"}
                 {/if}
-                {input reset}
                 {/block}
             {/formContainer}
         </div>
@@ -100,8 +99,7 @@
             <th n:if="$formFilters" class="buttons" n:block="action">
                 {formContainer buttons}
                     {block innerFilterControls}
-                        {input search}
-                        {input reset}
+                        {input search, style => "display:none"}
                     {/block}
                 {/formContainer}
             </th>
@@ -146,11 +144,12 @@
                         {/block}
                         {input $form[buttons][perPage], class => 'hide'}
                     </span>
-                    {block export}
                     <span n:if="$control->hasExport()" class="export">
-                        <a class="{$customization->buttonClass}" href="{=$control->getComponent(\Grido\Components\Export::ID)->link('export!')}" title="{_'Grido.ExportAllItems'}"><i class="{=$customization->getIconClass('download')}"> {_'Grido.Export'}</i></a>
+                        <a n:block="export" class="{$customization->buttonClass}" href="{=$control->getComponent(\Grido\Components\Export::ID)->link('export!')}" title="{_'Grido.ExportAllItems'}"><i class="{=$customization->getIconClass('download')}"> {_'Grido.Export'}</i></a>
                     </span>
-                    {/block}
+                    <span n:block="reset" class="reset">
+                        {input $form[buttons][reset]}
+                    </span>
                     {/block}
                 </span>
             </td>

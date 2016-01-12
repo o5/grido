@@ -3,37 +3,36 @@
 
 
 
-
-
-<form action="/" method="get" id="frm-grid-form" class="ajax grido table-responsive bootstrap" data-grido-refresh-handler="/?action=default&amp;do=grid-refresh&amp;presenter=Test">
+<form action="/" method="get" id="frm-grid-form" class="ajax grido" data-grido-refresh-handler="/?action=default&amp;do=grid-refresh&amp;presenter=Test">
     <div class="filter outer">
         <div class="items">
             <span class="grid-filter-phone">
                 <label for="frm-grid-form-filters-phone">Phone</label>
-                <input type="text" name="filters[phone]" class="text form-control" id="frm-grid-form-filters-phone">
+                <input type="text" name="filters[phone]" class="text" id="frm-grid-form-filters-phone">
             </span>
             <span class="grid-filter-name">
                 <label for="frm-grid-form-filters-name">Name</label>
-                <input type="text" name="filters[name]" class="text suggest form-control" autocomplete="off" id="frm-grid-form-filters-name" value="a" data-grido-suggest-replacement="-query-" data-grido-suggest-limit="10" data-grido-suggest-handler="/?grid-filters-name-query=-query-&amp;action=default&amp;do=grid-filters-name-suggest&amp;presenter=Test">
+                <input type="text" name="filters[name]" class="text suggest" autocomplete="off" id="frm-grid-form-filters-name" value="a" data-grido-suggest-replacement="-query-" data-grido-suggest-limit="10" data-grido-suggest-handler="/?grid-filters-name-query=-query-&amp;action=default&amp;do=grid-filters-name-suggest&amp;presenter=Test">
             </span>
             <span class="grid-filter-country">
                 <label for="frm-grid-form-filters-country">Country</label>
-                <input type="text" name="filters[country]" class="text suggest form-control" autocomplete="off" id="frm-grid-form-filters-country" value="au" data-grido-suggest-replacement="-query-" data-grido-suggest-limit="10" data-grido-suggest-handler="/?grid-filters-country-query=-query-&amp;action=default&amp;do=grid-filters-country-suggest&amp;presenter=Test">
+                <input type="text" name="filters[country]" class="text suggest" autocomplete="off" id="frm-grid-form-filters-country" value="au" data-grido-suggest-replacement="-query-" data-grido-suggest-limit="10" data-grido-suggest-handler="/?grid-filters-country-query=-query-&amp;action=default&amp;do=grid-filters-country-suggest&amp;presenter=Test">
             </span>
             <span class="grid-filter-male">
 
-                <label for="frm-grid-form-filters-male"><input type="checkbox" name="filters[male]" class="checkbox form-control" id="frm-grid-form-filters-male" checked>Only male</label>
+                <label for="frm-grid-form-filters-male"><input type="checkbox" name="filters[male]" class="checkbox" id="frm-grid-form-filters-male" checked>Only male</label>
             </span>
             <span class="grid-filter-tall">
 
-                <label for="frm-grid-form-filters-tall"><input type="checkbox" name="filters[tall]" class="checkbox form-control" id="frm-grid-form-filters-tall">Only tall</label>
+                <label for="frm-grid-form-filters-tall"><input type="checkbox" name="filters[tall]" class="checkbox" id="frm-grid-form-filters-tall">Only tall</label>
             </span>
         </div>
         <div class="buttons">
+                    <input type="submit" name="buttons[search]" value="Search" style="display:none">
         </div>
     </div>
 
-<table id="grid" class="table table-striped table-hover" data-grido-options='{"editable":true}'>
+<table id="grid" data-grido-options='{"editable":true}'>
     <thead>
         <tr class="head">
                 <th class="column grid-header-firstname" data-grido-editable-handler="/?action=default&amp;do=grid-columns-firstname-editable&amp;presenter=Test" data-grido-editableControl-handler="/?action=default&amp;do=grid-columns-firstname-editableControl&amp;presenter=Test">
@@ -56,39 +55,24 @@
     <tfoot>
         <tr>
             <td colspan="5">
-<span class="paginator">
-    <ul>
-        <li>
-                <a class="ajax btn btn-default btn-sm" title="Previous" href="/?grid-sort%5Bcountry%5D=asc&amp;grid-filter%5Bname%5D=a&amp;grid-filter%5Bmale%5D=1&amp;grid-filter%5Bcountry%5D=au&amp;action=default&amp;do=grid-page&amp;presenter=Test"><i class="fa fa-backward"></i></a>
-        </li>
-        <li>
-                <a class="ajax btn btn-default btn-sm" title="Previous" href="/?grid-sort%5Bcountry%5D=asc&amp;grid-filter%5Bname%5D=a&amp;grid-filter%5Bmale%5D=1&amp;grid-filter%5Bcountry%5D=au&amp;action=default&amp;do=grid-page&amp;presenter=Test"><i class="fa fa-chevron-left"></i></a>
-        </li>
-        <li>
-            <input type="text" class="form-control" placeholder="Page 2 z 2" data-grido-current="2" min="1" max="2" data-grido-link="/?grid-page=0&amp;grid-sort%5Bcountry%5D=asc&amp;grid-filter%5Bname%5D=a&amp;grid-filter%5Bmale%5D=1&amp;grid-filter%5Bcountry%5D=au&amp;action=default&amp;do=grid-page&amp;presenter=Test">
-        </li>
-        <li>
-                <a class="disabled btn btn-default btn-sm"><i class="fa fa-chevron-right"></i></a>
-        </li>
-        <li>
-                <a class="disabled btn btn-default btn-sm"><i class="fa fa-forward"></i></a>
-        </li>
-    </ul>
-</span>
+                <span class="paginator">
+                        <a class="ajax " href="/?grid-sort%5Bcountry%5D=asc&amp;grid-filter%5Bname%5D=a&amp;grid-filter%5Bmale%5D=1&amp;grid-filter%5Bcountry%5D=au&amp;action=default&amp;do=grid-page&amp;presenter=Test"><i class=""></i> Previous</a>
+                            <a class="ajax " href="/?grid-sort%5Bcountry%5D=asc&amp;grid-filter%5Bname%5D=a&amp;grid-filter%5Bmale%5D=1&amp;grid-filter%5Bcountry%5D=au&amp;action=default&amp;do=grid-page&amp;presenter=Test">1</a>
+                            <span class="disabled ">2</span>
+                        <span class="disabled " href="/?grid-page=3&amp;grid-sort%5Bcountry%5D=asc&amp;grid-filter%5Bname%5D=a&amp;grid-filter%5Bmale%5D=1&amp;grid-filter%5Bcountry%5D=au&amp;action=default&amp;do=grid-page&amp;presenter=Test">Next <i class=""></i></span>
+                </span>
                 <span class="right">
                     <span class="count">
                         <label>Items 4 - 6 of 6</label>
-                            <select name="count" title="Items per page" class="form-control" id="frm-grid-form-count"><option value="3" selected>3</option><option value="10">10</option><option value="20">20</option><option value="30">30</option><option value="50">50</option><option value="100">100</option></select>
+                            <select name="count" title="Items per page" id="frm-grid-form-count"><option value="3" selected>3</option><option value="10">10</option><option value="20">20</option><option value="30">30</option><option value="50">50</option><option value="100">100</option></select>
                         <input type="submit" name="buttons[perPage]" value="Items per page" class="hide">
                     </span>
                     <span class="export">
-                        <a class="btn btn-default btn-xs" href="/?action=default&amp;do=grid-export-export&amp;presenter=Test" title="Export all items"><i class="fa fa-download"> Export</i></a>
+                        <a class="" href="/?action=default&amp;do=grid-export-export&amp;presenter=Test" title="Export all items"><i class=""> Export</i></a>
                     </span>
-    <span class="reset">
-        <button title="Reset" type="submit" class="btn btn-default btn-xs" name="buttons[reset]" value="Reset">
-            <span class="fa fa-refresh"> Reset</span>
-        </button>
-    </span>
+                    <span class="reset">
+                        <input type="submit" name="buttons[reset]" value="Reset">
+                    </span>
                 </span>
             </td>
         </tr>

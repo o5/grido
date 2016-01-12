@@ -25,6 +25,9 @@ use Nette\Object;
 class Customization extends Object
 {
 
+    const TEMPLATE_DEFAULT = 'default';
+    const TEMPLATE_BOOTSTRAP = 'bootstrap';
+
     /** @var string|array */
     protected $buttonClass;
 

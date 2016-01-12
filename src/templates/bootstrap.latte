@@ -22,8 +22,6 @@
         $control->tablePrototype->class[] = 'table table-striped table-hover';
 
         $form[count]->controlPrototype->class[] = 'form-control';
-        $form[buttons][search]->controlPrototype->class[] = 'btn btn-default btn-sm search';
-        $form[buttons][reset]->controlPrototype->class[] = 'btn btn-default btn-sm reset';
 
         if ($control->hasOperation()) {
             $form[operations][operations]->controlPrototype->class[] = 'form-control';
@@ -51,27 +49,6 @@
     {if $formFilters}
         {include outerFilter _form => $form}
     {/if}
-{/block}
-
-{block outerFilterControls}
-    {* intentionally commented out (experimental)
-    {if $formFilters}
-        <button n:name="search" title="Search" type="submit" class="btn btn-default btn-sm">
-            <span class="fa fa-search"></span> {_$form[buttons][search]->caption}
-        </button>
-    {/if}
-    *}
-{/block}
-
-{block innerFilterControls}
-    {* intentionally commented out (experimental)
-    <button n:name="search" title="Search" type="submit" class="{$customization->buttonClass}">
-        <span class="fa fa-search"></span>
-    </button>
-    <button n:name="reset" title="Reset" type="submit" class="{$customization->buttonClass}">
-        <span class="fa fa-refresh"></span>
-    </button>
-    *}
 {/block}
 
 <span n:if="$paginator->steps && $paginator->pageCount > 1" n:block="paginator" class="paginator">
@@ -110,12 +87,8 @@
     </ul>
 </span>
 
-{block right}
-    {include perpage, _form => $form}
-    {include export}
-    <span class="reset" n:block="reset">
-        <button n:name="$form[buttons][reset]" title="{_'Grido.Reset'}" type="submit" class="{$customization->buttonClass}">
-            <span class="fa fa-refresh"> {_'Grido.Reset'}</span>
-        </button>
-    </span>
-{/block}
+<span class="reset" n:block="reset">
+    <button n:name="$form[buttons][reset]" title="{_'Grido.Reset'}" type="submit" class="{$customization->buttonClass}">
+        <span class="fa fa-refresh"> {_'Grido.Reset'}</span>
+    </button>
+</span>

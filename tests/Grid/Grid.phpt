@@ -416,7 +416,7 @@ class GridTest extends \Tester\TestCase
             Helper::$grid->render();
         $output = ob_get_clean();
 
-        Assert::contains('<table id="grid" class="test table table-striped table-hover">', $output);
+        Assert::contains('<table id="grid" class="test">', $output);
     }
 
     function testSetCustomization()
