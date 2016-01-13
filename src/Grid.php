@@ -823,7 +823,7 @@ class Grid extends Components\Container
     public function createTemplate()
     {
         $template = parent::createTemplate();
-        $template->setFile(__DIR__ . '/templates/' . Customization::TEMPLATE_DEFAULT . '.latte');
+        $template->setFile($this->getCustomization()->getTemplateFiles()[Customization::TEMPLATE_DEFAULT]);
         $template->registerHelper('translate', [$this->getTranslator(), 'translate']);
 
         return $template;
