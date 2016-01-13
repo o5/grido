@@ -673,7 +673,7 @@ class Grid extends Components\Container
     public function getCustomization()
     {
         if ($this->customization === NULL) {
-            $this->customization = new Customization;
+            $this->customization = new Customization($this);
         }
 
         return $this->customization;

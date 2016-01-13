@@ -11,6 +11,7 @@ namespace Grido\Tests;
 
 use Tester\Assert,
     Grido\Grid,
+    Grido\Customization,
     Grido\Components\Columns\Column,
     Grido\Components\Filters\Filter;
 
@@ -422,7 +423,7 @@ class GridTest extends \Tester\TestCase
     function testSetCustomization()
     {
         $grid = new Grid;
-        $customization = new \Grido\Customization;
+        $customization = new \Grido\Customization($grid);
         $grid->setCustomization($customization);
 
         Assert::same($grid->customization, $customization);
@@ -454,6 +455,18 @@ class GridTest extends \Tester\TestCase
         }
 
         Assert::same($list, $customization->getTemplateFiles());
+
+        Helper::grid(function(Grid $grid) {
+            $availableTemplates = $grid->customization->getTemplateFiles();
+
+            $grid->customization->useTemplateBootstrap();
+            $grid->onRender($grid);
+            Assert::same($availableTemplates[Customization::TEMPLATE_BOOTSTRAP], $grid->template->getFile());
+
+            $grid->customization->useTemplateDefault();
+            $grid->onRender($grid);
+            Assert::same($availableTemplates[Customization::TEMPLATE_DEFAULT], $grid->template->getFile());
+        })->run();
     }
 
     /**********************************************************************************************/

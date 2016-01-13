@@ -11,6 +11,7 @@
 
 namespace Grido;
 
+use Grido\Grid;
 use Nette\Object;
 
 /**
@@ -28,11 +29,25 @@ class Customization extends Object
     const TEMPLATE_DEFAULT = 'default';
     const TEMPLATE_BOOTSTRAP = 'bootstrap';
 
+    /** @var Grid */
+    protected $grid;
+
     /** @var string|array */
     protected $buttonClass;
 
     /** @var string|array */
     protected $iconClass;
+
+    /** @var array */
+    protected $templateFiles = [];
+
+    /**
+     * @param Grid $grid
+     */
+    public function __construct(Grid $grid)
+    {
+        $this->grid = $grid;
+    }
 
     /**
      * @param string|array $class
@@ -89,13 +104,34 @@ class Customization extends Object
      */
     public function getTemplateFiles()
     {
-        $list = [];
-        foreach (new \DirectoryIterator(__DIR__ . '/templates') as $file) {
-            if ($file->isFile()) {
-                $list[$file->getBasename('.latte')] = realpath($file->getPathname());
+        if (empty($this->templateFiles)) {
+            foreach (new \DirectoryIterator(__DIR__ . '/templates') as $file) {
+                if ($file->isFile()) {
+                    $this->templateFiles[$file->getBasename('.latte')] = realpath($file->getPathname());
+                }
             }
         }
 
-        return $list;
+        return $this->templateFiles;
+    }
+
+    /**
+     * Default theme.
+     * @return \Grido\Customization
+     */
+    public function useTemplateDefault()
+    {
+        $this->grid->setTemplateFile($this->getTemplateFiles()[self::TEMPLATE_DEFAULT]);
+        return $this;
+    }
+
+    /**
+     * Twitter Bootstrap theme.
+     * @return \Grido\Customization
+     */
+    public function useTemplateBootstrap()
+    {
+        $this->grid->setTemplateFile($this->getTemplateFiles()[self::TEMPLATE_BOOTSTRAP]);
+        return $this;
     }
 }
