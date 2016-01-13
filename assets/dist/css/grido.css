@@ -221,6 +221,9 @@
   background-color: #d9edf7 !important; }
 
 /******************** BOOTSTRAP TEMPLATE ********************/
+.table-responsive {
+  overflow-x: visible; }
+
 .bootstrap .filter.outer .items {
   width: 100%; }
 
