@@ -220,10 +220,10 @@
 .grido tr.active td {
   background-color: #d9edf7 !important; }
 
-/******************** BOOTSTRAP TEMPLATE ********************/
-.table-responsive {
+.grido.table-responsive {
   overflow-x: visible; }
 
+/******************** BOOTSTRAP TEMPLATE ********************/
 .bootstrap .filter.outer .items {
   width: 100%; }
 
