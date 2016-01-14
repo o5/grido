@@ -255,14 +255,14 @@
     tr.active td {
         background-color: #d9edf7 !important;
     }
+
+    &.table-responsive {
+        overflow-x: visible; // WARNING: This workaround does not work on small devices!
+    }
 }
 
 /******************** BOOTSTRAP TEMPLATE ********************/
 // TODO - move to separate file
-
-.table-responsive {
-    overflow-x: visible; // WARNING: This workaround does not work on small devices!
-}
 
 .bootstrap {
 
