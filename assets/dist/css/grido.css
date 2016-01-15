@@ -221,53 +221,53 @@
   background-color: #d9edf7 !important; }
 
 /******************** BOOTSTRAP TEMPLATE ********************/
-.table-responsive {
+.grido.bootstrap.table-responsive {
   overflow-x: visible; }
 
-.bootstrap .filter.outer .items {
+.grido.bootstrap .filter.outer .items {
   width: 100%; }
 
-.bootstrap tfoot tr td {
+.grido.bootstrap tfoot tr td {
   line-height: 10px; }
-  .bootstrap tfoot tr td label {
+  .grido.bootstrap tfoot tr td label {
     font-weight: normal; }
 
-.bootstrap .operations {
+.grido.bootstrap .operations {
   padding: 2px 0 0 2px; }
 
-.bootstrap .right {
+.grido.bootstrap .right {
   padding: 2px 2px 0; }
-  .bootstrap .right span {
+  .grido.bootstrap .right span {
     margin-left: 3px; }
-  .bootstrap .right .export a, .bootstrap .right .reset button {
+  .grido.bootstrap .right .export a, .grido.bootstrap .right .reset button {
     margin-top: -2px; }
 
-.bootstrap .paginator {
+.grido.bootstrap .paginator {
   width: 300px;
   margin: 0 auto;
   padding: 0 5px; }
-  .bootstrap .paginator ul {
+  .grido.bootstrap .paginator ul {
     margin: 0;
     display: inline-block; }
-    .bootstrap .paginator ul li {
+    .grido.bootstrap .paginator ul li {
       display: inline; }
-      .bootstrap .paginator ul li a {
+      .grido.bootstrap .paginator ul li a {
         width: 22px;
         padding: 0;
         border-radius: 0; }
-      .bootstrap .paginator ul li a, .bootstrap .paginator ul li span {
+      .grido.bootstrap .paginator ul li a, .grido.bootstrap .paginator ul li span {
         float: left;
         line-height: 26px;
         text-decoration: none; }
-      .bootstrap .paginator ul li:first-child a {
+      .grido.bootstrap .paginator ul li:first-child a {
         border-top-left-radius: 4px;
         border-bottom-left-radius: 4px;
         border-right: 0; }
-      .bootstrap .paginator ul li:last-child a {
+      .grido.bootstrap .paginator ul li:last-child a {
         border-top-right-radius: 4px;
         border-bottom-right-radius: 4px;
         border-left: 0; }
-  .bootstrap .paginator input {
+  .grido.bootstrap .paginator input {
     width: 125px;
     height: 28px;
     padding: 0;
@@ -278,18 +278,18 @@
     border-radius: 0;
     margin: 0 -1px;
     -moz-appearance: textfield; }
-    .bootstrap .paginator input::-webkit-input-placeholder {
+    .grido.bootstrap .paginator input::-webkit-input-placeholder {
       color: inherit; }
-    .bootstrap .paginator input::-moz-placeholder {
+    .grido.bootstrap .paginator input::-moz-placeholder {
       color: inherit; }
-    .bootstrap .paginator input:-ms-input-placeholder {
+    .grido.bootstrap .paginator input:-ms-input-placeholder {
       color: inherit; }
-    .bootstrap .paginator input::-webkit-outer-spin-button, .bootstrap .paginator input::-webkit-inner-spin-button {
+    .grido.bootstrap .paginator input::-webkit-outer-spin-button, .grido.bootstrap .paginator input::-webkit-inner-spin-button {
       -webkit-appearance: none;
       margin: 0; }
 
-.bootstrap .bootstrap-select .btn-default {
+.grido.bootstrap .bootstrap-select .btn-default {
   background-image: none; }
 
-.bootstrap .bootstrap-select .btn {
+.grido.bootstrap .bootstrap-select .btn {
   padding: 0 12px; }

@@ -258,13 +258,12 @@
 }
 
 /******************** BOOTSTRAP TEMPLATE ********************/
-// TODO - move to separate file
 
-.table-responsive {
-    overflow-x: visible; // WARNING: This workaround does not work on small devices!
-}
+.grido.bootstrap { // TODO - move to separate file
 
-.bootstrap {
+    &.table-responsive {
+        overflow-x: visible; // WARNING: This workaround does not work on small devices! https://github.com/o5/grido/issues/254
+    }
 
     .filter.outer .items {
         width: 100%;
