@@ -41,6 +41,7 @@ class ArraySource extends \Nette\Object implements IDataSource
     }
 
     /**
+     * This method needs tests!
      * @param Condition $condition
      * @param array $data
      * @return array
@@ -77,7 +78,7 @@ class ArraySource extends \Nette\Object implements IDataSource
             $result = implode('', $results);
             return count($condition->column) === 1
                 ? (bool) $result
-                : eval("return $result;");
+                : eval("return $result;"); // QUESTION: How to remove this eval? hmmm?
         });
     }
 
@@ -113,9 +114,17 @@ class ArraySource extends \Nette\Object implements IDataSource
         } elseif ($cond === 'IS NOT NULL') {
             return $actual !== NULL;
 
-        } elseif (in_array($cond, ['<', '<=', '>', '>='])) {
-            $actual = (int) $actual;
-            return eval("return {$actual} {$cond} {$expected};");
+        } elseif ($cond === '<') {
+            return (int) $actual < $expected;
+
+        } elseif ($cond === '<=') {
+            return (int) $actual <= $expected;
+
+        } elseif ($cond === '>') {
+            return (int) $actual > $expected;
+
+        } elseif ($cond === '>=') {
+            return (int) $actual >= $expected;
 
         } else {
             throw new Exception("Condition '$condition' not implemented yet.");

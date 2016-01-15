@@ -259,7 +259,7 @@
 
 /******************** BOOTSTRAP TEMPLATE ********************/
 
-.grido.bootstrap { // TODO - move to separate file
+.grido.bootstrap {
 
     &.table-responsive {
         overflow-x: visible; // WARNING: This workaround does not work on small devices! https://github.com/o5/grido/issues/254

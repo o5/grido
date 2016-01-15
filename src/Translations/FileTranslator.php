@@ -51,11 +51,12 @@ class FileTranslator extends \Nette\Object implements \Nette\Localization\ITrans
      */
     protected function getTranslationsFromFile($lang)
     {
-        if (!$translations = @include (__DIR__ . "/$lang.php")) {
+        $filename = __DIR__ . "/$lang.php";
+        if (!file_exists($filename)) {
             throw new Exception("Translations for language '$lang' not found.");
         }
 
-        return $translations;
+        return include ($filename);
     }
 
     /************************* interface \Nette\Localization\ITranslator **************************/
