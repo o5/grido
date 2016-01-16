@@ -33,7 +33,7 @@ class FilterTest extends \Tester\TestCase
         $filter->setColumn('column3', 'and');
         Assert::error(function() use ($filter) {
             $filter->setColumn('column4', 'ORR');
-        }, 'Grido\Exception', 'Operator must be Condition::OPERATOR_AND or Condition::OPERATOR_OR.');
+        }, 'Grido\Exception', "Operator must be 'AND' or 'OR'.");
 
         $filter = $grid->addFilterText('filterY', 'Filter');
         Assert::same(['filterY'], $filter->column);

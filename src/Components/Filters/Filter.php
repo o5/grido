@@ -94,7 +94,8 @@ abstract class Filter extends \Grido\Components\Component
     {
         $columnAlreadySet = count($this->column) > 0;
         if (!Condition::isOperator($operator) && $columnAlreadySet) {
-            throw new Exception('Operator must be Condition::OPERATOR_AND or Condition::OPERATOR_OR.');
+            $msg = sprintf("Operator must be '%s' or '%s'.", Condition::OPERATOR_AND, Condition::OPERATOR_OR);
+            throw new Exception($msg);
         }
 
         if ($columnAlreadySet) {
