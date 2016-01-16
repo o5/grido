@@ -75,7 +75,7 @@ class NetteDatabase extends \Nette\Object implements IDataSource
     public function update($id, array $values, $idCol)
     {
         return (bool) $this->getSelection()
-            ->where([$idCol => $id]) //TODO: column escaping requires https://github.com/nette/nette/issues/1324
+            ->where('?name = ?', $idCol, $id)
             ->update($values);
     }
 
@@ -88,7 +88,7 @@ class NetteDatabase extends \Nette\Object implements IDataSource
     public function getRow($id, $idCol)
     {
         return $this->getSelection()
-            ->where([$idCol => $id]) //TODO: column escaping requires https://github.com/nette/nette/issues/1324
+            ->where('?name = ?', $idCol, $id)
             ->fetch();
     }
 
