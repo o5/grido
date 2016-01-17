@@ -127,7 +127,7 @@ class ArraySource extends \Nette\Object implements IDataSource
             return (int) $actual >= $expected;
 
         } else {
-            throw new Exception("Condition '$condition' not implemented yet.");
+            throw new Exception("Condition '$condition' is not implemented yet.");
         }
     }
 
