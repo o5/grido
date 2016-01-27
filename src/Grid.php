@@ -611,7 +611,11 @@ class Grid extends Components\Container
             $name = "[$name]";
         }
 
-        return $this->getPropertyAccessor()->getValue($object, $name);
+        if (!$this->getPropertyAccessor()->isReadable($object, $name)) {
+		    return null;
+		} else {
+		    return $this->getPropertyAccessor()->getValue($object, $name);
+		}
     }
 
     /**
