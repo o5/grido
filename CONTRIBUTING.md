@@ -49,7 +49,7 @@ $ npm run watch
 - You should set pre-commit hook which will trigger `composer syntax` and `composer test` before each commit.
 - How to install it? Just run **exactly** command bellow in root of repository:
 ``` bash
-$ ln -s ../../pre-commit.sh .git/hooks/pre-commit
+$ ln -vs ../../pre-commit.sh .git/hooks/pre-commit
 ```
 
 
