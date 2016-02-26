@@ -72,7 +72,7 @@
                         <input type="submit" name="buttons[perPage]" value="Items per page" class="hide">
                     </span>
                     <span class="export">
-                        <a class="" href="/?action=default&amp;do=grid-export-export&amp;presenter=Test" title="Export all items"><i class=""> Export</i></a>
+                        <a class="" href="/?action=default&amp;do=grid-export-csv-export&amp;presenter=Test" title="Export all items"><i class=""> Export</i></a>
                     </span>
                     <span class="reset">
                         <input type="submit" name="buttons[reset]" value="Reset">

@@ -105,7 +105,7 @@ abstract class DataSourceTestCase extends \Tester\TestCase
     function testExport()
     {
         Helper::$presenter->forceAjaxMode = FALSE;
-        $params = $this->params + ['do' => 'grid-export-export'];
+        $params = $this->params + ['do' => 'grid-export-csv-export'];
 
         ob_start();
             Helper::request($params)->send(mock('\Nette\Http\IRequest'), new \Nette\Http\Response);

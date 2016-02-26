@@ -9,6 +9,7 @@
 
 namespace Grido\Tests;
 
+use Grido\Components\Exports\CsvExport;
 use Tester\Assert,
     Grido\Grid,
     Grido\Components\Filters\Condition;
@@ -58,7 +59,7 @@ class ArraySourceTest extends DataSourceTestCase
                     return $row['centimeters'] >= 180;
                 });
 
-            $grid->setExport();
+            $grid->addExport(new CsvExport(), 'csv');
 
         })->run();
     }

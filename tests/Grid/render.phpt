@@ -9,6 +9,7 @@
 
 namespace Grido\Tests;
 
+use Grido\Components\Exports\CsvExport;
 use Tester\Assert,
     Grido\Grid;
 
@@ -55,7 +56,8 @@ test(function()
             ->elementPrototype = \Nette\Utils\Html::el('button');
 
         $grid->setOperation(['print' => 'Print'], function(){});
-        $grid->setExport();
+        $grid->addExport(new CsvExport('myLabel'), 'csv');
+        $grid->addExport(new CsvExport('myLabel'), 'csv2');
 
     })->run();
 

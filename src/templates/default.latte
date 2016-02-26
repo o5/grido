@@ -144,9 +144,12 @@
                         {/block}
                         {input $form[buttons][perPage], class => 'hide'}
                     </span>
-                    <span n:if="$control->hasExport()" class="export">
-                        <a n:block="export" class="{$customization->buttonClass}" href="{=$control->getComponent(\Grido\Components\Export::ID)->link('export!')}" title="{_'Grido.ExportAllItems'}"><i class="{=$customization->getIconClass('download')}"> {_'Grido.Export'}</i></a>
+                    {if $control->hasExport()}
+                    <span n:block="export" n:foreach="$control->getExports() as $export" class="export">
+                        {var $title = $export->title ? : $template->translate('Grido.ExportAllItems')}
+                        <a class="{$customization->buttonClass}" href="{=$export->link('export!')}" title="{$title}"><i class="{=$customization->getIconClass('download')}"> {_'Grido.Export'}</i></a>
                     </span>
+                    {/if}
                     <span n:block="reset" class="reset">
                         {input $form[buttons][reset]}
                     </span>
