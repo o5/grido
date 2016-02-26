@@ -9,6 +9,8 @@
 
 namespace Grido\Tests;
 
+use Grido\Components\Exports\BaseExport;
+use Grido\Components\Exports\CsvExport;
 use Tester\Assert,
     Grido\Grid,
     Grido\Tests\Helper,
@@ -47,7 +49,7 @@ class ExportTest extends \Tester\TestCase
         $grid = new Grid;
         Assert::false($grid->hasExport());
 
-        $grid->setExport();
+        $grid->addExport(new CsvExport(), 'csv');
         Assert::false($grid->hasExport());
         Assert::true($grid->hasExport(FALSE));
     }
@@ -57,15 +59,15 @@ class ExportTest extends \Tester\TestCase
         $grid = new Grid;
         $label = 'export';
 
-        $grid->setExport($label);
-        $component = $grid->getExport();
-        Assert::type('\Grido\Components\Export', $component);
+        $grid->addExport(new CsvExport($label), 'csv');
+        $component = $grid->getExport('csv');
+        Assert::type('\Grido\Components\Exports\BaseExport', $component);
         Assert::same($label, $component->label);
 
-        unset($grid[Export::ID]);
+        $grid[BaseExport::ID]->removeComponent($grid->getExport('csv'));
         // getter
         Assert::exception(function() use ($grid) {
-            $grid->getExport();
+            $grid->getExport('csv');
         }, 'Nette\InvalidArgumentException');
     }
 
@@ -95,11 +97,11 @@ class ExportTest extends \Tester\TestCase
                 ->setSortable();
             $grid->addColumnText('country', 'Country')
                 ->setFilterText();
-            $grid->setExport($label);
+            $grid->addExport(new CsvExport($label), 'csv');
         });
 
         $params = [
-            'do' => 'grid-export-export',
+            'do' => 'grid-export-csv-export',
             'grid-sort' => ['name' => \Grido\Components\Columns\Column::ORDER_DESC],
             'grid-filter' => ['country' => 'Switzerland'],
             'grid-page' => 2
@@ -134,7 +136,7 @@ class ExportTest extends \Tester\TestCase
             $grid->addColumnText('firstname', 'Name')
                 ->setSortable();
 
-            $grid->setExport()
+            $grid->addExport(new CsvExport(), 'csv')
                 ->setHeader(['"Jméno"', "Příjmení\t", "Karta\n", 'Jméno,Příjmení'])
                 ->setCustomData(function(ArraySource $source) {
                     $data = $source->getData();
@@ -151,7 +153,7 @@ class ExportTest extends \Tester\TestCase
                 });
         });
 
-        $params = ['do' => 'grid-export-export'];
+        $params = ['do' => 'grid-export-csv-export'];
 
         ob_start();
             Helper::request($params)->send(mock('\Nette\Http\IRequest'), new Response);

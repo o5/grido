@@ -9,6 +9,7 @@
 
 namespace Grido\Tests;
 
+use Grido\Components\Exports\CsvExport;
 use Tester\Assert,
     Grido\Grid,
     Grido\Components\Filters\Condition;
@@ -60,7 +61,7 @@ class DibiFluentTest extends DataSourceTestCase
                 });
 
             $limit = 100;
-            $export = $grid->setExport()->setFetchLimit($limit);
+            $export = $grid->addExport(new CsvExport(), 'csv')->setFetchLimit($limit);
             Assert::same($limit, $export->getFetchLimit());
 
         })->run();

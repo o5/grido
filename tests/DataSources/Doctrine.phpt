@@ -9,6 +9,7 @@
 
 namespace Grido\Tests;
 
+use Grido\Components\Exports\CsvExport;
 use Tester\Assert;
 use Grido\Grid;
 use Grido\Components\Filters\Condition;
@@ -65,7 +66,7 @@ class DoctrineTest extends DataSourceTestCase
                     $qb->andWhere("a.centimeters >= :height")->setParameter('height', 180);
                 });
 
-            $grid->setExport();
+            $grid->addExport(new CsvExport(), 'csv');
 
         })->run();
     }
