@@ -239,7 +239,7 @@
         bindClickOnRow: function()
         {
             var that = this;
-            $('tbody td:not(.checker,.actions a)', this.grido.$table)
+            $('tbody td:not(.checker,.actions)', this.grido.$table)
                 .off('click.grido')
                 .on('click.grido', function(event) {
                     if ($(this).hasClass('edit')) {
