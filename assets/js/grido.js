@@ -479,6 +479,8 @@
          */
         onSuccessEvent: function(params, url)
         {
+            params.url = url;
+            params.grido = true;
             window.history.pushState(params, document.title, url);
         },
 
@@ -487,12 +489,9 @@
          */
         onPopState: function(event)
         {
-            var state = $.data(document, this.grido.name + '-query') || '',
-                query = window.location.search;
-
-            if (state !== query) {
-                var url = this.getRefreshGridHandlerUrl(this.grido.$element);
-                this.doRequest(url);
+            var state = event.originalEvent.state;
+            if (state.grido) {
+                this.doRequest(state.url);
             }
         },
 
