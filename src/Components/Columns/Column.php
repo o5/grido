@@ -336,11 +336,18 @@ abstract class Column extends \Grido\Components\Component
      */
     protected function applyReplacement($value)
     {
-        return (is_scalar($value) || $value === NULL) && isset($this->replacements[$value])
-            ? is_string($value)
-                ? str_replace(static::VALUE_IDENTIFIER, $value, $this->replacements[$value])
-                : $this->replacements[$value]
-            : $value;
+        if ((is_scalar($value) || $value === NULL) && isset($this->replacements[$value])) {
+            $replaced = $this->replacements[$value];
+            if (is_scalar($replaced)) {
+                $replaced = $this->translate($replaced);
+            }
+
+            $value = is_string($value)
+                ? str_replace(static::VALUE_IDENTIFIER, $value, $replaced)
+                : $replaced;
+        }
+
+        return $value;
     }
 
     /**

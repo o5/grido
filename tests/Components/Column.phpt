@@ -9,6 +9,7 @@
 
 namespace Grido\Tests;
 
+use Grido\Translations\FileTranslator;
 use Tester\Assert,
     Grido\Grid,
     Grido\Components\Columns\Column;
@@ -46,6 +47,10 @@ class ColumnTest extends \Tester\TestCase
 
         $column->setReplacement([TRUE => 'Yes', FALSE => 'No']);
         Assert::same('No', $column->render(['column' => FALSE]));
+
+        $grid->translator = new FileTranslator('cs', ['female' => 'žena']);
+        $column->setReplacement(['f' => 'female']);
+        Assert::same('žena', $column->render(['column' => 'f']));
     }
 
     function testSetColumn()
