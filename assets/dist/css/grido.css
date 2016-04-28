@@ -293,3 +293,6 @@
 
 .grido.bootstrap .bootstrap-select .btn {
   padding: 0 12px; }
+
+.grido.bootstrap .filter textarea {
+  height: 23px !important; }
