@@ -70,7 +70,22 @@
         {
             $('.filter select, .filter [type=checkbox]', this.$element)
                 .off('change.grido')
-                .on('change.grido', $.proxy(this.sendFilterForm, this));
+                .on('change.grido', this.sendFilterForm);
+
+            var that = this;
+            $('.filter input, .filter textarea', this.$element)
+                .off('focus.grido')
+                .on('focus.grido', function() {
+                    var $el = $(this);
+                    $el.data('current-value', $el.val());
+                })
+                .off('blur.grido')
+                .on('blur.grido', function() {
+                    var $el = $(this);
+                    if ($el.data('current-value') !== $el.val()) {
+                        that.sendFilterForm();
+                    }
+                });
         },
 
         /**
@@ -938,8 +953,13 @@
     $.fn.grido.defaults = {
         ajax: true,
         datepicker : {
-            mask: '99.99.9999',
-            format: 'dd.mm.yyyy'
+            format: 'DD.MM.YYYY',
+            options: {} // @link http://www.daterangepicker.com/#options
+        },
+        daterangepicker : {
+            format: 'DD.MM.YYYY',
+            separator: ' - ',
+            options: {} // @link http://www.daterangepicker.com/#options
         }
     };
 
