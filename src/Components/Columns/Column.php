@@ -289,7 +289,7 @@ abstract class Column extends \Grido\Components\Component
     public function render($row)
     {
         if (is_callable($this->customRender)) {
-            return call_user_func_array($this->customRender, [$row]);
+            return call_user_func_array($this->customRender, [$row, $this->customRenderVariables]);
         }
 
         $value = $this->getValue($row);

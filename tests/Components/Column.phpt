@@ -73,9 +73,11 @@ class ColumnTest extends \Tester\TestCase
     function testSetCustomRender()
     {
         $grid = new Grid;
-        $column = $grid->addColumnText('column', 'Column')->setCustomRender(function($row) {
+        $testCustomVariables = ['var' => 'TEST'];
+        $column = $grid->addColumnText('column', 'Column')->setCustomRender(function($row, $variables) use ($testCustomVariables) {
+            Assert::same($testCustomVariables, $variables);
             return 'CUSTOM_RENDER-' . $row['column'];
-        });
+        }, $testCustomVariables);
         Assert::same('CUSTOM_RENDER-TEST', $column->render(['column' => 'TEST']));
 
         Helper::grid(function(Grid $grid){
