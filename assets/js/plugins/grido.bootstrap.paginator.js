@@ -34,7 +34,7 @@
                 if (isNaN(this.value) || val < min || max < val) {
                     $(this).val(this.value.length > 1
                         ? this.value.substr(0, this.value.length - 1)
-                        : $(this).data('grido-current'))
+                        : $(this).data('grido-current'));
 
                     return false;
                 }
