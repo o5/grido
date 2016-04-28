@@ -190,6 +190,10 @@
         .right {
             float: right;
             text-align: left;
+
+            .search {
+                display: none;
+            }
         }
     }
     .center {

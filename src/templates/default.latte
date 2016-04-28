@@ -16,7 +16,7 @@
     $filterRenderType = $control->getFilterRenderType();
 
     $columnCount = count($columns) + ($control->hasOperation() ? 1 : 0);
-    $showActionsColumn = $actions || ($formFilters && $filterRenderType == \Grido\Components\Filters\Filter::RENDER_INNER);
+    $showActionsColumn = $actions;
 
     $actionThElement = \Nette\Utils\Html::el('th');
     $actionThElement->setText($control->translator->translate('Grido.Actions'));
@@ -96,13 +96,7 @@
                 {/if}
             {/foreach}
 
-            <th n:if="$formFilters" class="buttons" n:block="action">
-                {formContainer buttons}
-                    {block innerFilterControls}
-                        {input search, style => "display:none"}
-                    {/block}
-                {/formContainer}
-            </th>
+            <th n:if="$control->hasActions()" n:block="action"></th>
         </tr>
     </thead>
     <tfoot>
@@ -135,8 +129,7 @@
                         <a class="ajax {$customization->buttonClass}" n:href="page! page => $paginator->getPage() + 1">{_'Grido.Next'} <i class="{=$customization->getIconClass('arrow-right')}"></i></a>
                     {/if}
                 </span>
-                <span class="right">
-                    {block right}
+                <span class="right" n:inner-block="right">
                     <span n:block="perpage" class="count">
                         <label>{= sprintf($template->translate('Grido.Items'), $paginator->getCountBegin(), $paginator->getCountEnd(), $control->getCount())}</label>
                         {block perPageElement}
@@ -144,13 +137,15 @@
                         {/block}
                         {input $form[buttons][perPage], class => 'hide'}
                     </span>
-                    <span n:if="$control->hasExport()" class="export">
-                        <a n:block="export" class="{$customization->buttonClass}" href="{=$control->getComponent(\Grido\Components\Export::ID)->link('export!')}" title="{_'Grido.ExportAllItems'}"><i class="{=$customization->getIconClass('download')}"> {_'Grido.Export'}</i></a>
+                    <span n:if="$control->hasExport()" class="export" n:inner-block="export">
+                        <a n:class="$customization->buttonClass" href="{=$control->getComponent(\Grido\Components\Export::ID)->link('export!')}" title="{_'Grido.ExportAllItems'}">{_'Grido.Export'}</a>
                     </span>
                     <span n:block="reset" class="reset">
                         {input $form[buttons][reset]}
                     </span>
-                    {/block}
+                    <span n:block="search" class="search">
+                        {input $form[buttons][search]}
+                    </span>
                 </span>
             </td>
         </tr>

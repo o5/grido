@@ -54,9 +54,13 @@
                     </span>
 <span class="reset">
     <button title="Reset" type="submit" class="btn btn-default btn-xs" name="buttons[reset]" value="Reset">
-        <span class="fa fa-refresh"> Reset</span>
+        <span class="fa fa-refresh"></span>
     </button>
-</span>                </span>
+</span>
+                    <span class="search">
+                        <input type="submit" name="buttons[search]" value="Search">
+                    </span>
+                </span>
             </td>
         </tr>
     </tfoot>
@@ -152,9 +156,13 @@ and newline &quot;test&quot;;
                     </span>
 <span class="reset">
     <button title="Reset" type="submit" class="btn btn-default btn-xs" name="buttons[reset]" value="Reset">
-        <span class="fa fa-refresh"> Reset</span>
+        <span class="fa fa-refresh"></span>
     </button>
-</span>                </span>
+</span>
+                    <span class="search">
+                        <input type="submit" name="buttons[search]" value="Search">
+                    </span>
+                </span>
             </td>
         </tr>
     </tfoot>
@@ -205,6 +213,29 @@ and newline &quot;test&quot;;
 
 
 <form action="/" method="get" id="frm-grid-form" class="ajax grido table-responsive bootstrap" data-grido-refresh-handler="/?action=default&amp;do=grid-refresh&amp;presenter=Test">
+    <div class="filter outer">
+        <div class="items">
+            <span class="grid-filter-firstname">
+                <label for="frm-grid-form-filters-firstname">Firstname</label>
+                <input type="text" name="filters[firstname]" class="text form-control" id="frm-grid-form-filters-firstname">
+            </span>
+            <span class="grid-filter-surname">
+                <label for="frm-grid-form-filters-surname">Surname</label>
+                <input type="text" name="filters[surname]" class="text form-control" id="frm-grid-form-filters-surname">
+            </span>
+            <span class="grid-filter-gender">
+                <label for="frm-grid-form-filters-gender">Gender</label>
+                <input type="text" name="filters[gender]" class="text form-control" id="frm-grid-form-filters-gender">
+            </span>
+            <span class="grid-filter-birthday">
+                <label for="frm-grid-form-filters-birthday">Birthday</label>
+                <input type="text" name="filters[birthday]" class="text date form-control" autocomplete="off" id="frm-grid-form-filters-birthday">
+            </span>
+        </div>
+        <div class="buttons">
+                    <input type="submit" name="buttons[search]" value="Search" style="display:none">
+        </div>
+    </div>
 
 <table id="grid" class="table table-striped table-hover">
     <thead>
@@ -221,30 +252,11 @@ and newline &quot;test&quot;;
                 <th class="column grid-header-birthday">
                         <span>Birthday</span>
                 </th>
-                <th class="actions center col-xs-1">Actions</th>
-        </tr>
-        <tr class="filter inner">
-                    <th class="grid-filter-firstname">
-                            <input type="text" name="filters[firstname]" class="text form-control" id="frm-grid-form-filters-firstname">
-                    </th>
-                    <th class="grid-filter-surname">
-                            <input type="text" name="filters[surname]" class="text form-control" id="frm-grid-form-filters-surname">
-                    </th>
-                    <th class="grid-filter-gender">
-                            <input type="text" name="filters[gender]" class="text form-control" id="frm-grid-form-filters-gender">
-                    </th>
-                    <th class="grid-filter-birthday">
-                            <input type="text" name="filters[birthday]" class="text date form-control" autocomplete="off" id="frm-grid-form-filters-birthday">
-                    </th>
-
-            <th class="buttons">
-                        <input type="submit" name="buttons[search]" value="Search" style="display:none">
-            </th>
         </tr>
     </thead>
     <tfoot>
         <tr>
-            <td colspan="5">
+            <td colspan="4">
 <span class="paginator">
     <ul>
         <li>
@@ -272,9 +284,13 @@ and newline &quot;test&quot;;
                     </span>
 <span class="reset">
     <button title="Reset" type="submit" class="btn btn-default btn-xs" name="buttons[reset]" value="Reset">
-        <span class="fa fa-refresh"> Reset</span>
+        <span class="fa fa-refresh"></span>
     </button>
-</span>                </span>
+</span>
+                    <span class="search">
+                        <input type="submit" name="buttons[search]" value="Search">
+                    </span>
+                </span>
             </td>
         </tr>
     </tfoot>
@@ -292,9 +308,6 @@ and newline &quot;test&quot;;
                     <td class="grid-cell-birthday">
                             1964-10-25
                     </td>
-                <td class="actions center">
-                        &nbsp;
-                </td>
             </tr>
             <tr class="grid-row-20">
                     <td class="grid-cell-firstname">
@@ -310,9 +323,6 @@ and newline &quot;test&quot;;
                     <td class="grid-cell-birthday">
                             1972-12-16
                     </td>
-                <td class="actions center">
-                        &nbsp;
-                </td>
             </tr>
     </tbody>
 </table>
@@ -326,6 +336,29 @@ and newline &quot;test&quot;;
 
 
 <form action="/" method="get" id="frm-grid-form" class="ajax grido table-responsive bootstrap" data-grido-refresh-handler="/?action=default&amp;do=grid-refresh&amp;presenter=Test">
+    <div class="filter outer">
+        <div class="items">
+            <span class="grid-filter-firstname">
+                <label for="frm-grid-form-filters-firstname">Firstname</label>
+                <input type="text" name="filters[firstname]" class="text form-control" id="frm-grid-form-filters-firstname">
+            </span>
+            <span class="grid-filter-surname">
+                <label for="frm-grid-form-filters-surname">Surname</label>
+                <input type="text" name="filters[surname]" class="text form-control" id="frm-grid-form-filters-surname">
+            </span>
+            <span class="grid-filter-gender">
+                <label for="frm-grid-form-filters-gender">Gender</label>
+                <input type="text" name="filters[gender]" class="text form-control" id="frm-grid-form-filters-gender">
+            </span>
+            <span class="grid-filter-birthday">
+                <label for="frm-grid-form-filters-birthday">Birthday</label>
+                <input type="text" name="filters[birthday]" class="text date form-control" autocomplete="off" id="frm-grid-form-filters-birthday">
+            </span>
+        </div>
+        <div class="buttons">
+                    <input type="submit" name="buttons[search]" value="Search" style="display:none">
+        </div>
+    </div>
 
 <table id="grid" class="table table-striped table-hover">
     <thead>
@@ -343,24 +376,6 @@ and newline &quot;test&quot;;
                         <span>Birthday</span>
                 </th>
                 <th class="actions center col-xs-1">Actions</th>
-        </tr>
-        <tr class="filter inner">
-                    <th class="grid-filter-firstname">
-                            <input type="text" name="filters[firstname]" class="text form-control" id="frm-grid-form-filters-firstname">
-                    </th>
-                    <th class="grid-filter-surname">
-                            <input type="text" name="filters[surname]" class="text form-control" id="frm-grid-form-filters-surname">
-                    </th>
-                    <th class="grid-filter-gender">
-                            <input type="text" name="filters[gender]" class="text form-control" id="frm-grid-form-filters-gender">
-                    </th>
-                    <th class="grid-filter-birthday">
-                            <input type="text" name="filters[birthday]" class="text date form-control" autocomplete="off" id="frm-grid-form-filters-birthday">
-                    </th>
-
-            <th class="buttons">
-                        <input type="submit" name="buttons[search]" value="Search" style="display:none">
-            </th>
         </tr>
     </thead>
     <tfoot>
@@ -393,9 +408,13 @@ and newline &quot;test&quot;;
                     </span>
 <span class="reset">
     <button title="Reset" type="submit" class="btn btn-default btn-xs" name="buttons[reset]" value="Reset">
-        <span class="fa fa-refresh"> Reset</span>
+        <span class="fa fa-refresh"></span>
     </button>
-</span>                </span>
+</span>
+                    <span class="search">
+                        <input type="submit" name="buttons[search]" value="Search">
+                    </span>
+                </span>
             </td>
         </tr>
     </tfoot>

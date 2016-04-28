@@ -87,8 +87,10 @@
     </ul>
 </span>
 
-<span class="reset" n:block="reset">
+<span n:block="reset" class="reset">
     <button n:name="$form[buttons][reset]" title="{_'Grido.Reset'}" type="submit" class="{$customization->buttonClass}">
-        <span class="fa fa-refresh"> {_'Grido.Reset'}</span>
+        <span class="fa fa-refresh"></span>
     </button>
 </span>
+
+<a n:block="export" class="{$customization->buttonClass}" href="{=$control->getComponent(\Grido\Components\Export::ID)->link('export!')}" title="{_'Grido.ExportAllItems'}"><i class="{=$customization->getIconClass('download')}"></i></a>

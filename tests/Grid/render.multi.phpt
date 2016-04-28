@@ -15,8 +15,10 @@ use Tester\Assert,
 
 require_once __DIR__ . '/../bootstrap.php';
 
-test(function() {
-    $test = function($template) {
+class Multirender extends \Tester\TestCase
+{
+    function helper($template)
+    {
         $baseGrid = function($grid, TestPresenter $presenter) use ($template) {
             $data = $presenter->context->dibi_sqlite
                 ->select('u.*, c.title AS country')
@@ -51,7 +53,7 @@ test(function() {
         })->run();
 
         ob_start();
-            Helper::$grid->render();
+        Helper::$grid->render();
         $gridOne = ob_get_clean();
 
         /*****************************************************************************************/
@@ -63,7 +65,7 @@ test(function() {
         })->run();
 
         ob_start();
-            Helper::$grid->render();
+        Helper::$grid->render();
         $gridTwo = ob_get_clean();
 
         /*****************************************************************************************/
@@ -75,7 +77,7 @@ test(function() {
         })->run();
 
         ob_start();
-            Helper::$grid->render();
+        Helper::$grid->render();
         $gridThree = ob_get_clean();
 
         /*****************************************************************************************/
@@ -88,7 +90,7 @@ test(function() {
         })->run();
 
         ob_start();
-            Helper::$grid->render();
+        Helper::$grid->render();
         $gridFour = ob_get_clean();
 
         /*****************************************************************************************/
@@ -99,7 +101,7 @@ test(function() {
         })->run();
 
         ob_start();
-            Helper::$grid->render();
+        Helper::$grid->render();
         $gridFive = ob_get_clean();
 
         /*****************************************************************************************/
@@ -111,7 +113,7 @@ test(function() {
         })->run();
 
         ob_start();
-            Helper::$grid->render();
+        Helper::$grid->render();
         $gridSix = ob_get_clean();
 
         /*****************************************************************************************/
@@ -123,7 +125,7 @@ test(function() {
         })->run();
 
         ob_start();
-            Helper::$grid->render();
+        Helper::$grid->render();
         $gridSeven = ob_get_clean();
 
         /*****************************************************************************************/
@@ -136,19 +138,44 @@ test(function() {
         })->run();
 
         ob_start();
-            Helper::$grid->render();
+        Helper::$grid->render();
         $gridEight = ob_get_clean();
 
         /*****************************************************************************************/
 
-    //    $output = $gridOne . $gridTwo . $gridThree . $gridFour . $gridFive . $gridSix . $gridSeven . $gridEight;
-        $output = $gridOne . $gridTwo . $gridThree . $gridFour;
-        Assert::matchFile(__DIR__ . "/files/render.multi.$template.1.expect", $output);
+        $firstPart = $gridOne . $gridTwo . $gridThree . $gridFour;
+        $secondPart = $gridFive . $gridSix . $gridSeven . $gridEight;
 
-        $output = $gridFive . $gridSix . $gridSeven . $gridEight;
-        Assert::matchFile(__DIR__ . "/files/render.multi.$template.2.expect", $output);
-    };
+        return [$firstPart, $secondPart];
+    }
 
-    $test(Customization::TEMPLATE_DEFAULT);
-    $test(Customization::TEMPLATE_BOOTSTRAP);
-});
+    function testTemplateDefaultFirstPart()
+    {
+        $part = 0;
+        $template = Customization::TEMPLATE_DEFAULT;
+        Assert::matchFile(__DIR__ . "/files/render.multi.$template.$part.expect", $this->helper($template)[$part]);
+    }
+
+    function testTemplateDefaultSecondPart()
+    {
+        $part = 1;
+        $template = Customization::TEMPLATE_DEFAULT;
+        Assert::matchFile(__DIR__ . "/files/render.multi.$template.$part.expect", $this->helper($template)[$part]);
+    }
+
+    function testTemplateBootstrapFirstPart()
+    {
+        $part = 0;
+        $template = Customization::TEMPLATE_BOOTSTRAP;
+        Assert::matchFile(__DIR__ . "/files/render.multi.$template.$part.expect", $this->helper($template)[$part]);
+    }
+
+    function testTemplateBootstrapSecondPart()
+    {
+        $part = 1;
+        $template = Customization::TEMPLATE_BOOTSTRAP;
+        Assert::matchFile(__DIR__ . "/files/render.multi.$template.$part.expect", $this->helper($template)[$part]);
+    }
+}
+
+run(__FILE__);

@@ -158,6 +158,8 @@
   .grido tfoot .right {
     float: right;
     text-align: left; }
+    .grido tfoot .right .search {
+      display: none; }
 
 .grido .center {
   text-align: center; }

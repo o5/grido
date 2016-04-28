@@ -180,7 +180,7 @@
          */
         sendFilterForm: function()
         {
-            $('.filter [name="buttons[search]"]', this.$element).click();
+            $('[name="buttons[search]"]', this.$element).click();
         }
     };
 

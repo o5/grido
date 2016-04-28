@@ -39,9 +39,7 @@
                             <input type="text" name="filters[birthday]" class="text date" autocomplete="off" id="frm-grid-form-filters-birthday">
                     </th>
 
-            <th class="buttons">
-                        <input type="submit" name="buttons[search]" value="Search" style="display:none">
-            </th>
+            <th></th>
         </tr>
     </thead>
     <tfoot>
@@ -72,10 +70,13 @@
                         <input type="submit" name="buttons[perPage]" value="Items per page" class="hide">
                     </span>
                     <span class="export">
-                        <a class="" href="/?action=default&amp;do=grid-export-export&amp;presenter=Test" title="Export all items"><i class=""> Export</i></a>
+                        <a href="/?action=default&amp;do=grid-export-export&amp;presenter=Test" title="Export all items">Export</a>
                     </span>
                     <span class="reset">
                         <input type="submit" name="buttons[reset]" value="Reset">
+                    </span>
+                    <span class="search">
+                        <input type="submit" name="buttons[search]" value="Search">
                     </span>
                 </span>
             </td>
