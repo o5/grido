@@ -97,7 +97,7 @@
   margin: 0 auto; }
 
 .grido .filter .daterange {
-  width: 192px !important; }
+  min-width: 192px !important; }
 
 .grido th.column {
   text-transform: uppercase; }
