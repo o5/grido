@@ -96,6 +96,9 @@
 .grido .filter.inner input.checkbox {
   margin: 0 auto; }
 
+.grido .filter .daterange {
+  width: 192px !important; }
+
 .grido th.column {
   text-transform: uppercase; }
   .grido th.column .arrow {
