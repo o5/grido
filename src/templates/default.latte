@@ -11,7 +11,7 @@
 
 {?
     $form->getElementPrototype()->class[] = 'ajax grido';
-    $form->getElementPrototype()->{"data-grido-refresh-handler"} = $control->link("refresh!");
+    $form->getElementPrototype()->{"data-grido-refresh-handler"} = $control->link("refresh!", ['page' => NULL, 'perPage' => NULL, 'sort' => NULL, 'filter' => NULL]);
 
     $filterRenderType = $control->getFilterRenderType();
 

@@ -507,7 +507,7 @@
 
             if (state !== query) {
                 var url = this.getRefreshGridHandlerUrl(this.grido.$element);
-                this.doRequest(url);
+                this.doRequest(url + query.replace('?', '&'));
             }
         },
 
