@@ -109,9 +109,9 @@
                 </span>
                 <span n:if="$paginator->steps && $paginator->pageCount > 1" n:block="paginator" class="paginator">
                     {if $control->page == 1}
-                        <span class="disabled {$customization->buttonClass}" n:href="page! page => $paginator->getPage() - 1"><i class="{=$customization->getIconClass('arrow-left')}"></i> {_'Grido.Previous'}</span>
+                        <span class="disabled {$customization->buttonClass}" n:href="page! page => $paginator->getPage() - 1"><i class="{=$customization->getIconClass('arrow-left')}"></i> {_'Grido.Paginator.Previous'}</span>
                     {else}
-                        <a class="ajax {$customization->buttonClass}" n:href="page! page => $paginator->getPage() - 1"><i class="{=$customization->getIconClass('arrow-left')}"></i> {_'Grido.Previous'}</a>
+                        <a class="ajax {$customization->buttonClass}" n:href="page! page => $paginator->getPage() - 1"><i class="{=$customization->getIconClass('arrow-left')}"></i> {_'Grido.Paginator.Previous'}</a>
                     {/if}
                     {var $steps = $paginator->getSteps()}
                     {foreach $steps as $step}
@@ -124,9 +124,9 @@
                         {var $prevStep = $step}
                     {/foreach}
                     {if $control->page == $paginator->getPageCount()}
-                        <span class="disabled {$customization->buttonClass}" n:href="page! page => $paginator->getPage() + 1">{_'Grido.Next'} <i class="{=$customization->getIconClass('arrow-right')}"></i></span>
+                        <span class="disabled {$customization->buttonClass}" n:href="page! page => $paginator->getPage() + 1">{_'Grido.Paginator.Next'} <i class="{=$customization->getIconClass('arrow-right')}"></i></span>
                     {else}
-                        <a class="ajax {$customization->buttonClass}" n:href="page! page => $paginator->getPage() + 1">{_'Grido.Next'} <i class="{=$customization->getIconClass('arrow-right')}"></i></a>
+                        <a class="ajax {$customization->buttonClass}" n:href="page! page => $paginator->getPage() + 1">{_'Grido.Paginator.Next'} <i class="{=$customization->getIconClass('arrow-right')}"></i></a>
                     {/if}
                 </span>
                 <span class="right" n:inner-block="right">

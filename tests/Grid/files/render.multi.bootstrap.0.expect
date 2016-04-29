@@ -42,7 +42,7 @@
                 <a class="ajax btn btn-default btn-sm" title="Next" href="/?grid-page=2&amp;action=default&amp;do=grid-page&amp;presenter=Test"><i class="fa fa-chevron-right"></i></a>
         </li>
         <li>
-                <a class="ajax btn btn-default btn-sm" title="Next" href="/?grid-page=25&amp;action=default&amp;do=grid-page&amp;presenter=Test"><i class="fa fa-forward"></i></a>
+                <a class="ajax btn btn-default btn-sm" title="Last" href="/?grid-page=25&amp;action=default&amp;do=grid-page&amp;presenter=Test"><i class="fa fa-forward"></i></a>
         </li>
     </ul>
 </span>
@@ -144,7 +144,7 @@ and newline &quot;test&quot;;
                 <a class="ajax btn btn-default btn-sm" title="Next" href="/?grid-page=2&amp;action=default&amp;do=grid-page&amp;presenter=Test"><i class="fa fa-chevron-right"></i></a>
         </li>
         <li>
-                <a class="ajax btn btn-default btn-sm" title="Next" href="/?grid-page=25&amp;action=default&amp;do=grid-page&amp;presenter=Test"><i class="fa fa-forward"></i></a>
+                <a class="ajax btn btn-default btn-sm" title="Last" href="/?grid-page=25&amp;action=default&amp;do=grid-page&amp;presenter=Test"><i class="fa fa-forward"></i></a>
         </li>
     </ul>
 </span>
@@ -264,7 +264,7 @@ and newline &quot;test&quot;;
                 <a class="ajax btn btn-default btn-sm" title="Next" href="/?grid-page=2&amp;action=default&amp;do=grid-page&amp;presenter=Test"><i class="fa fa-chevron-right"></i></a>
         </li>
         <li>
-                <a class="ajax btn btn-default btn-sm" title="Next" href="/?grid-page=25&amp;action=default&amp;do=grid-page&amp;presenter=Test"><i class="fa fa-forward"></i></a>
+                <a class="ajax btn btn-default btn-sm" title="Last" href="/?grid-page=25&amp;action=default&amp;do=grid-page&amp;presenter=Test"><i class="fa fa-forward"></i></a>
         </li>
     </ul>
 </span>
@@ -381,7 +381,7 @@ and newline &quot;test&quot;;
                 <a class="ajax btn btn-default btn-sm" title="Next" href="/?grid-page=2&amp;action=default&amp;do=grid-page&amp;presenter=Test"><i class="fa fa-chevron-right"></i></a>
         </li>
         <li>
-                <a class="ajax btn btn-default btn-sm" title="Next" href="/?grid-page=25&amp;action=default&amp;do=grid-page&amp;presenter=Test"><i class="fa fa-forward"></i></a>
+                <a class="ajax btn btn-default btn-sm" title="Last" href="/?grid-page=25&amp;action=default&amp;do=grid-page&amp;presenter=Test"><i class="fa fa-forward"></i></a>
         </li>
     </ul>
 </span>

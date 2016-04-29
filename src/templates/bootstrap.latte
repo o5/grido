@@ -57,31 +57,31 @@
             {if $control->page == 1}
                 <a class="disabled btn btn-default btn-sm"><i class="{=$customization->getIconClass('backward')}"></i></a>
             {else}
-                <a class="ajax btn btn-default btn-sm" n:href="page! page => 1" title="{_'Grido.Previous'}"><i class="{=$customization->getIconClass('backward')}"></i></a>
+                <a class="ajax btn btn-default btn-sm" n:href="page! page => 1" title="{_'Grido.Paginator.First'}"><i class="{=$customization->getIconClass('backward')}"></i></a>
             {/if}
         </li>
         <li>
             {if $control->page == 1}
                 <a class="disabled btn btn-default btn-sm"><i class="{=$customization->getIconClass('chevron-left')}"></i></a>
             {else}
-                <a class="ajax btn btn-default btn-sm" n:href="page! page => $paginator->getPage() - 1" title="{_'Grido.Previous'}"><i class="{=$customization->getIconClass('chevron-left')}"></i></a>
+                <a class="ajax btn btn-default btn-sm" n:href="page! page => $paginator->getPage() - 1" title="{_'Grido.Paginator.Previous'}"><i class="{=$customization->getIconClass('chevron-left')}"></i></a>
             {/if}
         </li>
         <li>
-            <input type="text" class="form-control" placeholder="{=sprintf($template->translate('Grido.Bootstrap.Paginator'), $control->page, $paginator->lastPage)}" data-grido-current="{$control->page}" min="1" max="{$paginator->getLastPage()}" data-grido-link="{link page! page => 0}">
+            <input type="text" class="form-control" placeholder="{=sprintf($template->translate('Grido.Paginator.Info'), $control->page, $paginator->lastPage)}" data-grido-current="{$control->page}" min="1" max="{$paginator->getLastPage()}" data-grido-link="{link page! page => 0}">
         </li>
         <li>
             {if $control->page == $paginator->getPageCount()}
                 <a class="disabled btn btn-default btn-sm"><i class="{=$customization->getIconClass('chevron-right')}"></i></a>
             {else}
-                <a class="ajax btn btn-default btn-sm" n:href="page! page => $paginator->getPage() + 1" title="{_'Grido.Next'}"><i class="{=$customization->getIconClass('chevron-right')}"></i></a>
+                <a class="ajax btn btn-default btn-sm" n:href="page! page => $paginator->getPage() + 1" title="{_'Grido.Paginator.Next'}"><i class="{=$customization->getIconClass('chevron-right')}"></i></a>
             {/if}
         </li>
         <li>
             {if $control->page == $paginator->getPageCount()}
                 <a class="disabled btn btn-default btn-sm"><i class="{=$customization->getIconClass('forward')}"></i></a>
             {else}
-                <a class="ajax btn btn-default btn-sm" n:href="page! page => $paginator->getLastPage()" title="{_'Grido.Next'}"><i class="{=$customization->getIconClass('forward')}"></i></a>
+                <a class="ajax btn btn-default btn-sm" n:href="page! page => $paginator->getLastPage()" title="{_'Grido.Paginator.Last'}"><i class="{=$customization->getIconClass('forward')}"></i></a>
             {/if}
         </li>
     </ul>
