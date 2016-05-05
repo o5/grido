@@ -22,9 +22,9 @@ use Nette\Utils\Html;
  * @author      Petr Bugyík
  *
  * @property-read Html $element
- * @property-write Html $elementPrototype
  * @property-write callback $customRender
  * @property-write callback $disable
+ * @property Html $elementPrototype
  * @property string $primaryKey
  * @property string $options
  */
