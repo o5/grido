@@ -35,10 +35,10 @@ Please see [Contributing File](CONTRIBUTING.md) for details.
 
 ## License
 
-The New BSD License and GNU General Public License. Please see [License File](LICENSE.md) for more information.
+The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
 
 [ico-version]: https://img.shields.io/packagist/v/o5/grido.svg?style=flat-square
-[ico-license]: https://img.shields.io/badge/license-New%20BSD-brightgreen.svg?style=flat-square
+[ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
 [ico-travis]: https://img.shields.io/travis/o5/grido/master.svg?style=flat-square
 [ico-scrutinizer]: https://img.shields.io/scrutinizer/coverage/g/o5/grido.svg?style=flat-square
 [ico-code-quality]: https://img.shields.io/scrutinizer/g/o5/grido.svg?style=flat-square
