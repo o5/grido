@@ -16,7 +16,7 @@
     $filterRenderType = $control->getFilterRenderType();
 
     $columnCount = count($columns) + ($control->hasOperation() ? 1 : 0);
-    $showActionsColumn = $actions;
+    $showActionsColumn = $actions || $buttons;
 
     $actionThElement = \Nette\Utils\Html::el('th');
     $actionThElement->setText($control->translator->translate('Grido.Actions'));
@@ -96,7 +96,11 @@
                 {/if}
             {/foreach}
 
-            <th n:if="$control->hasActions()" n:block="action"></th>
+            <th n:if="$control->hasActions() || $control->hasButtons()" n:inner-block="action" class="actions">
+                {foreach $buttons as $button}
+                    {control $button}
+                {/foreach}
+            </th>
         </tr>
     </thead>
     <tfoot>

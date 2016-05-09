@@ -43,6 +43,18 @@
             }
         }
     {/foreach}
+
+    {foreach $buttons as $button}
+        {?
+            $element = $button->elementPrototype;
+            $element->class[] = $customization->buttonClass;
+
+            if ($icon = $button->getOption('icon')) {
+                $element->setText(' ' . $button->getLabel());
+                $element->insert(0, \Nette\Utils\Html::el('i')->setClass($customization->getIconClass($icon)));
+            }
+        }
+    {/foreach}
 {/block}
 
 {block outerFilterWrapper}

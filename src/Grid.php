@@ -12,6 +12,7 @@
 namespace Grido;
 
 use Grido\Exception;
+use Grido\Components\Button;
 use Grido\Components\Paginator;
 use Grido\Components\Columns\Column;
 use Grido\Components\Filters\Filter;
@@ -852,6 +853,7 @@ class Grid extends Components\Container
 
         $this->template->columns = $this->getComponent(Column::ID)->getComponents();
         $this->template->actions = $this->hasActions() ? $this->getComponent(Action::ID)->getComponents() : [];
+        $this->template->buttons = $this->hasButtons() ? $this->getComponent(Button::ID)->getComponents() : [];
         $this->template->formFilters = $this->hasFilters() ? $form->getComponent(Filter::ID)->getComponents() : [];
         $this->template->customization = $this->getCustomization();
 

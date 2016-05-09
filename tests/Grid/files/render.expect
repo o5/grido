@@ -39,7 +39,8 @@
                             <input type="text" name="filters[birthday]" class="text date" autocomplete="off" id="frm-grid-form-filters-birthday">
                     </th>
 
-            <th></th>
+            <th class="actions">
+            </th>
         </tr>
     </thead>
     <tfoot>
