@@ -860,7 +860,7 @@ class Grid extends Components\Container
         $form['count']->setValue($this->getPerPage());
 
         if ($options = $this->options[self::CLIENT_SIDE_OPTIONS]) {
-            $this->getTablePrototype()->data[self::CLIENT_SIDE_OPTIONS] = json_encode($options);
+            $this->getTablePrototype()->data(self::CLIENT_SIDE_OPTIONS, json_encode($options));
         }
 
         $this->template->render();
