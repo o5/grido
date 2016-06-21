@@ -7,9 +7,9 @@
  * the file LICENSE.md that was distributed with this source code.
  *}
 
-{snippet grid}
+<div n:snippet="grid">
 
-{?
+{php
     $form->getElementPrototype()->class[] = 'ajax grido';
     $form->getElementPrototype()->{"data-grido-refresh-handler"} = $control->link("refresh!", ['page' => NULL, 'perPage' => NULL, 'sort' => NULL, 'filter' => NULL]);
 
@@ -108,7 +108,7 @@
             <td colspan="{=$showActionsColumn ? $columnCount + 1 : $columnCount}">
                 <span n:if="$control->hasOperation()" n:block="operations" class="operations"  title="{_'Grido.SelectSomeRow'}">
                     {$form[\Grido\Components\Operation::ID][\Grido\Components\Operation::ID]->control}
-                    {?$form[\Grido\Grid::BUTTONS][\Grido\Components\Operation::ID]->controlPrototype->class[] = 'hide'}
+                    {php $form[\Grido\Grid::BUTTONS][\Grido\Components\Operation::ID]->controlPrototype->class[] = 'hide'}
                     {$form[\Grido\Grid::BUTTONS][\Grido\Components\Operation::ID]->control}
                 </span>
                 <span n:if="$paginator->steps && $paginator->pageCount > 1" n:block="paginator" class="paginator">
@@ -156,7 +156,7 @@
     </tfoot>
     <tbody>
         {foreach $data as $row}
-            {? $checkbox = $control->hasOperation()
+            {php $checkbox = $control->hasOperation()
                     ? $form[\Grido\Components\Operation::ID][\Grido\Helpers::formatColumnName($control->getProperty($row, $control->getComponent(\Grido\Components\Operation::ID)->getPrimaryKey()))]
                     : NULL;
                 $tr = $control->getRowPrototype($row);
@@ -169,7 +169,7 @@
                     {$checkbox->getControl()}
                 </td>
                 {foreach $columns as $column}
-                    {?$td = $column->getCellPrototype($row)}
+                    {php $td = $column->getCellPrototype($row)}
                     {$td->startTag()|noescape}
                         {if is_string($column->getCustomRender()) && $column->getCustomRenderVariables()}
                             {include $column->getCustomRender() control => $control, presenter => $control->getPresenter(), item => $row, column => $column, (expand) $column->getCustomRenderVariables()}
@@ -195,4 +195,4 @@
 {$control->getTablePrototype()->endTag()|noescape}
 {/block}
 {/form}
-{/snippet}
+</div>
