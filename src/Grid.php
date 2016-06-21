@@ -825,7 +825,7 @@ class Grid extends Components\Container
     {
         $template = parent::createTemplate();
         $template->setFile($this->getCustomization()->getTemplateFiles()[Customization::TEMPLATE_DEFAULT]);
-        $template->registerHelper('translate', [$this->getTranslator(), 'translate']);
+        $template->getLatte()->addFilter('translate', [$this->getTranslator(), 'translate']);
 
         return $template;
     }
