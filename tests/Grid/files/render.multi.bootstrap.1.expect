@@ -28,6 +28,9 @@
     <tfoot>
         <tr>
             <td colspan="4">
+                <span class="search">
+                    <input type="submit" name="buttons[search]" value="Search">
+                </span>
 <span class="paginator">
     <ul>
         <li>
@@ -58,9 +61,6 @@
         <span class="fa fa-refresh"></span>
     </button>
 </span>
-                    <span class="search">
-                        <input type="submit" name="buttons[search]" value="Search">
-                    </span>
                 </span>
             </td>
         </tr>
@@ -131,6 +131,9 @@ and newline &quot;test&quot;;
     <tfoot>
         <tr>
             <td colspan="5">
+                <span class="search">
+                    <input type="submit" name="buttons[search]" value="Search">
+                </span>
 <span class="paginator">
     <ul>
         <li>
@@ -161,9 +164,6 @@ and newline &quot;test&quot;;
         <span class="fa fa-refresh"></span>
     </button>
 </span>
-                    <span class="search">
-                        <input type="submit" name="buttons[search]" value="Search">
-                    </span>
                 </span>
             </td>
         </tr>
@@ -260,6 +260,9 @@ and newline &quot;test&quot;;
     <tfoot>
         <tr>
             <td colspan="4">
+                <span class="search">
+                    <input type="submit" name="buttons[search]" value="Search">
+                </span>
 <span class="paginator">
     <ul>
         <li>
@@ -290,9 +293,6 @@ and newline &quot;test&quot;;
         <span class="fa fa-refresh"></span>
     </button>
 </span>
-                    <span class="search">
-                        <input type="submit" name="buttons[search]" value="Search">
-                    </span>
                 </span>
             </td>
         </tr>
@@ -385,6 +385,9 @@ and newline &quot;test&quot;;
     <tfoot>
         <tr>
             <td colspan="5">
+                <span class="search">
+                    <input type="submit" name="buttons[search]" value="Search">
+                </span>
 <span class="paginator">
     <ul>
         <li>
@@ -415,9 +418,6 @@ and newline &quot;test&quot;;
         <span class="fa fa-refresh"></span>
     </button>
 </span>
-                    <span class="search">
-                        <input type="submit" name="buttons[search]" value="Search">
-                    </span>
                 </span>
             </td>
         </tr>

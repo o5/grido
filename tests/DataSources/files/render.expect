@@ -55,6 +55,9 @@
     <tfoot>
         <tr>
             <td colspan="5">
+                <span class="search">
+                    <input type="submit" name="buttons[search]" value="Search">
+                </span>
                 <span class="paginator">
                         <a class="ajax " href="/?grid-sort%5Bcountry%5D=asc&amp;grid-filter%5Bname%5D=a&amp;grid-filter%5Bmale%5D=1&amp;grid-filter%5Bcountry%5D=au&amp;action=default&amp;do=grid-page&amp;presenter=Test"><i class=""></i> Previous</a>
                             <a class="ajax " href="/?grid-sort%5Bcountry%5D=asc&amp;grid-filter%5Bname%5D=a&amp;grid-filter%5Bmale%5D=1&amp;grid-filter%5Bcountry%5D=au&amp;action=default&amp;do=grid-page&amp;presenter=Test">1</a>
@@ -72,9 +75,6 @@
                     </span>
                     <span class="reset">
                         <input type="submit" name="buttons[reset]" value="Reset">
-                    </span>
-                    <span class="search">
-                        <input type="submit" name="buttons[search]" value="Search">
                     </span>
                 </span>
             </td>

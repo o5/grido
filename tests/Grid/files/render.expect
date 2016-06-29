@@ -46,6 +46,9 @@
     <tfoot>
         <tr>
             <td colspan="6">
+                <span class="search">
+                    <input type="submit" name="buttons[search]" value="Search">
+                </span>
                 <span class="operations"  title="Select some row">
                     <select name="operations[operations]" id="frm-grid-form-operations-operations"><option value="">Selected...</option><option value="print">Print</option></select>
                     <input type="submit" name="buttons[operations]" class="hide" value="OK">
@@ -75,9 +78,6 @@
                     </span>
                     <span class="reset">
                         <input type="submit" name="buttons[reset]" value="Reset">
-                    </span>
-                    <span class="search">
-                        <input type="submit" name="buttons[search]" value="Search">
                     </span>
                 </span>
             </td>

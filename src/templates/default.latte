@@ -106,6 +106,9 @@
     <tfoot>
         <tr>
             <td colspan="{=$showActionsColumn ? $columnCount + 1 : $columnCount}">
+                <span n:block="search" class="search">
+                    {input $form[buttons][search]}
+                </span>
                 <span n:if="$control->hasOperation()" n:block="operations" class="operations"  title="{_'Grido.SelectSomeRow'}">
                     {$form[\Grido\Components\Operation::ID][\Grido\Components\Operation::ID]->control}
                     {?$form[\Grido\Grid::BUTTONS][\Grido\Components\Operation::ID]->controlPrototype->class[] = 'hide'}
@@ -146,9 +149,6 @@
                     </span>
                     <span n:block="reset" class="reset">
                         {input $form[buttons][reset]}
-                    </span>
-                    <span n:block="search" class="search">
-                        {input $form[buttons][search]}
                     </span>
                 </span>
             </td>

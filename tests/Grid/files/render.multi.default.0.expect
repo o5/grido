@@ -25,6 +25,9 @@
     <tfoot>
         <tr>
             <td colspan="4">
+                <span class="search">
+                    <input type="submit" name="buttons[search]" value="Search">
+                </span>
                 <span class="paginator">
                         <span class="disabled " href="/?grid-page=0&amp;action=default&amp;do=grid-page&amp;presenter=Test"><i class=""></i> Previous</span>
                             <span class="disabled ">1</span>
@@ -49,9 +52,6 @@
                     </span>
                     <span class="reset">
                         <input type="submit" name="buttons[reset]" value="Reset">
-                    </span>
-                    <span class="search">
-                        <input type="submit" name="buttons[search]" value="Search">
                     </span>
                 </span>
             </td>
@@ -120,6 +120,9 @@ and newline &quot;test&quot;;
     <tfoot>
         <tr>
             <td colspan="5">
+                <span class="search">
+                    <input type="submit" name="buttons[search]" value="Search">
+                </span>
                 <span class="paginator">
                         <span class="disabled " href="/?grid-page=0&amp;action=default&amp;do=grid-page&amp;presenter=Test"><i class=""></i> Previous</span>
                             <span class="disabled ">1</span>
@@ -144,9 +147,6 @@ and newline &quot;test&quot;;
                     </span>
                     <span class="reset">
                         <input type="submit" name="buttons[reset]" value="Reset">
-                    </span>
-                    <span class="search">
-                        <input type="submit" name="buttons[search]" value="Search">
                     </span>
                 </span>
             </td>
@@ -233,6 +233,9 @@ and newline &quot;test&quot;;
     <tfoot>
         <tr>
             <td colspan="4">
+                <span class="search">
+                    <input type="submit" name="buttons[search]" value="Search">
+                </span>
                 <span class="paginator">
                         <span class="disabled " href="/?grid-page=0&amp;action=default&amp;do=grid-page&amp;presenter=Test"><i class=""></i> Previous</span>
                             <span class="disabled ">1</span>
@@ -257,9 +260,6 @@ and newline &quot;test&quot;;
                     </span>
                     <span class="reset">
                         <input type="submit" name="buttons[reset]" value="Reset">
-                    </span>
-                    <span class="search">
-                        <input type="submit" name="buttons[search]" value="Search">
                     </span>
                 </span>
             </td>
@@ -344,6 +344,9 @@ and newline &quot;test&quot;;
     <tfoot>
         <tr>
             <td colspan="5">
+                <span class="search">
+                    <input type="submit" name="buttons[search]" value="Search">
+                </span>
                 <span class="paginator">
                         <span class="disabled " href="/?grid-page=0&amp;action=default&amp;do=grid-page&amp;presenter=Test"><i class=""></i> Previous</span>
                             <span class="disabled ">1</span>
@@ -368,9 +371,6 @@ and newline &quot;test&quot;;
                     </span>
                     <span class="reset">
                         <input type="submit" name="buttons[reset]" value="Reset">
-                    </span>
-                    <span class="search">
-                        <input type="submit" name="buttons[search]" value="Search">
                     </span>
                 </span>
             </td>
