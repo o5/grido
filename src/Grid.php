@@ -825,7 +825,7 @@ class Grid extends Components\Container
     {
         $template = parent::createTemplate();
         $template->setFile($this->getCustomization()->getTemplateFiles()[Customization::TEMPLATE_DEFAULT]);
-        $template->registerHelper('translate', [$this->getTranslator(), 'translate']);
+        $template->getLatte()->addFilter('translate', [$this->getTranslator(), 'translate']);
 
         return $template;
     }
@@ -860,7 +860,7 @@ class Grid extends Components\Container
         $form['count']->setValue($this->getPerPage());
 
         if ($options = $this->options[self::CLIENT_SIDE_OPTIONS]) {
-            $this->getTablePrototype()->data[self::CLIENT_SIDE_OPTIONS] = json_encode($options);
+            $this->getTablePrototype()->data(self::CLIENT_SIDE_OPTIONS, json_encode($options));
         }
 
         $this->template->render();

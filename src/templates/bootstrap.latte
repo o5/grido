@@ -12,7 +12,7 @@
 {extends default.latte}
 
 {block customization}
-    {?
+    {php
         $customization->iconClass = 'fa';
         $customization->buttonClass = 'btn btn-default btn-xs';
 
@@ -29,11 +29,11 @@
     }
 
     {foreach $formFilters as $filter}
-        {? $filter->controlPrototype->class[] = 'form-control'}
+        {php $filter->controlPrototype->class[] = 'form-control'}
     {/foreach}
 
     {foreach $actions as $action}
-        {?
+        {php
             $element = $action->elementPrototype;
             $element->class[] = $customization->buttonClass;
 
@@ -45,7 +45,7 @@
     {/foreach}
 
     {foreach $buttons as $button}
-        {?
+        {php
             $element = $button->elementPrototype;
             $element->class[] = $customization->buttonClass;
 

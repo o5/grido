@@ -176,8 +176,8 @@ abstract class Editable extends Column
         $th = parent::getHeaderPrototype();
 
         if ($this->isEditable()) {
-            $th->data['grido-editable-handler'] = $this->link('editable!');
-            $th->data['grido-editableControl-handler'] = $this->link('editableControl!');
+            $th->data('grido-editable-handler', $this->link('editable!'));
+            $th->data('grido-editableControl-handler', $this->link('editableControl!'));
         }
 
         return $th;
@@ -197,9 +197,10 @@ abstract class Editable extends Column
                 $td->class[] = 'editable';
             }
 
-            $td->data['grido-editable-value'] = $this->editableValueCallback === NULL
+            $td->data('grido-editable-value', $this->editableValueCallback === NULL
                 ? $this->getValue($row)
-                : call_user_func_array($this->editableValueCallback, [$row, $this]);
+                : call_user_func_array($this->editableValueCallback, [$row, $this])
+			);
         }
 
         return $td;
