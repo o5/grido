@@ -53,7 +53,7 @@ class FilterTextTest extends \Tester\TestCase
         $prototype = Helper::$grid->getFilter('name')->control->controlPrototype;
         Assert::same('-query-', $prototype->getAttribute('data-grido-suggest-replacement'));
 
-        $url = '/?grid-filters-name-query=-query-&action=default&do=grid-filters-name-suggest&presenter=Test';
+        $url = '/test/?grid-filters-name-query=-query-&do=grid-filters-name-suggest';
         Assert::same($url, $prototype->getAttribute('data-grido-suggest-handler'));
 
         Helper::$presenter->forceAjaxMode = TRUE;

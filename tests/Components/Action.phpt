@@ -28,7 +28,7 @@ class ActionTest extends \Tester\TestCase
         ob_start();
             Helper::$grid->getAction('edit')->render(['id' => 11]);
         $output = ob_get_clean();
-        Assert::same('<a class="action" href="/?id=11&amp;action=edit&amp;presenter=Test">Edit</a>', $output);
+        Assert::same('<a class="action" href="/test/edit/11">Edit</a>', $output);
     }
 
     function testSetCustomRender()
@@ -47,7 +47,7 @@ class ActionTest extends \Tester\TestCase
         ob_start();
             Helper::$grid->getAction('edit')->render($testRow);
         $output = ob_get_clean();
-        Assert::same('<a href="/?id=11&amp;action=edit&amp;presenter=Test">TEST</a>', $output);
+        Assert::same('<a href="/test/edit/11">TEST</a>', $output);
     }
 
     function testSetPrimaryKey()
@@ -60,7 +60,7 @@ class ActionTest extends \Tester\TestCase
         ob_start();
             Helper::$grid->getAction('edit')->render(['primary' => 11]);
         $output = ob_get_clean();
-        Assert::same('<a class="grid-action-edit" href="/?primary=11&amp;action=edit&amp;presenter=Test">Edit</a>', $output);
+        Assert::same('<a class="grid-action-edit" href="/test/edit?primary=11">Edit</a>', $output);
 
         Assert::error(function(){
             Helper::$grid->getAction('edit')->render(['id' => 11]);
@@ -84,7 +84,7 @@ class ActionTest extends \Tester\TestCase
         ob_start();
             Helper::$grid->getAction('delete')->render(['id' => 3, 'status' => 'published']);
         $output = ob_get_clean();
-        Assert::same('<a class="grid-action-delete" href="/?id=3&amp;action=delete&amp;presenter=Test">Delete</a>', $output);
+        Assert::same('<a class="grid-action-delete" href="/test/delete/3">Delete</a>', $output);
     }
 
     function testSetConfirm()
@@ -98,7 +98,7 @@ class ActionTest extends \Tester\TestCase
         ob_start();
             Helper::$grid->getAction('delete')->render(['id' => 2]);
         $output = ob_get_clean();
-        Assert::same('<a class="grid-action-delete" data-grido-confirm="Are you sure?" href="/?id=2&amp;action=delete&amp;presenter=Test">Delete</a>', $output);
+        Assert::same('<a class="grid-action-delete" data-grido-confirm="Are you sure?" href="/test/delete/2">Delete</a>', $output);
 
         //test callback
         $testRow = ['id' => 2, 'firstname' => 'Lucie'];
@@ -113,7 +113,7 @@ class ActionTest extends \Tester\TestCase
         ob_start();
             Helper::$grid->getAction('delete')->render($testRow);
         $output = ob_get_clean();
-        Assert::same('<a class="grid-action-delete" data-grido-confirm="Are you sure you want to delete Lucie?" href="/?id=2&amp;action=delete&amp;presenter=Test">Delete</a>', $output);
+        Assert::same('<a class="grid-action-delete" data-grido-confirm="Are you sure you want to delete Lucie?" href="/test/delete/2">Delete</a>', $output);
 
         $testRow = ['id' => 2, 'firstname' => 'Lucie'];
         Helper::grid(function(Grid $grid) use ($testRow) {
@@ -128,7 +128,7 @@ class ActionTest extends \Tester\TestCase
         ob_start();
             Helper::$grid->getAction('delete')->render($testRow);
         $output = ob_get_clean();
-        Assert::same('<a class="grid-action-delete" data-grido-confirm="Opravdu chceš smazat uživatele Lucie?" href="/?id=2&amp;action=delete&amp;presenter=Test">Delete</a>', $output);
+        Assert::same('<a class="grid-action-delete" data-grido-confirm="Opravdu chceš smazat uživatele Lucie?" href="/test/delete/2">Delete</a>', $output);
     }
 
     function testSetIcon()

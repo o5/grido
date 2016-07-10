@@ -28,7 +28,7 @@ class ButtonTest extends \Tester\TestCase
         ob_start();
         Helper::$grid->getButton('add')->render();
         $output = ob_get_clean();
-        Assert::same('<a class="button" href="/?action=add&amp;presenter=Test">Add</a>', $output);
+        Assert::same('<a class="button" href="/test/add">Add</a>', $output);
     }
 
     function testSetIcon()
@@ -59,7 +59,7 @@ class ButtonTest extends \Tester\TestCase
         ob_start();
         Helper::$grid->getButton('add')->render();
         $output = ob_get_clean();
-        Assert::same('<a class="grid-button-add" href="/?action=add&amp;presenter=Test">Add</a>', $output);
+        Assert::same('<a class="grid-button-add" href="/test/add">Add</a>', $output);
     }
 
     /**********************************************************************************************/

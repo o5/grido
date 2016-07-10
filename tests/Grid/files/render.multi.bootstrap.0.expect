@@ -5,7 +5,7 @@
 
 
 
-<form action="/" method="get" id="frm-grid-form" class="ajax grido table-responsive bootstrap" data-grido-refresh-handler="/?action=default&amp;do=grid-refresh&amp;presenter=Test">
+<form action="/test/" method="get" id="frm-grid-form" class="ajax grido table-responsive bootstrap" data-grido-refresh-handler="/test/?do=grid-refresh">
 
 <table id="grid" class="table table-striped table-hover">
     <thead>
@@ -39,13 +39,13 @@
                 <a class="disabled btn btn-default btn-sm"><i class="fa fa-chevron-left"></i></a>
         </li>
         <li>
-            <input type="text" class="form-control" placeholder="Page 1 z 25" data-grido-current="1" min="1" max="25" data-grido-link="/?grid-page=0&amp;action=default&amp;do=grid-page&amp;presenter=Test">
+            <input type="text" class="form-control" placeholder="Page 1 z 25" data-grido-current="1" min="1" max="25" data-grido-link="/test/?grid-page=0&amp;do=grid-page">
         </li>
         <li>
-                <a class="ajax btn btn-default btn-sm" title="Next" href="/?grid-page=2&amp;action=default&amp;do=grid-page&amp;presenter=Test"><i class="fa fa-chevron-right"></i></a>
+                <a class="ajax btn btn-default btn-sm" title="Next" href="/test/?grid-page=2&amp;do=grid-page"><i class="fa fa-chevron-right"></i></a>
         </li>
         <li>
-                <a class="ajax btn btn-default btn-sm" title="Last" href="/?grid-page=25&amp;action=default&amp;do=grid-page&amp;presenter=Test"><i class="fa fa-forward"></i></a>
+                <a class="ajax btn btn-default btn-sm" title="Last" href="/test/?grid-page=25&amp;do=grid-page"><i class="fa fa-forward"></i></a>
         </li>
     </ul>
 </span>
@@ -96,7 +96,7 @@ and newline &quot;test&quot;;
             </tr>
     </tbody>
 </table>
-<input type="hidden" name="action" value="default"><input type="hidden" name="presenter" value="Test"><input type="hidden" name="do" value="grid-form-submit"><!--[if IE]><input type=IEbug disabled style="display:none"><![endif]-->
+<input type="hidden" name="do" value="grid-form-submit"><!--[if IE]><input type=IEbug disabled style="display:none"><![endif]-->
 </form>
 
 </div><div id="snippet-grid-grid">
@@ -106,7 +106,7 @@ and newline &quot;test&quot;;
 
 
 
-<form action="/" method="get" id="frm-grid-form" class="ajax grido table-responsive bootstrap" data-grido-refresh-handler="/?action=default&amp;do=grid-refresh&amp;presenter=Test">
+<form action="/test/" method="get" id="frm-grid-form" class="ajax grido table-responsive bootstrap" data-grido-refresh-handler="/test/?do=grid-refresh">
 
 <table id="grid" class="table table-striped table-hover">
     <thead>
@@ -141,13 +141,13 @@ and newline &quot;test&quot;;
                 <a class="disabled btn btn-default btn-sm"><i class="fa fa-chevron-left"></i></a>
         </li>
         <li>
-            <input type="text" class="form-control" placeholder="Page 1 z 25" data-grido-current="1" min="1" max="25" data-grido-link="/?grid-page=0&amp;action=default&amp;do=grid-page&amp;presenter=Test">
+            <input type="text" class="form-control" placeholder="Page 1 z 25" data-grido-current="1" min="1" max="25" data-grido-link="/test/?grid-page=0&amp;do=grid-page">
         </li>
         <li>
-                <a class="ajax btn btn-default btn-sm" title="Next" href="/?grid-page=2&amp;action=default&amp;do=grid-page&amp;presenter=Test"><i class="fa fa-chevron-right"></i></a>
+                <a class="ajax btn btn-default btn-sm" title="Next" href="/test/?grid-page=2&amp;do=grid-page"><i class="fa fa-chevron-right"></i></a>
         </li>
         <li>
-                <a class="ajax btn btn-default btn-sm" title="Last" href="/?grid-page=25&amp;action=default&amp;do=grid-page&amp;presenter=Test"><i class="fa fa-forward"></i></a>
+                <a class="ajax btn btn-default btn-sm" title="Last" href="/test/?grid-page=25&amp;do=grid-page"><i class="fa fa-forward"></i></a>
         </li>
     </ul>
 </span>
@@ -182,7 +182,7 @@ and newline &quot;test&quot;;
                     </td>
                 <td class="actions center">
 
-<a class="grid-action-edit btn btn-default btn-xs" href="/?id=1&amp;action=edit&amp;presenter=Test">Edit</a>                </td>
+<a class="grid-action-edit btn btn-default btn-xs" href="/test/edit/1">Edit</a>                </td>
             </tr>
             <tr class="grid-row-20">
                     <td class="grid-cell-firstname">
@@ -200,11 +200,11 @@ and newline &quot;test&quot;;
                     </td>
                 <td class="actions center">
 
-<a class="grid-action-edit btn btn-default btn-xs" href="/?id=20&amp;action=edit&amp;presenter=Test">Edit</a>                </td>
+<a class="grid-action-edit btn btn-default btn-xs" href="/test/edit/20">Edit</a>                </td>
             </tr>
     </tbody>
 </table>
-<input type="hidden" name="action" value="default"><input type="hidden" name="presenter" value="Test"><input type="hidden" name="do" value="grid-form-submit"><!--[if IE]><input type=IEbug disabled style="display:none"><![endif]-->
+<input type="hidden" name="do" value="grid-form-submit"><!--[if IE]><input type=IEbug disabled style="display:none"><![endif]-->
 </form>
 
 </div><div id="snippet-grid-grid">
@@ -214,7 +214,7 @@ and newline &quot;test&quot;;
 
 
 
-<form action="/" method="get" id="frm-grid-form" class="ajax grido table-responsive bootstrap" data-grido-refresh-handler="/?action=default&amp;do=grid-refresh&amp;presenter=Test">
+<form action="/test/" method="get" id="frm-grid-form" class="ajax grido table-responsive bootstrap" data-grido-refresh-handler="/test/?do=grid-refresh">
 
 <table id="grid" class="table table-striped table-hover">
     <thead>
@@ -267,13 +267,13 @@ and newline &quot;test&quot;;
                 <a class="disabled btn btn-default btn-sm"><i class="fa fa-chevron-left"></i></a>
         </li>
         <li>
-            <input type="text" class="form-control" placeholder="Page 1 z 25" data-grido-current="1" min="1" max="25" data-grido-link="/?grid-page=0&amp;action=default&amp;do=grid-page&amp;presenter=Test">
+            <input type="text" class="form-control" placeholder="Page 1 z 25" data-grido-current="1" min="1" max="25" data-grido-link="/test/?grid-page=0&amp;do=grid-page">
         </li>
         <li>
-                <a class="ajax btn btn-default btn-sm" title="Next" href="/?grid-page=2&amp;action=default&amp;do=grid-page&amp;presenter=Test"><i class="fa fa-chevron-right"></i></a>
+                <a class="ajax btn btn-default btn-sm" title="Next" href="/test/?grid-page=2&amp;do=grid-page"><i class="fa fa-chevron-right"></i></a>
         </li>
         <li>
-                <a class="ajax btn btn-default btn-sm" title="Last" href="/?grid-page=25&amp;action=default&amp;do=grid-page&amp;presenter=Test"><i class="fa fa-forward"></i></a>
+                <a class="ajax btn btn-default btn-sm" title="Last" href="/test/?grid-page=25&amp;do=grid-page"><i class="fa fa-forward"></i></a>
         </li>
     </ul>
 </span>
@@ -324,7 +324,7 @@ and newline &quot;test&quot;;
             </tr>
     </tbody>
 </table>
-<input type="hidden" name="action" value="default"><input type="hidden" name="presenter" value="Test"><input type="hidden" name="do" value="grid-form-submit"></form>
+<input type="hidden" name="do" value="grid-form-submit"></form>
 
 </div><div id="snippet-grid-grid">
 
@@ -333,7 +333,7 @@ and newline &quot;test&quot;;
 
 
 
-<form action="/" method="get" id="frm-grid-form" class="ajax grido table-responsive bootstrap" data-grido-refresh-handler="/?action=default&amp;do=grid-refresh&amp;presenter=Test">
+<form action="/test/" method="get" id="frm-grid-form" class="ajax grido table-responsive bootstrap" data-grido-refresh-handler="/test/?do=grid-refresh">
 
 <table id="grid" class="table table-striped table-hover">
     <thead>
@@ -389,13 +389,13 @@ and newline &quot;test&quot;;
                 <a class="disabled btn btn-default btn-sm"><i class="fa fa-chevron-left"></i></a>
         </li>
         <li>
-            <input type="text" class="form-control" placeholder="Page 1 z 25" data-grido-current="1" min="1" max="25" data-grido-link="/?grid-page=0&amp;action=default&amp;do=grid-page&amp;presenter=Test">
+            <input type="text" class="form-control" placeholder="Page 1 z 25" data-grido-current="1" min="1" max="25" data-grido-link="/test/?grid-page=0&amp;do=grid-page">
         </li>
         <li>
-                <a class="ajax btn btn-default btn-sm" title="Next" href="/?grid-page=2&amp;action=default&amp;do=grid-page&amp;presenter=Test"><i class="fa fa-chevron-right"></i></a>
+                <a class="ajax btn btn-default btn-sm" title="Next" href="/test/?grid-page=2&amp;do=grid-page"><i class="fa fa-chevron-right"></i></a>
         </li>
         <li>
-                <a class="ajax btn btn-default btn-sm" title="Last" href="/?grid-page=25&amp;action=default&amp;do=grid-page&amp;presenter=Test"><i class="fa fa-forward"></i></a>
+                <a class="ajax btn btn-default btn-sm" title="Last" href="/test/?grid-page=25&amp;do=grid-page"><i class="fa fa-forward"></i></a>
         </li>
     </ul>
 </span>
@@ -430,7 +430,7 @@ and newline &quot;test&quot;;
                     </td>
                 <td class="actions center">
 
-<a class="grid-action-edit btn btn-default btn-xs" href="/?id=1&amp;action=edit&amp;presenter=Test">Edit</a>                </td>
+<a class="grid-action-edit btn btn-default btn-xs" href="/test/edit/1">Edit</a>                </td>
             </tr>
             <tr class="grid-row-20">
                     <td class="grid-cell-firstname">
@@ -448,10 +448,10 @@ and newline &quot;test&quot;;
                     </td>
                 <td class="actions center">
 
-<a class="grid-action-edit btn btn-default btn-xs" href="/?id=20&amp;action=edit&amp;presenter=Test">Edit</a>                </td>
+<a class="grid-action-edit btn btn-default btn-xs" href="/test/edit/20">Edit</a>                </td>
             </tr>
     </tbody>
 </table>
-<input type="hidden" name="action" value="default"><input type="hidden" name="presenter" value="Test"><input type="hidden" name="do" value="grid-form-submit"></form>
+<input type="hidden" name="do" value="grid-form-submit"></form>
 
 </div>

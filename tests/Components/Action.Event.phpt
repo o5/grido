@@ -27,7 +27,7 @@ class ActionEventTest extends \Tester\TestCase
         ob_start();
             Helper::$grid->getAction('delete')->render(['id' => 3]);
         $output = ob_get_clean();
-        Assert::same('<a class="grid-action-delete" href="/?grid-actions-delete-id=3&amp;action=default&amp;do=grid-actions-delete-click&amp;presenter=Test">Delete</a>', $output);
+        Assert::same('<a class="grid-action-delete" href="/test/?grid-actions-delete-id=3&amp;do=grid-actions-delete-click">Delete</a>', $output);
     }
 
     function testSetOnclick()

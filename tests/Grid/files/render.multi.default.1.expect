@@ -2,7 +2,7 @@
 
 
 
-<form action="/" method="get" id="frm-grid-form" class="ajax grido" data-grido-refresh-handler="/?action=default&amp;do=grid-refresh&amp;presenter=Test">
+<form action="/test/" method="get" id="frm-grid-form" class="ajax grido" data-grido-refresh-handler="/test/?do=grid-refresh">
     <div class="filter outer">
         <div class="items">
         </div>
@@ -35,20 +35,20 @@
                 </span>
                 <span class="paginator">
 
-                        <span class="disabled " href="/?grid-page=0&amp;action=default&amp;do=grid-page&amp;presenter=Test"><i class=""></i> Previous</span>
+                        <span class="disabled " href="/test/?grid-page=0&amp;do=grid-page"><i class=""></i> Previous</span>
                             <span class="disabled ">1</span>
-                            <a class="ajax " href="/?grid-page=2&amp;action=default&amp;do=grid-page&amp;presenter=Test">2</a>
-                            <a class="ajax " href="/?grid-page=3&amp;action=default&amp;do=grid-page&amp;presenter=Test">3</a>
-                            <a class="ajax " href="/?grid-page=4&amp;action=default&amp;do=grid-page&amp;presenter=Test">4</a>
-                        <a class="prompt" data-grido-prompt="Enter page:" data-grido-link="/?grid-page=0&amp;action=default&amp;do=grid-page&amp;presenter=Test">...</a>
-                            <a class="ajax " href="/?grid-page=7&amp;action=default&amp;do=grid-page&amp;presenter=Test">7</a>
-                        <a class="prompt" data-grido-prompt="Enter page:" data-grido-link="/?grid-page=0&amp;action=default&amp;do=grid-page&amp;presenter=Test">...</a>
-                            <a class="ajax " href="/?grid-page=13&amp;action=default&amp;do=grid-page&amp;presenter=Test">13</a>
-                        <a class="prompt" data-grido-prompt="Enter page:" data-grido-link="/?grid-page=0&amp;action=default&amp;do=grid-page&amp;presenter=Test">...</a>
-                            <a class="ajax " href="/?grid-page=19&amp;action=default&amp;do=grid-page&amp;presenter=Test">19</a>
-                        <a class="prompt" data-grido-prompt="Enter page:" data-grido-link="/?grid-page=0&amp;action=default&amp;do=grid-page&amp;presenter=Test">...</a>
-                            <a class="ajax " href="/?grid-page=25&amp;action=default&amp;do=grid-page&amp;presenter=Test">25</a>
-                        <a class="ajax " href="/?grid-page=2&amp;action=default&amp;do=grid-page&amp;presenter=Test">Next <i class=""></i></a>
+                            <a class="ajax " href="/test/?grid-page=2&amp;do=grid-page">2</a>
+                            <a class="ajax " href="/test/?grid-page=3&amp;do=grid-page">3</a>
+                            <a class="ajax " href="/test/?grid-page=4&amp;do=grid-page">4</a>
+                        <a class="prompt" data-grido-prompt="Enter page:" data-grido-link="/test/?grid-page=0&amp;do=grid-page">...</a>
+                            <a class="ajax " href="/test/?grid-page=7&amp;do=grid-page">7</a>
+                        <a class="prompt" data-grido-prompt="Enter page:" data-grido-link="/test/?grid-page=0&amp;do=grid-page">...</a>
+                            <a class="ajax " href="/test/?grid-page=13&amp;do=grid-page">13</a>
+                        <a class="prompt" data-grido-prompt="Enter page:" data-grido-link="/test/?grid-page=0&amp;do=grid-page">...</a>
+                            <a class="ajax " href="/test/?grid-page=19&amp;do=grid-page">19</a>
+                        <a class="prompt" data-grido-prompt="Enter page:" data-grido-link="/test/?grid-page=0&amp;do=grid-page">...</a>
+                            <a class="ajax " href="/test/?grid-page=25&amp;do=grid-page">25</a>
+                        <a class="ajax " href="/test/?grid-page=2&amp;do=grid-page">Next <i class=""></i></a>
                 </span>
                 <span class="right">
                     <span class="count">
@@ -95,14 +95,14 @@ and newline &quot;test&quot;;
             </tr>
     </tbody>
 </table>
-<input type="hidden" name="action" value="default"><input type="hidden" name="presenter" value="Test"><input type="hidden" name="do" value="grid-form-submit"><!--[if IE]><input type=IEbug disabled style="display:none"><![endif]-->
+<input type="hidden" name="do" value="grid-form-submit"><!--[if IE]><input type=IEbug disabled style="display:none"><![endif]-->
 </form>
 
 </div><div id="snippet-grid-grid">
 
 
 
-<form action="/" method="get" id="frm-grid-form" class="ajax grido" data-grido-refresh-handler="/?action=default&amp;do=grid-refresh&amp;presenter=Test">
+<form action="/test/" method="get" id="frm-grid-form" class="ajax grido" data-grido-refresh-handler="/test/?do=grid-refresh">
     <div class="filter outer">
         <div class="items">
         </div>
@@ -136,20 +136,20 @@ and newline &quot;test&quot;;
                 </span>
                 <span class="paginator">
 
-                        <span class="disabled " href="/?grid-page=0&amp;action=default&amp;do=grid-page&amp;presenter=Test"><i class=""></i> Previous</span>
+                        <span class="disabled " href="/test/?grid-page=0&amp;do=grid-page"><i class=""></i> Previous</span>
                             <span class="disabled ">1</span>
-                            <a class="ajax " href="/?grid-page=2&amp;action=default&amp;do=grid-page&amp;presenter=Test">2</a>
-                            <a class="ajax " href="/?grid-page=3&amp;action=default&amp;do=grid-page&amp;presenter=Test">3</a>
-                            <a class="ajax " href="/?grid-page=4&amp;action=default&amp;do=grid-page&amp;presenter=Test">4</a>
-                        <a class="prompt" data-grido-prompt="Enter page:" data-grido-link="/?grid-page=0&amp;action=default&amp;do=grid-page&amp;presenter=Test">...</a>
-                            <a class="ajax " href="/?grid-page=7&amp;action=default&amp;do=grid-page&amp;presenter=Test">7</a>
-                        <a class="prompt" data-grido-prompt="Enter page:" data-grido-link="/?grid-page=0&amp;action=default&amp;do=grid-page&amp;presenter=Test">...</a>
-                            <a class="ajax " href="/?grid-page=13&amp;action=default&amp;do=grid-page&amp;presenter=Test">13</a>
-                        <a class="prompt" data-grido-prompt="Enter page:" data-grido-link="/?grid-page=0&amp;action=default&amp;do=grid-page&amp;presenter=Test">...</a>
-                            <a class="ajax " href="/?grid-page=19&amp;action=default&amp;do=grid-page&amp;presenter=Test">19</a>
-                        <a class="prompt" data-grido-prompt="Enter page:" data-grido-link="/?grid-page=0&amp;action=default&amp;do=grid-page&amp;presenter=Test">...</a>
-                            <a class="ajax " href="/?grid-page=25&amp;action=default&amp;do=grid-page&amp;presenter=Test">25</a>
-                        <a class="ajax " href="/?grid-page=2&amp;action=default&amp;do=grid-page&amp;presenter=Test">Next <i class=""></i></a>
+                            <a class="ajax " href="/test/?grid-page=2&amp;do=grid-page">2</a>
+                            <a class="ajax " href="/test/?grid-page=3&amp;do=grid-page">3</a>
+                            <a class="ajax " href="/test/?grid-page=4&amp;do=grid-page">4</a>
+                        <a class="prompt" data-grido-prompt="Enter page:" data-grido-link="/test/?grid-page=0&amp;do=grid-page">...</a>
+                            <a class="ajax " href="/test/?grid-page=7&amp;do=grid-page">7</a>
+                        <a class="prompt" data-grido-prompt="Enter page:" data-grido-link="/test/?grid-page=0&amp;do=grid-page">...</a>
+                            <a class="ajax " href="/test/?grid-page=13&amp;do=grid-page">13</a>
+                        <a class="prompt" data-grido-prompt="Enter page:" data-grido-link="/test/?grid-page=0&amp;do=grid-page">...</a>
+                            <a class="ajax " href="/test/?grid-page=19&amp;do=grid-page">19</a>
+                        <a class="prompt" data-grido-prompt="Enter page:" data-grido-link="/test/?grid-page=0&amp;do=grid-page">...</a>
+                            <a class="ajax " href="/test/?grid-page=25&amp;do=grid-page">25</a>
+                        <a class="ajax " href="/test/?grid-page=2&amp;do=grid-page">Next <i class=""></i></a>
                 </span>
                 <span class="right">
                     <span class="count">
@@ -180,7 +180,7 @@ and newline &quot;test&quot;;
                     </td>
                 <td class="actions center">
 
-<a class="grid-action-edit" href="/?id=1&amp;action=edit&amp;presenter=Test">Edit</a>                </td>
+<a class="grid-action-edit" href="/test/edit/1">Edit</a>                </td>
             </tr>
             <tr class="grid-row-20">
                     <td class="grid-cell-firstname">
@@ -198,18 +198,18 @@ and newline &quot;test&quot;;
                     </td>
                 <td class="actions center">
 
-<a class="grid-action-edit" href="/?id=20&amp;action=edit&amp;presenter=Test">Edit</a>                </td>
+<a class="grid-action-edit" href="/test/edit/20">Edit</a>                </td>
             </tr>
     </tbody>
 </table>
-<input type="hidden" name="action" value="default"><input type="hidden" name="presenter" value="Test"><input type="hidden" name="do" value="grid-form-submit"><!--[if IE]><input type=IEbug disabled style="display:none"><![endif]-->
+<input type="hidden" name="do" value="grid-form-submit"><!--[if IE]><input type=IEbug disabled style="display:none"><![endif]-->
 </form>
 
 </div><div id="snippet-grid-grid">
 
 
 
-<form action="/" method="get" id="frm-grid-form" class="ajax grido" data-grido-refresh-handler="/?action=default&amp;do=grid-refresh&amp;presenter=Test">
+<form action="/test/" method="get" id="frm-grid-form" class="ajax grido" data-grido-refresh-handler="/test/?do=grid-refresh">
     <div class="filter outer">
         <div class="items">
             <span class="grid-filter-firstname">
@@ -259,20 +259,20 @@ and newline &quot;test&quot;;
                 </span>
                 <span class="paginator">
 
-                        <span class="disabled " href="/?grid-page=0&amp;action=default&amp;do=grid-page&amp;presenter=Test"><i class=""></i> Previous</span>
+                        <span class="disabled " href="/test/?grid-page=0&amp;do=grid-page"><i class=""></i> Previous</span>
                             <span class="disabled ">1</span>
-                            <a class="ajax " href="/?grid-page=2&amp;action=default&amp;do=grid-page&amp;presenter=Test">2</a>
-                            <a class="ajax " href="/?grid-page=3&amp;action=default&amp;do=grid-page&amp;presenter=Test">3</a>
-                            <a class="ajax " href="/?grid-page=4&amp;action=default&amp;do=grid-page&amp;presenter=Test">4</a>
-                        <a class="prompt" data-grido-prompt="Enter page:" data-grido-link="/?grid-page=0&amp;action=default&amp;do=grid-page&amp;presenter=Test">...</a>
-                            <a class="ajax " href="/?grid-page=7&amp;action=default&amp;do=grid-page&amp;presenter=Test">7</a>
-                        <a class="prompt" data-grido-prompt="Enter page:" data-grido-link="/?grid-page=0&amp;action=default&amp;do=grid-page&amp;presenter=Test">...</a>
-                            <a class="ajax " href="/?grid-page=13&amp;action=default&amp;do=grid-page&amp;presenter=Test">13</a>
-                        <a class="prompt" data-grido-prompt="Enter page:" data-grido-link="/?grid-page=0&amp;action=default&amp;do=grid-page&amp;presenter=Test">...</a>
-                            <a class="ajax " href="/?grid-page=19&amp;action=default&amp;do=grid-page&amp;presenter=Test">19</a>
-                        <a class="prompt" data-grido-prompt="Enter page:" data-grido-link="/?grid-page=0&amp;action=default&amp;do=grid-page&amp;presenter=Test">...</a>
-                            <a class="ajax " href="/?grid-page=25&amp;action=default&amp;do=grid-page&amp;presenter=Test">25</a>
-                        <a class="ajax " href="/?grid-page=2&amp;action=default&amp;do=grid-page&amp;presenter=Test">Next <i class=""></i></a>
+                            <a class="ajax " href="/test/?grid-page=2&amp;do=grid-page">2</a>
+                            <a class="ajax " href="/test/?grid-page=3&amp;do=grid-page">3</a>
+                            <a class="ajax " href="/test/?grid-page=4&amp;do=grid-page">4</a>
+                        <a class="prompt" data-grido-prompt="Enter page:" data-grido-link="/test/?grid-page=0&amp;do=grid-page">...</a>
+                            <a class="ajax " href="/test/?grid-page=7&amp;do=grid-page">7</a>
+                        <a class="prompt" data-grido-prompt="Enter page:" data-grido-link="/test/?grid-page=0&amp;do=grid-page">...</a>
+                            <a class="ajax " href="/test/?grid-page=13&amp;do=grid-page">13</a>
+                        <a class="prompt" data-grido-prompt="Enter page:" data-grido-link="/test/?grid-page=0&amp;do=grid-page">...</a>
+                            <a class="ajax " href="/test/?grid-page=19&amp;do=grid-page">19</a>
+                        <a class="prompt" data-grido-prompt="Enter page:" data-grido-link="/test/?grid-page=0&amp;do=grid-page">...</a>
+                            <a class="ajax " href="/test/?grid-page=25&amp;do=grid-page">25</a>
+                        <a class="ajax " href="/test/?grid-page=2&amp;do=grid-page">Next <i class=""></i></a>
                 </span>
                 <span class="right">
                     <span class="count">
@@ -319,13 +319,13 @@ and newline &quot;test&quot;;
             </tr>
     </tbody>
 </table>
-<input type="hidden" name="action" value="default"><input type="hidden" name="presenter" value="Test"><input type="hidden" name="do" value="grid-form-submit"></form>
+<input type="hidden" name="do" value="grid-form-submit"></form>
 
 </div><div id="snippet-grid-grid">
 
 
 
-<form action="/" method="get" id="frm-grid-form" class="ajax grido" data-grido-refresh-handler="/?action=default&amp;do=grid-refresh&amp;presenter=Test">
+<form action="/test/" method="get" id="frm-grid-form" class="ajax grido" data-grido-refresh-handler="/test/?do=grid-refresh">
     <div class="filter outer">
         <div class="items">
             <span class="grid-filter-firstname">
@@ -376,20 +376,20 @@ and newline &quot;test&quot;;
                 </span>
                 <span class="paginator">
 
-                        <span class="disabled " href="/?grid-page=0&amp;action=default&amp;do=grid-page&amp;presenter=Test"><i class=""></i> Previous</span>
+                        <span class="disabled " href="/test/?grid-page=0&amp;do=grid-page"><i class=""></i> Previous</span>
                             <span class="disabled ">1</span>
-                            <a class="ajax " href="/?grid-page=2&amp;action=default&amp;do=grid-page&amp;presenter=Test">2</a>
-                            <a class="ajax " href="/?grid-page=3&amp;action=default&amp;do=grid-page&amp;presenter=Test">3</a>
-                            <a class="ajax " href="/?grid-page=4&amp;action=default&amp;do=grid-page&amp;presenter=Test">4</a>
-                        <a class="prompt" data-grido-prompt="Enter page:" data-grido-link="/?grid-page=0&amp;action=default&amp;do=grid-page&amp;presenter=Test">...</a>
-                            <a class="ajax " href="/?grid-page=7&amp;action=default&amp;do=grid-page&amp;presenter=Test">7</a>
-                        <a class="prompt" data-grido-prompt="Enter page:" data-grido-link="/?grid-page=0&amp;action=default&amp;do=grid-page&amp;presenter=Test">...</a>
-                            <a class="ajax " href="/?grid-page=13&amp;action=default&amp;do=grid-page&amp;presenter=Test">13</a>
-                        <a class="prompt" data-grido-prompt="Enter page:" data-grido-link="/?grid-page=0&amp;action=default&amp;do=grid-page&amp;presenter=Test">...</a>
-                            <a class="ajax " href="/?grid-page=19&amp;action=default&amp;do=grid-page&amp;presenter=Test">19</a>
-                        <a class="prompt" data-grido-prompt="Enter page:" data-grido-link="/?grid-page=0&amp;action=default&amp;do=grid-page&amp;presenter=Test">...</a>
-                            <a class="ajax " href="/?grid-page=25&amp;action=default&amp;do=grid-page&amp;presenter=Test">25</a>
-                        <a class="ajax " href="/?grid-page=2&amp;action=default&amp;do=grid-page&amp;presenter=Test">Next <i class=""></i></a>
+                            <a class="ajax " href="/test/?grid-page=2&amp;do=grid-page">2</a>
+                            <a class="ajax " href="/test/?grid-page=3&amp;do=grid-page">3</a>
+                            <a class="ajax " href="/test/?grid-page=4&amp;do=grid-page">4</a>
+                        <a class="prompt" data-grido-prompt="Enter page:" data-grido-link="/test/?grid-page=0&amp;do=grid-page">...</a>
+                            <a class="ajax " href="/test/?grid-page=7&amp;do=grid-page">7</a>
+                        <a class="prompt" data-grido-prompt="Enter page:" data-grido-link="/test/?grid-page=0&amp;do=grid-page">...</a>
+                            <a class="ajax " href="/test/?grid-page=13&amp;do=grid-page">13</a>
+                        <a class="prompt" data-grido-prompt="Enter page:" data-grido-link="/test/?grid-page=0&amp;do=grid-page">...</a>
+                            <a class="ajax " href="/test/?grid-page=19&amp;do=grid-page">19</a>
+                        <a class="prompt" data-grido-prompt="Enter page:" data-grido-link="/test/?grid-page=0&amp;do=grid-page">...</a>
+                            <a class="ajax " href="/test/?grid-page=25&amp;do=grid-page">25</a>
+                        <a class="ajax " href="/test/?grid-page=2&amp;do=grid-page">Next <i class=""></i></a>
                 </span>
                 <span class="right">
                     <span class="count">
@@ -420,7 +420,7 @@ and newline &quot;test&quot;;
                     </td>
                 <td class="actions center">
 
-<a class="grid-action-edit" href="/?id=1&amp;action=edit&amp;presenter=Test">Edit</a>                </td>
+<a class="grid-action-edit" href="/test/edit/1">Edit</a>                </td>
             </tr>
             <tr class="grid-row-20">
                     <td class="grid-cell-firstname">
@@ -438,10 +438,10 @@ and newline &quot;test&quot;;
                     </td>
                 <td class="actions center">
 
-<a class="grid-action-edit" href="/?id=20&amp;action=edit&amp;presenter=Test">Edit</a>                </td>
+<a class="grid-action-edit" href="/test/edit/20">Edit</a>                </td>
             </tr>
     </tbody>
 </table>
-<input type="hidden" name="action" value="default"><input type="hidden" name="presenter" value="Test"><input type="hidden" name="do" value="grid-form-submit"></form>
+<input type="hidden" name="do" value="grid-form-submit"></form>
 
 </div>

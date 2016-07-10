@@ -24,7 +24,7 @@
         }
     },
     "scripts": {
-        "test": "./vendor/bin/tester --colors 1 tests/",
+        "test": "./vendor/bin/tester --colors 1 -p php tests/",
         "syntax": "./vendor/bin/phpcs --standard=standards.xml --colors --encoding=utf-8 -sp src/",
         "syntax-fix": "./vendor/bin/phpcbf --standard=standards.xml src/"
     },
@@ -41,7 +41,7 @@
         "tracy/tracy": "~2.3",
         "nette/bootstrap": "~2.3",
         "nette/database": "~2.2",
-        "nette/tester": "~1.6.1",
+        "nette/tester": "~1.7.1",
         "mockery/mockery": "~0.9.3",
         "dibi/dibi": "~3.0.1",
         "kdyby/doctrine": "~3.1.2",

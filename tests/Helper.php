@@ -105,7 +105,9 @@ class Helper
             ->createContainer();
         $container->removeService('httpRequest');
         $container->addService('httpRequest', new \Nette\Http\Request($url));
-        $container->addService('router', new \Nette\Application\Routers\SimpleRouter);
+
+        $router = $container->getByType(\Nette\Application\IRouter::class);
+        $router[] = new \Nette\Application\Routers\Route('<presenter>/<action>[/<id>]', 'Dashboard:default');
 
         $presenter = new TestPresenter($container);
         $container->callInjects($presenter);
