@@ -26,7 +26,7 @@ use Grido\Exception;
  * @property-read \Nette\Utils\Html $headerPrototype
  * @property-write callback $cellCallback
  * @property-write string $defaultSorting
- * @property-write mixed $customRender
+ * @property mixed $customRender
  * @property-write array $customRenderVariables
  * @property-write mixed $customRenderExport
  * @property-write array $replacements

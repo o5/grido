@@ -19,6 +19,8 @@ namespace Grido\Components\Actions;
  * @author      Petr Bugyík
  *
  * @property-write array $customHref
+ * @property-read string $destination
+ * @property-read array $arguments
  */
 class Href extends Action
 {

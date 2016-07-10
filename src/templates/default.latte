@@ -9,7 +9,7 @@
 
 {snippet grid}
 
-{?
+{php
     $form->getElementPrototype()->class[] = 'ajax grido';
     $form->getElementPrototype()->{"data-grido-refresh-handler"} = $control->link("refresh!", ['page' => NULL, 'perPage' => NULL, 'sort' => NULL, 'filter' => NULL]);
 
@@ -111,7 +111,7 @@
                 </span>
                 <span n:if="$control->hasOperation()" n:block="operations" class="operations"  title="{_'Grido.SelectSomeRow'}">
                     {$form[\Grido\Components\Operation::ID][\Grido\Components\Operation::ID]->control}
-                    {?$form[\Grido\Grid::BUTTONS][\Grido\Components\Operation::ID]->controlPrototype->class[] = 'hide'}
+                    {php $form[\Grido\Grid::BUTTONS][\Grido\Components\Operation::ID]->controlPrototype->class[] = 'hide'}
                     {$form[\Grido\Grid::BUTTONS][\Grido\Components\Operation::ID]->control}
                 </span>
                 <span n:if="$paginator->steps && $paginator->pageCount > 1" n:block="paginator" class="paginator">
@@ -138,7 +138,7 @@
                 </span>
                 <span class="right" n:inner-block="right">
                     <span n:block="perpage" class="count">
-                        <label>{= sprintf($template->translate('Grido.Items'), $paginator->getCountBegin(), $paginator->getCountEnd(), $control->getCount())}</label>
+                        <label>{= sprintf($control->getTranslator()->translate('Grido.Items'), $paginator->getCountBegin(), $paginator->getCountEnd(), $control->getCount())}</label>
                         {block perPageElement}
                             {input count}
                         {/block}
@@ -156,7 +156,7 @@
     </tfoot>
     <tbody>
         {foreach $data as $row}
-            {? $checkbox = $control->hasOperation()
+            {php $checkbox = $control->hasOperation()
                     ? $form[\Grido\Components\Operation::ID][\Grido\Helpers::formatColumnName($control->getProperty($row, $control->getComponent(\Grido\Components\Operation::ID)->getPrimaryKey()))]
                     : NULL;
                 $tr = $control->getRowPrototype($row);
@@ -169,7 +169,7 @@
                     {$checkbox->getControl()}
                 </td>
                 {foreach $columns as $column}
-                    {?$td = $column->getCellPrototype($row)}
+                    {php $td = $column->getCellPrototype($row)}
                     {$td->startTag()|noescape}
                         {if is_string($column->getCustomRender()) && $column->getCustomRenderVariables()}
                             {include $column->getCustomRender() control => $control, presenter => $control->getPresenter(), item => $row, column => $column, (expand) $column->getCustomRenderVariables()}

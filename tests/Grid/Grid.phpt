@@ -291,7 +291,7 @@ class GridTest extends \Tester\TestCase
         Helper::grid(function(Grid $grid) {
             $template = __FILE__;
             $grid->setTemplateFile($template);
-            Assert::same($template, $grid->template->getFile());
+            Assert::same($template, $grid->getTemplate()->getFile());
         });
     }
 
@@ -332,7 +332,7 @@ class GridTest extends \Tester\TestCase
             $options = ['key' => 'value'];
             $grid->setClientSideOptions($options);
             $grid->render();
-            Assert::same($grid->tablePrototype->data[Grid::CLIENT_SIDE_OPTIONS], json_encode($options));
+            Assert::same($grid->tablePrototype->getAttribute('data-' . Grid::CLIENT_SIDE_OPTIONS), json_encode($options));
         })->run();
     }
 
@@ -461,11 +461,7 @@ class GridTest extends \Tester\TestCase
 
             $grid->customization->useTemplateBootstrap();
             $grid->onRender($grid);
-            Assert::same($availableTemplates[Customization::TEMPLATE_BOOTSTRAP], $grid->template->getFile());
-
-            $grid->customization->useTemplateDefault();
-            $grid->onRender($grid);
-            Assert::same($availableTemplates[Customization::TEMPLATE_DEFAULT], $grid->template->getFile());
+            Assert::same($availableTemplates[Customization::TEMPLATE_BOOTSTRAP], $grid->getTemplate()->getFile());
         })->run();
     }
 

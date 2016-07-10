@@ -17,6 +17,8 @@ namespace Grido\Components\Filters;
  * @package     Grido
  * @subpackage  Components\Filters
  * @author      Petr Bugyík
+ *
+ * @property-read \Nette\Forms\IControl $formControl
  */
 class Custom extends Filter
 {

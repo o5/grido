@@ -1,4 +1,3 @@
-
 <div id="snippet-grid-grid">
 
 
@@ -35,6 +34,7 @@
                     <input type="submit" name="buttons[search]" value="Search">
                 </span>
                 <span class="paginator">
+
                         <span class="disabled " href="/?grid-page=0&amp;action=default&amp;do=grid-page&amp;presenter=Test"><i class=""></i> Previous</span>
                             <span class="disabled ">1</span>
                             <a class="ajax " href="/?grid-page=2&amp;action=default&amp;do=grid-page&amp;presenter=Test">2</a>
@@ -98,8 +98,7 @@ and newline &quot;test&quot;;
 <input type="hidden" name="action" value="default"><input type="hidden" name="presenter" value="Test"><input type="hidden" name="do" value="grid-form-submit"><!--[if IE]><input type=IEbug disabled style="display:none"><![endif]-->
 </form>
 
-</div>
-<div id="snippet-grid-grid">
+</div><div id="snippet-grid-grid">
 
 
 
@@ -136,6 +135,7 @@ and newline &quot;test&quot;;
                     <input type="submit" name="buttons[search]" value="Search">
                 </span>
                 <span class="paginator">
+
                         <span class="disabled " href="/?grid-page=0&amp;action=default&amp;do=grid-page&amp;presenter=Test"><i class=""></i> Previous</span>
                             <span class="disabled ">1</span>
                             <a class="ajax " href="/?grid-page=2&amp;action=default&amp;do=grid-page&amp;presenter=Test">2</a>
@@ -179,6 +179,7 @@ and newline &quot;test&quot;;
                             1964-10-25
                     </td>
                 <td class="actions center">
+
 <a class="grid-action-edit" href="/?id=1&amp;action=edit&amp;presenter=Test">Edit</a>                </td>
             </tr>
             <tr class="grid-row-20">
@@ -196,6 +197,7 @@ and newline &quot;test&quot;;
                             1972-12-16
                     </td>
                 <td class="actions center">
+
 <a class="grid-action-edit" href="/?id=20&amp;action=edit&amp;presenter=Test">Edit</a>                </td>
             </tr>
     </tbody>
@@ -203,8 +205,7 @@ and newline &quot;test&quot;;
 <input type="hidden" name="action" value="default"><input type="hidden" name="presenter" value="Test"><input type="hidden" name="do" value="grid-form-submit"><!--[if IE]><input type=IEbug disabled style="display:none"><![endif]-->
 </form>
 
-</div>
-<div id="snippet-grid-grid">
+</div><div id="snippet-grid-grid">
 
 
 
@@ -257,6 +258,7 @@ and newline &quot;test&quot;;
                     <input type="submit" name="buttons[search]" value="Search">
                 </span>
                 <span class="paginator">
+
                         <span class="disabled " href="/?grid-page=0&amp;action=default&amp;do=grid-page&amp;presenter=Test"><i class=""></i> Previous</span>
                             <span class="disabled ">1</span>
                             <a class="ajax " href="/?grid-page=2&amp;action=default&amp;do=grid-page&amp;presenter=Test">2</a>
@@ -319,8 +321,7 @@ and newline &quot;test&quot;;
 </table>
 <input type="hidden" name="action" value="default"><input type="hidden" name="presenter" value="Test"><input type="hidden" name="do" value="grid-form-submit"></form>
 
-</div>
-<div id="snippet-grid-grid">
+</div><div id="snippet-grid-grid">
 
 
 
@@ -374,6 +375,7 @@ and newline &quot;test&quot;;
                     <input type="submit" name="buttons[search]" value="Search">
                 </span>
                 <span class="paginator">
+
                         <span class="disabled " href="/?grid-page=0&amp;action=default&amp;do=grid-page&amp;presenter=Test"><i class=""></i> Previous</span>
                             <span class="disabled ">1</span>
                             <a class="ajax " href="/?grid-page=2&amp;action=default&amp;do=grid-page&amp;presenter=Test">2</a>
@@ -417,6 +419,7 @@ and newline &quot;test&quot;;
                             1964-10-25
                     </td>
                 <td class="actions center">
+
 <a class="grid-action-edit" href="/?id=1&amp;action=edit&amp;presenter=Test">Edit</a>                </td>
             </tr>
             <tr class="grid-row-20">
@@ -434,6 +437,7 @@ and newline &quot;test&quot;;
                             1972-12-16
                     </td>
                 <td class="actions center">
+
 <a class="grid-action-edit" href="/?id=20&amp;action=edit&amp;presenter=Test">Edit</a>                </td>
             </tr>
     </tbody>

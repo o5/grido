@@ -20,7 +20,7 @@ class Multirender extends \Tester\TestCase
     function helper($template)
     {
         $baseGrid = function($grid, TestPresenter $presenter) use ($template) {
-            $data = $presenter->context->dibi_sqlite
+            $data = $presenter->context->getService('dibi_sqlite')
                 ->select('u.*, c.title AS country')
                 ->from('[user] u')
                 ->leftJoin('[country] c')->on('u.country_code = c.code')

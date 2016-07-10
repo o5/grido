@@ -194,7 +194,7 @@ class EditableTest extends \Tester\TestCase
 
         //dibi
         Helper::grid(function(Grid $grid, TestPresenter $presenter) use ($checkException) {
-            $fluent = $presenter->context->dibi_sqlite
+            $fluent = $presenter->context->getService('dibi_sqlite')
                 ->select('u.*, c.title AS country')
                 ->from('[user] u')
                 ->join('[country] c')->on('u.country_code = c.code');
@@ -247,7 +247,7 @@ class EditableTest extends \Tester\TestCase
         copy($database, $database . $editableSuffix);
 
         Helper::grid(function(Grid $grid) use ($editableSuffix) {
-            $dsn = $grid->presenter->context->ndb_sqlite->getDsn() . $editableSuffix;
+            $dsn = $grid->presenter->context->getService('ndb_sqlite')->getDsn() . $editableSuffix;
             $cacheMemoryStorage = new \Nette\Caching\Storages\MemoryStorage;
             $connection = new \Nette\Database\Connection($dsn);
             $structure = new \Nette\Database\Structure($connection, $cacheMemoryStorage);
@@ -271,7 +271,7 @@ class EditableTest extends \Tester\TestCase
 
         //TEST INSIDE EDITABLE CALLBACK
         Helper::grid(function(Grid $grid) use ($editableSuffix, $newValue, $oldValue, $id) {
-            $dsn = $grid->presenter->context->ndb_sqlite->getDsn() . $editableSuffix;
+            $dsn = $grid->presenter->context->getService('ndb_sqlite')->getDsn() . $editableSuffix;
             $cacheMemoryStorage = new \Nette\Caching\Storages\MemoryStorage;
             $connection = new \Nette\Database\Connection($dsn);
             $structure = new \Nette\Database\Structure($connection, $cacheMemoryStorage);

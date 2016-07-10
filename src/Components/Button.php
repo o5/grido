@@ -24,6 +24,8 @@ use Nette\Utils\Html;
  * @property-read Html $element
  * @property-write Html $elementPrototype
  * @property string $options
+ * @property-read string $destination
+ * @property-read array $arguments
  */
 class Button extends Component
 {

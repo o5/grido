@@ -8,10 +8,9 @@ parameters:
             file: %data_source_dir%users.s3db
             profiler: true
 
-nette:
-    database:
-        sqlite:
-            dsn: sqlite:%database.sqlite.file%
+database:
+    sqlite:
+        dsn: sqlite:%database.sqlite.file%
 
 services:
     ndb_sqlite: @database.sqlite

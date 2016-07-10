@@ -278,7 +278,7 @@ class Grid extends Components\Container
     public function setTemplateFile($file)
     {
         $this->onRender[] = function() use ($file) {
-            $this->template->gridoTemplate = $this->getTemplate()->getFile();
+            $this->getTemplate()->add('gridoTemplate', $this->getTemplate()->getFile());
             $this->getTemplate()->setFile($file);
         };
 
@@ -825,7 +825,7 @@ class Grid extends Components\Container
     {
         $template = parent::createTemplate();
         $template->setFile($this->getCustomization()->getTemplateFiles()[Customization::TEMPLATE_DEFAULT]);
-        $template->registerHelper('translate', [$this->getTranslator(), 'translate']);
+        $template->getLatte()->addFilter('translate', [$this->getTranslator(), 'translate']);
 
         return $template;
     }
@@ -847,23 +847,35 @@ class Grid extends Components\Container
             $this->onRender($this);
         }
 
-        $this->template->data = $data;
-        $this->template->form = $form = $this['form'];
-        $this->template->paginator = $this->getPaginator();
+        $form = $this['form'];
 
-        $this->template->columns = $this->getComponent(Column::ID)->getComponents();
-        $this->template->actions = $this->hasActions() ? $this->getComponent(Action::ID)->getComponents() : [];
-        $this->template->buttons = $this->hasButtons() ? $this->getComponent(Button::ID)->getComponents() : [];
-        $this->template->formFilters = $this->hasFilters() ? $form->getComponent(Filter::ID)->getComponents() : [];
-        $this->template->customization = $this->getCustomization();
+        $this->getTemplate()->add('data', $data);
+        $this->getTemplate()->add('form', $form);
+        $this->getTemplate()->add('paginator', $this->getPaginator());
+        $this->getTemplate()->add('customization', $this->getCustomization());
+        $this->getTemplate()->add('columns', $this->getComponent(Column::ID)->getComponents());
+        $this->getTemplate()->add('actions', $this->hasActions()
+            ? $this->getComponent(Action::ID)->getComponents()
+            : []
+        );
+
+        $this->getTemplate()->add('buttons', $this->hasButtons()
+            ? $this->getComponent(Button::ID)->getComponents()
+            : []
+        );
+
+        $this->getTemplate()->add('formFilters', $this->hasFilters()
+            ? $form->getComponent(Filter::ID)->getComponents()
+            : []
+        );
 
         $form['count']->setValue($this->getPerPage());
 
         if ($options = $this->options[self::CLIENT_SIDE_OPTIONS]) {
-            $this->getTablePrototype()->data[self::CLIENT_SIDE_OPTIONS] = json_encode($options);
+            $this->getTablePrototype()->setAttribute('data-' . self::CLIENT_SIDE_OPTIONS, json_encode($options));
         }
 
-        $this->template->render();
+        $this->getTemplate()->render();
     }
 
     protected function saveRememberState()

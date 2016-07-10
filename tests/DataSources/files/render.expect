@@ -1,4 +1,3 @@
-
 <div id="snippet-grid-grid">
 
 
@@ -12,11 +11,11 @@
             </span>
             <span class="grid-filter-name">
                 <label for="frm-grid-form-filters-name">Name</label>
-                <input type="text" name="filters[name]" class="text suggest" autocomplete="off" id="frm-grid-form-filters-name" value="a" data-grido-suggest-replacement="-query-" data-grido-suggest-limit="10" data-grido-suggest-handler="/?grid-filters-name-query=-query-&amp;action=default&amp;do=grid-filters-name-suggest&amp;presenter=Test">
+                <input type="text" name="filters[name]" class="text suggest" autocomplete="off" data-grido-suggest-replacement="-query-" data-grido-suggest-limit="10" data-grido-suggest-handler="/?grid-filters-name-query=-query-&amp;action=default&amp;do=grid-filters-name-suggest&amp;presenter=Test" id="frm-grid-form-filters-name" value="a">
             </span>
             <span class="grid-filter-country">
                 <label for="frm-grid-form-filters-country">Country</label>
-                <input type="text" name="filters[country]" class="text suggest" autocomplete="off" id="frm-grid-form-filters-country" value="au" data-grido-suggest-replacement="-query-" data-grido-suggest-limit="10" data-grido-suggest-handler="/?grid-filters-country-query=-query-&amp;action=default&amp;do=grid-filters-country-suggest&amp;presenter=Test">
+                <input type="text" name="filters[country]" class="text suggest" autocomplete="off" data-grido-suggest-replacement="-query-" data-grido-suggest-limit="10" data-grido-suggest-handler="/?grid-filters-country-query=-query-&amp;action=default&amp;do=grid-filters-country-suggest&amp;presenter=Test" id="frm-grid-form-filters-country" value="au">
             </span>
             <span class="grid-filter-male">
 
@@ -59,7 +58,7 @@
                     <input type="submit" name="buttons[search]" value="Search">
                 </span>
                 <span class="paginator">
-                        <a class="ajax " href="/?grid-sort%5Bcountry%5D=asc&amp;grid-filter%5Bname%5D=a&amp;grid-filter%5Bmale%5D=1&amp;grid-filter%5Bcountry%5D=au&amp;action=default&amp;do=grid-page&amp;presenter=Test"><i class=""></i> Previous</a>
+                                            <a class="ajax " href="/?grid-sort%5Bcountry%5D=asc&amp;grid-filter%5Bname%5D=a&amp;grid-filter%5Bmale%5D=1&amp;grid-filter%5Bcountry%5D=au&amp;action=default&amp;do=grid-page&amp;presenter=Test"><i class=""></i> Previous</a>
                             <a class="ajax " href="/?grid-sort%5Bcountry%5D=asc&amp;grid-filter%5Bname%5D=a&amp;grid-filter%5Bmale%5D=1&amp;grid-filter%5Bcountry%5D=au&amp;action=default&amp;do=grid-page&amp;presenter=Test">1</a>
                             <span class="disabled ">2</span>
                         <span class="disabled " href="/?grid-page=3&amp;grid-sort%5Bcountry%5D=asc&amp;grid-filter%5Bname%5D=a&amp;grid-filter%5Bmale%5D=1&amp;grid-filter%5Bcountry%5D=au&amp;action=default&amp;do=grid-page&amp;presenter=Test">Next <i class=""></i></span>

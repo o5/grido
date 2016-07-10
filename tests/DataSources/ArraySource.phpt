@@ -21,7 +21,7 @@ class ArraySourceTest extends DataSourceTestCase
     function setUp()
     {
         Helper::grid(function(Grid $grid, TestPresenter $presenter) {
-            $data = $presenter->context->dibi_sqlite
+            $data = $presenter->context->getService('dibi_sqlite')
                 ->select('u.*, c.title AS country')
                 ->from('[user] u')
                 ->leftJoin('[country] c')->on('u.country_code = c.code')

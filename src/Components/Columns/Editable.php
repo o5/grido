@@ -25,6 +25,8 @@ use Grido\Exception;
  * @property callback $editableCallback
  * @property callback $editableValueCallback
  * @property callback $editableRowCallback
+ * @property bool $editable
+ * @property bool $editableDisabled
  */
 abstract class Editable extends Column
 {
@@ -176,8 +178,8 @@ abstract class Editable extends Column
         $th = parent::getHeaderPrototype();
 
         if ($this->isEditable()) {
-            $th->data['grido-editable-handler'] = $this->link('editable!');
-            $th->data['grido-editableControl-handler'] = $this->link('editableControl!');
+            $th->setAttribute('data-grido-editable-handler', $this->link('editable!'));
+            $th->setAttribute('data-grido-editableControl-handler', $this->link('editableControl!'));
         }
 
         return $th;
@@ -197,9 +199,11 @@ abstract class Editable extends Column
                 $td->class[] = 'editable';
             }
 
-            $td->data['grido-editable-value'] = $this->editableValueCallback === NULL
+            $value = $this->editableValueCallback === NULL
                 ? $this->getValue($row)
                 : call_user_func_array($this->editableValueCallback, [$row, $this]);
+
+            $td->setAttribute('data-grido-editable-value', $value);
         }
 
         return $td;

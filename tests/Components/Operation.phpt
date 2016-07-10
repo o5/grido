@@ -28,7 +28,7 @@ class OperationTest extends \Tester\TestCase
         })->run();
 
         $formControl = Helper::$grid['form'][Operation::ID][Operation::ID];
-        Assert::same($formControl->controlPrototype->data['grido-confirm-delete'], 'Are you sure?');
+        Assert::same($formControl->controlPrototype->getAttribute('data-grido-confirm-delete'), 'Are you sure?');
     }
 
     /**********************************************************************************************/

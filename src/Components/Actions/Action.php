@@ -194,9 +194,11 @@ abstract class Action extends \Grido\Components\Component
                 ? call_user_func_array($confirm, [$row])
                 : $confirm;
 
-            $element->data['grido-confirm'] = is_array($confirm)
+            $value = is_array($confirm)
                 ? vsprintf($this->translate(array_shift($confirm)), $confirm)
                 : $this->translate($confirm);
+
+            $element->setAttribute('data-grido-confirm', $value);
         }
 
         return $element;

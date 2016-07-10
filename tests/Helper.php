@@ -105,9 +105,7 @@ class Helper
             ->createContainer();
         $container->removeService('httpRequest');
         $container->addService('httpRequest', new \Nette\Http\Request($url));
-
-        $application = $container->getService('application');
-        $application->router[] = new \Nette\Application\Routers\SimpleRouter;
+        $container->addService('router', new \Nette\Application\Routers\SimpleRouter);
 
         $presenter = new TestPresenter($container);
         $container->callInjects($presenter);

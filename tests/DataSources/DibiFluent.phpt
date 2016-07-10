@@ -20,7 +20,7 @@ class DibiFluentTest extends DataSourceTestCase
     function setUp()
     {
         Helper::grid(function(Grid $grid, TestPresenter $presenter) {
-            $fluent = $presenter->context->dibi_sqlite
+            $fluent = $presenter->context->getService('dibi_sqlite')
                 ->select('u.*, c.title AS country')
                 ->from('[user] u')
                 ->leftJoin('[country] c')->on('u.country_code = c.code');

@@ -1,4 +1,3 @@
-
 <div id="snippet-grid-grid">
 
 
@@ -26,15 +25,19 @@
                 <th class="actions center">Actions</th>
         </tr>
         <tr class="filter inner">
+
                     <th class="grid-filter-firstname">
                             <input type="text" name="filters[firstname]" class="text" id="frm-grid-form-filters-firstname">
                     </th>
+
                     <th class="grid-filter-surname">
                             <input type="text" name="filters[surname]" class="text" id="frm-grid-form-filters-surname">
                     </th>
+
                     <th class="grid-filter-gender">
                             <input type="text" name="filters[gender]" class="text" id="frm-grid-form-filters-gender">
                     </th>
+
                     <th class="grid-filter-birthday">
                             <input type="text" name="filters[birthday]" class="text date" autocomplete="off" id="frm-grid-form-filters-birthday">
                     </th>
@@ -54,6 +57,7 @@
                     <input type="submit" name="buttons[operations]" class="hide" value="OK">
                 </span>
                 <span class="paginator">
+
                         <span class="disabled " href="/?grid-page=0&amp;action=default&amp;do=grid-page&amp;presenter=Test"><i class=""></i> Previous</span>
                             <span class="disabled ">1</span>
                             <a class="ajax " href="/?grid-page=2&amp;action=default&amp;do=grid-page&amp;presenter=Test">2</a>
@@ -101,7 +105,10 @@
                             25.10.1964
                     </td>
                 <td class="actions center">
-<a class="xxx" href="/?id=1&amp;action=edit&amp;presenter=Test">Edit</a><a class="grid-action-delete yyy" href="/?grid-actions-delete-id=1&amp;action=default&amp;do=grid-actions-delete-click&amp;presenter=Test">Delete</a><button href="/?grid-actions-print-id=1&amp;action=default&amp;do=grid-actions-print-click&amp;presenter=Test"></button>                </td>
+
+<a class="xxx" href="/?id=1&amp;action=edit&amp;presenter=Test">Edit</a>
+<a class="grid-action-delete yyy" href="/?grid-actions-delete-id=1&amp;action=default&amp;do=grid-actions-delete-click&amp;presenter=Test">Delete</a>
+<button href="/?grid-actions-print-id=1&amp;action=default&amp;do=grid-actions-print-click&amp;presenter=Test"></button>                </td>
             </tr>
             <tr class="grid-row-20 Marij">
                 <td class="checker">
@@ -121,7 +128,10 @@ and newline &quot;test&quot;;
                             16.12.1972
                     </td>
                 <td class="actions center">
-<a class="xxx" href="/?id=20&amp;action=edit&amp;presenter=Test">Edit</a><a class="grid-action-delete yyy" href="/?grid-actions-delete-id=20&amp;action=default&amp;do=grid-actions-delete-click&amp;presenter=Test">Delete</a><button href="/?grid-actions-print-id=20&amp;action=default&amp;do=grid-actions-print-click&amp;presenter=Test"></button>                </td>
+
+<a class="xxx" href="/?id=20&amp;action=edit&amp;presenter=Test">Edit</a>
+<a class="grid-action-delete yyy" href="/?grid-actions-delete-id=20&amp;action=default&amp;do=grid-actions-delete-click&amp;presenter=Test">Delete</a>
+<button href="/?grid-actions-print-id=20&amp;action=default&amp;do=grid-actions-print-click&amp;presenter=Test"></button>                </td>
             </tr>
             <tr class="grid-row-39 Lyyli">
                 <td class="checker">
@@ -140,7 +150,10 @@ and newline &quot;test&quot;;
                             05.05.1963
                     </td>
                 <td class="actions center">
-<a class="xxx" href="/?id=39&amp;action=edit&amp;presenter=Test">Edit</a><a class="grid-action-delete yyy" href="/?grid-actions-delete-id=39&amp;action=default&amp;do=grid-actions-delete-click&amp;presenter=Test">Delete</a><button href="/?grid-actions-print-id=39&amp;action=default&amp;do=grid-actions-print-click&amp;presenter=Test"></button>                </td>
+
+<a class="xxx" href="/?id=39&amp;action=edit&amp;presenter=Test">Edit</a>
+<a class="grid-action-delete yyy" href="/?grid-actions-delete-id=39&amp;action=default&amp;do=grid-actions-delete-click&amp;presenter=Test">Delete</a>
+<button href="/?grid-actions-print-id=39&amp;action=default&amp;do=grid-actions-print-click&amp;presenter=Test"></button>                </td>
             </tr>
             <tr class="grid-row-58 Dýrleif">
                 <td class="checker">
@@ -159,7 +172,10 @@ and newline &quot;test&quot;;
                             24.11.1972
                     </td>
                 <td class="actions center">
-<a class="xxx" href="/?id=58&amp;action=edit&amp;presenter=Test">Edit</a><a class="grid-action-delete yyy" href="/?grid-actions-delete-id=58&amp;action=default&amp;do=grid-actions-delete-click&amp;presenter=Test">Delete</a><button href="/?grid-actions-print-id=58&amp;action=default&amp;do=grid-actions-print-click&amp;presenter=Test"></button>                </td>
+
+<a class="xxx" href="/?id=58&amp;action=edit&amp;presenter=Test">Edit</a>
+<a class="grid-action-delete yyy" href="/?grid-actions-delete-id=58&amp;action=default&amp;do=grid-actions-delete-click&amp;presenter=Test">Delete</a>
+<button href="/?grid-actions-print-id=58&amp;action=default&amp;do=grid-actions-print-click&amp;presenter=Test"></button>                </td>
             </tr>
     </tbody>
 </table>
