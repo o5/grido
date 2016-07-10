@@ -29,7 +29,7 @@
         "syntax-fix": "./vendor/bin/phpcbf --standard=standards.xml src/"
     },
     "require": {
-        "php": ">=5.5",
+        "php": ">=5.6",
         "nette/utils": "~2.4",
         "nette/forms": "~2.2",
         "latte/latte": "~2.3",
