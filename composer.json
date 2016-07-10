@@ -30,7 +30,7 @@
     },
     "require": {
         "php": ">=5.5",
-        "nette/utils": "~2.2",
+        "nette/utils": "~2.4",
         "nette/forms": "~2.2",
         "latte/latte": "~2.3",
         "nette/application": "~2.2",
