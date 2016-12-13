@@ -78,6 +78,10 @@ class Date extends Editable
             }
         }
 
+        if ($value instanceof \DateInterval) {
+            return $value->format($this->dateFormat);
+        }
+
         return $value instanceof \DateTime
             ? $value->format($this->dateFormat)
             : date($this->dateFormat, is_numeric($value) ? $value : strtotime($value)); //@todo notice for "01.01.1970"
