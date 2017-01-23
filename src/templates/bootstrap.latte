@@ -34,7 +34,7 @@
 
     {foreach $actions as $action}
         {php
-            $element = $action->elementPrototype;
+            $element = $action->getElementPrototype();
             $element->class[] = $customization->buttonClass;
 
             if ($icon = $action->getOption('icon')) {
@@ -46,7 +46,7 @@
 
     {foreach $buttons as $button}
         {php
-            $element = $button->elementPrototype;
+            $element = $button->getElementPrototype();
             $element->class[] = $customization->buttonClass;
 
             if ($icon = $button->getOption('icon')) {
