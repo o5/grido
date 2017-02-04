@@ -194,9 +194,8 @@ abstract class Column extends \Grido\Components\Component
         }
 
         if ($this->isSortable() && $this->getSort()) {
-            $this->headerPrototype->class[] = $this->getSort() == self::ORDER_DESC
-                ? 'desc'
-                : 'asc';
+            $sortClass = $this->getSort() == self::ORDER_DESC ? 'desc' : 'asc';
+        	$this->headerPrototype->addAttributes(['class' => $sortClass]);
         }
 
         return $this->headerPrototype;
