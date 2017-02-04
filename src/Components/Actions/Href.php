@@ -33,6 +33,9 @@ class Href extends Action
     /** @var callback for custom href attribute creating */
     protected $customHref;
 
+    /** @var bool flag if we should add filter values to arguments */
+    protected $addFilterValues = FALSE;
+
     /**
      * @param \Grido\Grid $grid
      * @param string $name
@@ -59,6 +62,16 @@ class Href extends Action
         return $this;
     }
 
+    /**
+     * Turns on adding filter values to link arguments.
+     * @return Href
+     */
+    public function setAddFilterValues()
+    {
+        $this->addFilterValues = TRUE;
+        return $this;
+    }
+
     /**********************************************************************************************/
 
     /**
@@ -76,13 +89,44 @@ class Href extends Action
             $primaryKey = $this->getPrimaryKey();
             $primaryValue = $this->grid->getProperty($row, $primaryKey);
 
-            $this->arguments[$primaryKey] = $primaryValue;
-            $href = $this->presenter->link($this->getDestination(), $this->arguments);
+            $arguments = $this->addFilterValues
+                ? array_merge($this->composeFilterParams(), $this->arguments)
+                : $this->arguments;
+            $arguments[$primaryKey] = $primaryValue;
+
+            $href = $this->presenter->link($this->getDestination(), $arguments);
         }
 
         $element->href($href);
 
         return $element;
+    }
+
+    /**
+     * @return array
+     * @internal
+     */
+    private function composeFilterParams()
+    {
+        $oarams = [];
+
+        foreach ($this->grid->getActualFilter() as $key => $value) {
+            $params[$this->grid->getName() . "-filter[$key]"] = $value;
+        }
+
+        foreach ($this->grid->sort as $key => $value) {
+            $params[$this->grid->getName() . "-sort[$key]"] = $value;
+        }
+
+        if ($this->grid->page > 1) {
+            $params[$this->grid->getName() . '-page'] = $this->grid->page;
+        }
+
+        if ($this->grid->perPage) {
+            $params[$this->grid->getName() . '-perPage'] = $this->grid->perPage;
+        }
+
+        return $params;
     }
 
     /**
