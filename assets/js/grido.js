@@ -32,7 +32,7 @@
         this.$table = $('table', $element);
 
         this.name = this.$table.attr('id');
-        this.options = $.extend($.fn.grido.defaults, options, this.$table.data('grido-options') || {});
+        this.options = $.extend({}, $.fn.grido.defaults, options, this.$table.data('grido-options') || {});
     };
 
     Grido.Grid.prototype =
