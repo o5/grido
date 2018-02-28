@@ -13,8 +13,8 @@ namespace Grido\DataSources;
 
 use Grido\Exception;
 use Grido\Components\Filters\Condition;
-
 use Nette\Utils\Strings;
+use Nette;
 
 /**
  * Array data source.
@@ -27,8 +27,10 @@ use Nette\Utils\Strings;
  * @property-read array $data
  * @property-read int $count
  */
-class ArraySource extends \Nette\Object implements IDataSource
+class ArraySource implements IDataSource
 {
+    use Nette\SmartObject;
+
     /** @var array */
     protected $data;
 

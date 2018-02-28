@@ -11,8 +11,7 @@
 
 namespace Grido;
 
-use Grido\Grid;
-use Nette\Object;
+use Nette;
 
 /**
  * Customization.
@@ -23,8 +22,10 @@ use Nette\Object;
  * @property string|array $buttonClass
  * @property string|array $iconClass
  */
-class Customization extends Object
+class Customization
 {
+
+    use Nette\SmartObject;
 
     const TEMPLATE_DEFAULT = 'default';
     const TEMPLATE_BOOTSTRAP = 'bootstrap';
