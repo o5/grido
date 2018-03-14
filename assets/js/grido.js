@@ -68,11 +68,14 @@
          */
         initFilters: function()
         {
+            var that = this;
             $('.filter select, .filter [type=checkbox]', this.$element)
                 .off('change.grido')
-                .on('change.grido', this.sendFilterForm);
+                .on('change.grido', function(){
+                    that.sendFilterForm();
+                });
 
-            var that = this;
+
             $('.filter input, .filter textarea', this.$element)
                 .off('focus.grido')
                 .on('focus.grido', function() {
