@@ -136,6 +136,22 @@ class Grid extends Components\Container
     protected $customization;
 
     /**
+     * Grid constructor.
+     */
+    public function __construct()
+    {
+        parent::__construct();
+        list($parent, $name) = func_get_args() + [null, null];
+        if ($parent !== null) {
+            $parent->addComponent($this, $name);
+
+        } elseif (is_string($name)) {
+            $this->name = $name;
+        }
+    }
+
+
+    /**
      * Sets a model that implements the interface Grido\DataSources\IDataSource or data-source object.
      * @param mixed $model
      * @param bool $forceWrapper
