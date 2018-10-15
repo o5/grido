@@ -476,9 +476,7 @@ class Grid extends Components\Container
 
             $data = $this->getModel()->getData();
 
-            if ($useCache === TRUE) {
-                $this->data = $data;
-            }
+            $this->data = $useCache ? $data : null;
 
             if ($applyPaging && !empty($data) && !in_array($this->page, range(1, $this->getPaginator()->pageCount))) {
                 $this->__triggerUserNotice("Page is out of range.");
