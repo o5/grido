@@ -32,8 +32,10 @@ use Doctrine\ORM\Tools\Pagination\Paginator;
  * @property-read int $count
  * @property-read array $data
  */
-class Doctrine extends \Nette\Object implements IDataSource
+class Doctrine implements IDataSource
 {
+    use \Nette\SmartObject;
+
     /** @var \Doctrine\ORM\QueryBuilder */
     protected $qb;
 

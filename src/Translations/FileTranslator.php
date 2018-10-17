@@ -20,8 +20,10 @@ use Grido\Exception;
  * @subpackage  Translations
  * @author      Petr Bugyík
  */
-class FileTranslator extends \Nette\Object implements \Nette\Localization\ITranslator
+class FileTranslator implements \Nette\Localization\ITranslator
 {
+    use \Nette\SmartObject;
+
     /** @var array */
     protected $translations = [];
 

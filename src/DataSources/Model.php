@@ -22,8 +22,10 @@ use Grido\Exception;
  *
  * @property-read IDataSource $dataSource
  */
-class Model extends \Nette\Object
+class Model
 {
+    use \Nette\SmartObject;
+
     /** @var array */
     public $callback = [];
 

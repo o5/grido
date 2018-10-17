@@ -25,8 +25,10 @@ use Grido\Exception;
  * @property mixed $value
  * @property-read callable $callback
  */
-class Condition extends \Nette\Object
+class Condition
 {
+    use \Nette\SmartObject;
+
     const OPERATOR_OR = 'OR';
     const OPERATOR_AND = 'AND';
 
