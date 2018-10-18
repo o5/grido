@@ -31,7 +31,8 @@ class Multirender extends \Tester\TestCase
             $grid->addColumnText('surname', 'Surname');
             $grid->addColumnText('gender', 'Gender');
             $grid->addColumnText('birthday', 'Birthday');
-            $grid->templateFile = $grid->customization->templateFiles[$template];
+            $templateFiles = $grid->customization->getTemplateFiles();
+            $grid->templateFile = $templateFiles[$template];
         };
 
         $addFilters = function($grid) {

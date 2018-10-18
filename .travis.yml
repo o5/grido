@@ -10,7 +10,7 @@ matrix:
         - php: hhvm
 
 before_install:
-    - if [ $TRAVIS_PHP_VERSION = '5.6' ]; then COVERAGE="-c `php -i | grep 'xdebug.ini'` --coverage coverage.xml --coverage-src src/"; else COVERAGE="" && if [ $TRAVIS_PHP_VERSION = '5.6' ]; then phpenv config-rm xdebug.ini; fi; fi
+    - if [ $TRAVIS_PHP_VERSION = '5.6' ]; then COVERAGE="-c `php -i | grep 'xdebug.ini'` --coverage coverage.xml --coverage-src=src/ "; else COVERAGE="" && if [ $TRAVIS_PHP_VERSION = '5.6' ]; then phpenv config-rm xdebug.ini; fi; fi
     - composer global require hirak/prestissimo
 
 install:

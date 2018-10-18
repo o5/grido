@@ -25,5 +25,8 @@ doctrine:
 extensions:
     console: Kdyby\Console\DI\ConsoleExtension
 
+application:
+    scanDirs: false
+
 di:
     accessors: true

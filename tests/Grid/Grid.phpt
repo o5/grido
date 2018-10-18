@@ -241,7 +241,7 @@ class GridTest extends \Tester\TestCase
         Assert::type('\Grido\Translations\FileTranslator', $grid->translator);
 
         Assert::exception(function() use ($grid) {
-            $grid->translator->lang = 'aa';
+            $grid->translator->setLang('aa');
         }, '\Grido\Exception');
     }
 

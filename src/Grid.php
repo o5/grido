@@ -141,10 +141,10 @@ class Grid extends Components\Container
     public function __construct()
     {
         parent::__construct();
-        list($parent, $name) = func_get_args() + [null, null];
-        if ($parent !== null) {
+        list($parent, $name) = func_get_args() + [NULL, NULL];
+        if ($parent !== NULL) {
             $parent->addComponent($this, $name);
-         } elseif (is_string($name)) {
+        } elseif (is_string($name)) {
             $this->name = $name;
         }
     }

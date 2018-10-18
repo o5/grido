@@ -26,15 +26,19 @@ class GridInSubcomponentTest extends \Tester\TestCase
 
         $presenter->onStartUp[] = function(TestPresenter $presenter){
 
-            $subcomponent1 = new Subcomponent($presenter, 'subcomponent1');
-            $grid1 = new Grid($subcomponent1, 'grid');
+            $subcomponent1 = new Subcomponent();
+            $presenter->addComponent($subcomponent1, 'subcomponent1');
+            $grid1 = new Grid();
+            $subcomponent1->addComponent($grid1, 'grid1');
             $grid1->setRememberState();
             $session1 = $grid1->getRememberSession();
             $session1->name = 'a';
             Assert::same($session1->name, 'a');
 
-            $subcomponent2 = new Subcomponent($presenter, 'subcomponent2');
-            $grid2 = new Grid($subcomponent2, 'grid');
+            $subcomponent2 = new Subcomponent();
+            $presenter->addComponent($subcomponent2, 'subcomponent2');
+            $grid2 = new Grid();
+            $subcomponent2->addComponent($grid2, 'grid2');
             $grid2->setRememberState();
             $session2 = $grid2->getRememberSession();
             $session2->name = 'b';
