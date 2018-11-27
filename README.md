@@ -11,7 +11,6 @@
 
 Grido is an extension for [Nette Framework](http://nette.org/). Grido helps you with data listing, formatting, sorting, paging, filtering, editing, bulk actions and exporting them.
 It doesn't matter which datasource you are using. For now, Grido works with [Nette Database](https://github.com/nette/database), [Dibi](https://github.com/dg/dibi), [Doctrine](https://github.com/doctrine/doctrine2) and ArraySource (raw PHP Arrays).
-You can try it in [live demo](http://grido.bugyik.cz/example/)!
 
 ![Alt text](http://img.bugyik.cz/Grido.png "Sample")
 
