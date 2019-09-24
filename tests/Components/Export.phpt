@@ -11,7 +11,6 @@ namespace Grido\Tests;
 
 use Tester\Assert,
     Grido\Grid,
-    Grido\Tests\Helper,
     Grido\Components\Export,
     Grido\DataSources\ArraySource;
 
@@ -23,23 +22,24 @@ class Response implements \Nette\Http\IResponse
 
     public static $headers = [];
 
-    function setHeader($name, $value)
+    function setHeader(string $name, string $value)
     {
         self::$headers[$name] = $value;
         return $this;
     }
 
-    function setCode($code) {}
-    function getCode() {}
-    function addHeader($name, $value) {}
-    function getHeader($header, $default = NULL) {}
-    function setContentType($type, $charset = NULL) {}
-    function redirect($url, $code = self::S302_FOUND) {}
-    function setExpiration($seconds) {}
-    function isSent() {}
-    function getHeaders() {}
-    function setCookie($name, $value, $expire, $path = NULL, $domain = NULL, $secure = NULL, $httpOnly = NULL) {}
-    function deleteCookie($name, $path = NULL, $domain = NULL, $secure = NULL) {}
+    function setCode(int $code, ?string $reason = null): void {}
+    function getCode(): int {}
+    function addHeader(string $name, string $value) {}
+    function getHeader(string $header, ?string $default = NULL): ?string {}
+    function deleteHeader(string $name) {}
+	function setContentType(string $type, string $charset = NULL) {}
+    function redirect(string $url, int $code = self::S302_FOUND): void {}
+    function setExpiration(?string $seconds) {}
+    function isSent(): bool {}
+    function getHeaders(): array {}
+    function setCookie(string $name, string $value, $expire, string $path = NULL, string $domain = NULL, bool $secure = NULL, bool $httpOnly = NULL) {}
+    function deleteCookie(string $name, string $path = NULL, string $domain = NULL, bool $secure = NULL) {}
 }
 
 class ExportTest extends \Tester\TestCase

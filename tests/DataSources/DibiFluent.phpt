@@ -54,7 +54,7 @@ class DibiFluentTest extends DataSourceTestCase
                 ]);
 
             $grid->addFilterCheck('tall', 'Only tall')
-                ->setWhere(function($value, \DibiFluent $fluent) {
+                ->setWhere(function($value, \Dibi\Fluent $fluent) {
                     Assert::true($value);
                     $fluent->where('[centimeters] >= %i', 180);
                 });

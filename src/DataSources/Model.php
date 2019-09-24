@@ -38,7 +38,7 @@ class Model
      */
     public function __construct($model)
     {
-        if ($model instanceof \DibiFluent) {
+        if ($model instanceof \Dibi\Fluent) {
             $dataSource = new DibiFluent($model);
         } elseif ($model instanceof \Nette\Database\Table\Selection) {
             $dataSource = new NetteDatabase($model);
@@ -56,7 +56,7 @@ class Model
     }
 
     /**
-     * @return \IDataSource
+     * @return IDataSource
      */
     public function getDataSource()
     {

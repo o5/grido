@@ -24,27 +24,32 @@
         }
     },
     "scripts": {
-        "test": "./vendor/bin/tester --colors 1 -p php tests/",
+        "test": "./vendor/bin/tester --colors 1 -j 4 -c tests/php-unix.ini -p php tests/",
         "syntax": "./vendor/bin/phpcs --standard=standards.xml --colors --encoding=utf-8 -sp src/",
         "syntax-fix": "./vendor/bin/phpcbf --standard=standards.xml src/"
     },
     "require": {
-        "php": ">=5.6",
-        "nette/utils": "~2.4",
-        "nette/forms": "~2.2",
-        "latte/latte": "~2.3",
-        "nette/application": "~2.2",
-        "nette/component-model": "~2.2",
+        "php": ">=7.1",
+        "nette/utils": "^3.0",
+        "nette/forms": "^3.0",
+        "latte/latte": "^2.5",
+        "nette/application": "^3.0",
+        "nette/component-model": "^3.0",
         "symfony/property-access": "~3.0"
     },
     "require-dev": {
-        "tracy/tracy": "~2.3",
-        "nette/bootstrap": "~2.3",
-        "nette/database": "~2.2",
+        "tracy/tracy": "^2.6",
+        "nette/bootstrap": "^3.0",
+        "nette/database": "^3.0",
         "nette/tester": "~1.7.1",
-        "mockery/mockery": "~0.9.3",
-        "dibi/dibi": "~3.0.1",
-        "kdyby/doctrine": "~3.3.0",
-        "squizlabs/php_codesniffer": "~2.5"
-    }
+        "mockery/mockery": "^1.0",
+        "squizlabs/php_codesniffer": "~2.5",
+        "kdyby/annotations": "^3.0",
+        "kdyby/console": "dev-master",
+        "kdyby/doctrine": "dev-master",
+        "kdyby/events": "dev-master",
+        "dibi/dibi": "^4.0"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }

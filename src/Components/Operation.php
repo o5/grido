@@ -131,7 +131,7 @@ class Operation extends Component
 
         foreach ($values as $key => $val) {
             if ($val) {
-                $ids[] = $key;
+                $ids[] = (string) $key;
             }
         }
 

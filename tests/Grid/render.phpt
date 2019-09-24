@@ -25,7 +25,7 @@ test(function()
             ->fetchAll();
         $grid->setModel($data);
         $grid->defaultPerPage = 4;
-        $grid->rowCallback = function(\DibiRow $row, \Nette\Utils\Html $tr) {
+        $grid->rowCallback = function(\Dibi\Row $row, \Nette\Utils\Html $tr) {
             $tr->class[] = $row['firstname'];
             return $tr;
         };

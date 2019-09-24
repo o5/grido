@@ -23,10 +23,10 @@ doctrine:
         Grido\Tests\Entities: %doctrine_dir%/
 
 extensions:
+    annotation: Kdyby\Annotations\DI\AnnotationsExtension
     console: Kdyby\Console\DI\ConsoleExtension
+    doctrine: Kdyby\Doctrine\DI\OrmExtension
 
 application:
     scanDirs: false
 
-di:
-    accessors: true
