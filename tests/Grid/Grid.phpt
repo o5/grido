@@ -56,7 +56,7 @@ class GridTest extends \Tester\TestCase
         $grid->setModel(mock('Grido\DataSources\IDataSource'), TRUE);
         Assert::type('Grido\DataSources\Model', $grid->model);
 
-        $grid->setModel(new \DibiFluent(mock('\\Dibi\Connection')));
+        $grid->setModel(new \Dibi\Fluent(mock('\\Dibi\Connection')));
         Assert::type('Grido\DataSources\Model', $grid->model);
 
         $grid->setModel(mock('\Nette\Database\Table\Selection'));
@@ -68,7 +68,7 @@ class GridTest extends \Tester\TestCase
         $grid->setModel([]);
         Assert::type('Grido\DataSources\Model', $grid->model);
 
-        $grid->setModel(new \DibiFluent(mock('\\Dibi\Connection')));
+        $grid->setModel(new \Dibi\Fluent(mock('\\Dibi\Connection')));
         Assert::type('Grido\DataSources\Model', $grid->model);
 
         Assert::exception(function() use ($grid) {
@@ -319,7 +319,7 @@ class GridTest extends \Tester\TestCase
         Assert::same($rowCallback, $grid->rowCallback);
         $grid->getRowPrototype($testRow);
 
-        $rowCallback = mock('\Nette\Utils\Callback');
+        $rowCallback = function () {};
         $grid->setRowCallback($rowCallback);
         Assert::same($rowCallback, $grid->rowCallback);
     }
@@ -581,7 +581,7 @@ class GridTest extends \Tester\TestCase
             $grid->addFilterCustom('filterC', new \Nette\Forms\Controls\MultiSelectBox(NULL, ['a' => 'a', 'b' => 'b', 'c' => 'c']));
         });
 
-        $params = ['grid-page' => 2, 'do' => 'grid-form-submit', Grid::BUTTONS => ['search' => 'Search'], 'count' => 10];
+        $params = ['grid-page' => '2', 'do' => 'grid-form-submit', Grid::BUTTONS => ['search' => 'Search'], 'count' => '10'];
 
         //new filter AND default value
         $filter = ['filter' => 'test'] + $defaultFilter;
@@ -653,10 +653,10 @@ class GridTest extends \Tester\TestCase
 
         Helper::request([
             'do' => 'grid-form-submit',
-            'grid-page' => 2,
+            'grid-page' => '2',
             Filter::ID => ['B' => 'B2'],
             Grid::BUTTONS => ['search' => 'Search'],
-            'count' => 10,
+            'count' => '10',
         ]);
 
         Assert::same(1, Helper::$grid->page); //test reset page after filtering
@@ -677,10 +677,10 @@ class GridTest extends \Tester\TestCase
 
         Helper::request([
             'do' => 'grid-form-submit',
-            'grid-page' => 1,
+            'grid-page' => '1',
             Filter::ID => ['A' => '', 'B' => ''],
             Grid::BUTTONS => ['search' => 'Search'],
-            'count' => 10,
+            'count' => '10',
         ]);
 
         Assert::same($data, Helper::$grid->getData(FALSE));
@@ -713,7 +713,7 @@ class GridTest extends \Tester\TestCase
         $params = [
             'do' => 'grid-form-submit',
             Grid::BUTTONS => ['search' => 'Search'],
-            'count' => 10,
+            'count' => '10',
         ];
         $filter = ['A' => 'test'];
         Helper::request($params + [Filter::ID => $filter]);
@@ -744,14 +744,14 @@ class GridTest extends \Tester\TestCase
             $params = [
                 'sort' => ['A' => Column::ORDER_ASC],
                 'filter' => ['B' => 'B2'],
-                'perPage' => 2,
-                'page' => 2
+                'perPage' => '2',
+                'page' => '2'
 
             ];
             $grid->loadState($params);
         });
 
-        Helper::request(['do' => 'grid-form-submit', Grid::BUTTONS => ['reset' => 'Reset'], 'count' => 2]);
+        Helper::request(['do' => 'grid-form-submit', Grid::BUTTONS => ['reset' => 'Reset'], 'count' => '2']);
         Assert::same([], Helper::$grid->sort);
         Assert::same([], Helper::$grid->filter);
         Assert::null(Helper::$grid->perPage);
@@ -765,9 +765,9 @@ class GridTest extends \Tester\TestCase
             $grid->addColumnText('column', 'Column');
         });
 
-        $perPage = 10;
-        Helper::request(['count' => $perPage, 'grid-page' => 2, 'do' => 'grid-form-submit', Grid::BUTTONS => ['perPage' => 'Items per page']]);
-        Assert::same($perPage, Helper::$grid->perPage);
+        $perPage = '10';
+        Helper::request(['count' => $perPage, 'grid-page' => '2', 'do' => 'grid-form-submit', Grid::BUTTONS => ['perPage' => 'Items per page']]);
+        Assert::same($perPage, (string) Helper::$grid->perPage);
         Assert::same(1, Helper::$grid->page);
     }
 

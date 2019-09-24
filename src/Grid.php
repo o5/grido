@@ -18,6 +18,7 @@ use Grido\Components\Columns\Column;
 use Grido\Components\Filters\Filter;
 use Grido\Components\Actions\Action;
 
+use Nette\Application\UI\Presenter;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
 
 /**
@@ -140,7 +141,6 @@ class Grid extends Components\Container
      */
     public function __construct()
     {
-        parent::__construct();
         list($parent, $name) = func_get_args() + [NULL, NULL];
         if ($parent !== NULL) {
             $parent->addComponent($this, $name);
@@ -701,7 +701,7 @@ class Grid extends Components\Container
      * @param array $params
      * @internal
      */
-    public function loadState(array $params)
+    public function loadState(array $params): void
     {
         //loads state from session
         $session = $this->getRememberSession();
@@ -720,10 +720,10 @@ class Grid extends Components\Container
      * @param \Nette\Application\UI\PresenterComponentReflection $reflection (internal, used by Presenter)
      * @internal
      */
-    public function saveState(array &$params, $reflection = NULL)
+    public function saveState(array &$params, $reflection = NULL): void
     {
         !empty($this->onRegistered) && $this->onRegistered($this);
-        return parent::saveState($params, $reflection);
+        parent::saveState($params, $reflection);
     }
 
     /**
@@ -832,10 +832,9 @@ class Grid extends Components\Container
     /**********************************************************************************************/
 
     /**
-     * @return \Nette\Templating\FileTemplate
      * @internal
      */
-    public function createTemplate()
+    public function createTemplate(): \Nette\Application\UI\ITemplate
     {
         $template = parent::createTemplate();
         $template->setFile($this->getCustomization()->getTemplateFiles()[Customization::TEMPLATE_DEFAULT]);
@@ -1029,7 +1028,7 @@ class Grid extends Components\Container
      */
     public function __triggerUserNotice($message)
     {
-        if ($this->getPresenter(FALSE) && $session = $this->getRememberSession()) {
+        if ($this->lookup(Presenter::class, FALSE) && $session = $this->getRememberSession()) {
             $session->remove();
         }
 

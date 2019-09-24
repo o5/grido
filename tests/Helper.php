@@ -87,26 +87,25 @@ class Helper
     }
 
     /**
-     * @return \TestPresenter
+     * @return TestPresenter
      */
     private function createPresenter()
     {
-        $url = new \Nette\Http\UrlScript('http://localhost/');
-        $url->setScriptPath('/');
+        $url = new \Nette\Http\UrlScript('http://localhost/', '/');
 
         $configurator = new \Nette\Configurator;
         $configurator->addConfig(__DIR__ . '/config.neon');
-        \Kdyby\Events\DI\EventsExtension::register($configurator);
-        \Kdyby\Annotations\DI\AnnotationsExtension::register($configurator);
-        \Kdyby\Doctrine\DI\OrmExtension::register($configurator);
+        //\Kdyby\Events\DI\EventsExtension::register($configurator);
+        //\Kdyby\Annotations\DI\AnnotationsExtension::register($configurator);
+        //\Kdyby\Doctrine\DI\OrmExtension::register($configurator);
 
         $container = $configurator
             ->setTempDirectory(TEMP_DIR)
             ->createContainer();
         $container->removeService('httpRequest');
-        $container->addService('httpRequest', new \Nette\Http\Request($url));
+        $container->addService('httpRequest', new \Nette\Http\Request($url, NULL, NULL, ['nette-samesite' => TRUE]));
 
-        $router = $container->getByType(\Nette\Application\IRouter::class);
+        $router = $container->getByType(\Nette\Routing\Router::class);
         $router[] = new \Nette\Application\Routers\Route('<presenter>/<action>[/<id>]', 'Dashboard:default');
 
         $presenter = new TestPresenter($container);
@@ -133,12 +132,12 @@ class TestPresenter extends \Nette\Application\UI\Presenter
         $this->onStartUp($this);
     }
 
-    public function sendTemplate()
+    public function sendTemplate(): void
     {
         //parent::sendTemplate(); intentionally
     }
 
-    public function sendResponse(\Nette\Application\IResponse $response)
+    public function sendResponse(\Nette\Application\IResponse $response): void
     {
         if($response instanceof \Nette\Application\Responses\JsonResponse){
             $response->send($this->getHttpRequest(), $this->getHttpResponse());
@@ -147,14 +146,14 @@ class TestPresenter extends \Nette\Application\UI\Presenter
         }
     }
 
-    public function isAjax()
+    public function isAjax(): bool
     {
         return $this->forceAjaxMode === TRUE
             ? TRUE
             : parent::isAjax();
     }
 
-    public function terminate()
+    public function terminate(): void
     {
         if ($this->forceAjaxMode === FALSE) {
             parent::terminate();
