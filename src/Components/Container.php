@@ -382,10 +382,10 @@ abstract class Container extends \Nette\Application\UI\Control
 
     /**
      * @param array $operations
-     * @param callback $onSubmit - callback after operation submit
+     * @param callable $onSubmit - callback after operation submit
      * @return Operation
      */
-    public function setOperation(array $operations, $onSubmit)
+    public function setOperation(array $operations, callable $onSubmit)
     {
         return new Operation($this, $operations, $onSubmit);
     }

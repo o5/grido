@@ -24,14 +24,14 @@ class Text extends Editable
     protected $truncate;
 
     /**
-     * @param string $maxLen UTF-8 encoding
+     * @param int $maxLen UTF-8 encoding
      * @param string $append UTF-8 encoding
      * @return Column
      */
-    public function setTruncate($maxLen, $append = "\xE2\x80\xA6")
+    public function setTruncate(int $maxLen, string $append = "\xE2\x80\xA6")
     {
-        $this->truncate = function($string) use ($maxLen, $append) {
-            return \Nette\Utils\Strings::truncate($string, $maxLen, $append);
+        $this->truncate = function(?string $string) use ($maxLen, $append): string {
+            return $string !== null ? \Nette\Utils\Strings::truncate($string, $maxLen, $append) : '';
         };
 
         return $this;
