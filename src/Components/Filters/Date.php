@@ -30,7 +30,7 @@ class Date extends Text
     protected $dateFormatInput = 'd.m.Y';
 
     /** @var string */
-    protected $dateFormatOutput = 'Y-m-d%';
+    protected $dateFormatOutput = 'Y-m-d';
 
     /**
      * Sets date-input format.
