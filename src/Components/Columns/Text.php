@@ -24,7 +24,7 @@ class Text extends Editable
     protected $truncate;
 
     /**
-     * @param string $maxLen UTF-8 encoding
+     * @param int $maxLen
      * @param string $append UTF-8 encoding
      * @return Column
      */

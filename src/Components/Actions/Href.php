@@ -50,7 +50,7 @@ class Href extends Action
 
     /**
      * Sets callback for custom link creating.
-     * @param callback $callback
+     * @param callable $callback
      * @return Href
      */
     public function setCustomHref($callback)
