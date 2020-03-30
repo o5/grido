@@ -31,7 +31,7 @@ class Text extends Editable
     public function setTruncate($maxLen, $append = "\xE2\x80\xA6")
     {
         $this->truncate = function($string) use ($maxLen, $append) {
-            return \Nette\Utils\Strings::truncate($string, $maxLen, $append);
+            return $string ? \Nette\Utils\Strings::truncate($string, $maxLen, $append) : null;
         };
 
         return $this;
