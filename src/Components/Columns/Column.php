@@ -81,6 +81,8 @@ abstract class Column extends \Grido\Components\Component
     {
         $this->addComponentToGrid($grid, Helpers::formatColumnName($name));
 
+        $this->column = $name;
+
         $this->type = get_class($this);
         $this->label = $label;
     }
@@ -208,7 +210,7 @@ abstract class Column extends \Grido\Components\Component
      */
     public function getColumn()
     {
-        return $this->column ? $this->column : $this->getName();
+        return $this->column;
     }
 
     /**
@@ -319,8 +321,13 @@ abstract class Column extends \Grido\Components\Component
     protected function getValue($row)
     {
         $column = $this->getColumn();
+
+
+
+
         if (is_string($column)) {
             return $this->grid->getProperty($row, Helpers::unformatColumnName($column));
+
 
         } elseif (is_callable($column)) {
             return call_user_func_array($column, [$row]);

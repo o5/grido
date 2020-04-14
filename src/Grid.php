@@ -623,10 +623,21 @@ class Grid extends Components\Container
         }
 
         if (is_array($object)) {
-            $name = "[$name]";
+            $exploded = explode('.',$name,2);
+            if (count($exploded) == 2){
+                $name = "[$exploded[0]].$exploded[1]";
+            } else {
+                $name = "[$exploded[0]]";
+            }
+
+
         }
 
-        return $this->getPropertyAccessor()->getValue($object, $name);
+        try{
+            return $this->getPropertyAccessor()->getValue($object, $name);
+        } catch (\Symfony\Component\PropertyAccess\Exception\UnexpectedTypeException $e){
+            return NULL;
+        }
     }
 
     /**
