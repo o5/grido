@@ -52,6 +52,7 @@
                 displayKey: function(item) {
                     return item;
                 },
+                limit: $(this).data('grido-suggest-limit'),
                 source: source.ttAdapter()
             });
 
