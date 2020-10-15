@@ -98,11 +98,38 @@ class ArraySource implements IDataSource
         $cond = str_replace(' ?', '', $condition);
 
         if ($cond === 'LIKE') {
+            // Ignore accents
             $actual = Strings::toAscii($actual);
             $expected = Strings::toAscii($expected);
 
-            $pattern = str_replace('%', '(.|\s)*', preg_quote($expected, '/'));
-            return (bool) preg_match("/^{$pattern}$/i", $actual);
+            // Ignore case
+            $actual = strtolower($actual);
+            $expected = strtolower($expected);
+
+            $result = FALSE;
+
+            if (Strings::startsWith($expected, '%') && Strings::endsWith($expected, '%')) {
+                $expected = ltrim($expected, '%'); // remove starting %
+                $expected = rtrim($expected, '%'); // remove trailing %
+
+                // LIKE %s%
+                $result = Strings::contains($actual, $expected);
+            } elseif (Strings::startsWith($expected, '%')) {
+                $expected = ltrim($expected, '%'); // remove starting %
+
+                // LIKE %s
+                $result = Strings::endsWith($actual, $expected);
+            } elseif (Strings::endsWith($expected, '%')) {
+                $expected = rtrim($expected, '%'); // remove trailing %
+
+                // LIKE s%
+                $result = Strings::startsWith($actual, $expected);
+            } else {
+                // LIKE s
+                $result = $actual == $expected;
+            }
+
+            return $result;
 
         } elseif ($cond === '=') {
             return $actual == $expected;
