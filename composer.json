@@ -35,7 +35,7 @@
         "latte/latte": "^2.5",
         "nette/application": "^3.0",
         "nette/component-model": "^3.0",
-        "symfony/property-access": "~3.0"
+        "symfony/property-access": "^5.3"
     },
     "require-dev": {
         "tracy/tracy": "^2.6",
