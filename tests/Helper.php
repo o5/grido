@@ -132,7 +132,7 @@ class TestPresenter extends \Nette\Application\UI\Presenter
         $this->onStartUp($this);
     }
 
-    public function sendTemplate(): void
+    public function sendTemplate(?Nette\Application\UI\Template $template = null): void
     {
         //parent::sendTemplate(); intentionally
     }
