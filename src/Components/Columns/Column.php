@@ -336,8 +336,8 @@ abstract class Column extends \Grido\Components\Component
      */
     protected function applyReplacement($value)
     {
-        if ((is_scalar($value) || $value === NULL) && isset($this->replacements[$value])) {
-            $replaced = $this->replacements[$value];
+        if ((is_scalar($value) || $value === NULL) && isset($this->replacements[(string) $value])) {
+            $replaced = $this->replacements[(string) $value];
             if (is_scalar($replaced)) {
                 $replaced = $this->translate($replaced);
             }
