@@ -308,7 +308,7 @@ abstract class Column extends \Grido\Components\Component
         }
 
         $value = $this->getValue($row);
-        return strip_tags($this->applyReplacement($value));
+        return strip_tags($this->applyReplacement($value) ?? '');
     }
 
     /**
