@@ -92,8 +92,8 @@ class DateRange extends Date
         if ($this->where === NULL && is_string($this->condition)) {
 
             list (, $from, $to) = \Nette\Utils\Strings::match($value, $this->mask);
-            $from = \DateTime::createFromFormat($this->dateFormatInput, trim($from));
-            $to = \DateTime::createFromFormat($this->dateFormatInput, trim($to));
+            $from = $from ? \DateTime::createFromFormat($this->dateFormatInput, trim($from)) : false;
+            $to = $to ? \DateTime::createFromFormat($this->dateFormatInput, trim($to)) : false;
 
             if ($to && !Strings::match($this->dateFormatInput, '/G|H/i')) { //input format haven't got hour option
                 Strings::contains($this->dateFormatOutput[1], 'G') || Strings::contains($this->dateFormatOutput[1], 'H')
