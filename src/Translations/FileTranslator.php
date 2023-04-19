@@ -20,7 +20,7 @@ use Grido\Exception;
  * @subpackage  Translations
  * @author      Petr Bugyík
  */
-class FileTranslator implements \Nette\Localization\ITranslator
+class FileTranslator implements \Nette\Localization\Translator
 {
     use \Nette\SmartObject;
 
@@ -61,7 +61,7 @@ class FileTranslator implements \Nette\Localization\ITranslator
         return include ($filename);
     }
 
-    /************************* interface \Nette\Localization\ITranslator **************************/
+    /************************* interface \Nette\Localization\Translator **************************/
 
     /**
      * @param string $message

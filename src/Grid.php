@@ -38,7 +38,7 @@ use Symfony\Component\PropertyAccess\PropertyAccessor;
  * @property array $defaultFilter
  * @property array $defaultSort
  * @property array $perPageList
- * @property \Nette\Localization\ITranslator $translator
+ * @property \Nette\Localization\Translator $translator
  * @property Paginator $paginator
  * @property string $primaryKey
  * @property string $filterRenderType
@@ -119,7 +119,7 @@ class Grid extends Components\Container
     /** @var Paginator */
     protected $paginator;
 
-    /** @var \Nette\Localization\ITranslator */
+    /** @var \Nette\Localization\Translator */
     protected $translator;
 
     /** @var PropertyAccessor */
@@ -234,10 +234,10 @@ class Grid extends Components\Container
 
     /**
      * Sets translator.
-     * @param \Nette\Localization\ITranslator $translator
+     * @param \Nette\Localization\Translator $translator
      * @return Grid
      */
-    public function setTranslator(\Nette\Localization\ITranslator $translator)
+    public function setTranslator(\Nette\Localization\Translator $translator)
     {
         $this->translator = $translator;
         return $this;
