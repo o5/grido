@@ -57,7 +57,7 @@ class Export extends Component implements \Nette\Application\IResponse
     protected function printCsv()
     {
         $escape = function($value) {
-            return preg_match("~[\"\n,;\t]~", $value) || $value === ""
+            return $value !== null && (preg_match("~[\"\n,;\t]~", $value) || $value === "")
                 ? '"' . str_replace('"', '""', $value) . '"'
                 : $value;
         };
