@@ -77,6 +77,11 @@ class ArraySourceTest extends DataSourceTestCase
         Assert::true($source->compare('Žluťoučký kůň', 'LIKE ?', 'zlutou%'));
         Assert::true($source->compare('Žluťoučký kůň', 'LIKE ?', 'žlutou%'));
 
+        $extraLongText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin nunc diam, maximus a imperdiet et, iaculis quis metus. Donec est turpis, pharetra a lacus nec, pellentesque volutpat velit. Nunc iaculis ipsum in nisl porta, non ornare enim dapibus. Vestibulum a arcu fermentum, semper est vitae, congue odio. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Sed accumsan sapien at tempus feugiat. Mauris sit amet quam ultricies, hendrerit massa sit amet, posuere turpis.";
+        Assert::true($source->compare($extraLongText, 'LIKE ?', "%{$extraLongText}%"));
+        Assert::true($source->compare("some prefix " . $extraLongText, 'LIKE ?', "%{$extraLongText}"));
+        Assert::true($source->compare($extraLongText . " some sufix", 'LIKE ?', "{$extraLongText}%"));
+
         Assert::true($source->compare('Lucie', '=', 'Lucie'));
         Assert::false($source->compare('Lucie', '=', 'lucie'));
 
