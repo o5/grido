@@ -38,7 +38,7 @@ class Operation extends Component
     /**
      * @param \Grido\Grid $grid
      * @param array $operations
-     * @param callback $onSubmit - callback after operation submit
+     * @param callable $onSubmit - callback after operation submit
      */
     public function __construct($grid, array $operations, $onSubmit)
     {

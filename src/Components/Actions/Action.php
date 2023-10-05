@@ -22,8 +22,8 @@ use Nette\Utils\Html;
  * @author      Petr Bugyík
  *
  * @property-read Html $element
- * @property-write callback $customRender
- * @property-write callback $disable
+ * @property-write callable $customRender
+ * @property-write callable $disable
  * @property Html $elementPrototype
  * @property string $primaryKey
  * @property string $options
@@ -35,13 +35,13 @@ abstract class Action extends \Grido\Components\Component
     /** @var Html <a> html tag */
     protected $elementPrototype;
 
-    /** @var callback for custom rendering */
+    /** @var callable for custom rendering */
     protected $customRender;
 
     /** @var string - name of primary key f.e.: link->('Article:edit', array($primaryKey => 1)) */
     protected $primaryKey;
 
-    /** @var callback for disabling */
+    /** @var callable for disabling */
     protected $disable;
 
     /** @var string */
@@ -73,7 +73,7 @@ abstract class Action extends \Grido\Components\Component
 
     /**
      * Sets callback for custom rendering.
-     * @param callback
+     * @param callable
      * @return Action
      */
     public function setCustomRender($callback)
@@ -96,7 +96,7 @@ abstract class Action extends \Grido\Components\Component
     /**
      * Sets callback for disable.
      * Callback should return TRUE if the action is not allowed for current item.
-     * @param callback
+     * @param callable
      * @return Action
      */
     public function setDisable($callback)

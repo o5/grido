@@ -24,7 +24,7 @@ use Grido\Exception;
  * @property-read string $sort
  * @property-read \Nette\Utils\Html $cellPrototype
  * @property-read \Nette\Utils\Html $headerPrototype
- * @property-write callback $cellCallback
+ * @property-write callable $cellCallback
  * @property-write string $defaultSorting
  * @property mixed $customRender
  * @property-write array $customRenderVariables
@@ -51,7 +51,7 @@ abstract class Column extends \Grido\Components\Component
     /** @var \Nette\Utils\Html <td> html tag */
     protected $cellPrototype;
 
-    /** @var callback returns td html element; function($row, Html $td) */
+    /** @var callable returns td html element; function($row, Html $td) */
     protected $cellCallback;
 
     /** @var \Nette\Utils\Html <th> html tag */
@@ -149,7 +149,7 @@ abstract class Column extends \Grido\Components\Component
     }
 
     /**
-     * @param callback $callback
+     * @param callable $callback
      * @return Column
      */
     public function setCellCallback($callback)
