@@ -22,9 +22,9 @@ use Grido\Exception;
  * @author      Petr Bugyík
  *
  * @property \Nette\Forms\IControl $editableControl
- * @property callback $editableCallback
- * @property callback $editableValueCallback
- * @property callback $editableRowCallback
+ * @property callable $editableCallback
+ * @property callable $editableValueCallback
+ * @property callable $editableRowCallback
  * @property bool $editable
  * @property bool $editableDisabled
  */
@@ -39,18 +39,18 @@ abstract class Editable extends Column
     /** @var \Nette\Forms\IControl Custom control for inline editing */
     protected $editableControl;
 
-    /** @var callback for custom handling with edited data; function($id, $newValue, $oldValue, Editable $column) {} */
+    /** @var callable for custom handling with edited data; function($id, $newValue, $oldValue, Editable $column) {} */
     protected $editableCallback;
 
-    /** @var callback for custom value; function($row, Columns\Editable $column) {} */
+    /** @var callable for custom value; function($row, Columns\Editable $column) {} */
     protected $editableValueCallback;
 
-    /** @var callback for getting row; function($row, Columns\Editable $column) {} */
+    /** @var callable for getting row; function($row, Columns\Editable $column) {} */
     protected $editableRowCallback;
 
     /**
      * Sets column as editable.
-     * @param callback $callback function($id, $newValue, $oldValue, Columns\Editable $column) {}
+     * @param callable $callback function($id, $newValue, $oldValue, Columns\Editable $column) {}
      * @param \Nette\Forms\IControl $control
      * @return Editable
      */
@@ -80,7 +80,7 @@ abstract class Editable extends Column
 
     /**
      * Sets editable callback.
-     * @param callback $callback function($id, $newValue, $oldValue, Columns\Editable $column) {}
+     * @param callable $callback function($id, $newValue, $oldValue, Columns\Editable $column) {}
      * @return Editable
      */
     public function setEditableCallback($callback)
@@ -93,7 +93,7 @@ abstract class Editable extends Column
 
     /**
      * Sets editable value callback.
-     * @param callback $callback for custom value; function($row, Columns\Editable $column) {}
+     * @param callable $callback for custom value; function($row, Columns\Editable $column) {}
      * @return Editable
      */
     public function setEditableValueCallback($callback)
@@ -106,7 +106,7 @@ abstract class Editable extends Column
 
     /**
      * Sets editable row callback - it's required when used editable collumn with customRenderCallback
-     * @param callback $callback for getting row; function($id, Columns\Editable $column) {}
+     * @param callable $callback for getting row; function($id, Columns\Editable $column) {}
      * @return Editable
      */
     public function setEditableRowCallback($callback)
@@ -224,7 +224,7 @@ abstract class Editable extends Column
     }
 
     /**
-     * @return callback
+     * @return callable
      * @internal
      */
     public function getEditableCallback()
@@ -233,7 +233,7 @@ abstract class Editable extends Column
     }
 
     /**
-     * @return callback
+     * @return callable
      * @internal
      */
     public function getEditableValueCallback()
@@ -242,7 +242,7 @@ abstract class Editable extends Column
     }
 
     /**
-     * @return callback
+     * @return callable
      * @internal
      */
     public function getEditableRowCallback()

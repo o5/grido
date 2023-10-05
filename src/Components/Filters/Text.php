@@ -21,7 +21,7 @@ use Grido\Exception;
  * @author      Petr Bugyík
  *
  * @property int $suggestionLimit
- * @property-write callback $suggestionCallback
+ * @property-write callable $suggestionCallback
  */
 class Text extends Filter
 {
@@ -40,7 +40,7 @@ class Text extends Filter
     /** @var int */
     protected $suggestionLimit = 10;
 
-    /** @var callback */
+    /** @var callable */
     protected $suggestionCallback;
 
     /**
@@ -82,7 +82,7 @@ class Text extends Filter
 
     /**
      * Sets custom data callback.
-     * @param callback $callback
+     * @param callable $callback
      * @return \Grido\Components\Filters\Text
      */
     public function setSuggestionCallback($callback)
@@ -102,7 +102,7 @@ class Text extends Filter
     }
 
     /**
-     * @return callback
+     * @return callable
      */
     public function getSuggestionCallback()
     {

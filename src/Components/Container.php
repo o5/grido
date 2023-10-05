@@ -370,7 +370,7 @@ abstract class Container extends \Nette\Application\UI\Control
     /**
      * @param string $name
      * @param string $label
-     * @param callback $onClick
+     * @param callable $onClick
      * @return Actions\Event
      */
     public function addActionEvent($name, $label, $onClick = NULL)
@@ -382,7 +382,7 @@ abstract class Container extends \Nette\Application\UI\Control
 
     /**
      * @param array $operations
-     * @param callback $onSubmit - callback after operation submit
+     * @param callable $onSubmit - callback after operation submit
      * @return Operation
      */
     public function setOperation(array $operations, $onSubmit)
@@ -415,7 +415,7 @@ abstract class Container extends \Nette\Application\UI\Control
     /**
      * Sets all columns as editable.
      * First parameter is optional and is for implementation of method for saving modified data.
-     * @param callback $callback function($id, $newValue, $oldValue, Editable $column) {}
+     * @param callable $callback function($id, $newValue, $oldValue, Editable $column) {}
      * @return Grid
      */
     public function setEditableColumns($callback = NULL)

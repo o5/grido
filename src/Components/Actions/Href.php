@@ -30,7 +30,7 @@ class Href extends Action
     /** @var array second param for method $presenter->link() */
     protected $arguments = [];
 
-    /** @var callback for custom href attribute creating */
+    /** @var callable for custom href attribute creating */
     protected $customHref;
 
     /**
@@ -50,7 +50,7 @@ class Href extends Action
 
     /**
      * Sets callback for custom link creating.
-     * @param callback $callback
+     * @param callable $callback
      * @return Href
      */
     public function setCustomHref($callback)
