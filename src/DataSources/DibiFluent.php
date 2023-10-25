@@ -164,7 +164,7 @@ class DibiFluent implements IDataSource
     {
         $fluent = clone $this->fluent;
         if (is_string($column)) {
-            $fluent->removeClause('SELECT')->select("DISTINCT %n", $column)->orderBy("%n", $column, 'ASC');
+            $fluent->removeClause('SELECT')->select("DISTINCT %n AS v", $column)->orderBy("%n", $column, 'ASC');
         }
 
         foreach ($conditions as $condition) {
@@ -175,7 +175,7 @@ class DibiFluent implements IDataSource
         $data = $fluent->fetchAll(0, $limit);
         foreach ($data as $row) {
             if (is_string($column)) {
-                $value = (string) $row[$column];
+                $value = (string) $row['v'];
             } elseif (is_callable($column)) {
                 $value = (string) $column($row);
             } else {
