@@ -141,6 +141,11 @@ class Operation extends Component
         if ($this->presenter->isAjax()) {
             $grid['form'][self::ID][self::ID]->setValue(NULL);
             $grid->getData(TRUE, FALSE);
+            foreach ($form[self::ID]->getControls() as $ctrl) {
+                if ($ctrl instanceof \Nette\Forms\Controls\Checkbox) {
+                    $ctrl->setValue(false);
+                }
+            }
         }
 
         $grid->reload();
