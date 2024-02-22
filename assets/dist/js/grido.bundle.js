@@ -182,7 +182,7 @@
          */
         sendFilterForm: function()
         {
-            $('[name="buttons[search]"]', this.$element).click();
+            $('[name="buttons[search]"]', this.$element).trigger('click');
         }
     };
 
@@ -267,7 +267,7 @@
                         that.disableSelection.call(that);
                     }
 
-                    $(that.selector, $(this).closest('tr')).click();
+                    $(that.selector, $(this).closest('tr')).trigger('click');
 
                     if (event.shiftKey) {
                         that.enableSelection.call(that);
@@ -307,7 +307,7 @@
             $('.operations [name="operations[operations]"]', this.grido.$table)
                 .off('change.grido')
                 .on('change.grido', function() {
-                    $(this).val() && $('.operations [type=submit]', that.grido.$table).click();
+                    $(this).val() && $('.operations [type=submit]', that.grido.$table).trigger('click');
                 });
         },
 
