@@ -30,11 +30,11 @@ function id($val)
     return $val;
 }
 
-function before(\Closure $function = NULL)
+function before(\Closure $function = null)
 {
     static $val;
     if (!func_num_args()) {
-        return ($val ? $val() : NULL);
+        return ($val ? $val() : null);
     }
     $val = $function;
 }
@@ -50,11 +50,11 @@ function mock()
     return call_user_func_array('Mockery::mock', func_get_args());
 }
 
-function run($path, $name = NULL)
+function run($path, $name = null)
 {
     $name = $name
         ? $name
-        : (isset($_SERVER['argv'][1]) ? $_SERVER['argv'][1] : NULL);
+        : (isset($_SERVER['argv'][1]) ? $_SERVER['argv'][1] : null);
 
     $code = file_get_contents($path);
     $tokens = token_get_all($code);
